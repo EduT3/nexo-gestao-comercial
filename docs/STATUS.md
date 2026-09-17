@@ -12,7 +12,7 @@ Estornos/correções e ciclo financeiro integral permanecem pendentes. O fluxo p
 
 ## Evidência
 
-- Últimos checks antes da prévia: 74 testes, tipagem e build aprovados.
+- Checks após integrar a prévia: 76 testes, tipagem e build aprovados. Testes da prévia comprovam contexto fictício, isolamento, cópia de dados e recusa de gravações.
 - Último Edge: 8 testes aprovados com banco temporário isolado; inclui cadastros 360/1440px, compras, estoque, PDV, títulos, recebíveis, lançamentos manuais 360px e fechamento.
 - Contrato da conta a pagar em Compras corrigido e testado: categoria, meio, responsável e observação de liquidação retornados conforme modelo compartilhado.
 - Prévia visual em revalidação: build específico aprovado; testes de isolamento e bloqueio de gravações adicionados.
@@ -20,8 +20,9 @@ Estornos/correções e ciclo financeiro integral permanecem pendentes. O fluxo p
 ## Prévia web e publicação
 
 - Usuário definiu prévia apenas visual e renovou login GitHub.
-- Repositório privado criado: https://github.com/EduT3/nexo-gestao-comercial. Envio do código ainda pendente.
-- Workspace Vercel confirmado: edut3's projects. Vinculação/deploy ainda pendentes.
+- Repositório privado publicado: https://github.com/EduT3/nexo-gestao-comercial. Commit inicial integrado: 7d376ebfd576b78daa339624c7d048182bc1b2af.
+- Vercel vinculada ao GitHub no workspace edut3's projects; projeto prj_DKzC1AT65laeGGilIstViQTlIoVC. Deploy dpl_7wQKu7RdZaHxNWBc9qzuZKFNiLaB confirmado READY para o commit acima.
+- URL: https://nexo-gestao-comercial.vercel.app. Interface renderizada e troca entre os catálogos Adega/Depósito verificadas no navegador. Correção adicional inclui consulta de movimentos de caixa no snapshot.
 - build:preview gera snapshot fictício em banco em memória descartável e reutiliza as mesmas telas. Sem .env, DATABASE_URL, dados empresariais ou sessão real. Mutações comerciais recusadas; sem simular sucesso.
 - vercel.json configura npm run build:preview e dist/client. Build normal permanece conectado à API real.
 - Git local e workflow Node 24 preparados. CLI GitHub sem token válido; connector autenticado disponível para envio.

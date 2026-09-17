@@ -11,6 +11,7 @@ describe('prévia visual isolada', () => {
       const list = previewRequest(`/companies/${company.id}/products`, 'GET') as { products: {companyId:string}[] };
       expect(list.products.length).toBeGreaterThan(0);
       expect(list.products.every(product => product.companyId === company.id)).toBe(true);
+      expect(previewRequest(`/companies/${company.id}/cash/movements`, 'GET')).toMatchObject({ movements: [] });
       list.products.length = 0;
       expect((previewRequest(`/companies/${company.id}/products`, 'GET') as {products:unknown[]}).products.length).toBeGreaterThan(0);
     }

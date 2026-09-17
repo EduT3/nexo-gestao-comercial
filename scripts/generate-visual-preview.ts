@@ -26,7 +26,7 @@ try {
       const response = await app.inject({method:'POST',url:`/api/companies/${company.id}/inventory/movements`,headers:{...headers,'idempotency-key':randomUUID()},payload:{productId:product.id,type:'ENTRY_MANUAL',direction:'IN',quantity:`${index === 0 ? 3 : 20}.000`,notes:'Estoque fictício para avaliação visual'}});
       if (response.statusCode !== 201) throw new Error('Falha ao preparar estoque da prévia.');
     }
-    const resources = ['overview','products','categories','customers','suppliers','inventory','inventory/movements','purchases','sales','cash/current','finance','users','audit'];
+    const resources = ['overview','products','categories','customers','suppliers','inventory','inventory/movements','purchases','sales','cash/current','cash/movements','finance','users','audit'];
     for (const resource of resources) {
       const path = `/companies/${company.id}/${resource}`;
       const response = await app.inject({url:`/api${path}`,headers});

@@ -31,7 +31,7 @@ Percentual da etapa, não da V1 inteira. Tarefas verificadas: abertura/vendas e 
 
 ## Em desenvolvimento
 
-Prévia visual web: snapshot fictício separado, gravações bloqueadas, testes específicos adicionados; verificação e publicação em andamento. Envio do código e vinculação Vercel ainda pendentes.
+Prévia visual publicada em https://nexo-gestao-comercial.vercel.app; repositório privado https://github.com/EduT3/nexo-gestao-comercial vinculado à Vercel. Deploy inicial READY e interface/troca de catálogos verificadas. Ajuste adicional da consulta de movimentos do Caixa em publicação.
 
 ## Pendentes e bloqueios
 
@@ -43,4 +43,4 @@ Empresas explícitas na API, autorização no servidor, relações por chaves co
 
 ## Próxima ação
 
-Verificar e publicar a prévia no GitHub/Vercel; depois implementar estornos/cancelamentos rastreáveis.
+Concluir verificação da consulta do Caixa na prévia; depois implementar estornos/cancelamentos rastreáveis.
