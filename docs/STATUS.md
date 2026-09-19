@@ -185,3 +185,7 @@ Evidências finais:
 Limite da evidência: o pacote foi executado com `PATH` mínimo, `NODE_PATH` vazio, modo offline e `%LOCALAPPDATA%` temporário no Windows atual. Isso simula a ausência do ambiente de desenvolvimento, mas não substitui uma instalação manual em outra máquina Windows limpa. Nenhum dado real das empresas foi usado.
 
 A publicação no GitHub foi autorizada pelo usuário após a conclusão e validação destas atualizações.
+
+### Publicação
+
+Código-fonte e documentação publicados na branch `main` de `EduT3/nexo-gestao-comercial`, preservando os três commits anteriores. O push acionou a integração da Vercel; `https://nexo-gestao-comercial.vercel.app` respondeu HTTP 200 e a verificação no Edge confirmou o aviso da V1 local, a identificação DEMONSTRAÇÃO e ausência de overlay/erros.
