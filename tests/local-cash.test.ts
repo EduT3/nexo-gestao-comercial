@@ -1,0 +1,40 @@
+import { expect, it } from 'vitest';
+import { randomUUID } from 'node:crypto';
+import { mkdtemp, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
+import { openLocalDatabase } from '../src/local/sqlite';
+import { prepareLocalDatabase } from '../src/local/migrations';
+import { initializeLocalOwner } from '../src/local/onboarding';
+import { openLocalCash, closeLocalCash } from '../src/local/cash';
+import { validateLocalBackup } from '../src/local/recovery';
+it('caixa local: abertura única, reexecução, fechamento imutável, isolamento e rollback', async () => {
+  const folder = await mkdtemp(path.join(tmpdir(), 'nexo-cash-'));
+  const file = path.join(folder, 'active.sqlite'); let db = openLocalDatabase(file);
+  try {
+    await prepareLocalDatabase(db, file);
+    const owner = await initializeLocalOwner(db, 'Responsável'); const key = randomUUID();
+    const [first, repeat] = await Promise.all([openLocalCash(db, owner.id, 'adega-jg', key, { openingCents: 1234 }), openLocalCash(db, owner.id, 'adega-jg', key, { openingCents: 1234 })]);
+    expect([first.replayed, repeat.replayed]).toEqual([false, true]);
+    await expect(openLocalCash(db, owner.id, 'adega-jg', randomUUID(), { openingCents: 0 })).rejects.toThrow('Já existe');
+    await expect(openLocalCash(db, owner.id, 'adega-jg', key, { openingCents: 1 })).rejects.toThrow('outro valor');
+    await openLocalCash(db, owner.id, 'deposito-jg', randomUUID(), { openingCents: 0 });
+    await expect(closeLocalCash(db, owner.id, 'deposito-jg', first.id, { countedCents: 1234 })).rejects.toThrow('nesta empresa');
+    await db.exec("CREATE TRIGGER fail_cash_audit BEFORE INSERT ON local_audit WHEN NEW.action='cash.closed' BEGIN SELECT RAISE(ABORT,'Falha auditoria'); END;");
+    await expect(closeLocalCash(db, owner.id, 'adega-jg', first.id, { countedCents: 1200 })).rejects.toThrow('Falha auditoria');
+    expect(await db.query('SELECT session_id FROM local_cash_closures')).toHaveLength(0);
+    expect((await db.query('SELECT closed FROM local_cash_sessions WHERE id=?', [first.id]))[0]?.closed).toBe(0n);
+    await db.exec('DROP TRIGGER fail_cash_audit');
+    await closeLocalCash(db, owner.id, 'adega-jg', first.id, { countedCents: 1200 });
+    expect(await db.query('SELECT expected_cents,counted_cents FROM local_cash_closures')).toEqual([{ expected_cents: 1234n, counted_cents: 1200n }]);
+    await expect(db.query('UPDATE local_cash_closures SET counted_cents=0')).rejects.toThrow('imutável');
+    await expect(db.query('UPDATE local_cash_sessions SET closed=0 WHERE id=?', [first.id])).rejects.toThrow('preservado');
+    const backup = path.join(folder, 'backup.sqlite'); await db.backup(backup); validateLocalBackup(backup);
+    await db.close(); db = openLocalDatabase(file); await prepareLocalDatabase(db, file);
+    expect((await closeLocalCash(db, owner.id, 'adega-jg', first.id, { countedCents: 1200 })).replayed).toBe(true);
+    await expect(closeLocalCash(db, owner.id, 'adega-jg', first.id, { countedCents: 1201 })).rejects.toThrow('outros valores');
+    await openLocalCash(db, owner.id, 'adega-jg', randomUUID(), { openingCents: 0 });
+    await db.query('UPDATE local_memberships SET active=0 WHERE company_id=? AND user_id=?', ['adega-jg', owner.id]);
+    await expect(openLocalCash(db, owner.id, 'adega-jg', key, { openingCents: 1234 })).rejects.toThrow('acesso ativo');
+  } finally { await db.close(); await rm(folder, { recursive: true, force: true }); }
+});

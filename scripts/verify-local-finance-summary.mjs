@@ -1,0 +1,77 @@
+import ExcelJS from 'exceljs';
+import { _electron as electron, expect } from '@playwright/test';
+import { mkdtemp, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
+const folder = await mkdtemp(path.join(tmpdir(), 'nexo-finance-summary-'));
+let app;
+try {
+ const executable=process.env.NEXO_VERIFY_EXECUTABLE;
+ app = await electron.launch({ ...(executable?{executablePath:executable,args:[],cwd:folder}:{args:['electron/main.cjs']}), env: { ...process.env, LOCALAPPDATA: folder, NEXO_TEST_HIDE_WINDOW: '1', ...(executable?{PATH:`${process.env.SystemRoot}\\System32`,NODE_PATH:'',NODE_OPTIONS:''}:{}) } });
+ await app.context().setOffline(true); let page = await app.firstWindow(); page.setDefaultTimeout(7000);
+ await page.getByLabel('Nome do responsável').fill('Responsável teste');
+ await page.getByRole('button', { name: 'Começar', exact: true }).click();
+ await page.getByLabel('Senha', { exact: true }).fill('Senha-admin-123');
+ await page.getByLabel('Confirmar senha', { exact: true }).fill('Senha-admin-123');
+ await page.getByRole('button', { name: 'Definir senha', exact: true }).click();
+ const accountId = await page.evaluate(async () => {
+  const account = await window.nexoLocal.createReceivable('adega-jg', crypto.randomUUID(), { description: 'Conta teste financeiro', category: 'Recebimentos', amountCents: 123, dueDate: '2026-10-01' });
+  await window.nexoLocal.receiveReceivable('adega-jg', account.id, crypto.randomUUID(), { method: 'PIX' });
+  return account.id;
+ });
+ await page.locator('summary').filter({ hasText: /^Financeiro$/ }).click();
+ // Changing company refreshes the real local query after the fixture transaction.
+ await page.getByLabel('Empresa em uso').selectOption('deposito-jg');
+ await page.locator('summary').filter({ hasText: /^Financeiro$/ }).click();
+ await expect(page.getByLabel('Recebimentos líquidos')).toContainText('R$ 0,00');
+ await page.getByLabel('Empresa em uso').selectOption('adega-jg');
+ await page.locator('summary').filter({ hasText: /^Financeiro$/ }).click();
+ await expect(page.getByLabel('Recebimentos líquidos')).toContainText('R$ 1,23');
+ await expect(page.getByLabel('Entradas financeiras')).toContainText('R$ 1,23');
+ await expect(page.getByLabel('Saldo financeiro', { exact: true })).toContainText('R$ 1,23');
+ await app.evaluate(({ dialog }) => { dialog.showMessageBox = async () => ({ response: 1 }); });
+ await page.evaluate(async id => {
+  const rows = await window.nexoLocal.receivables('adega-jg');
+  const account = rows.find(row => row.id === id);
+  await window.nexoLocal.reverseReceivable('adega-jg', account.receipt_id, crypto.randomUUID(), { reason: 'Teste estorno' });
+ }, accountId);
+ await page.getByLabel('Empresa em uso').selectOption('deposito-jg');
+ await page.getByLabel('Empresa em uso').selectOption('adega-jg');
+ await page.locator('summary').filter({ hasText: /^Financeiro$/ }).click();
+ await expect(page.getByLabel('Recebimentos líquidos')).toContainText('R$ 0,00');
+ await expect(page.getByLabel('Saldo financeiro', { exact: true })).toContainText('R$ 0,00');
+ await page.evaluate(async () => {
+  const product = await window.nexoLocal.createProduct('adega-jg', { name: 'Produto financeiro', internalCode: 'FIN-1', unit: 'UNIT', costCents: 27, priceCents: 100 });
+  const supplier = await window.nexoLocal.createPerson('adega-jg', 'supplier', { name: 'Fornecedor financeiro' });
+  await window.nexoLocal.receivePurchase('adega-jg', crypto.randomUUID(), { supplierId: supplier.id, items: [{ productId: product.id, quantity: '1', unitCostCents: 27 }], payable: { dueDate: '2026-10-01' } });
+  const summary = await window.nexoLocal.finance('adega-jg');
+  await window.nexoLocal.payPayable('adega-jg', summary.payables[0].id, crypto.randomUUID(), { method: 'PIX' });
+ });
+ await page.getByLabel('Empresa em uso').selectOption('deposito-jg');
+ await page.getByLabel('Empresa em uso').selectOption('adega-jg');
+ await page.locator('summary').filter({ hasText: /^Financeiro$/ }).click();
+ await expect(page.getByLabel('Despesas pagas')).toContainText('R$ 0,27');
+ await expect(page.getByLabel('Saldo financeiro', { exact: true })).toContainText('-R$ 0,27');
+ await page.locator('summary').filter({ hasText: /^Resumo do dia$/ }).click();
+ await expect(page.getByLabel('Quantidade e total de vendas')).toContainText('0');
+ await expect(page.getByLabel('Recebimentos do dia')).toContainText('R$ 0,00');
+ await expect(page.getByLabel('Pagamentos do dia')).toContainText('R$ 0,27');
+ await expect(page.getByLabel('Resultado financeiro do dia')).toContainText('-R$ 0,27');
+ await expect(page.getByRole('table', { name: 'Vendas do dia por pagamento' })).toContainText('PIX');
+ const reportFile=path.join(folder,'relatorio.xlsx');
+ await app.evaluate(({dialog},target)=>{dialog.showSaveDialog=async()=>({canceled:false,filePath:target});},reportFile);
+ await page.locator('summary').filter({hasText:/^Excel: importar e exportar$/}).click();
+ await page.getByRole('button',{name:'Exportar relatório Excel'}).click();
+ await expect(page.locator('details').filter({hasText:'Excel: importar e exportar'}).getByRole('status')).toContainText('Relatório Excel exportado');
+ const exported=new ExcelJS.Workbook();await exported.xlsx.readFile(reportFile);
+ expect(exported.worksheets.map(sheet=>sheet.name)).toEqual(['Resumo','Produtos','Estoque','Vendas','Itens de vendas','Contas a pagar','Contas a receber','Movimentos financeiros']);
+ expect(exported.getWorksheet('Produtos').getCell('B5').value).toBe('Produto financeiro');
+ expect(exported.getWorksheet('Contas a pagar').getCell('D5').value).toBe(.27);
+ expect(exported.getWorksheet('Contas a receber').getCell('F5').value).toBe(1.23);
+ const tomorrow = new Date(); tomorrow.setDate(tomorrow.getDate()+1);
+ const tomorrowText = `${tomorrow.getFullYear()}-${String(tomorrow.getMonth()+1).padStart(2,'0')}-${String(tomorrow.getDate()).padStart(2,'0')}`;
+ await page.getByLabel('Data do resumo').fill(tomorrowText);
+ await expect(page.getByLabel('Pagamentos do dia')).toContainText('R$ 0,00');
+ await expect(page.getByLabel('Resultado financeiro do dia')).toContainText('R$ 0,00');
+ console.log('Resumo financeiro e diário na janela: PIX, isolamento, estorno, pagamento, data vazia e resultado negativo aprovados.');
+} finally { if (app) await app.close(); await rm(folder, { recursive: true, force: true }); }

@@ -1,0 +1,5 @@
+export const LOCAL_CANCELLATION_SCHEMA = `
+CREATE TABLE local_sale_cancellations(id TEXT PRIMARY KEY,company_id TEXT NOT NULL,sale_id TEXT NOT NULL,actor_id TEXT NOT NULL REFERENCES local_users(id),reason TEXT NOT NULL CHECK(length(reason)>=2),request_key TEXT NOT NULL,amount_cents INTEGER NOT NULL CHECK(amount_cents>=0),created_at TEXT NOT NULL DEFAULT(strftime('%Y-%m-%dT%H:%M:%fZ','now')),UNIQUE(company_id,sale_id),UNIQUE(company_id,request_key),FOREIGN KEY(company_id,sale_id) REFERENCES local_sales(company_id,id)) STRICT;
+CREATE TRIGGER local_sale_cancellation_update BEFORE UPDATE ON local_sale_cancellations BEGIN SELECT RAISE(ABORT,'Cancelamento imutável'); END;
+CREATE TRIGGER local_sale_cancellation_delete BEFORE DELETE ON local_sale_cancellations BEGIN SELECT RAISE(ABORT,'Cancelamento imutável'); END;
+`;

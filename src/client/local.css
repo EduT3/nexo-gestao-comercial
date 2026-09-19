@@ -1,0 +1,22 @@
+.local-app .main-content{gap:14px;padding-top:22px}
+.local-app .form-grid{grid-template-columns:repeat(3,minmax(0,1fr));gap:12px 18px}
+.local-app .form-stack{gap:12px}
+.local-app .panel{padding:18px 22px}
+.local-app .table-panel{padding:0}
+.local-app .table-panel>label{padding:14px 22px}
+.local-app .panel h2{margin-bottom:12px}
+.local-app .form-stack>.button{align-self:flex-end;min-width:170px}
+.local-app .message:empty{display:none}
+.local-app .message{margin-top:8px;padding:8px 12px}
+.local-app .sidebar p{margin-top:10px}
+.local-app .sidebar nav{margin-top:24px}
+@media(max-width:1000px){.local-app .form-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.local-app .sidebar{overflow:hidden}
+.local-app .sidebar nav{overflow-y:auto;min-height:0;padding-right:4px}
+.local-app .sidebar .nav-link{padding:9px 12px;min-height:36px;font-size:12px;text-decoration:none}
+.local-app .local-edition{margin-top:auto;padding:14px 12px 0;border-top:1px solid #d5dbce;font-size:10px;color:#687565}
+.local-page-heading{display:flex;justify-content:space-between;align-items:flex-start;gap:18px;padding:2px 0 4px}
+.local-page-heading .eyebrow{margin:0 0 7px;color:#718064;font-size:9px;letter-spacing:1px}
+.local-anchor{scroll-margin-top:104px}
+.local-anchor:target>.panel,.local-anchor:target.panel{box-shadow:0 0 0 2px rgba(49,88,64,.18)}
+@media(max-width:760px){.local-app .sidebar{overflow:visible}.local-app .sidebar nav{overflow-x:auto;overflow-y:hidden}.local-app .local-edition{display:none}.local-page-heading{align-items:center}}

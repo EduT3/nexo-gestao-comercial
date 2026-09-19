@@ -1,0 +1,43 @@
+import { expect, it } from 'vitest';
+import { mkdtemp, rm } from 'node:fs/promises';
+import { tmpdir } from 'node:os';
+import path from 'node:path';
+import { openLocalDatabase } from '../src/local/sqlite';
+import { prepareLocalDatabase } from '../src/local/migrations';
+import { initializeLocalOwner } from '../src/local/onboarding';
+import { setInitialLocalPassword, createLocalOperator, authenticateLocalUser } from '../src/local/access';
+import { listLocalProducts, createLocalProduct } from '../src/local/catalog';
+import { openLocalCash, closeLocalCash } from '../src/local/cash';
+import { randomUUID } from 'node:crypto';
+import { validateLocalBackup } from '../src/local/recovery';
+it('acesso local: credenciais protegidas, operador isolado, permissões e persistência', async () => {
+ const folder = await mkdtemp(path.join(tmpdir(), 'nexo-access-')); const file = path.join(folder, 'base.sqlite'); let db = openLocalDatabase(file);
+ try {
+  await prepareLocalDatabase(db, file); const owner = await initializeLocalOwner(db, 'Responsável');
+  const password = 'SenhaSomenteTeste123';
+  await setInitialLocalPassword(db, owner.id, password);
+  await expect(setInitialLocalPassword(db, owner.id, password)).rejects.toThrow('já foi configurada');
+  const operator = await createLocalOperator(db, owner.id, { name: 'Operador local', password, companies: ['adega-jg'] });
+  expect(await authenticateLocalUser(db, operator.id, password)).toEqual(operator);
+  await expect(authenticateLocalUser(db, operator.id, 'Errada123')).rejects.toThrow('Usuário ou senha');
+  await expect(authenticateLocalUser(db, randomUUID(), 'Errada123')).rejects.toThrow('Usuário ou senha');
+  const credentials = await db.query('SELECT salt,password_hash FROM local_credentials');
+  expect(credentials).toHaveLength(2); expect(credentials[0]?.salt).not.toBe(credentials[1]?.salt);
+  expect(JSON.stringify(await db.query('SELECT details FROM local_audit'))).not.toContain(password);
+  expect(JSON.stringify(credentials)).not.toContain(password);
+  expect(await listLocalProducts(db, operator.id, 'adega-jg')).toEqual([]);
+  await expect(listLocalProducts(db, operator.id, 'deposito-jg')).rejects.toThrow('acesso ativo');
+  await expect(createLocalProduct(db, operator.id, 'adega-jg', { name: 'Produto', internalCode: 'OP-1', unit: 'UNIT', costCents: 0, priceCents: 100 })).rejects.toThrow('perfil');
+  await expect(createLocalOperator(db, operator.id, { name: 'Outro operador', password, companies: ['adega-jg'] })).rejects.toThrow('perfil');
+  const cash = await openLocalCash(db, owner.id, 'adega-jg', randomUUID(), { openingCents: 0 });
+  await expect(closeLocalCash(db, operator.id, 'adega-jg', cash.id, { countedCents: 0 })).rejects.toThrow('outro operador');
+  await db.exec("CREATE TRIGGER fail_access BEFORE INSERT ON local_audit WHEN NEW.action='operator.created' BEGIN SELECT RAISE(ABORT,'Falha auditoria'); END;");
+  await expect(createLocalOperator(db, owner.id, { name: 'Falha operador', password, companies: ['adega-jg'] })).rejects.toThrow('Falha auditoria');
+  expect(await db.query('SELECT id FROM local_users')).toHaveLength(2); expect(await db.query('SELECT user_id FROM local_credentials')).toHaveLength(2);
+  await db.exec('DROP TRIGGER fail_access'); const backup = path.join(folder, 'backup.sqlite'); await db.backup(backup); validateLocalBackup(backup);
+  await db.close(); db = openLocalDatabase(file); await prepareLocalDatabase(db, file);
+  expect(await authenticateLocalUser(db, operator.id, password)).toEqual(operator);
+  await db.query('UPDATE local_users SET active=0 WHERE id=?', [operator.id]);
+  await expect(authenticateLocalUser(db, operator.id, password)).rejects.toThrow('Usuário ou senha');
+ } finally { await db.close(); await rm(folder, { recursive: true, force: true }); }
+});

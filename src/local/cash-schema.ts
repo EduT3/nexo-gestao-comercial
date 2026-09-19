@@ -1,0 +1,12 @@
+export const LOCAL_CASH_SCHEMA = `
+CREATE TABLE local_cash_sessions(id TEXT PRIMARY KEY,company_id TEXT NOT NULL REFERENCES local_companies(id),actor_id TEXT NOT NULL REFERENCES local_users(id),opening_cents INTEGER NOT NULL CHECK(opening_cents>=0),request_key TEXT NOT NULL,created_at TEXT NOT NULL DEFAULT(strftime('%Y-%m-%dT%H:%M:%fZ','now')),closed INTEGER NOT NULL DEFAULT 0 CHECK(closed IN(0,1)),UNIQUE(company_id,id),UNIQUE(company_id,request_key)) STRICT;
+CREATE UNIQUE INDEX local_cash_one_open ON local_cash_sessions(company_id) WHERE closed=0;
+CREATE TABLE local_cash_closures(company_id TEXT NOT NULL,session_id TEXT NOT NULL,actor_id TEXT NOT NULL REFERENCES local_users(id),expected_cents INTEGER NOT NULL CHECK(expected_cents>=0),counted_cents INTEGER NOT NULL CHECK(counted_cents>=0),notes TEXT NOT NULL,created_at TEXT NOT NULL DEFAULT(strftime('%Y-%m-%dT%H:%M:%fZ','now')),PRIMARY KEY(company_id,session_id),FOREIGN KEY(company_id,session_id) REFERENCES local_cash_sessions(company_id,id)) STRICT;
+CREATE TABLE local_cash_movements(id TEXT PRIMARY KEY,company_id TEXT NOT NULL,session_id TEXT NOT NULL,actor_id TEXT NOT NULL REFERENCES local_users(id),amount_cents INTEGER NOT NULL CHECK(amount_cents<>0),reason TEXT NOT NULL CHECK(reason IN('SUPPLY','WITHDRAWAL','SALE','REVERSAL')),operation_id TEXT NOT NULL,created_at TEXT NOT NULL DEFAULT(strftime('%Y-%m-%dT%H:%M:%fZ','now')),UNIQUE(company_id,operation_id),FOREIGN KEY(company_id,session_id) REFERENCES local_cash_sessions(company_id,id)) STRICT;
+CREATE TRIGGER local_cash_movement_update BEFORE UPDATE ON local_cash_movements BEGIN SELECT RAISE(ABORT,'Movimento imutável'); END;
+CREATE TRIGGER local_cash_movement_delete BEFORE DELETE ON local_cash_movements BEGIN SELECT RAISE(ABORT,'Movimento imutável'); END;
+CREATE TRIGGER local_cash_closure_update BEFORE UPDATE ON local_cash_closures BEGIN SELECT RAISE(ABORT,'Fechamento imutável'); END;
+CREATE TRIGGER local_cash_closure_delete BEFORE DELETE ON local_cash_closures BEGIN SELECT RAISE(ABORT,'Fechamento imutável'); END;
+CREATE TRIGGER local_cash_session_delete BEFORE DELETE ON local_cash_sessions BEGIN SELECT RAISE(ABORT,'Caixa preservado'); END;
+CREATE TRIGGER local_cash_session_update BEFORE UPDATE ON local_cash_sessions WHEN NEW.id<>OLD.id OR NEW.company_id<>OLD.company_id OR NEW.actor_id<>OLD.actor_id OR NEW.opening_cents<>OLD.opening_cents OR NEW.request_key<>OLD.request_key OR NEW.created_at<>OLD.created_at OR OLD.closed=1 OR NEW.closed<>1 BEGIN SELECT RAISE(ABORT,'Caixa preservado'); END;
+`;
