@@ -2,12 +2,12 @@ import { useEffect, useState, type FormEvent } from 'react';
 export type ReceivableRow = { id: string; description: string; customer_name: string | null; amount_cents: bigint; due_date: string; receipt_id: string | null; status: 'OPEN' | 'RECEIVED' };
 function money(value: bigint) { return `R$ ${value / 100n},${(value % 100n).toString().padStart(2, '0')}`; }
 function cents(value: string) { if (!/^\d{1,8}(?:[,.]\d{1,2})?$/.test(value)) throw new Error('Informe valor com até duas casas decimais.'); const [whole, fraction = ''] = value.replace(',', '.').split('.'); return Number(BigInt(whole!) * 100n + BigInt(fraction.padEnd(2, '0'))); }
-export function LocalReceivables({ company, onSaved }: { company: string; onSaved(): void }) {
+export function LocalReceivables({ company, onSaved, refreshToken = 0 }: { company: string; onSaved(): void; refreshToken?: number }) {
  const bridge = window.nexoLocal!; const [rows, setRows] = useState<ReceivableRow[]>([]); const [customers, setCustomers] = useState<{ id: string; name: string }[]>([]);
  const [busy, setBusy] = useState(false); const [message, setMessage] = useState(''); const [createKey, setCreateKey] = useState(() => crypto.randomUUID());
  const [operation, setOperation] = useState<{ id: string; kind: 'receive' | 'reverse'; key: string }>();
  async function refresh() { const [accounts, people] = await Promise.all([bridge.receivables(company), bridge.people(company, 'customer')]); setRows(accounts); setCustomers(people.filter(row => row.active)); }
- useEffect(() => { if (company) void refresh().catch(error => setMessage(String(error))); }, [company]);
+ useEffect(() => { if (company) void refresh().catch(error => setMessage(String(error))); }, [company, refreshToken]);
  async function save(event: FormEvent<HTMLFormElement>, create: boolean) {
   event.preventDefault(); const element = event.currentTarget; const form = new FormData(element); setBusy(true); setMessage('');
   try {

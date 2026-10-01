@@ -3,7 +3,7 @@ import { itemTotalCents, quantityToMilli } from '../shared/scaled';
 export type LocalSaleRow = { id: string; total_cents: bigint; method: string; change_cents: bigint; status: 'CONFIRMED' | 'CANCELLED'; cancellation_reason: string | null };
 function money(value: bigint) { return `R$ ${value / 100n},${(value % 100n).toString().padStart(2, '0')}`; }
 function cents(value: string) { if (!/^\d{1,8}(?:[,.]\d{1,2})?$/.test(value)) throw new Error('Informe valor com até duas casas decimais.'); const [whole, fraction = ''] = value.replace(',', '.').split('.'); return BigInt(whole!) * 100n + BigInt(fraction.padEnd(2, '0')); }
-export function LocalSales({ company, onSaved, administrator = true }: { company: string; onSaved(): void; administrator?: boolean }) {
+export function LocalSales({ company, onSaved, administrator = true, refreshToken = 0 }: { company: string; onSaved(): void; administrator?: boolean; refreshToken?: number }) {
   const bridge = window.nexoLocal!;
   const [products, setProducts] = useState<{ id: string; name: string; price_cents: bigint }[]>([]);
   const [customers, setCustomers] = useState<{ id: string; name: string }[]>([]);
@@ -14,7 +14,7 @@ export function LocalSales({ company, onSaved, administrator = true }: { company
   const [cancelReason, setCancelReason] = useState('');
   const [key, setKey] = useState(() => crypto.randomUUID()); const [busy, setBusy] = useState(false); const [message, setMessage] = useState('');
   async function refresh() { const [catalog, people, history] = await Promise.all([bridge.products(company), bridge.people(company, 'customer'), bridge.sales(company)]); setProducts(catalog.filter(row => row.active === 1n)); setCustomers(people.filter(row => row.active)); setSales(history); }
-  useEffect(() => { if (company) void refresh().catch(error => setMessage(String(error))); }, [company]);
+  useEffect(() => { if (company) void refresh().catch(error => setMessage(String(error))); }, [company, refreshToken]);
   let total = 0n; let change = 0n; let calculationError = '';
   try { for (const line of lines) { const product = products.find(row => row.id === line.productId); if (product) total += itemTotalCents(quantityToMilli(line.quantity.replace(',', '.')), product.price_cents); } total -= cents(discount); if (total < 0n) throw new Error('Desconto acima do subtotal.'); if (method === 'CASH' && received) { change = cents(received) - total; if (change < 0n) throw new Error('Valor recebido insuficiente.'); } } catch (error) { calculationError = (error as Error).message; }
   async function save(event: FormEvent<HTMLFormElement>) {

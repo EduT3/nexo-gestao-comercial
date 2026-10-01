@@ -20,3 +20,8 @@
 .local-anchor{scroll-margin-top:104px}
 .local-anchor:target>.panel,.local-anchor:target.panel{box-shadow:0 0 0 2px rgba(49,88,64,.18)}
 @media(max-width:760px){.local-app .sidebar{overflow:visible}.local-app .sidebar nav{overflow-x:auto;overflow-y:hidden}.local-app .local-edition{display:none}.local-page-heading{align-items:center}}
+.local-app [hidden]{display:none!important}
+.local-tabs{display:flex;flex-wrap:wrap;gap:8px}
+.local-app .table-panel>.button{margin:16px 22px 0}
+.local-app .topbar{position:sticky;top:0;z-index:5}
+.local-app .local-anchor>details{margin:0}

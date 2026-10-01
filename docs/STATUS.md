@@ -189,3 +189,9 @@ A publicação no GitHub foi autorizada pelo usuário após a conclusão e valid
 ### Publicação
 
 Código-fonte e documentação publicados na branch `main` de `EduT3/nexo-gestao-comercial`, preservando os três commits anteriores. O push acionou a integração da Vercel; `https://nexo-gestao-comercial.vercel.app` respondeu HTTP 200 e a verificação no Edge confirmou o aviso da V1 local, a identificação DEMONSTRAÇÃO e ausência de overlay/erros.
+
+## Navegação simplificada — 01/10/2026
+
+Após teste do usuário, os atalhos locais que rolavam uma página com todos os módulos foram substituídos por telas de tarefa: Vender, Caixa, Estoque, Produtos, Compras, Financeiro e Mais opções. Apenas a área selecionada aparece. Os componentes permanecem montados para preservar rascunhos ao alternar; consultas de vendas/compras/financeiro são renovadas ao navegar. Produtos inicia pela busca/lista; Novo produto/Editar abre o formulário, Salvar/Cancelar o recolhe. Caixa mantém movimentos manuais e fechamento recolhidos até a ação ser escolhida. Mais opções reúne cadastros de apoio, Excel, equipe e backup. A prévia web recolhe os grupos secundários e as ações manuais do caixa.
+
+Validação: 31 arquivos/114 testes comerciais aprovados; tipos, build local, build preview e pacote aprovados. Novo scripts/verify-local-navigation.mjs passou no executável NEXO-Windows-1790861899529 offline com base temporária: visibilidade de uma área, cadastro sob demanda, rascunho preservado, produto novo disponível para vender, compra por IPC, venda pela UI, saldo e fechamento de caixa, backup acessível em Mais opções e isolamento de empresas. Roteiros históricos verify-local-window/operator/finance-summary/excel foram escritos para a página única da V1.0.0 e precisam navegar explicitamente antes de usar seus seletores na nova versão; não foram apresentados como aprovados nesta atualização.

@@ -1,7 +1,7 @@
 {
   "/auth/session": {
     "user": {
-      "id": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+      "id": "09cc5829-6532-4436-b85e-52a7f59c366c",
       "name": "Visitante da prévia",
       "email": "preview@example.invalid",
       "systemAdmin": true
@@ -9,7 +9,7 @@
     "csrfToken": "visual-preview",
     "companies": [
       {
-        "id": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "name": "Adega JG",
         "legalName": "Adega JG",
         "taxId": null,
@@ -42,7 +42,7 @@
         ]
       },
       {
-        "id": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "name": "Depósito JG",
         "legalName": "Depósito JG",
         "taxId": null,
@@ -77,9 +77,9 @@
     ],
     "demo": true
   },
-  "/companies/2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60/overview": {
+  "/companies/a82eff1c-74aa-4055-ae76-c7848f7f39e7/overview": {
     "company": {
-      "id": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+      "id": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
       "name": "Adega JG",
       "legalName": "Adega JG",
       "taxId": null,
@@ -113,8 +113,8 @@
     },
     "stores": [
       {
-        "id": "b2101f32-9a2e-4c47-a9ca-5f799a7e1b2f",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "94b1a267-a407-433e-af90-75655bb8ac3d",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "name": "Unidade principal",
         "address": "",
         "active": true
@@ -123,271 +123,271 @@
     "activeUsers": 1,
     "recentAudit": [
       {
-        "id": "d880d0e2-4e20-4831-bc52-26ea090a6127",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "5656ac3f-7f0b-4766-9c91-34e20b12421d",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "actorName": "Administrador de demonstração",
         "action": "inventory.movement_created",
         "entityType": "inventory_movement",
-        "entityId": "a0f21fe1-bdae-4b05-974a-a622f62164d9",
+        "entityId": "88ace038-ea92-4e25-bdc6-4bf623a1fd0e",
         "before": null,
         "after": {
-          "id": "a0f21fe1-bdae-4b05-974a-a622f62164d9",
+          "id": "88ace038-ea92-4e25-bdc6-4bf623a1fd0e",
           "type": "ENTRY_MANUAL",
           "unit": "UNIT",
           "notes": "Estoque fictício para avaliação visual",
-          "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+          "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
           "quantity": "20.000",
           "actorName": "Administrador de demonstração",
-          "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
-          "createdAt": "2026-09-19T01:41:09.588Z",
+          "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
+          "createdAt": "2026-10-01T13:39:24.717Z",
           "direction": "IN",
-          "productId": "6fcfd9a3-f2f7-45bd-83a3-aa89fd460d62",
+          "productId": "245069c9-c69b-49e0-bb30-276e94ab5243",
           "productName": "Água mineral 500 ml",
           "balanceAfter": "20.000",
           "internalCode": "AGUA-500",
           "balanceBefore": "0.000",
-          "idempotencyKey": "391843b3-c09a-43e9-a79d-26a102c0ee9d"
+          "idempotencyKey": "3aae996f-8526-4e75-a003-87fb612927cc"
         },
-        "createdAt": "2026-09-19T01:41:09.588Z"
+        "createdAt": "2026-10-01T13:39:24.717Z"
       },
       {
-        "id": "0ffed692-9cd2-4a02-85a1-799a756cc268",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "224fd077-00bc-4764-898e-7caeeb34d14c",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "actorName": "Administrador de demonstração",
         "action": "inventory.movement_created",
         "entityType": "inventory_movement",
-        "entityId": "303a8b53-c253-4bd0-89ee-7c5dccb8c4cf",
+        "entityId": "03e9e065-1f5f-4e04-922b-7fac86634d20",
         "before": null,
         "after": {
-          "id": "303a8b53-c253-4bd0-89ee-7c5dccb8c4cf",
+          "id": "03e9e065-1f5f-4e04-922b-7fac86634d20",
           "type": "ENTRY_MANUAL",
           "unit": "UNIT",
           "notes": "Estoque fictício para avaliação visual",
-          "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+          "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
           "quantity": "20.000",
           "actorName": "Administrador de demonstração",
-          "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
-          "createdAt": "2026-09-19T01:41:09.583Z",
+          "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
+          "createdAt": "2026-10-01T13:39:24.713Z",
           "direction": "IN",
-          "productId": "68299748-1d56-42d6-ab17-6dcf9aaf83e0",
+          "productId": "b6eb2380-d741-47ee-9f91-7fe4e750d6cc",
           "productName": "Refrigerante cola 2 litros",
           "balanceAfter": "20.000",
           "internalCode": "REF-COLA-2L",
           "balanceBefore": "0.000",
-          "idempotencyKey": "febf6711-319a-45ea-a27f-219115292c86"
+          "idempotencyKey": "d58f83fa-c2dc-400a-8af8-115fc9f886bf"
         },
-        "createdAt": "2026-09-19T01:41:09.583Z"
+        "createdAt": "2026-10-01T13:39:24.713Z"
       },
       {
-        "id": "a4f56fc4-ebc2-4d8f-aa11-724c3fee81a2",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "77ea78f8-c15f-45b9-8693-671bb096aba4",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "actorName": "Administrador de demonstração",
         "action": "inventory.movement_created",
         "entityType": "inventory_movement",
-        "entityId": "078846e3-8c38-4e79-be72-5b9390b07f31",
+        "entityId": "15603fc5-cc93-40fd-b586-98c563adbd9e",
         "before": null,
         "after": {
-          "id": "078846e3-8c38-4e79-be72-5b9390b07f31",
+          "id": "15603fc5-cc93-40fd-b586-98c563adbd9e",
           "type": "ENTRY_MANUAL",
           "unit": "BAG",
           "notes": "Estoque fictício para avaliação visual",
-          "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+          "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
           "quantity": "20.000",
           "actorName": "Administrador de demonstração",
-          "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
-          "createdAt": "2026-09-19T01:41:09.579Z",
+          "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
+          "createdAt": "2026-10-01T13:39:24.708Z",
           "direction": "IN",
-          "productId": "33b45c2d-5f88-4e7b-8da9-129b2ab13df3",
+          "productId": "056e68cb-f161-4668-a7e8-accfbacc7a5c",
           "productName": "Gelo em cubos 5 kg",
           "balanceAfter": "20.000",
           "internalCode": "GELO-5KG",
           "balanceBefore": "0.000",
-          "idempotencyKey": "685fca1e-c5ef-44c1-9561-4bb00798319a"
+          "idempotencyKey": "82088fb1-e4d3-4319-b2d8-ec93f36efa21"
         },
-        "createdAt": "2026-09-19T01:41:09.579Z"
+        "createdAt": "2026-10-01T13:39:24.708Z"
       },
       {
-        "id": "117e7be5-beab-4912-9676-ce0c858549c4",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "0c0ad333-c5ef-4f11-8cfd-84d0138a7078",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "actorName": "Administrador de demonstração",
         "action": "inventory.movement_created",
         "entityType": "inventory_movement",
-        "entityId": "97ae27e9-7f5e-44fb-a498-d8cacde409a2",
+        "entityId": "2b47e0a4-3e13-4fcb-a95d-cfc73b679a09",
         "before": null,
         "after": {
-          "id": "97ae27e9-7f5e-44fb-a498-d8cacde409a2",
+          "id": "2b47e0a4-3e13-4fcb-a95d-cfc73b679a09",
           "type": "ENTRY_MANUAL",
           "unit": "UNIT",
           "notes": "Estoque fictício para avaliação visual",
-          "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+          "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
           "quantity": "20.000",
           "actorName": "Administrador de demonstração",
-          "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
-          "createdAt": "2026-09-19T01:41:09.574Z",
+          "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
+          "createdAt": "2026-10-01T13:39:24.704Z",
           "direction": "IN",
-          "productId": "16ea1bf8-bf3f-4037-a0aa-ca12c4547689",
+          "productId": "d1e0d08e-49ff-420f-846f-a9c1c35417f5",
           "productName": "Energético lata 473 ml",
           "balanceAfter": "20.000",
           "internalCode": "ENE-473",
           "balanceBefore": "0.000",
-          "idempotencyKey": "f8f3ff80-9b60-4e8e-80dd-541a5b421aa1"
+          "idempotencyKey": "10f3b530-f42b-4cd7-b199-8c6ae162e35a"
         },
-        "createdAt": "2026-09-19T01:41:09.574Z"
+        "createdAt": "2026-10-01T13:39:24.704Z"
       },
       {
-        "id": "42a8b604-8cfd-4af4-9ad7-2c00de4744a3",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "e514dee2-2629-414d-9072-ab4fe2e966cf",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "actorName": "Administrador de demonstração",
         "action": "inventory.movement_created",
         "entityType": "inventory_movement",
-        "entityId": "266bf9f5-c25a-4e23-b20e-edd7c6ecd279",
+        "entityId": "aca94d7c-3bc6-4343-ac3e-040eb6d19910",
         "before": null,
         "after": {
-          "id": "266bf9f5-c25a-4e23-b20e-edd7c6ecd279",
+          "id": "aca94d7c-3bc6-4343-ac3e-040eb6d19910",
           "type": "ENTRY_MANUAL",
           "unit": "UNIT",
           "notes": "Estoque fictício para avaliação visual",
-          "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+          "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
           "quantity": "20.000",
           "actorName": "Administrador de demonstração",
-          "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
-          "createdAt": "2026-09-19T01:41:09.569Z",
+          "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
+          "createdAt": "2026-10-01T13:39:24.699Z",
           "direction": "IN",
-          "productId": "c3a4ad38-1c79-498d-a8c8-8d1a58b75bdd",
+          "productId": "01a3578f-2898-4465-a0c9-f827a82cd505",
           "productName": "Cerveja puro malte lata 350 ml",
           "balanceAfter": "20.000",
           "internalCode": "CER-PM-350",
           "balanceBefore": "0.000",
-          "idempotencyKey": "5f5fa713-f19d-4547-96ce-32d3128ffd63"
+          "idempotencyKey": "9a2d093e-149f-4e9d-a34c-506ab4e575d7"
         },
-        "createdAt": "2026-09-19T01:41:09.569Z"
+        "createdAt": "2026-10-01T13:39:24.699Z"
       },
       {
-        "id": "8a8daf59-3134-4efb-9cf4-a7c2e542bdd0",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "13fab63f-eada-4db0-9f23-f0981cb2fd0f",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "actorName": "Administrador de demonstração",
         "action": "inventory.movement_created",
         "entityType": "inventory_movement",
-        "entityId": "3c16bfbf-26ce-4076-a258-91ae7456f614",
+        "entityId": "da599e3f-c40c-4f9a-beab-019e48bc375b",
         "before": null,
         "after": {
-          "id": "3c16bfbf-26ce-4076-a258-91ae7456f614",
+          "id": "da599e3f-c40c-4f9a-beab-019e48bc375b",
           "type": "ENTRY_MANUAL",
           "unit": "UNIT",
           "notes": "Estoque fictício para avaliação visual",
-          "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+          "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
           "quantity": "3.000",
           "actorName": "Administrador de demonstração",
-          "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
-          "createdAt": "2026-09-19T01:41:09.563Z",
+          "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
+          "createdAt": "2026-10-01T13:39:24.692Z",
           "direction": "IN",
-          "productId": "f6d28b12-a165-4990-a389-67c21e946c3b",
+          "productId": "ea382fdf-86c4-4012-bf74-04d18d2dfb41",
           "productName": "Cerveja Pilsen lata 350 ml",
           "balanceAfter": "3.000",
           "internalCode": "CER-PIL-350",
           "balanceBefore": "0.000",
-          "idempotencyKey": "e0cb82d9-3d7a-41a7-8d01-aae3cdb6c7ec"
+          "idempotencyKey": "71a5e257-0654-4d6b-bf20-56c56a48a345"
         },
-        "createdAt": "2026-09-19T01:41:09.563Z"
+        "createdAt": "2026-10-01T13:39:24.692Z"
       }
     ]
   },
-  "/companies/2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60/products": {
+  "/companies/a82eff1c-74aa-4055-ae76-c7848f7f39e7/products": {
     "products": [
       {
-        "id": "f6d28b12-a165-4990-a389-67c21e946c3b",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "ea382fdf-86c4-4012-bf74-04d18d2dfb41",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "name": "Cerveja Pilsen lata 350 ml",
         "internalCode": "CER-PIL-350",
         "barcode": "7892000000010",
-        "categoryId": "40e5d7da-96b3-40d8-98dc-c36edcfada9c",
+        "categoryId": "87ce2cd5-5b94-43a2-8d79-3a6f804ad40c",
         "unit": "UNIT",
         "priceCents": 399,
         "stockMin": "48.000",
-        "supplierId": "9ce32e23-0efc-488d-84c2-4518be3fbd35",
+        "supplierId": "631cb848-31d0-496a-a541-5ea5309b0cce",
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z",
-        "updatedAt": "2026-09-19T01:41:09.305Z",
+        "createdAt": "2026-10-01T13:39:24.377Z",
+        "updatedAt": "2026-10-01T13:39:24.377Z",
         "costCents": 270
       },
       {
-        "id": "c3a4ad38-1c79-498d-a8c8-8d1a58b75bdd",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "01a3578f-2898-4465-a0c9-f827a82cd505",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "name": "Cerveja puro malte lata 350 ml",
         "internalCode": "CER-PM-350",
         "barcode": "7892000000027",
-        "categoryId": "40e5d7da-96b3-40d8-98dc-c36edcfada9c",
+        "categoryId": "87ce2cd5-5b94-43a2-8d79-3a6f804ad40c",
         "unit": "UNIT",
         "priceCents": 499,
         "stockMin": "36.000",
-        "supplierId": "9ce32e23-0efc-488d-84c2-4518be3fbd35",
+        "supplierId": "631cb848-31d0-496a-a541-5ea5309b0cce",
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z",
-        "updatedAt": "2026-09-19T01:41:09.305Z",
+        "createdAt": "2026-10-01T13:39:24.377Z",
+        "updatedAt": "2026-10-01T13:39:24.377Z",
         "costCents": 360
       },
       {
-        "id": "16ea1bf8-bf3f-4037-a0aa-ca12c4547689",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "d1e0d08e-49ff-420f-846f-a9c1c35417f5",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "name": "Energético lata 473 ml",
         "internalCode": "ENE-473",
         "barcode": "7892000000058",
-        "categoryId": "9d343ec8-a62f-45a1-8b6f-defb7ef2f9bb",
+        "categoryId": "d2614497-0ab1-4a63-afb7-08c56e60d34a",
         "unit": "UNIT",
         "priceCents": 799,
         "stockMin": "24.000",
-        "supplierId": "9ce32e23-0efc-488d-84c2-4518be3fbd35",
+        "supplierId": "631cb848-31d0-496a-a541-5ea5309b0cce",
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z",
-        "updatedAt": "2026-09-19T01:41:09.305Z",
+        "createdAt": "2026-10-01T13:39:24.377Z",
+        "updatedAt": "2026-10-01T13:39:24.377Z",
         "costCents": 520
       },
       {
-        "id": "33b45c2d-5f88-4e7b-8da9-129b2ab13df3",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "056e68cb-f161-4668-a7e8-accfbacc7a5c",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "name": "Gelo em cubos 5 kg",
         "internalCode": "GELO-5KG",
         "barcode": "7892000000065",
-        "categoryId": "d6038162-4760-479f-8320-77f1b2fe727e",
+        "categoryId": "c00b12da-c641-477d-a60c-7ca62b1d8800",
         "unit": "BAG",
         "priceCents": 1290,
         "stockMin": "10.000",
-        "supplierId": "2ca9d614-2483-4ec7-be27-08210f99f721",
+        "supplierId": "c5def759-26a9-4660-966f-88b67e140d35",
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z",
-        "updatedAt": "2026-09-19T01:41:09.305Z",
+        "createdAt": "2026-10-01T13:39:24.377Z",
+        "updatedAt": "2026-10-01T13:39:24.377Z",
         "costCents": 850
       },
       {
-        "id": "68299748-1d56-42d6-ab17-6dcf9aaf83e0",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "b6eb2380-d741-47ee-9f91-7fe4e750d6cc",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "name": "Refrigerante cola 2 litros",
         "internalCode": "REF-COLA-2L",
         "barcode": "7892000000034",
-        "categoryId": "9d343ec8-a62f-45a1-8b6f-defb7ef2f9bb",
+        "categoryId": "d2614497-0ab1-4a63-afb7-08c56e60d34a",
         "unit": "UNIT",
         "priceCents": 999,
         "stockMin": "24.000",
-        "supplierId": "2ca9d614-2483-4ec7-be27-08210f99f721",
+        "supplierId": "c5def759-26a9-4660-966f-88b67e140d35",
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z",
-        "updatedAt": "2026-09-19T01:41:09.305Z",
+        "createdAt": "2026-10-01T13:39:24.377Z",
+        "updatedAt": "2026-10-01T13:39:24.377Z",
         "costCents": 690
       },
       {
-        "id": "6fcfd9a3-f2f7-45bd-83a3-aa89fd460d62",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "245069c9-c69b-49e0-bb30-276e94ab5243",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "name": "Água mineral 500 ml",
         "internalCode": "AGUA-500",
         "barcode": "7892000000041",
-        "categoryId": "9d343ec8-a62f-45a1-8b6f-defb7ef2f9bb",
+        "categoryId": "d2614497-0ab1-4a63-afb7-08c56e60d34a",
         "unit": "UNIT",
         "priceCents": 199,
         "stockMin": "48.000",
-        "supplierId": "2ca9d614-2483-4ec7-be27-08210f99f721",
+        "supplierId": "c5def759-26a9-4660-966f-88b67e140d35",
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z",
-        "updatedAt": "2026-09-19T01:41:09.305Z",
+        "createdAt": "2026-10-01T13:39:24.377Z",
+        "updatedAt": "2026-10-01T13:39:24.377Z",
         "costCents": 99
       }
     ],
@@ -395,45 +395,45 @@
     "limit": 50,
     "offset": 0
   },
-  "/companies/2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60/categories": {
+  "/companies/a82eff1c-74aa-4055-ae76-c7848f7f39e7/categories": {
     "categories": [
       {
-        "id": "9d343ec8-a62f-45a1-8b6f-defb7ef2f9bb",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "d2614497-0ab1-4a63-afb7-08c56e60d34a",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "name": "Bebidas sem álcool",
         "description": "Águas, refrigerantes e bebidas prontas.",
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z",
-        "updatedAt": "2026-09-19T01:41:09.305Z"
+        "createdAt": "2026-10-01T13:39:24.377Z",
+        "updatedAt": "2026-10-01T13:39:24.377Z"
       },
       {
-        "id": "40e5d7da-96b3-40d8-98dc-c36edcfada9c",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "87ce2cd5-5b94-43a2-8d79-3a6f804ad40c",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "name": "Cervejas",
         "description": "Cervejas em lata, garrafa e packs.",
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z",
-        "updatedAt": "2026-09-19T01:41:09.305Z"
+        "createdAt": "2026-10-01T13:39:24.377Z",
+        "updatedAt": "2026-10-01T13:39:24.377Z"
       },
       {
-        "id": "d6038162-4760-479f-8320-77f1b2fe727e",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "c00b12da-c641-477d-a60c-7ca62b1d8800",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "name": "Destilados e gelo",
         "description": "Destilados, gelo e itens para servir.",
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z",
-        "updatedAt": "2026-09-19T01:41:09.305Z"
+        "createdAt": "2026-10-01T13:39:24.377Z",
+        "updatedAt": "2026-10-01T13:39:24.377Z"
       }
     ],
     "total": 3,
     "limit": 50,
     "offset": 0
   },
-  "/companies/2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60/customers": {
+  "/companies/a82eff1c-74aa-4055-ae76-c7848f7f39e7/customers": {
     "customers": [
       {
-        "id": "212b3067-fbbb-4453-a8b6-a5297c3c8e39",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "c38dee29-0649-43dd-bc4e-e107a6944a70",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "name": "Churrasco do João",
         "taxId": null,
         "phone": null,
@@ -441,12 +441,12 @@
         "address": null,
         "notes": null,
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z",
-        "updatedAt": "2026-09-19T01:41:09.305Z"
+        "createdAt": "2026-10-01T13:39:24.377Z",
+        "updatedAt": "2026-10-01T13:39:24.377Z"
       },
       {
-        "id": "a2980592-db79-4375-b982-c4ce01690a71",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "9dd6d32a-49f0-4294-b877-a4f2ca7ab40a",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "name": "Mariana Oliveira",
         "taxId": null,
         "phone": null,
@@ -454,19 +454,19 @@
         "address": null,
         "notes": null,
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z",
-        "updatedAt": "2026-09-19T01:41:09.305Z"
+        "createdAt": "2026-10-01T13:39:24.377Z",
+        "updatedAt": "2026-10-01T13:39:24.377Z"
       }
     ],
     "total": 2,
     "limit": 50,
     "offset": 0
   },
-  "/companies/2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60/suppliers": {
+  "/companies/a82eff1c-74aa-4055-ae76-c7848f7f39e7/suppliers": {
     "suppliers": [
       {
-        "id": "2ca9d614-2483-4ec7-be27-08210f99f721",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "c5def759-26a9-4660-966f-88b67e140d35",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "name": "Bebidas Central",
         "taxId": null,
         "phone": null,
@@ -475,12 +475,12 @@
         "address": null,
         "notes": null,
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z",
-        "updatedAt": "2026-09-19T01:41:09.305Z"
+        "createdAt": "2026-10-01T13:39:24.377Z",
+        "updatedAt": "2026-10-01T13:39:24.377Z"
       },
       {
-        "id": "9ce32e23-0efc-488d-84c2-4518be3fbd35",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "631cb848-31d0-496a-a541-5ea5309b0cce",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "name": "Distribuidora Boa Compra",
         "taxId": null,
         "phone": null,
@@ -489,19 +489,19 @@
         "address": null,
         "notes": null,
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z",
-        "updatedAt": "2026-09-19T01:41:09.305Z"
+        "createdAt": "2026-10-01T13:39:24.377Z",
+        "updatedAt": "2026-10-01T13:39:24.377Z"
       }
     ],
     "total": 2,
     "limit": 50,
     "offset": 0
   },
-  "/companies/2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60/inventory": {
+  "/companies/a82eff1c-74aa-4055-ae76-c7848f7f39e7/inventory": {
     "inventory": [
       {
-        "productId": "f6d28b12-a165-4990-a389-67c21e946c3b",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "productId": "ea382fdf-86c4-4012-bf74-04d18d2dfb41",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "productName": "Cerveja Pilsen lata 350 ml",
         "internalCode": "CER-PIL-350",
         "unit": "UNIT",
@@ -510,8 +510,8 @@
         "status": "LOW"
       },
       {
-        "productId": "c3a4ad38-1c79-498d-a8c8-8d1a58b75bdd",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "productId": "01a3578f-2898-4465-a0c9-f827a82cd505",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "productName": "Cerveja puro malte lata 350 ml",
         "internalCode": "CER-PM-350",
         "unit": "UNIT",
@@ -520,8 +520,8 @@
         "status": "LOW"
       },
       {
-        "productId": "16ea1bf8-bf3f-4037-a0aa-ca12c4547689",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "productId": "d1e0d08e-49ff-420f-846f-a9c1c35417f5",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "productName": "Energético lata 473 ml",
         "internalCode": "ENE-473",
         "unit": "UNIT",
@@ -530,8 +530,8 @@
         "status": "LOW"
       },
       {
-        "productId": "33b45c2d-5f88-4e7b-8da9-129b2ab13df3",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "productId": "056e68cb-f161-4668-a7e8-accfbacc7a5c",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "productName": "Gelo em cubos 5 kg",
         "internalCode": "GELO-5KG",
         "unit": "BAG",
@@ -540,8 +540,8 @@
         "status": "NORMAL"
       },
       {
-        "productId": "68299748-1d56-42d6-ab17-6dcf9aaf83e0",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "productId": "b6eb2380-d741-47ee-9f91-7fe4e750d6cc",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "productName": "Refrigerante cola 2 litros",
         "internalCode": "REF-COLA-2L",
         "unit": "UNIT",
@@ -550,8 +550,8 @@
         "status": "LOW"
       },
       {
-        "productId": "6fcfd9a3-f2f7-45bd-83a3-aa89fd460d62",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "productId": "245069c9-c69b-49e0-bb30-276e94ab5243",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "productName": "Água mineral 500 ml",
         "internalCode": "AGUA-500",
         "unit": "UNIT",
@@ -564,12 +564,12 @@
     "limit": 50,
     "offset": 0
   },
-  "/companies/2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60/inventory/movements": {
+  "/companies/a82eff1c-74aa-4055-ae76-c7848f7f39e7/inventory/movements": {
     "movements": [
       {
-        "id": "a0f21fe1-bdae-4b05-974a-a622f62164d9",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
-        "productId": "6fcfd9a3-f2f7-45bd-83a3-aa89fd460d62",
+        "id": "88ace038-ea92-4e25-bdc6-4bf623a1fd0e",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
+        "productId": "245069c9-c69b-49e0-bb30-276e94ab5243",
         "productName": "Água mineral 500 ml",
         "internalCode": "AGUA-500",
         "unit": "UNIT",
@@ -579,15 +579,15 @@
         "balanceBefore": "0.000",
         "balanceAfter": "20.000",
         "notes": "Estoque fictício para avaliação visual",
-        "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+        "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
         "actorName": "Administrador de demonstração",
-        "idempotencyKey": "391843b3-c09a-43e9-a79d-26a102c0ee9d",
-        "createdAt": "2026-09-19T01:41:09.588Z"
+        "idempotencyKey": "3aae996f-8526-4e75-a003-87fb612927cc",
+        "createdAt": "2026-10-01T13:39:24.717Z"
       },
       {
-        "id": "303a8b53-c253-4bd0-89ee-7c5dccb8c4cf",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
-        "productId": "68299748-1d56-42d6-ab17-6dcf9aaf83e0",
+        "id": "03e9e065-1f5f-4e04-922b-7fac86634d20",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
+        "productId": "b6eb2380-d741-47ee-9f91-7fe4e750d6cc",
         "productName": "Refrigerante cola 2 litros",
         "internalCode": "REF-COLA-2L",
         "unit": "UNIT",
@@ -597,15 +597,15 @@
         "balanceBefore": "0.000",
         "balanceAfter": "20.000",
         "notes": "Estoque fictício para avaliação visual",
-        "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+        "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
         "actorName": "Administrador de demonstração",
-        "idempotencyKey": "febf6711-319a-45ea-a27f-219115292c86",
-        "createdAt": "2026-09-19T01:41:09.583Z"
+        "idempotencyKey": "d58f83fa-c2dc-400a-8af8-115fc9f886bf",
+        "createdAt": "2026-10-01T13:39:24.713Z"
       },
       {
-        "id": "078846e3-8c38-4e79-be72-5b9390b07f31",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
-        "productId": "33b45c2d-5f88-4e7b-8da9-129b2ab13df3",
+        "id": "15603fc5-cc93-40fd-b586-98c563adbd9e",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
+        "productId": "056e68cb-f161-4668-a7e8-accfbacc7a5c",
         "productName": "Gelo em cubos 5 kg",
         "internalCode": "GELO-5KG",
         "unit": "BAG",
@@ -615,15 +615,15 @@
         "balanceBefore": "0.000",
         "balanceAfter": "20.000",
         "notes": "Estoque fictício para avaliação visual",
-        "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+        "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
         "actorName": "Administrador de demonstração",
-        "idempotencyKey": "685fca1e-c5ef-44c1-9561-4bb00798319a",
-        "createdAt": "2026-09-19T01:41:09.579Z"
+        "idempotencyKey": "82088fb1-e4d3-4319-b2d8-ec93f36efa21",
+        "createdAt": "2026-10-01T13:39:24.708Z"
       },
       {
-        "id": "97ae27e9-7f5e-44fb-a498-d8cacde409a2",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
-        "productId": "16ea1bf8-bf3f-4037-a0aa-ca12c4547689",
+        "id": "2b47e0a4-3e13-4fcb-a95d-cfc73b679a09",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
+        "productId": "d1e0d08e-49ff-420f-846f-a9c1c35417f5",
         "productName": "Energético lata 473 ml",
         "internalCode": "ENE-473",
         "unit": "UNIT",
@@ -633,15 +633,15 @@
         "balanceBefore": "0.000",
         "balanceAfter": "20.000",
         "notes": "Estoque fictício para avaliação visual",
-        "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+        "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
         "actorName": "Administrador de demonstração",
-        "idempotencyKey": "f8f3ff80-9b60-4e8e-80dd-541a5b421aa1",
-        "createdAt": "2026-09-19T01:41:09.574Z"
+        "idempotencyKey": "10f3b530-f42b-4cd7-b199-8c6ae162e35a",
+        "createdAt": "2026-10-01T13:39:24.704Z"
       },
       {
-        "id": "266bf9f5-c25a-4e23-b20e-edd7c6ecd279",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
-        "productId": "c3a4ad38-1c79-498d-a8c8-8d1a58b75bdd",
+        "id": "aca94d7c-3bc6-4343-ac3e-040eb6d19910",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
+        "productId": "01a3578f-2898-4465-a0c9-f827a82cd505",
         "productName": "Cerveja puro malte lata 350 ml",
         "internalCode": "CER-PM-350",
         "unit": "UNIT",
@@ -651,15 +651,15 @@
         "balanceBefore": "0.000",
         "balanceAfter": "20.000",
         "notes": "Estoque fictício para avaliação visual",
-        "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+        "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
         "actorName": "Administrador de demonstração",
-        "idempotencyKey": "5f5fa713-f19d-4547-96ce-32d3128ffd63",
-        "createdAt": "2026-09-19T01:41:09.569Z"
+        "idempotencyKey": "9a2d093e-149f-4e9d-a34c-506ab4e575d7",
+        "createdAt": "2026-10-01T13:39:24.699Z"
       },
       {
-        "id": "3c16bfbf-26ce-4076-a258-91ae7456f614",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
-        "productId": "f6d28b12-a165-4990-a389-67c21e946c3b",
+        "id": "da599e3f-c40c-4f9a-beab-019e48bc375b",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
+        "productId": "ea382fdf-86c4-4012-bf74-04d18d2dfb41",
         "productName": "Cerveja Pilsen lata 350 ml",
         "internalCode": "CER-PIL-350",
         "unit": "UNIT",
@@ -669,35 +669,35 @@
         "balanceBefore": "0.000",
         "balanceAfter": "3.000",
         "notes": "Estoque fictício para avaliação visual",
-        "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+        "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
         "actorName": "Administrador de demonstração",
-        "idempotencyKey": "e0cb82d9-3d7a-41a7-8d01-aae3cdb6c7ec",
-        "createdAt": "2026-09-19T01:41:09.563Z"
+        "idempotencyKey": "71a5e257-0654-4d6b-bf20-56c56a48a345",
+        "createdAt": "2026-10-01T13:39:24.692Z"
       }
     ],
     "total": 6,
     "limit": 50,
     "offset": 0
   },
-  "/companies/2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60/purchases": {
+  "/companies/a82eff1c-74aa-4055-ae76-c7848f7f39e7/purchases": {
     "purchases": [],
     "total": 0,
     "limit": 50,
     "offset": 0
   },
-  "/companies/2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60/sales": {
+  "/companies/a82eff1c-74aa-4055-ae76-c7848f7f39e7/sales": {
     "sales": [],
     "total": 0,
     "limit": 50,
     "offset": 0
   },
-  "/companies/2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60/cash/current": {
+  "/companies/a82eff1c-74aa-4055-ae76-c7848f7f39e7/cash/current": {
     "cashRegister": null
   },
-  "/companies/2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60/cash/movements": {
+  "/companies/a82eff1c-74aa-4055-ae76-c7848f7f39e7/cash/movements": {
     "movements": []
   },
-  "/companies/2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60/finance": {
+  "/companies/a82eff1c-74aa-4055-ae76-c7848f7f39e7/finance": {
     "payables": [],
     "receivables": [],
     "entries": [],
@@ -708,196 +708,196 @@
       "expenseRealizedCents": 0
     }
   },
-  "/companies/2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60/users": {
+  "/companies/a82eff1c-74aa-4055-ae76-c7848f7f39e7/users": {
     "users": [
       {
-        "id": "8d311857-ca23-4278-bede-82f609e7aed5",
-        "userId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+        "id": "4c14907d-bb55-4c61-af2a-9ded9c0efb86",
+        "userId": "09cc5829-6532-4436-b85e-52a7f59c366c",
         "name": "Administrador de demonstração",
         "email": "admin@jg.local",
         "role": "ADMIN",
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z"
+        "createdAt": "2026-10-01T13:39:24.377Z"
       }
     ]
   },
-  "/companies/2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60/audit": {
+  "/companies/a82eff1c-74aa-4055-ae76-c7848f7f39e7/audit": {
     "events": [
       {
-        "id": "d880d0e2-4e20-4831-bc52-26ea090a6127",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "5656ac3f-7f0b-4766-9c91-34e20b12421d",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "actorName": "Administrador de demonstração",
         "action": "inventory.movement_created",
         "entityType": "inventory_movement",
-        "entityId": "a0f21fe1-bdae-4b05-974a-a622f62164d9",
+        "entityId": "88ace038-ea92-4e25-bdc6-4bf623a1fd0e",
         "before": null,
         "after": {
-          "id": "a0f21fe1-bdae-4b05-974a-a622f62164d9",
+          "id": "88ace038-ea92-4e25-bdc6-4bf623a1fd0e",
           "type": "ENTRY_MANUAL",
           "unit": "UNIT",
           "notes": "Estoque fictício para avaliação visual",
-          "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+          "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
           "quantity": "20.000",
           "actorName": "Administrador de demonstração",
-          "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
-          "createdAt": "2026-09-19T01:41:09.588Z",
+          "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
+          "createdAt": "2026-10-01T13:39:24.717Z",
           "direction": "IN",
-          "productId": "6fcfd9a3-f2f7-45bd-83a3-aa89fd460d62",
+          "productId": "245069c9-c69b-49e0-bb30-276e94ab5243",
           "productName": "Água mineral 500 ml",
           "balanceAfter": "20.000",
           "internalCode": "AGUA-500",
           "balanceBefore": "0.000",
-          "idempotencyKey": "391843b3-c09a-43e9-a79d-26a102c0ee9d"
+          "idempotencyKey": "3aae996f-8526-4e75-a003-87fb612927cc"
         },
-        "createdAt": "2026-09-19T01:41:09.588Z"
+        "createdAt": "2026-10-01T13:39:24.717Z"
       },
       {
-        "id": "0ffed692-9cd2-4a02-85a1-799a756cc268",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "224fd077-00bc-4764-898e-7caeeb34d14c",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "actorName": "Administrador de demonstração",
         "action": "inventory.movement_created",
         "entityType": "inventory_movement",
-        "entityId": "303a8b53-c253-4bd0-89ee-7c5dccb8c4cf",
+        "entityId": "03e9e065-1f5f-4e04-922b-7fac86634d20",
         "before": null,
         "after": {
-          "id": "303a8b53-c253-4bd0-89ee-7c5dccb8c4cf",
+          "id": "03e9e065-1f5f-4e04-922b-7fac86634d20",
           "type": "ENTRY_MANUAL",
           "unit": "UNIT",
           "notes": "Estoque fictício para avaliação visual",
-          "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+          "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
           "quantity": "20.000",
           "actorName": "Administrador de demonstração",
-          "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
-          "createdAt": "2026-09-19T01:41:09.583Z",
+          "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
+          "createdAt": "2026-10-01T13:39:24.713Z",
           "direction": "IN",
-          "productId": "68299748-1d56-42d6-ab17-6dcf9aaf83e0",
+          "productId": "b6eb2380-d741-47ee-9f91-7fe4e750d6cc",
           "productName": "Refrigerante cola 2 litros",
           "balanceAfter": "20.000",
           "internalCode": "REF-COLA-2L",
           "balanceBefore": "0.000",
-          "idempotencyKey": "febf6711-319a-45ea-a27f-219115292c86"
+          "idempotencyKey": "d58f83fa-c2dc-400a-8af8-115fc9f886bf"
         },
-        "createdAt": "2026-09-19T01:41:09.583Z"
+        "createdAt": "2026-10-01T13:39:24.713Z"
       },
       {
-        "id": "a4f56fc4-ebc2-4d8f-aa11-724c3fee81a2",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "77ea78f8-c15f-45b9-8693-671bb096aba4",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "actorName": "Administrador de demonstração",
         "action": "inventory.movement_created",
         "entityType": "inventory_movement",
-        "entityId": "078846e3-8c38-4e79-be72-5b9390b07f31",
+        "entityId": "15603fc5-cc93-40fd-b586-98c563adbd9e",
         "before": null,
         "after": {
-          "id": "078846e3-8c38-4e79-be72-5b9390b07f31",
+          "id": "15603fc5-cc93-40fd-b586-98c563adbd9e",
           "type": "ENTRY_MANUAL",
           "unit": "BAG",
           "notes": "Estoque fictício para avaliação visual",
-          "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+          "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
           "quantity": "20.000",
           "actorName": "Administrador de demonstração",
-          "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
-          "createdAt": "2026-09-19T01:41:09.579Z",
+          "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
+          "createdAt": "2026-10-01T13:39:24.708Z",
           "direction": "IN",
-          "productId": "33b45c2d-5f88-4e7b-8da9-129b2ab13df3",
+          "productId": "056e68cb-f161-4668-a7e8-accfbacc7a5c",
           "productName": "Gelo em cubos 5 kg",
           "balanceAfter": "20.000",
           "internalCode": "GELO-5KG",
           "balanceBefore": "0.000",
-          "idempotencyKey": "685fca1e-c5ef-44c1-9561-4bb00798319a"
+          "idempotencyKey": "82088fb1-e4d3-4319-b2d8-ec93f36efa21"
         },
-        "createdAt": "2026-09-19T01:41:09.579Z"
+        "createdAt": "2026-10-01T13:39:24.708Z"
       },
       {
-        "id": "117e7be5-beab-4912-9676-ce0c858549c4",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "0c0ad333-c5ef-4f11-8cfd-84d0138a7078",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "actorName": "Administrador de demonstração",
         "action": "inventory.movement_created",
         "entityType": "inventory_movement",
-        "entityId": "97ae27e9-7f5e-44fb-a498-d8cacde409a2",
+        "entityId": "2b47e0a4-3e13-4fcb-a95d-cfc73b679a09",
         "before": null,
         "after": {
-          "id": "97ae27e9-7f5e-44fb-a498-d8cacde409a2",
+          "id": "2b47e0a4-3e13-4fcb-a95d-cfc73b679a09",
           "type": "ENTRY_MANUAL",
           "unit": "UNIT",
           "notes": "Estoque fictício para avaliação visual",
-          "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+          "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
           "quantity": "20.000",
           "actorName": "Administrador de demonstração",
-          "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
-          "createdAt": "2026-09-19T01:41:09.574Z",
+          "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
+          "createdAt": "2026-10-01T13:39:24.704Z",
           "direction": "IN",
-          "productId": "16ea1bf8-bf3f-4037-a0aa-ca12c4547689",
+          "productId": "d1e0d08e-49ff-420f-846f-a9c1c35417f5",
           "productName": "Energético lata 473 ml",
           "balanceAfter": "20.000",
           "internalCode": "ENE-473",
           "balanceBefore": "0.000",
-          "idempotencyKey": "f8f3ff80-9b60-4e8e-80dd-541a5b421aa1"
+          "idempotencyKey": "10f3b530-f42b-4cd7-b199-8c6ae162e35a"
         },
-        "createdAt": "2026-09-19T01:41:09.574Z"
+        "createdAt": "2026-10-01T13:39:24.704Z"
       },
       {
-        "id": "42a8b604-8cfd-4af4-9ad7-2c00de4744a3",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "e514dee2-2629-414d-9072-ab4fe2e966cf",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "actorName": "Administrador de demonstração",
         "action": "inventory.movement_created",
         "entityType": "inventory_movement",
-        "entityId": "266bf9f5-c25a-4e23-b20e-edd7c6ecd279",
+        "entityId": "aca94d7c-3bc6-4343-ac3e-040eb6d19910",
         "before": null,
         "after": {
-          "id": "266bf9f5-c25a-4e23-b20e-edd7c6ecd279",
+          "id": "aca94d7c-3bc6-4343-ac3e-040eb6d19910",
           "type": "ENTRY_MANUAL",
           "unit": "UNIT",
           "notes": "Estoque fictício para avaliação visual",
-          "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+          "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
           "quantity": "20.000",
           "actorName": "Administrador de demonstração",
-          "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
-          "createdAt": "2026-09-19T01:41:09.569Z",
+          "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
+          "createdAt": "2026-10-01T13:39:24.699Z",
           "direction": "IN",
-          "productId": "c3a4ad38-1c79-498d-a8c8-8d1a58b75bdd",
+          "productId": "01a3578f-2898-4465-a0c9-f827a82cd505",
           "productName": "Cerveja puro malte lata 350 ml",
           "balanceAfter": "20.000",
           "internalCode": "CER-PM-350",
           "balanceBefore": "0.000",
-          "idempotencyKey": "5f5fa713-f19d-4547-96ce-32d3128ffd63"
+          "idempotencyKey": "9a2d093e-149f-4e9d-a34c-506ab4e575d7"
         },
-        "createdAt": "2026-09-19T01:41:09.569Z"
+        "createdAt": "2026-10-01T13:39:24.699Z"
       },
       {
-        "id": "8a8daf59-3134-4efb-9cf4-a7c2e542bdd0",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "13fab63f-eada-4db0-9f23-f0981cb2fd0f",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "actorName": "Administrador de demonstração",
         "action": "inventory.movement_created",
         "entityType": "inventory_movement",
-        "entityId": "3c16bfbf-26ce-4076-a258-91ae7456f614",
+        "entityId": "da599e3f-c40c-4f9a-beab-019e48bc375b",
         "before": null,
         "after": {
-          "id": "3c16bfbf-26ce-4076-a258-91ae7456f614",
+          "id": "da599e3f-c40c-4f9a-beab-019e48bc375b",
           "type": "ENTRY_MANUAL",
           "unit": "UNIT",
           "notes": "Estoque fictício para avaliação visual",
-          "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+          "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
           "quantity": "3.000",
           "actorName": "Administrador de demonstração",
-          "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
-          "createdAt": "2026-09-19T01:41:09.563Z",
+          "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
+          "createdAt": "2026-10-01T13:39:24.692Z",
           "direction": "IN",
-          "productId": "f6d28b12-a165-4990-a389-67c21e946c3b",
+          "productId": "ea382fdf-86c4-4012-bf74-04d18d2dfb41",
           "productName": "Cerveja Pilsen lata 350 ml",
           "balanceAfter": "3.000",
           "internalCode": "CER-PIL-350",
           "balanceBefore": "0.000",
-          "idempotencyKey": "e0cb82d9-3d7a-41a7-8d01-aae3cdb6c7ec"
+          "idempotencyKey": "71a5e257-0654-4d6b-bf20-56c56a48a345"
         },
-        "createdAt": "2026-09-19T01:41:09.563Z"
+        "createdAt": "2026-10-01T13:39:24.692Z"
       },
       {
-        "id": "849815ab-7d24-46b6-976e-d0e3a8f477ad",
-        "companyId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "7cf89ec9-18c2-46d9-9f00-9d771268376c",
+        "companyId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "actorName": "Administrador de demonstração",
         "action": "development.seed",
         "entityType": "company",
-        "entityId": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "entityId": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "before": null,
         "after": {
           "kind": "ADEGA",
@@ -905,14 +905,14 @@
           "catalog": true,
           "demonstration": true
         },
-        "createdAt": "2026-09-19T01:41:09.305Z"
+        "createdAt": "2026-10-01T13:39:24.377Z"
       }
     ],
     "total": 7
   },
-  "/companies/64b1f1d2-6b81-4fed-9e42-65016b60d875/overview": {
+  "/companies/5b189536-04ef-4dfe-bbbc-7a4fd12709f3/overview": {
     "company": {
-      "id": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+      "id": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
       "name": "Depósito JG",
       "legalName": "Depósito JG",
       "taxId": null,
@@ -946,8 +946,8 @@
     },
     "stores": [
       {
-        "id": "a24fe9eb-d877-49f3-82ae-a174dc490b46",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "8f6b682a-47fc-44cf-ab40-23f828373580",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "name": "Unidade principal",
         "address": "",
         "active": true
@@ -956,271 +956,271 @@
     "activeUsers": 1,
     "recentAudit": [
       {
-        "id": "77442950-bfb8-41b3-8eb3-ca88d4934b33",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "6aa28b40-2b93-4735-b03e-f01a48d2e302",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "actorName": "Administrador de demonstração",
         "action": "inventory.movement_created",
         "entityType": "inventory_movement",
-        "entityId": "8e6473f0-bcbb-409c-be21-5ffe838bcb6c",
+        "entityId": "3afd69ae-d8ad-41e1-b25e-f558e4aac8bf",
         "before": null,
         "after": {
-          "id": "8e6473f0-bcbb-409c-be21-5ffe838bcb6c",
+          "id": "3afd69ae-d8ad-41e1-b25e-f558e4aac8bf",
           "type": "ENTRY_MANUAL",
           "unit": "METER",
           "notes": "Estoque fictício para avaliação visual",
-          "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+          "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
           "quantity": "20.000",
           "actorName": "Administrador de demonstração",
-          "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
-          "createdAt": "2026-09-19T01:41:09.654Z",
+          "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
+          "createdAt": "2026-10-01T13:39:24.778Z",
           "direction": "IN",
-          "productId": "18422e8a-f778-4a70-87b5-22a165fef436",
+          "productId": "40ba1ec7-7cde-4861-a6c2-ac490ff954a1",
           "productName": "Tubo PVC esgoto 100 mm",
           "balanceAfter": "20.000",
           "internalCode": "TUB-PVC100",
           "balanceBefore": "0.000",
-          "idempotencyKey": "83e9969f-e882-4417-a7b8-908aeb05c718"
+          "idempotencyKey": "4d1b073a-6e2b-46b7-b7cd-d84daa14bdd3"
         },
-        "createdAt": "2026-09-19T01:41:09.654Z"
+        "createdAt": "2026-10-01T13:39:24.778Z"
       },
       {
-        "id": "fbc54549-ce9b-49e3-b5a8-9c538a1ea87d",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "bb9ea723-5bb3-4785-a304-6d70ad428483",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "actorName": "Administrador de demonstração",
         "action": "inventory.movement_created",
         "entityType": "inventory_movement",
-        "entityId": "79c16c10-52ca-4e31-8310-819a7fce264f",
+        "entityId": "27bb3ac3-c359-46fa-85c5-b8c13e627a5f",
         "before": null,
         "after": {
-          "id": "79c16c10-52ca-4e31-8310-819a7fce264f",
+          "id": "27bb3ac3-c359-46fa-85c5-b8c13e627a5f",
           "type": "ENTRY_MANUAL",
           "unit": "UNIT",
           "notes": "Estoque fictício para avaliação visual",
-          "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+          "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
           "quantity": "20.000",
           "actorName": "Administrador de demonstração",
-          "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
-          "createdAt": "2026-09-19T01:41:09.650Z",
+          "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
+          "createdAt": "2026-10-01T13:39:24.774Z",
           "direction": "IN",
-          "productId": "774bba45-563a-4eea-9022-fad393f93028",
+          "productId": "d44374eb-0c96-452e-b0ea-c1197fd4484e",
           "productName": "Tijolo baiano 8 furos",
           "balanceAfter": "20.000",
           "internalCode": "TIJ-8F",
           "balanceBefore": "0.000",
-          "idempotencyKey": "bb274038-bd0a-4648-a216-08463a5793c2"
+          "idempotencyKey": "73ece5f2-e65b-4ad8-84ec-4641c051f338"
         },
-        "createdAt": "2026-09-19T01:41:09.650Z"
+        "createdAt": "2026-10-01T13:39:24.774Z"
       },
       {
-        "id": "f0e40588-d525-4f28-be64-538252d0fd40",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "d06b6462-b056-46cb-b3d0-f775eeaca623",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "actorName": "Administrador de demonstração",
         "action": "inventory.movement_created",
         "entityType": "inventory_movement",
-        "entityId": "552e725c-8cff-4d86-afb5-8e2e49c98f48",
+        "entityId": "80e49aa1-3d33-4ba5-b3fe-03efd6182a29",
         "before": null,
         "after": {
-          "id": "552e725c-8cff-4d86-afb5-8e2e49c98f48",
+          "id": "80e49aa1-3d33-4ba5-b3fe-03efd6182a29",
           "type": "ENTRY_MANUAL",
           "unit": "METER",
           "notes": "Estoque fictício para avaliação visual",
-          "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+          "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
           "quantity": "20.000",
           "actorName": "Administrador de demonstração",
-          "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
-          "createdAt": "2026-09-19T01:41:09.646Z",
+          "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
+          "createdAt": "2026-10-01T13:39:24.770Z",
           "direction": "IN",
-          "productId": "89d96186-8fa1-4425-ae1a-eaecb85d932a",
+          "productId": "76bc714d-ebac-4d28-800d-f35b4a3da71c",
           "productName": "Fio flexível 2,5 mm",
           "balanceAfter": "20.000",
           "internalCode": "FIO-25",
           "balanceBefore": "0.000",
-          "idempotencyKey": "a11b7c78-d3e2-4e09-8774-74c3e962a2ed"
+          "idempotencyKey": "a689167c-bbb2-4001-9356-cfcbbe0b2f4e"
         },
-        "createdAt": "2026-09-19T01:41:09.646Z"
+        "createdAt": "2026-10-01T13:39:24.770Z"
       },
       {
-        "id": "3ac45384-5d0f-460b-80e1-33cb3aa6f91d",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "ee596a9f-10b6-4b48-8e81-881482813a62",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "actorName": "Administrador de demonstração",
         "action": "inventory.movement_created",
         "entityType": "inventory_movement",
-        "entityId": "9005a25f-414b-4fa0-93e6-d3023940aadf",
+        "entityId": "c6d0fcef-e0b4-434c-9c4e-66349efdc8b0",
         "before": null,
         "after": {
-          "id": "9005a25f-414b-4fa0-93e6-d3023940aadf",
+          "id": "c6d0fcef-e0b4-434c-9c4e-66349efdc8b0",
           "type": "ENTRY_MANUAL",
           "unit": "BAG",
           "notes": "Estoque fictício para avaliação visual",
-          "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+          "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
           "quantity": "20.000",
           "actorName": "Administrador de demonstração",
-          "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
-          "createdAt": "2026-09-19T01:41:09.642Z",
+          "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
+          "createdAt": "2026-10-01T13:39:24.766Z",
           "direction": "IN",
-          "productId": "fb7dc18b-b72c-4236-a5cd-dc324f225285",
+          "productId": "4ee2d156-e098-4edb-b505-58663750a8e4",
           "productName": "Cimento CP II 50 kg",
           "balanceAfter": "20.000",
           "internalCode": "CIM-CP2-50",
           "balanceBefore": "0.000",
-          "idempotencyKey": "dc63d88f-40b3-4081-8227-97164a33eddf"
+          "idempotencyKey": "43ab79f3-ce26-4b10-9aea-8c5ddec94b8e"
         },
-        "createdAt": "2026-09-19T01:41:09.642Z"
+        "createdAt": "2026-10-01T13:39:24.766Z"
       },
       {
-        "id": "b6864f6b-eaf8-4c71-a030-03709624f0c5",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "1b9fa94c-1e29-4d9f-b187-9725a2340669",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "actorName": "Administrador de demonstração",
         "action": "inventory.movement_created",
         "entityType": "inventory_movement",
-        "entityId": "9276a0d7-ddd4-44e4-a99e-4d6f1758293f",
+        "entityId": "56d1104a-8956-4c35-a84a-2f803b7d4e7f",
         "before": null,
         "after": {
-          "id": "9276a0d7-ddd4-44e4-a99e-4d6f1758293f",
+          "id": "56d1104a-8956-4c35-a84a-2f803b7d4e7f",
           "type": "ENTRY_MANUAL",
           "unit": "BAG",
           "notes": "Estoque fictício para avaliação visual",
-          "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+          "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
           "quantity": "20.000",
           "actorName": "Administrador de demonstração",
-          "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
-          "createdAt": "2026-09-19T01:41:09.637Z",
+          "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
+          "createdAt": "2026-10-01T13:39:24.762Z",
           "direction": "IN",
-          "productId": "1751da58-529d-4fb9-884c-0ac7ab3d8977",
+          "productId": "10f88c18-972e-417d-8113-bdcf1e2b1d6e",
           "productName": "Argamassa AC-II 20 kg",
           "balanceAfter": "20.000",
           "internalCode": "ARG-AC2",
           "balanceBefore": "0.000",
-          "idempotencyKey": "60ac5405-ed38-4e0d-a69d-84d4a22272f9"
+          "idempotencyKey": "2f57d0ac-1ed5-435a-bb36-af5a11899032"
         },
-        "createdAt": "2026-09-19T01:41:09.637Z"
+        "createdAt": "2026-10-01T13:39:24.762Z"
       },
       {
-        "id": "b9883295-39f4-42c0-9038-942d2f934be8",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "fbeecf2a-213b-477a-9e1b-af7647b33dd1",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "actorName": "Administrador de demonstração",
         "action": "inventory.movement_created",
         "entityType": "inventory_movement",
-        "entityId": "b0150e9d-3e74-4581-8545-f9b2a7d0ba6b",
+        "entityId": "8af16636-55af-4cc6-ae11-b346a170af22",
         "before": null,
         "after": {
-          "id": "b0150e9d-3e74-4581-8545-f9b2a7d0ba6b",
+          "id": "8af16636-55af-4cc6-ae11-b346a170af22",
           "type": "ENTRY_MANUAL",
           "unit": "BAG",
           "notes": "Estoque fictício para avaliação visual",
-          "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+          "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
           "quantity": "3.000",
           "actorName": "Administrador de demonstração",
-          "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
-          "createdAt": "2026-09-19T01:41:09.629Z",
+          "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
+          "createdAt": "2026-10-01T13:39:24.758Z",
           "direction": "IN",
-          "productId": "bd8f867f-9d21-4ee8-8ca2-b5af39618ce9",
+          "productId": "7fbd151f-cf0d-4db2-b620-63f747fa0e64",
           "productName": "Areia média ensacada",
           "balanceAfter": "3.000",
           "internalCode": "ARE-MED",
           "balanceBefore": "0.000",
-          "idempotencyKey": "c3c31ddc-f463-496c-9307-f9fe23ef8eb9"
+          "idempotencyKey": "a001b32d-536e-4f25-9c94-bcaf826fca3b"
         },
-        "createdAt": "2026-09-19T01:41:09.629Z"
+        "createdAt": "2026-10-01T13:39:24.758Z"
       }
     ]
   },
-  "/companies/64b1f1d2-6b81-4fed-9e42-65016b60d875/products": {
+  "/companies/5b189536-04ef-4dfe-bbbc-7a4fd12709f3/products": {
     "products": [
       {
-        "id": "bd8f867f-9d21-4ee8-8ca2-b5af39618ce9",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "7fbd151f-cf0d-4db2-b620-63f747fa0e64",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "name": "Areia média ensacada",
         "internalCode": "ARE-MED",
         "barcode": "7891000000035",
-        "categoryId": "24ba0c9a-b35a-4fc6-acf3-b2d3a3e0697b",
+        "categoryId": "10dbc4b7-25b0-4f0b-b927-ab62b8ac1a53",
         "unit": "BAG",
         "priceCents": 1990,
         "stockMin": "20.000",
-        "supplierId": "1f940a57-9d3f-424b-8566-a041ba2f5c17",
+        "supplierId": "0c752ffc-29bd-415e-b390-e7130d491792",
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z",
-        "updatedAt": "2026-09-19T01:41:09.305Z",
+        "createdAt": "2026-10-01T13:39:24.377Z",
+        "updatedAt": "2026-10-01T13:39:24.377Z",
         "costCents": 1450
       },
       {
-        "id": "1751da58-529d-4fb9-884c-0ac7ab3d8977",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "10f88c18-972e-417d-8113-bdcf1e2b1d6e",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "name": "Argamassa AC-II 20 kg",
         "internalCode": "ARG-AC2",
         "barcode": "7891000000042",
-        "categoryId": "24ba0c9a-b35a-4fc6-acf3-b2d3a3e0697b",
+        "categoryId": "10dbc4b7-25b0-4f0b-b927-ab62b8ac1a53",
         "unit": "BAG",
         "priceCents": 2490,
         "stockMin": "12.000",
-        "supplierId": "1f940a57-9d3f-424b-8566-a041ba2f5c17",
+        "supplierId": "0c752ffc-29bd-415e-b390-e7130d491792",
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z",
-        "updatedAt": "2026-09-19T01:41:09.305Z",
+        "createdAt": "2026-10-01T13:39:24.377Z",
+        "updatedAt": "2026-10-01T13:39:24.377Z",
         "costCents": 1890
       },
       {
-        "id": "fb7dc18b-b72c-4236-a5cd-dc324f225285",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "4ee2d156-e098-4edb-b505-58663750a8e4",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "name": "Cimento CP II 50 kg",
         "internalCode": "CIM-CP2-50",
         "barcode": "7891000000011",
-        "categoryId": "24ba0c9a-b35a-4fc6-acf3-b2d3a3e0697b",
+        "categoryId": "10dbc4b7-25b0-4f0b-b927-ab62b8ac1a53",
         "unit": "BAG",
         "priceCents": 3490,
         "stockMin": "10.000",
-        "supplierId": "1f940a57-9d3f-424b-8566-a041ba2f5c17",
+        "supplierId": "0c752ffc-29bd-415e-b390-e7130d491792",
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z",
-        "updatedAt": "2026-09-19T01:41:09.305Z",
+        "createdAt": "2026-10-01T13:39:24.377Z",
+        "updatedAt": "2026-10-01T13:39:24.377Z",
         "costCents": 2890
       },
       {
-        "id": "89d96186-8fa1-4425-ae1a-eaecb85d932a",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "76bc714d-ebac-4d28-800d-f35b4a3da71c",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "name": "Fio flexível 2,5 mm",
         "internalCode": "FIO-25",
         "barcode": "7891000000059",
-        "categoryId": "c37e6e29-d58b-46b0-bb45-df256216fdb4",
+        "categoryId": "65ab86e0-3968-4c8c-8c04-b96e4e7c818a",
         "unit": "METER",
         "priceCents": 299,
         "stockMin": "100.000",
-        "supplierId": "0dd90ecc-9613-4ac6-be11-cbd58350cffc",
+        "supplierId": "8410500d-1466-4d8c-8406-8ac8430b984d",
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z",
-        "updatedAt": "2026-09-19T01:41:09.305Z",
+        "createdAt": "2026-10-01T13:39:24.377Z",
+        "updatedAt": "2026-10-01T13:39:24.377Z",
         "costCents": 195
       },
       {
-        "id": "774bba45-563a-4eea-9022-fad393f93028",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "d44374eb-0c96-452e-b0ea-c1197fd4484e",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "name": "Tijolo baiano 8 furos",
         "internalCode": "TIJ-8F",
         "barcode": "7891000000028",
-        "categoryId": "24ba0c9a-b35a-4fc6-acf3-b2d3a3e0697b",
+        "categoryId": "10dbc4b7-25b0-4f0b-b927-ab62b8ac1a53",
         "unit": "UNIT",
         "priceCents": 120,
         "stockMin": "200.000",
-        "supplierId": "0dd90ecc-9613-4ac6-be11-cbd58350cffc",
+        "supplierId": "8410500d-1466-4d8c-8406-8ac8430b984d",
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z",
-        "updatedAt": "2026-09-19T01:41:09.305Z",
+        "createdAt": "2026-10-01T13:39:24.377Z",
+        "updatedAt": "2026-10-01T13:39:24.377Z",
         "costCents": 85
       },
       {
-        "id": "18422e8a-f778-4a70-87b5-22a165fef436",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "40ba1ec7-7cde-4861-a6c2-ac490ff954a1",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "name": "Tubo PVC esgoto 100 mm",
         "internalCode": "TUB-PVC100",
         "barcode": "7891000000066",
-        "categoryId": "cf61c66a-1cb1-4153-8040-f052f974ffe4",
+        "categoryId": "2b78fa6a-2b62-4b44-937b-dbc1f899c759",
         "unit": "METER",
         "priceCents": 2190,
         "stockMin": "15.000",
-        "supplierId": "0dd90ecc-9613-4ac6-be11-cbd58350cffc",
+        "supplierId": "8410500d-1466-4d8c-8406-8ac8430b984d",
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z",
-        "updatedAt": "2026-09-19T01:41:09.305Z",
+        "createdAt": "2026-10-01T13:39:24.377Z",
+        "updatedAt": "2026-10-01T13:39:24.377Z",
         "costCents": 1590
       }
     ],
@@ -1228,45 +1228,45 @@
     "limit": 50,
     "offset": 0
   },
-  "/companies/64b1f1d2-6b81-4fed-9e42-65016b60d875/categories": {
+  "/companies/5b189536-04ef-4dfe-bbbc-7a4fd12709f3/categories": {
     "categories": [
       {
-        "id": "c37e6e29-d58b-46b0-bb45-df256216fdb4",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "65ab86e0-3968-4c8c-8c04-b96e4e7c818a",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "name": "Elétrica",
         "description": "Fios, cabos e acessórios elétricos.",
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z",
-        "updatedAt": "2026-09-19T01:41:09.305Z"
+        "createdAt": "2026-10-01T13:39:24.377Z",
+        "updatedAt": "2026-10-01T13:39:24.377Z"
       },
       {
-        "id": "cf61c66a-1cb1-4153-8040-f052f974ffe4",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "2b78fa6a-2b62-4b44-937b-dbc1f899c759",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "name": "Hidráulica",
         "description": "Tubos e conexões para instalações.",
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z",
-        "updatedAt": "2026-09-19T01:41:09.305Z"
+        "createdAt": "2026-10-01T13:39:24.377Z",
+        "updatedAt": "2026-10-01T13:39:24.377Z"
       },
       {
-        "id": "24ba0c9a-b35a-4fc6-acf3-b2d3a3e0697b",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "10dbc4b7-25b0-4f0b-b927-ab62b8ac1a53",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "name": "Materiais básicos",
         "description": "Itens essenciais para obras e reformas.",
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z",
-        "updatedAt": "2026-09-19T01:41:09.305Z"
+        "createdAt": "2026-10-01T13:39:24.377Z",
+        "updatedAt": "2026-10-01T13:39:24.377Z"
       }
     ],
     "total": 3,
     "limit": 50,
     "offset": 0
   },
-  "/companies/64b1f1d2-6b81-4fed-9e42-65016b60d875/customers": {
+  "/companies/5b189536-04ef-4dfe-bbbc-7a4fd12709f3/customers": {
     "customers": [
       {
-        "id": "ed147389-22c8-4d1a-b7fa-10a5f5f462eb",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "981caf5f-cb60-46a3-81b2-da6bda4ecdfb",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "name": "Carlos da Silva",
         "taxId": null,
         "phone": null,
@@ -1274,12 +1274,12 @@
         "address": null,
         "notes": null,
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z",
-        "updatedAt": "2026-09-19T01:41:09.305Z"
+        "createdAt": "2026-10-01T13:39:24.377Z",
+        "updatedAt": "2026-10-01T13:39:24.377Z"
       },
       {
-        "id": "1c2af06c-c16b-45d0-bb9b-f49647b5f4c8",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "88556053-f62c-46ab-a5c6-8561ad0815f1",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "name": "Obras JG",
         "taxId": null,
         "phone": null,
@@ -1287,19 +1287,19 @@
         "address": null,
         "notes": null,
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z",
-        "updatedAt": "2026-09-19T01:41:09.305Z"
+        "createdAt": "2026-10-01T13:39:24.377Z",
+        "updatedAt": "2026-10-01T13:39:24.377Z"
       }
     ],
     "total": 2,
     "limit": 50,
     "offset": 0
   },
-  "/companies/64b1f1d2-6b81-4fed-9e42-65016b60d875/suppliers": {
+  "/companies/5b189536-04ef-4dfe-bbbc-7a4fd12709f3/suppliers": {
     "suppliers": [
       {
-        "id": "0dd90ecc-9613-4ac6-be11-cbd58350cffc",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "8410500d-1466-4d8c-8406-8ac8430b984d",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "name": "Casa do Construtor",
         "taxId": null,
         "phone": null,
@@ -1308,12 +1308,12 @@
         "address": null,
         "notes": null,
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z",
-        "updatedAt": "2026-09-19T01:41:09.305Z"
+        "createdAt": "2026-10-01T13:39:24.377Z",
+        "updatedAt": "2026-10-01T13:39:24.377Z"
       },
       {
-        "id": "1f940a57-9d3f-424b-8566-a041ba2f5c17",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "0c752ffc-29bd-415e-b390-e7130d491792",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "name": "Constrular Atacado",
         "taxId": null,
         "phone": null,
@@ -1322,19 +1322,19 @@
         "address": null,
         "notes": null,
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z",
-        "updatedAt": "2026-09-19T01:41:09.305Z"
+        "createdAt": "2026-10-01T13:39:24.377Z",
+        "updatedAt": "2026-10-01T13:39:24.377Z"
       }
     ],
     "total": 2,
     "limit": 50,
     "offset": 0
   },
-  "/companies/64b1f1d2-6b81-4fed-9e42-65016b60d875/inventory": {
+  "/companies/5b189536-04ef-4dfe-bbbc-7a4fd12709f3/inventory": {
     "inventory": [
       {
-        "productId": "bd8f867f-9d21-4ee8-8ca2-b5af39618ce9",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "productId": "7fbd151f-cf0d-4db2-b620-63f747fa0e64",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "productName": "Areia média ensacada",
         "internalCode": "ARE-MED",
         "unit": "BAG",
@@ -1343,8 +1343,8 @@
         "status": "LOW"
       },
       {
-        "productId": "1751da58-529d-4fb9-884c-0ac7ab3d8977",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "productId": "10f88c18-972e-417d-8113-bdcf1e2b1d6e",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "productName": "Argamassa AC-II 20 kg",
         "internalCode": "ARG-AC2",
         "unit": "BAG",
@@ -1353,8 +1353,8 @@
         "status": "NORMAL"
       },
       {
-        "productId": "fb7dc18b-b72c-4236-a5cd-dc324f225285",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "productId": "4ee2d156-e098-4edb-b505-58663750a8e4",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "productName": "Cimento CP II 50 kg",
         "internalCode": "CIM-CP2-50",
         "unit": "BAG",
@@ -1363,8 +1363,8 @@
         "status": "NORMAL"
       },
       {
-        "productId": "89d96186-8fa1-4425-ae1a-eaecb85d932a",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "productId": "76bc714d-ebac-4d28-800d-f35b4a3da71c",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "productName": "Fio flexível 2,5 mm",
         "internalCode": "FIO-25",
         "unit": "METER",
@@ -1373,8 +1373,8 @@
         "status": "LOW"
       },
       {
-        "productId": "774bba45-563a-4eea-9022-fad393f93028",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "productId": "d44374eb-0c96-452e-b0ea-c1197fd4484e",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "productName": "Tijolo baiano 8 furos",
         "internalCode": "TIJ-8F",
         "unit": "UNIT",
@@ -1383,8 +1383,8 @@
         "status": "LOW"
       },
       {
-        "productId": "18422e8a-f778-4a70-87b5-22a165fef436",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "productId": "40ba1ec7-7cde-4861-a6c2-ac490ff954a1",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "productName": "Tubo PVC esgoto 100 mm",
         "internalCode": "TUB-PVC100",
         "unit": "METER",
@@ -1397,12 +1397,12 @@
     "limit": 50,
     "offset": 0
   },
-  "/companies/64b1f1d2-6b81-4fed-9e42-65016b60d875/inventory/movements": {
+  "/companies/5b189536-04ef-4dfe-bbbc-7a4fd12709f3/inventory/movements": {
     "movements": [
       {
-        "id": "8e6473f0-bcbb-409c-be21-5ffe838bcb6c",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
-        "productId": "18422e8a-f778-4a70-87b5-22a165fef436",
+        "id": "3afd69ae-d8ad-41e1-b25e-f558e4aac8bf",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
+        "productId": "40ba1ec7-7cde-4861-a6c2-ac490ff954a1",
         "productName": "Tubo PVC esgoto 100 mm",
         "internalCode": "TUB-PVC100",
         "unit": "METER",
@@ -1412,15 +1412,15 @@
         "balanceBefore": "0.000",
         "balanceAfter": "20.000",
         "notes": "Estoque fictício para avaliação visual",
-        "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+        "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
         "actorName": "Administrador de demonstração",
-        "idempotencyKey": "83e9969f-e882-4417-a7b8-908aeb05c718",
-        "createdAt": "2026-09-19T01:41:09.654Z"
+        "idempotencyKey": "4d1b073a-6e2b-46b7-b7cd-d84daa14bdd3",
+        "createdAt": "2026-10-01T13:39:24.778Z"
       },
       {
-        "id": "79c16c10-52ca-4e31-8310-819a7fce264f",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
-        "productId": "774bba45-563a-4eea-9022-fad393f93028",
+        "id": "27bb3ac3-c359-46fa-85c5-b8c13e627a5f",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
+        "productId": "d44374eb-0c96-452e-b0ea-c1197fd4484e",
         "productName": "Tijolo baiano 8 furos",
         "internalCode": "TIJ-8F",
         "unit": "UNIT",
@@ -1430,15 +1430,15 @@
         "balanceBefore": "0.000",
         "balanceAfter": "20.000",
         "notes": "Estoque fictício para avaliação visual",
-        "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+        "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
         "actorName": "Administrador de demonstração",
-        "idempotencyKey": "bb274038-bd0a-4648-a216-08463a5793c2",
-        "createdAt": "2026-09-19T01:41:09.650Z"
+        "idempotencyKey": "73ece5f2-e65b-4ad8-84ec-4641c051f338",
+        "createdAt": "2026-10-01T13:39:24.774Z"
       },
       {
-        "id": "552e725c-8cff-4d86-afb5-8e2e49c98f48",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
-        "productId": "89d96186-8fa1-4425-ae1a-eaecb85d932a",
+        "id": "80e49aa1-3d33-4ba5-b3fe-03efd6182a29",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
+        "productId": "76bc714d-ebac-4d28-800d-f35b4a3da71c",
         "productName": "Fio flexível 2,5 mm",
         "internalCode": "FIO-25",
         "unit": "METER",
@@ -1448,15 +1448,15 @@
         "balanceBefore": "0.000",
         "balanceAfter": "20.000",
         "notes": "Estoque fictício para avaliação visual",
-        "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+        "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
         "actorName": "Administrador de demonstração",
-        "idempotencyKey": "a11b7c78-d3e2-4e09-8774-74c3e962a2ed",
-        "createdAt": "2026-09-19T01:41:09.646Z"
+        "idempotencyKey": "a689167c-bbb2-4001-9356-cfcbbe0b2f4e",
+        "createdAt": "2026-10-01T13:39:24.770Z"
       },
       {
-        "id": "9005a25f-414b-4fa0-93e6-d3023940aadf",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
-        "productId": "fb7dc18b-b72c-4236-a5cd-dc324f225285",
+        "id": "c6d0fcef-e0b4-434c-9c4e-66349efdc8b0",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
+        "productId": "4ee2d156-e098-4edb-b505-58663750a8e4",
         "productName": "Cimento CP II 50 kg",
         "internalCode": "CIM-CP2-50",
         "unit": "BAG",
@@ -1466,15 +1466,15 @@
         "balanceBefore": "0.000",
         "balanceAfter": "20.000",
         "notes": "Estoque fictício para avaliação visual",
-        "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+        "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
         "actorName": "Administrador de demonstração",
-        "idempotencyKey": "dc63d88f-40b3-4081-8227-97164a33eddf",
-        "createdAt": "2026-09-19T01:41:09.642Z"
+        "idempotencyKey": "43ab79f3-ce26-4b10-9aea-8c5ddec94b8e",
+        "createdAt": "2026-10-01T13:39:24.766Z"
       },
       {
-        "id": "9276a0d7-ddd4-44e4-a99e-4d6f1758293f",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
-        "productId": "1751da58-529d-4fb9-884c-0ac7ab3d8977",
+        "id": "56d1104a-8956-4c35-a84a-2f803b7d4e7f",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
+        "productId": "10f88c18-972e-417d-8113-bdcf1e2b1d6e",
         "productName": "Argamassa AC-II 20 kg",
         "internalCode": "ARG-AC2",
         "unit": "BAG",
@@ -1484,15 +1484,15 @@
         "balanceBefore": "0.000",
         "balanceAfter": "20.000",
         "notes": "Estoque fictício para avaliação visual",
-        "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+        "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
         "actorName": "Administrador de demonstração",
-        "idempotencyKey": "60ac5405-ed38-4e0d-a69d-84d4a22272f9",
-        "createdAt": "2026-09-19T01:41:09.637Z"
+        "idempotencyKey": "2f57d0ac-1ed5-435a-bb36-af5a11899032",
+        "createdAt": "2026-10-01T13:39:24.762Z"
       },
       {
-        "id": "b0150e9d-3e74-4581-8545-f9b2a7d0ba6b",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
-        "productId": "bd8f867f-9d21-4ee8-8ca2-b5af39618ce9",
+        "id": "8af16636-55af-4cc6-ae11-b346a170af22",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
+        "productId": "7fbd151f-cf0d-4db2-b620-63f747fa0e64",
         "productName": "Areia média ensacada",
         "internalCode": "ARE-MED",
         "unit": "BAG",
@@ -1502,35 +1502,35 @@
         "balanceBefore": "0.000",
         "balanceAfter": "3.000",
         "notes": "Estoque fictício para avaliação visual",
-        "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+        "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
         "actorName": "Administrador de demonstração",
-        "idempotencyKey": "c3c31ddc-f463-496c-9307-f9fe23ef8eb9",
-        "createdAt": "2026-09-19T01:41:09.629Z"
+        "idempotencyKey": "a001b32d-536e-4f25-9c94-bcaf826fca3b",
+        "createdAt": "2026-10-01T13:39:24.758Z"
       }
     ],
     "total": 6,
     "limit": 50,
     "offset": 0
   },
-  "/companies/64b1f1d2-6b81-4fed-9e42-65016b60d875/purchases": {
+  "/companies/5b189536-04ef-4dfe-bbbc-7a4fd12709f3/purchases": {
     "purchases": [],
     "total": 0,
     "limit": 50,
     "offset": 0
   },
-  "/companies/64b1f1d2-6b81-4fed-9e42-65016b60d875/sales": {
+  "/companies/5b189536-04ef-4dfe-bbbc-7a4fd12709f3/sales": {
     "sales": [],
     "total": 0,
     "limit": 50,
     "offset": 0
   },
-  "/companies/64b1f1d2-6b81-4fed-9e42-65016b60d875/cash/current": {
+  "/companies/5b189536-04ef-4dfe-bbbc-7a4fd12709f3/cash/current": {
     "cashRegister": null
   },
-  "/companies/64b1f1d2-6b81-4fed-9e42-65016b60d875/cash/movements": {
+  "/companies/5b189536-04ef-4dfe-bbbc-7a4fd12709f3/cash/movements": {
     "movements": []
   },
-  "/companies/64b1f1d2-6b81-4fed-9e42-65016b60d875/finance": {
+  "/companies/5b189536-04ef-4dfe-bbbc-7a4fd12709f3/finance": {
     "payables": [],
     "receivables": [],
     "entries": [],
@@ -1541,196 +1541,196 @@
       "expenseRealizedCents": 0
     }
   },
-  "/companies/64b1f1d2-6b81-4fed-9e42-65016b60d875/users": {
+  "/companies/5b189536-04ef-4dfe-bbbc-7a4fd12709f3/users": {
     "users": [
       {
-        "id": "fda72a5e-5f9e-4e54-a093-fd9e378c7d18",
-        "userId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+        "id": "07a8714e-e880-4cca-b9e6-d5a616ea3555",
+        "userId": "09cc5829-6532-4436-b85e-52a7f59c366c",
         "name": "Administrador de demonstração",
         "email": "admin@jg.local",
         "role": "ADMIN",
         "active": true,
-        "createdAt": "2026-09-19T01:41:09.305Z"
+        "createdAt": "2026-10-01T13:39:24.377Z"
       }
     ]
   },
-  "/companies/64b1f1d2-6b81-4fed-9e42-65016b60d875/audit": {
+  "/companies/5b189536-04ef-4dfe-bbbc-7a4fd12709f3/audit": {
     "events": [
       {
-        "id": "77442950-bfb8-41b3-8eb3-ca88d4934b33",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "6aa28b40-2b93-4735-b03e-f01a48d2e302",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "actorName": "Administrador de demonstração",
         "action": "inventory.movement_created",
         "entityType": "inventory_movement",
-        "entityId": "8e6473f0-bcbb-409c-be21-5ffe838bcb6c",
+        "entityId": "3afd69ae-d8ad-41e1-b25e-f558e4aac8bf",
         "before": null,
         "after": {
-          "id": "8e6473f0-bcbb-409c-be21-5ffe838bcb6c",
+          "id": "3afd69ae-d8ad-41e1-b25e-f558e4aac8bf",
           "type": "ENTRY_MANUAL",
           "unit": "METER",
           "notes": "Estoque fictício para avaliação visual",
-          "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+          "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
           "quantity": "20.000",
           "actorName": "Administrador de demonstração",
-          "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
-          "createdAt": "2026-09-19T01:41:09.654Z",
+          "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
+          "createdAt": "2026-10-01T13:39:24.778Z",
           "direction": "IN",
-          "productId": "18422e8a-f778-4a70-87b5-22a165fef436",
+          "productId": "40ba1ec7-7cde-4861-a6c2-ac490ff954a1",
           "productName": "Tubo PVC esgoto 100 mm",
           "balanceAfter": "20.000",
           "internalCode": "TUB-PVC100",
           "balanceBefore": "0.000",
-          "idempotencyKey": "83e9969f-e882-4417-a7b8-908aeb05c718"
+          "idempotencyKey": "4d1b073a-6e2b-46b7-b7cd-d84daa14bdd3"
         },
-        "createdAt": "2026-09-19T01:41:09.654Z"
+        "createdAt": "2026-10-01T13:39:24.778Z"
       },
       {
-        "id": "fbc54549-ce9b-49e3-b5a8-9c538a1ea87d",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "bb9ea723-5bb3-4785-a304-6d70ad428483",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "actorName": "Administrador de demonstração",
         "action": "inventory.movement_created",
         "entityType": "inventory_movement",
-        "entityId": "79c16c10-52ca-4e31-8310-819a7fce264f",
+        "entityId": "27bb3ac3-c359-46fa-85c5-b8c13e627a5f",
         "before": null,
         "after": {
-          "id": "79c16c10-52ca-4e31-8310-819a7fce264f",
+          "id": "27bb3ac3-c359-46fa-85c5-b8c13e627a5f",
           "type": "ENTRY_MANUAL",
           "unit": "UNIT",
           "notes": "Estoque fictício para avaliação visual",
-          "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+          "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
           "quantity": "20.000",
           "actorName": "Administrador de demonstração",
-          "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
-          "createdAt": "2026-09-19T01:41:09.650Z",
+          "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
+          "createdAt": "2026-10-01T13:39:24.774Z",
           "direction": "IN",
-          "productId": "774bba45-563a-4eea-9022-fad393f93028",
+          "productId": "d44374eb-0c96-452e-b0ea-c1197fd4484e",
           "productName": "Tijolo baiano 8 furos",
           "balanceAfter": "20.000",
           "internalCode": "TIJ-8F",
           "balanceBefore": "0.000",
-          "idempotencyKey": "bb274038-bd0a-4648-a216-08463a5793c2"
+          "idempotencyKey": "73ece5f2-e65b-4ad8-84ec-4641c051f338"
         },
-        "createdAt": "2026-09-19T01:41:09.650Z"
+        "createdAt": "2026-10-01T13:39:24.774Z"
       },
       {
-        "id": "f0e40588-d525-4f28-be64-538252d0fd40",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "d06b6462-b056-46cb-b3d0-f775eeaca623",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "actorName": "Administrador de demonstração",
         "action": "inventory.movement_created",
         "entityType": "inventory_movement",
-        "entityId": "552e725c-8cff-4d86-afb5-8e2e49c98f48",
+        "entityId": "80e49aa1-3d33-4ba5-b3fe-03efd6182a29",
         "before": null,
         "after": {
-          "id": "552e725c-8cff-4d86-afb5-8e2e49c98f48",
+          "id": "80e49aa1-3d33-4ba5-b3fe-03efd6182a29",
           "type": "ENTRY_MANUAL",
           "unit": "METER",
           "notes": "Estoque fictício para avaliação visual",
-          "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+          "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
           "quantity": "20.000",
           "actorName": "Administrador de demonstração",
-          "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
-          "createdAt": "2026-09-19T01:41:09.646Z",
+          "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
+          "createdAt": "2026-10-01T13:39:24.770Z",
           "direction": "IN",
-          "productId": "89d96186-8fa1-4425-ae1a-eaecb85d932a",
+          "productId": "76bc714d-ebac-4d28-800d-f35b4a3da71c",
           "productName": "Fio flexível 2,5 mm",
           "balanceAfter": "20.000",
           "internalCode": "FIO-25",
           "balanceBefore": "0.000",
-          "idempotencyKey": "a11b7c78-d3e2-4e09-8774-74c3e962a2ed"
+          "idempotencyKey": "a689167c-bbb2-4001-9356-cfcbbe0b2f4e"
         },
-        "createdAt": "2026-09-19T01:41:09.646Z"
+        "createdAt": "2026-10-01T13:39:24.770Z"
       },
       {
-        "id": "3ac45384-5d0f-460b-80e1-33cb3aa6f91d",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "ee596a9f-10b6-4b48-8e81-881482813a62",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "actorName": "Administrador de demonstração",
         "action": "inventory.movement_created",
         "entityType": "inventory_movement",
-        "entityId": "9005a25f-414b-4fa0-93e6-d3023940aadf",
+        "entityId": "c6d0fcef-e0b4-434c-9c4e-66349efdc8b0",
         "before": null,
         "after": {
-          "id": "9005a25f-414b-4fa0-93e6-d3023940aadf",
+          "id": "c6d0fcef-e0b4-434c-9c4e-66349efdc8b0",
           "type": "ENTRY_MANUAL",
           "unit": "BAG",
           "notes": "Estoque fictício para avaliação visual",
-          "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+          "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
           "quantity": "20.000",
           "actorName": "Administrador de demonstração",
-          "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
-          "createdAt": "2026-09-19T01:41:09.642Z",
+          "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
+          "createdAt": "2026-10-01T13:39:24.766Z",
           "direction": "IN",
-          "productId": "fb7dc18b-b72c-4236-a5cd-dc324f225285",
+          "productId": "4ee2d156-e098-4edb-b505-58663750a8e4",
           "productName": "Cimento CP II 50 kg",
           "balanceAfter": "20.000",
           "internalCode": "CIM-CP2-50",
           "balanceBefore": "0.000",
-          "idempotencyKey": "dc63d88f-40b3-4081-8227-97164a33eddf"
+          "idempotencyKey": "43ab79f3-ce26-4b10-9aea-8c5ddec94b8e"
         },
-        "createdAt": "2026-09-19T01:41:09.642Z"
+        "createdAt": "2026-10-01T13:39:24.766Z"
       },
       {
-        "id": "b6864f6b-eaf8-4c71-a030-03709624f0c5",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "1b9fa94c-1e29-4d9f-b187-9725a2340669",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "actorName": "Administrador de demonstração",
         "action": "inventory.movement_created",
         "entityType": "inventory_movement",
-        "entityId": "9276a0d7-ddd4-44e4-a99e-4d6f1758293f",
+        "entityId": "56d1104a-8956-4c35-a84a-2f803b7d4e7f",
         "before": null,
         "after": {
-          "id": "9276a0d7-ddd4-44e4-a99e-4d6f1758293f",
+          "id": "56d1104a-8956-4c35-a84a-2f803b7d4e7f",
           "type": "ENTRY_MANUAL",
           "unit": "BAG",
           "notes": "Estoque fictício para avaliação visual",
-          "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+          "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
           "quantity": "20.000",
           "actorName": "Administrador de demonstração",
-          "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
-          "createdAt": "2026-09-19T01:41:09.637Z",
+          "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
+          "createdAt": "2026-10-01T13:39:24.762Z",
           "direction": "IN",
-          "productId": "1751da58-529d-4fb9-884c-0ac7ab3d8977",
+          "productId": "10f88c18-972e-417d-8113-bdcf1e2b1d6e",
           "productName": "Argamassa AC-II 20 kg",
           "balanceAfter": "20.000",
           "internalCode": "ARG-AC2",
           "balanceBefore": "0.000",
-          "idempotencyKey": "60ac5405-ed38-4e0d-a69d-84d4a22272f9"
+          "idempotencyKey": "2f57d0ac-1ed5-435a-bb36-af5a11899032"
         },
-        "createdAt": "2026-09-19T01:41:09.637Z"
+        "createdAt": "2026-10-01T13:39:24.762Z"
       },
       {
-        "id": "b9883295-39f4-42c0-9038-942d2f934be8",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "fbeecf2a-213b-477a-9e1b-af7647b33dd1",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "actorName": "Administrador de demonstração",
         "action": "inventory.movement_created",
         "entityType": "inventory_movement",
-        "entityId": "b0150e9d-3e74-4581-8545-f9b2a7d0ba6b",
+        "entityId": "8af16636-55af-4cc6-ae11-b346a170af22",
         "before": null,
         "after": {
-          "id": "b0150e9d-3e74-4581-8545-f9b2a7d0ba6b",
+          "id": "8af16636-55af-4cc6-ae11-b346a170af22",
           "type": "ENTRY_MANUAL",
           "unit": "BAG",
           "notes": "Estoque fictício para avaliação visual",
-          "actorId": "2d7676e5-ad8c-44a6-9441-89530f6891d3",
+          "actorId": "09cc5829-6532-4436-b85e-52a7f59c366c",
           "quantity": "3.000",
           "actorName": "Administrador de demonstração",
-          "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
-          "createdAt": "2026-09-19T01:41:09.629Z",
+          "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
+          "createdAt": "2026-10-01T13:39:24.758Z",
           "direction": "IN",
-          "productId": "bd8f867f-9d21-4ee8-8ca2-b5af39618ce9",
+          "productId": "7fbd151f-cf0d-4db2-b620-63f747fa0e64",
           "productName": "Areia média ensacada",
           "balanceAfter": "3.000",
           "internalCode": "ARE-MED",
           "balanceBefore": "0.000",
-          "idempotencyKey": "c3c31ddc-f463-496c-9307-f9fe23ef8eb9"
+          "idempotencyKey": "a001b32d-536e-4f25-9c94-bcaf826fca3b"
         },
-        "createdAt": "2026-09-19T01:41:09.629Z"
+        "createdAt": "2026-10-01T13:39:24.758Z"
       },
       {
-        "id": "b22ae9e5-3a85-4cc7-830f-0c628459575a",
-        "companyId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "0d7deec5-6800-4c75-90ad-c2340b1b45da",
+        "companyId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "actorName": "Administrador de demonstração",
         "action": "development.seed",
         "entityType": "company",
-        "entityId": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "entityId": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "before": null,
         "after": {
           "kind": "DEPOSITO",
@@ -1738,7 +1738,7 @@
           "catalog": true,
           "demonstration": true
         },
-        "createdAt": "2026-09-19T01:41:09.305Z"
+        "createdAt": "2026-10-01T13:39:24.377Z"
       }
     ],
     "total": 7
@@ -1746,7 +1746,7 @@
   "/companies": {
     "companies": [
       {
-        "id": "2c84e20a-77fe-4b7f-ab56-b71bbf3dbb60",
+        "id": "a82eff1c-74aa-4055-ae76-c7848f7f39e7",
         "name": "Adega JG",
         "legalName": "Adega JG",
         "taxId": null,
@@ -1779,7 +1779,7 @@
         ]
       },
       {
-        "id": "64b1f1d2-6b81-4fed-9e42-65016b60d875",
+        "id": "5b189536-04ef-4dfe-bbbc-7a4fd12709f3",
         "name": "Depósito JG",
         "legalName": "Depósito JG",
         "taxId": null,
