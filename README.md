@@ -42,7 +42,7 @@ A atualização aplica as mudanças de estrutura automaticamente e preserva os r
 
 ## Planilhas Excel
 
-Baixe o modelo dentro do aplicativo. A importação aceita até 1.000 linhas e 5 MB, mostra erros e duplicidades antes da gravação e só altera o cadastro após confirmação explícita. A exportação cria oito abas de consulta e não depende do Microsoft Excel instalado.
+Baixe o modelo dentro do aplicativo. A importação aceita até 1.000 linhas e 5 MB, mostra erros e duplicidades antes da gravação e só altera o cadastro após confirmação explícita. A exportação cria oito abas de consulta e não depende do Microsoft Excel instalado. Ao trocar de empresa, o cadastro de produto e a prévia Excel são descartados para não reutilizar rascunhos de outra empresa. Durante uma operação Excel, aguarde a conclusão antes de trocar de empresa ou sair. Selecionar outra planilha invalida a prévia anterior, mesmo se o seletor for cancelado.
 
 ## Prévia visual web
 
@@ -67,3 +67,7 @@ npm.cmd run package:local
 ```
 
 Os testes usam diretórios temporários e nunca devem apontar para a base real. Evidências e pendências ficam em [docs/STATUS.md](docs/STATUS.md); decisões técnicas em [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
+## Revisão de manutenção
+
+[Correções, testes executados e limites da revisão de 13/10/2026](docs/REVIEW-2026-10-13.md).
