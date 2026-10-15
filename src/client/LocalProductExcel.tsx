@@ -1,4 +1,4 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 type PreviewRow = {
   line: number;
   status: 'READY' | 'DUPLICATE' | 'ERROR';
@@ -23,6 +23,8 @@ export function LocalProductExcel({
   onBusyChange(busy: boolean): void;
 }) {
   const running = useRef(false);
+  const active = useRef(true);
+  useEffect(() => { active.current = true; return () => { active.current = false; }; }, []);
   const bridge = window.nexoLocal!;
   const [busy, setBusy] = useState(false);
   const [preview, setPreview] = useState<Preview>();
@@ -35,16 +37,16 @@ export function LocalProductExcel({
     setMessage('');
     try {
       const result = await bridge.exportExcel(company);
-      if (!result.canceled)
+      if (active.current && !result.canceled)
         setMessage(
           'Relatório Excel exportado. Editar esse arquivo não altera os dados do NEXO.',
         );
     } catch (error) {
+      if (!active.current) return;
       setMessage(String(error));
     } finally {
       running.current = false;
-      onBusyChange(false);
-      setBusy(false);
+      if (active.current) { onBusyChange(false); setBusy(false); }
     }
   }
   async function template() {
@@ -55,16 +57,16 @@ export function LocalProductExcel({
     setMessage('');
     try {
       const result = await bridge.productImportTemplate(company);
-      if (!result.canceled)
+      if (active.current && !result.canceled)
         setMessage(
           'Modelo Excel salvo. Preencha a aba Produtos e volte para conferir a importação.',
         );
     } catch (error) {
+      if (!active.current) return;
       setMessage(String(error));
     } finally {
       running.current = false;
-      onBusyChange(false);
-      setBusy(false);
+      if (active.current) { onBusyChange(false); setBusy(false); }
     }
   }
   async function select() {
@@ -76,14 +78,14 @@ export function LocalProductExcel({
     setMessage('');
     try {
       const result = await bridge.productImportPreview(company);
-      if (!result.canceled) setPreview(result);
+      if (active.current && !result.canceled) setPreview(result);
     } catch (error) {
+      if (!active.current) return;
       setPreview(undefined);
       setMessage(String(error));
     } finally {
       running.current = false;
-      onBusyChange(false);
-      setBusy(false);
+      if (active.current) { onBusyChange(false); setBusy(false); }
     }
   }
   async function confirm() {
@@ -100,18 +102,20 @@ export function LocalProductExcel({
     setMessage('');
     try {
       const result = await bridge.productImportConfirm(preview.token);
+      if (!active.current) return;
       setPreview(undefined);
       await onImported();
+      if (!active.current) return;
       setMessage(
         `${result.imported} produto(s) importado(s); ${result.skipped} duplicado(s) ignorado(s).`,
       );
     } catch (error) {
+      if (!active.current) return;
       setPreview(undefined);
       setMessage(String(error));
     } finally {
       running.current = false;
-      onBusyChange(false);
-      setBusy(false);
+      if (active.current) { onBusyChange(false); setBusy(false); }
     }
   }
   return (

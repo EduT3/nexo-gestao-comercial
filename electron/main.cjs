@@ -3,7 +3,8 @@ const path = require('node:path');
 const { pathToFileURL } = require('node:url');
 const { mkdir, readFile, writeFile, rename } = require('node:fs/promises');
 const { randomUUID } = require('node:crypto');
-const excel = require('./excel.cjs');
+let excel;
+const getExcel = () => excel ??= require('./excel.cjs');
 let db;
 let window;
 let actor;
@@ -16,10 +17,12 @@ if (!app.requestSingleInstanceLock()) app.quit();
 else app.whenReady().then(async () => {
   const root = path.resolve(__dirname, '..');
   const runtime = relative => import(pathToFileURL(path.join(root, 'dist/local-runtime', relative)).href);
+  const { checkLocalHealth } = await runtime('local/health.js');
   const { openLocalDatabase } = await runtime('local/sqlite.js');
   const { listLocalProducts, createLocalProduct, updateLocalProduct } = await runtime('local/catalog.js');
   const { prepareLocalDatabase } = await runtime('local/migrations.js');
   const { setInitialLocalPassword, authenticateLocalUser, createLocalOperator } = await runtime('local/access.js');
+  const { createTutorialPreferences } = await runtime('local/tutorial-preferences.js');
   const { initializeLocalOwner } = await runtime('local/onboarding.js');
   const { previewLocalProductImport, commitLocalProductImport, getLocalProductImportTemplateData } = await runtime('local/product-import.js');
   const { createLocalCategory, listLocalCategories } = await runtime('local/categories.js');
@@ -44,6 +47,7 @@ else app.whenReady().then(async () => {
   catch (error) { if (error.code !== 'ENOENT') console.error('Não foi possível ler a data do backup.'); }
   db = openLocalDatabase(path.join(dataFolder, 'nexo.sqlite'));
   await prepareLocalDatabase(db, path.join(dataFolder, 'nexo.sqlite'));
+  let tutorialPreferences = createTutorialPreferences(db, dataFolder);
   actor = undefined;
   const handle = (channel, action) => ipcMain.handle(channel, async (event, ...args) => {
     if (event.sender !== window.webContents || event.senderFrame !== window.webContents.mainFrame) {
@@ -67,7 +71,7 @@ else app.whenReady().then(async () => {
     const users = await db.query('SELECT u.id,u.name FROM local_users u JOIN local_credentials c ON c.user_id=u.id WHERE u.active=1 ORDER BY u.name');
     const configured = (await db.query('SELECT id FROM local_users LIMIT 1')).length > 0;
     return { configured, authenticated: !!actor, needsPassword: configured && !(await db.query('SELECT user_id FROM local_credentials LIMIT 1')).length,
-      users, owner: actor?.name, dataFolder, lastBackup,
+      users, userId: actor?.id, owner: actor?.name, dataFolder, lastBackup,
       companies: actor ? await db.query('SELECT c.id,c.name,m.role FROM local_companies c JOIN local_memberships m ON m.company_id=c.id WHERE m.user_id=? AND m.active=1', [actor.id]) : [] };
   });
   handle('nexo:configure', name => changeSession(async () => { await initializeLocalOwner(db, name); return { configured: true }; }));
@@ -83,19 +87,26 @@ else app.whenReady().then(async () => {
   }));
   handle('nexo:logout', () => changeSession(async () => { actor = undefined; productImportPreview = undefined; }));
   const requireActor = () => { if (switchingSession || !actor) throw new Error('Entre com seu usuário e senha antes de continuar.'); return actor.id; };
+  const requireTutorialActor = expectedUserId => {
+    const userId = requireActor();
+    if (userId !== expectedUserId) throw new Error('O usuário mudou. Abra a ajuda novamente.');
+    return userId;
+  };
+  handle('nexo:tutorial-preference', (company, expectedUserId) => tutorialPreferences.read(requireTutorialActor(expectedUserId), company));
+  handle('nexo:save-tutorial-preference', (company, expectedUserId, input) => tutorialPreferences.write(requireTutorialActor(expectedUserId), company, input));
   handle('nexo:create-operator', input => createLocalOperator(db, requireActor(), input));
   handle('nexo:excel-export', async companyId => {
     const data=await getLocalExcelExport(db,requireActor(),companyId); const selection=await dialog.showSaveDialog(window,{title:'Exportar relatório Excel',defaultPath:`NEXO-relatorio-${companyId}-${Date.now()}.xlsx`,filters:[{name:'Planilha Excel',extensions:['xlsx']}]});
-    if(selection.canceled||!selection.filePath)return {canceled:true}; await excel.writeFullExport(selection.filePath,data); return {canceled:false};
+    if(selection.canceled||!selection.filePath)return {canceled:true}; await getExcel().writeFullExport(selection.filePath,data); return {canceled:false};
   });
   handle('nexo:product-import-template', async companyId => {
     const userId=requireActor(); const data=await getLocalProductImportTemplateData(db,userId,companyId);
     const selection=await dialog.showSaveDialog(window,{title:'Salvar modelo de produtos',defaultPath:`NEXO-modelo-produtos-${companyId}.xlsx`,filters:[{name:'Planilha Excel',extensions:['xlsx']}]});
-    if(selection.canceled||!selection.filePath)return {canceled:true}; await excel.writeProductTemplate(selection.filePath,data.company,data.categories); return {canceled:false};
+    if(selection.canceled||!selection.filePath)return {canceled:true}; await getExcel().writeProductTemplate(selection.filePath,data.company,data.categories); return {canceled:false};
   });
   handle('nexo:product-import-preview', async companyId => {
     const userId=requireActor(); await getLocalProductImportTemplateData(db,userId,companyId); const selection=await dialog.showOpenDialog(window,{title:'Selecionar planilha de produtos',properties:['openFile'],filters:[{name:'Planilha Excel',extensions:['xlsx']}]});
-    if(selection.canceled||!selection.filePaths[0])return {canceled:true}; const rows=await excel.readProductRows(selection.filePaths[0]); const preview=await previewLocalProductImport(db,userId,companyId,rows); const token=randomUUID(); productImportPreview={token,userId,companyId,rows,expected:preview.rows}; return {canceled:false,token,...preview};
+    if(selection.canceled||!selection.filePaths[0])return {canceled:true}; const rows=await getExcel().readProductRows(selection.filePaths[0]); const preview=await previewLocalProductImport(db,userId,companyId,rows); const token=randomUUID(); productImportPreview={token,userId,companyId,rows,expected:preview.rows}; return {canceled:false,token,...preview};
   });
   handle('nexo:product-import-confirm', async token => {
     const userId=requireActor(); const current=productImportPreview; if(!current||current.token!==token||current.userId!==userId)throw new Error('A prévia não está mais disponível. Selecione a planilha novamente.');
@@ -159,6 +170,7 @@ else app.whenReady().then(async () => {
     const allowed = await db.query("SELECT u.id FROM local_users u WHERE u.id=? AND u.active=1 AND (SELECT count(*) FROM local_memberships m WHERE m.user_id=u.id AND m.active=1 AND m.role='ADMIN')=2", [id]);
     if (!allowed.length) throw new Error('Somente o responsável pelas duas empresas pode gerar ou restaurar a cópia completa.');
   };
+  handle('nexo:data-health', () => checkLocalHealth(db, requireActor()));
   handle('nexo:backup', async () => {
     await requireBackupAdministrator();
     const selection = await dialog.showSaveDialog(window, { title: 'Guardar cópia de segurança',
@@ -193,6 +205,7 @@ else app.whenReady().then(async () => {
       }
       actor = undefined; productImportPreview = undefined;
       await prepareLocalDatabase(db, activeFile);
+      tutorialPreferences = createTutorialPreferences(db, dataFolder);
       return { canceled: false };
     } finally { recovering = false; }
   });

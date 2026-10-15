@@ -1,6 +1,7 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { useLocalQuery } from './useLocalQuery';
+import { useState, type FormEvent } from 'react';
 
-export function LocalPurchases({ company, refreshToken = 0 }: { company: string; refreshToken?: number }) {
+export function LocalPurchases({ company, active = true, refreshToken = 0 }: { company: string; active?: boolean; refreshToken?: number }) {
   const bridge = window.nexoLocal!;
   const [suppliers, setSuppliers] = useState<{ id: string; name: string }[]>([]);
   const [products, setProducts] = useState<{ id: string; name: string }[]>([]);
@@ -10,14 +11,14 @@ export function LocalPurchases({ company, refreshToken = 0 }: { company: string;
   const [busy, setBusy] = useState(false);
   const [key, setKey] = useState(() => crypto.randomUUID());
   const [lineCount, setLineCount] = useState(1);
-  async function refresh() {
-    const [people, catalog, balances, receipts] = await Promise.all([bridge.people(company, 'supplier'), bridge.products(company), bridge.stock(company), bridge.purchases(company)]);
-    setSuppliers(people.filter(row => row.active)); setProducts(catalog.filter(row => row.active === 1n)); setStock(balances); setPurchases(receipts);
-  }
-  useEffect(() => { if (company) void refresh().catch(error => setMessage(String(error))); }, [company, refreshToken]);
+  const requests = useLocalQuery(company, active, refreshToken,
+    () => Promise.all([bridge.people(company, 'supplier'), bridge.products(company), bridge.stock(company), bridge.purchases(company)]),
+    ([people, catalog, balances, receipts]) => { setSuppliers(people.filter(row => row.active)); setProducts(catalog.filter(row => row.active === 1n)); setStock(balances); setPurchases(receipts); },
+    error => setMessage(String(error)));
+  const { refresh } = requests;
   async function save(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); const formElement = event.currentTarget; const form = new FormData(formElement);
-    setBusy(true); setMessage('');
+    const task = requests.beginMutation(); if (!task) return; setBusy(true); setMessage('');
     try {
       const items = Array.from({ length: lineCount }, (_, index) => {
         const cost = String(form.get(`cost-${index}`));
@@ -27,11 +28,12 @@ export function LocalPurchases({ company, refreshToken = 0 }: { company: string;
       });
       const dueDate = String(form.get('dueDate') ?? '');
       await bridge.receivePurchase(company, key, { supplierId: form.get('supplier'), items, notes: form.get('notes'), payable: dueDate ? { dueDate } : null });
+      task.finish(); if (!task.isCurrent()) return;
       setKey(crypto.randomUUID()); formElement.reset(); setLineCount(1);
       setMessage('Compra recebida e estoque atualizado.'); await refresh();
-    } catch (error) { setMessage(String(error)); } finally { setBusy(false); }
+    } catch (error) { if (task.isCurrent()) setMessage(String(error)); } finally { if (task.finish()) setBusy(false); }
   }
-  return <details className="panel" onToggle={event => { if (event.currentTarget.open && company) void refresh().catch(error => setMessage(String(error))); }}>
+  return <details className="panel">
     <summary>Compras e estoque</summary>
     <form aria-label="Recebimento de compra" onSubmit={save} className="form-stack">
       <fieldset disabled={busy || !company} className="form-stack">

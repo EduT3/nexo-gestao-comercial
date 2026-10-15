@@ -6,7 +6,7 @@ const folder = await mkdtemp(path.join(tmpdir(), 'nexo-navigation-'));
 let app;
 try {
  const executable=process.env.NEXO_VERIFY_EXECUTABLE;
- app=await electron.launch({...(executable?{executablePath:executable,args:[],cwd:folder}:{args:['electron/main.cjs']}),env:{...process.env,LOCALAPPDATA:folder,NEXO_TEST_HIDE_WINDOW:'1'}});
+ app=await electron.launch({...(executable?{executablePath:executable,args:[],cwd:folder}:{args:['electron/main.cjs']}),env:{...process.env,LOCALAPPDATA:folder,NEXO_TEST_HIDE_WINDOW:'1',...(executable?{PATH:`${process.env.SystemRoot}\\System32;${process.env.SystemRoot}`,NODE_PATH:''}:{})}});
  await app.context().setOffline(true);
  const page=await app.firstWindow();page.setDefaultTimeout(7000);
  await page.getByLabel('Nome do responsável').fill('Teste navegação');
@@ -33,6 +33,19 @@ try {
  await page.getByRole('button',{name:'Salvar produto'}).click();
  await expect(page.getByRole('cell',{name:'Produto simples',exact:true})).toBeVisible();
  await expect(page.getByRole('form',{name:'Cadastro de produtos'})).toBeHidden();
+ await page.getByRole('button',{name:'Novo produto'}).click();
+ await expect(page.getByLabel('Código interno')).toHaveValue('');
+ await page.getByLabel('Código interno').fill('DESCARTAR');
+ await page.getByRole('button',{name:'Cancelar',exact:true}).click();
+ await page.getByRole('button',{name:'Novo produto'}).click();
+ await expect(page.getByLabel('Código interno')).toHaveValue('');
+ await page.getByLabel('Código interno').fill('EMPRESA-ANTERIOR');
+ await page.getByLabel('Empresa em uso').selectOption('deposito-jg');
+ await expect(page.getByRole('form',{name:'Cadastro de produtos'})).toBeHidden();
+ await page.getByRole('button',{name:'Novo produto'}).click();
+ await expect(page.getByLabel('Código interno')).toHaveValue('');
+ await page.getByRole('button',{name:'Cancelar',exact:true}).click();
+ await page.getByLabel('Empresa em uso').selectOption('adega-jg');
  const productId = await page.evaluate(async () => {
   const product=(await window.nexoLocal.products('adega-jg'))[0];
   const supplier=await window.nexoLocal.createPerson('adega-jg','supplier',{name:'Fornecedor teste'});

@@ -25,3 +25,22 @@
 .local-app .table-panel>.button{margin:16px 22px 0}
 .local-app .topbar{position:sticky;top:0;z-index:5}
 .local-app .local-anchor>details{margin:0}
+.local-backup-indicator{border:1px solid var(--line);border-radius:6px;background:transparent;color:#5d6b5f;padding:7px 10px;font:inherit;font-size:11px;text-align:left;cursor:pointer;max-width:250px}
+.local-backup-indicator:hover{background:#e3e6da;color:var(--green)}
+.local-backup-indicator:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+.local-backup-indicator:disabled{opacity:.6;cursor:wait}
+@media(max-width:760px){.local-app .topbar{flex-wrap:wrap}.local-backup-indicator{max-width:100%}}
+
+/* Keep large operational tables inside their screen at enlarged text/zoom. */
+.local-app .local-anchor{min-width:0;max-width:100%;overflow-x:auto}
+.local-app>div,.local-app .sidebar nav{min-width:0}
+@media(max-width:760px){.local-app .sidebar{grid-template-columns:minmax(0,1fr) auto}.local-app .local-page-heading>div{min-width:0}}
+@media(max-width:760px){.local-app .topbar{position:static}}
+
+/* Keep each removal control next to its own sale item. */
+.local-app .form-grid.sale-line{grid-template-columns:minmax(0,2fr) minmax(100px,1fr) auto;align-items:end}
+@media(max-width:760px){.local-app .form-grid.sale-line{grid-template-columns:repeat(2,minmax(0,1fr))}.local-app .sale-line>.button{grid-column:1/-1;justify-self:start}}
+
+.local-list-pager { display: flex; flex-wrap: wrap; align-items: center; gap: 0.65rem; margin: 1rem 0; }
+.local-list-pager span { margin-right: auto; }
+.local-data-health { border-top: 1px solid var(--border, #d9dee7); margin-top: 1.5rem; padding-top: 1rem; }

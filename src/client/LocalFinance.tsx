@@ -1,17 +1,20 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { useLocalQuery } from './useLocalQuery';
+import { useState, type FormEvent } from 'react';
 export type FinanceSummary = { receivedCents: bigint; reversedReceiptCents: bigint; netReceivedCents: bigint; totalIncomeCents: bigint; financialBalanceCents: bigint; revenueCents: bigint; reversedCents: bigint; netRevenueCents: bigint; paidExpenseCents: bigint; payables: { id: string; amount_cents: bigint; due_date: string; status: 'OPEN' | 'PAID'; payment_id: string | null }[] };
 function money(value: bigint) { const sign = value < 0n ? '-' : ''; const absolute = value < 0n ? -value : value; return `${sign}R$ ${absolute / 100n},${(absolute % 100n).toString().padStart(2, '0')}`; }
-export function LocalFinance({ company, refreshToken, onSaved }: { company: string; refreshToken: number; onSaved(): void }) {
+export function LocalFinance({ company, active = true, refreshToken, onSaved }: { company: string; active?: boolean; refreshToken: number; onSaved(): void }) {
   const bridge = window.nexoLocal!; const [summary, setSummary] = useState<FinanceSummary>(); const [busy, setBusy] = useState(false); const [message, setMessage] = useState('');
   const [operation, setOperation] = useState<{ id: string; kind: 'pay' | 'reverse'; key: string }>();
-  useEffect(() => { let active = true; if (company) void bridge.finance(company).then(result => { if (active) setSummary(result); }).catch(error => { if (active) setMessage(String(error)); }); return () => { active = false; }; }, [company, refreshToken]);
+  const requests = useLocalQuery(company, active, refreshToken, () => bridge.finance(company), setSummary, error => setMessage(String(error)));
+  const { refresh } = requests;
   async function save(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault(); if (!operation) return; const form = new FormData(event.currentTarget); setBusy(true); setMessage('');
+    event.preventDefault(); if (!operation) return; const form = new FormData(event.currentTarget); const task = requests.beginMutation(); if (!task) return; setBusy(true); setMessage('');
     try {
       if (operation.kind === 'pay') await bridge.payPayable(company, operation.id, operation.key, { method: form.get('method'), notes: form.get('notes') });
       else { const result = await bridge.reversePayable(company, operation.id, operation.key, { reason: form.get('reason') }); if (result.canceled) return; }
-      setOperation(undefined); setMessage('Operação financeira salva no computador.'); onSaved(); setSummary(await bridge.finance(company));
-    } catch (error) { setMessage(String(error)); } finally { setBusy(false); }
+      task.finish(); if (!task.isCurrent()) return;
+      setOperation(undefined); setMessage('Operação financeira salva no computador.'); onSaved(); await refresh();
+    } catch (error) { if (task.isCurrent()) setMessage(String(error)); } finally { if (task.finish()) setBusy(false); }
   }
   return <details className="panel"><summary>Financeiro</summary>
     {summary && <><p aria-label="Receita líquida">Vendas após cancelamentos: <strong>{money(summary.netRevenueCents)}</strong></p><p>Receitas de vendas: {money(summary.revenueCents)} · Estornos: {money(summary.reversedCents)}</p><p aria-label="Despesas pagas">Despesas pagas: {money(summary.paidExpenseCents)}</p>

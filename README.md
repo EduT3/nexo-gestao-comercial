@@ -42,7 +42,7 @@ A atualização aplica as mudanças de estrutura automaticamente e preserva os r
 
 ## Planilhas Excel
 
-Baixe o modelo dentro do aplicativo. A importação aceita até 1.000 linhas e 5 MB, mostra erros e duplicidades antes da gravação e só altera o cadastro após confirmação explícita. A exportação cria oito abas de consulta e não depende do Microsoft Excel instalado. Ao trocar de empresa, o cadastro de produto e a prévia Excel são descartados para não reutilizar rascunhos de outra empresa. Durante uma operação Excel, aguarde a conclusão antes de trocar de empresa ou sair. Selecionar outra planilha invalida a prévia anterior, mesmo se o seletor for cancelado.
+Baixe o modelo dentro do aplicativo. A importação aceita até 1.000 linhas e 5 MB, mostra erros e duplicidades antes da gravação e só altera o cadastro após confirmação explícita. A exportação cria oito abas de consulta e não depende do Microsoft Excel instalado.
 
 ## Prévia visual web
 
@@ -68,6 +68,20 @@ npm.cmd run package:local
 
 Os testes usam diretórios temporários e nunca devem apontar para a base real. Evidências e pendências ficam em [docs/STATUS.md](docs/STATUS.md); decisões técnicas em [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
 
+
+## Ajuda e tutorial integrado
+
+Use **Ajuda e tutorial** em qualquer tela. O guia em português explica os fluxos disponíveis para seu perfil sem criar registros nem executar operações. **Ver esta tela** navega para o módulo; **Ajuda desta tela** escolhe a orientação correspondente.
+
+Você pode **Pular tutorial**, **Fechar tutorial** (ou Esc), **Desativar tutorial**, **Retomar tutorial**, **Reativar tutorial** e **Reiniciar tutorial**. A escolha e a etapa são guardadas por usuário e empresa. No Windows ficam em `%LOCALAPPDATA%\NEXO\tutorial-preferences`, separadas do banco comercial e preservadas ao abrir outra pasta do programa. A prévia fictícia guarda sua própria preferência no navegador.
+
+O procedimento de empacotamento e as validações desta integração estão descritos em [Integração local — 15/10/2026](docs/INTEGRATION-2026-10-15.md). Mantenha todos os arquivos do pacote juntos, faça seu backup habitual e feche a versão anterior antes de abrir outro executável. Os atalhos e a instalação existente não foram substituídos.
+
+Durante uma operação Excel, aguarde antes de trocar de empresa, sair ou usar backup/restauração. Selecionar outra planilha descarta a prévia anterior mesmo quando o seletor é cancelado. Rascunhos de produto e prévias Excel não atravessam empresas.
+
+Detalhes de uso, persistência, testes e limites em [Tutorial integrado — 13/10/2026](docs/TUTORIAL-2026-10-13.md).
+
+
 ## Revisão de manutenção
 
-[Correções, testes executados e limites da revisão de 13/10/2026](docs/REVIEW-2026-10-13.md).
+[Correções, testes executados e limites da revisão remota de 13/10/2026](docs/REVIEW-2026-10-13.md). Esse registro histórico foi preservado junto ao tutorial e às melhorias locais posteriores.

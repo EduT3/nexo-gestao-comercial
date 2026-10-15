@@ -1,24 +1,27 @@
-import { useEffect, useState, type FormEvent } from 'react';
+import { useLocalQuery } from './useLocalQuery';
+import { useState, type FormEvent } from 'react';
 export type CashSession = { id: string; closed: bigint; balance_cents: bigint; movements: { id: string; reason: string; amount_cents: bigint }[]; closure: { expected_cents: bigint; counted_cents: bigint } | null };
 function money(value: bigint) { const sign = value < 0n ? '-' : ''; const absolute = value < 0n ? -value : value; return `${sign}R$ ${absolute / 100n},${(absolute % 100n).toString().padStart(2, '0')}`; }
 function cents(value: FormDataEntryValue | null) {
   const text = String(value); if (!/^\d{1,8}(?:[,.]\d{1,2})?$/.test(text)) throw new Error('Informe um valor com até duas casas decimais.');
   const [whole, fraction = ''] = text.replace(',', '.').split('.'); return Number(BigInt(whole!) * 100n + BigInt(fraction.padEnd(2, '0')));
 }
-export function LocalCash({ company, refreshToken = 0, administrator = true }: { company: string; refreshToken?: number; administrator?: boolean }) {
+export function LocalCash({ company, active = true, refreshToken = 0, administrator = true }: { company: string; active?: boolean; refreshToken?: number; administrator?: boolean }) {
   const bridge = window.nexoLocal!; const [sessions, setSessions] = useState<CashSession[]>([]);
   const [busy, setBusy] = useState(false); const [message, setMessage] = useState('');
   const [openKey, setOpenKey] = useState(() => crypto.randomUUID()); const [moveKey, setMoveKey] = useState(() => crypto.randomUUID());
   const current = sessions.find(row => row.closed === 0n);
-  useEffect(() => { let active = true; if (company) void bridge.cash(company).then(rows => { if (active) setSessions(rows); }).catch(error => { if (active) setMessage(String(error)); }); return () => { active = false; }; }, [company, refreshToken]);
+  const requests = useLocalQuery(company, active, refreshToken, () => bridge.cash(company), setSessions, error => setMessage(String(error)));
+  const { refresh } = requests;
   async function submit(event: FormEvent<HTMLFormElement>, action: 'open' | 'move' | 'close') {
-    event.preventDefault(); const element = event.currentTarget; const form = new FormData(element); setBusy(true); setMessage('');
+    event.preventDefault(); const element = event.currentTarget; const form = new FormData(element); const task = requests.beginMutation(); if (!task) return; setBusy(true); setMessage('');
     try {
-      if (action === 'open') { await bridge.openCash(company, openKey, { openingCents: cents(form.get('amount')) }); setOpenKey(crypto.randomUUID()); }
-      if (action === 'move' && current) { await bridge.moveCash(company, moveKey, { sessionId: current.id, kind: form.get('kind'), amountCents: cents(form.get('amount')), notes: form.get('notes') }); setMoveKey(crypto.randomUUID()); }
+      if (action === 'open') { await bridge.openCash(company, openKey, { openingCents: cents(form.get('amount')) }); if (task.isCurrent()) setOpenKey(crypto.randomUUID()); }
+      if (action === 'move' && current) { await bridge.moveCash(company, moveKey, { sessionId: current.id, kind: form.get('kind'), amountCents: cents(form.get('amount')), notes: form.get('notes') }); if (task.isCurrent()) setMoveKey(crypto.randomUUID()); }
       if (action === 'close' && current) await bridge.closeCash(company, current.id, { countedCents: cents(form.get('amount')), notes: form.get('notes') });
-      element.reset(); setSessions(await bridge.cash(company)); setMessage('Caixa atualizado no computador.');
-    } catch (error) { setMessage(String(error)); } finally { setBusy(false); }
+      task.finish(); if (!task.isCurrent()) return;
+      element.reset(); setMessage('Caixa atualizado no computador.'); await refresh();
+    } catch (error) { if (task.isCurrent()) setMessage(String(error)); } finally { if (task.finish()) setBusy(false); }
   }
   return <details className="panel"><summary>Caixa</summary>
     <h2>{current ? 'Caixa aberto' : 'Caixa fechado'}</h2>{current && <p aria-label="Saldo do caixa"><strong>Saldo: {money(current.balance_cents)}</strong></p>}
