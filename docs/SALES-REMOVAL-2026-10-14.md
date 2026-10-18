@@ -1,7 +1,5 @@
 # Remoção de itens da venda — 14/10/2026
 
-Implementação concluída em `D:\Projetos\ERP`. A pasta antiga `C:\Users\eduar\Pictures\PROGRAMAÇÃO` é uma junction para `D:\Projetos`; não foi criada, movida ou excluída cópia de projeto nesta tarefa.
-
 Cada linha da venda tem o botão **Remover item**, com nome acessível que identifica a posição e o produto. A remoção usa UUID próprio da linha, separado do produto; as linhas restantes mantêm valores e identidade React/DOM. O foco vai para o produto seguinte, ou o anterior ao excluir o último. Excluir o único item cria uma linha vazia de quantidade 1. O campo de status anuncia a remoção. Controles permanecem desabilitados durante o salvamento.
 
 Totais e troco continuam derivados dos itens em centavos inteiros, com o arredondamento por item existente. Desconto e recebido são preservados: se o novo subtotal não comportar o desconto, a mensagem continua explícita e a conclusão é recusada. O UUID visual não é enviado pelo IPC. Nenhuma alteração em banco, migrações, contratos, validação de produtos repetidos ou permissões.
@@ -30,17 +28,6 @@ Também foram testados primeiro/último/único item, adicionar após remover, um
 
 O rascunho permanece ao navegar entre telas da mesma empresa. Ao trocar de empresa ele é descartado, mantendo o isolamento anterior. O rascunho não é salvo em disco e desaparece ao fechar/reabrir, comportamento preexistente confirmado no teste; esta tarefa não introduz persistência de rascunhos.
 
-Pacote gerado pelo método existente `npm.cmd run package:local`: [artifacts/NEXO-Windows-1791982604432/NEXO.exe](../artifacts/NEXO-Windows-1791982604432/NEXO.exe). Pasta nova, com runtime e dependências incluídos. Mantenha seus arquivos juntos. Pacotes anteriores e a base operacional não foram substituídos. Teste empacotado com `LOCALAPPDATA` temporário, janela oculta, Chromium offline, `PATH` mínimo e `NODE_PATH` vazio. Não foram instalados componentes do sistema.
+A remoção foi novamente validada no pacote final da [integração de 15/10](INTEGRATION-2026-10-15.md), junto ao tutorial e às melhorias de consultas. O roteiro `scripts/verify-local-sales-removal.mjs` usa dados temporários e gera resultados/capturas locais, não versionados.
 
-Evidências:
-
-- [Resultado em desenvolvimento](../artifacts/sales-removal-1791982494297/result.json).
-- [Resultado no pacote](../artifacts/sales-removal-1791982628778/result.json).
-- [A/C após remover B](../artifacts/sales-removal-1791982628778/01-middle-removed.png).
-- [Janela 900×650](../artifacts/sales-removal-1791982628778/02-compact.png).
-- [Zoom 200%](../artifacts/sales-removal-1791982628778/03-zoom-200.png).
-- [Manifesto SHA-256 e preservação](../artifacts/sales-removal-delivery.json).
-
-Comparação com GitHub: HEAD local continua `b1b674881a60587e743b4034089caa7c1c9c8b1d`. A referência remota fornecida é `4a640c83324e97c77e5cf07f38ad6c319c02fe73` (merge da PR1 de isolamento de rascunhos/Excel). Antes desta tarefa, `LocalSales.tsx` local era idêntico a esse arquivo remoto, normalizando apenas fim de linha, e ainda tinha **Remover último produto**. O tutorial de 13/10 e demais mudanças locais não foram substituídos por checkout remoto. Dos 199 arquivos de origem/documentação inventariados antes da alteração, 197 ficaram idênticos antes de acrescentar os registros desta entrega; os dois alterados eram o componente e CSS. O manifesto registra a preservação e os hashes finais. Não houve commit, push, merge ou publicação.
-
-Limites: não houve homologação em outra máquina Windows limpa nem teste manual com leitor de tela. O modo offline do Chromium não é bloqueio de rede de todo o sistema. A prévia web não foi publicada ou regenerada nesta tarefa. O roteiro completo de tutorial de 13/10 não foi repetido; seu código e preferências foram preservados por hash, testes unitários e reabertura do pacote. Sem bloqueio de permissão pendente: as operações em D: foram aprovadas pelo mecanismo de escalonamento.
+Limites: sem homologação em outra máquina Windows limpa ou leitor de tela manual. O rascunho continua sem persistência em disco.

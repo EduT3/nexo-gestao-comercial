@@ -196,45 +196,20 @@ Após teste do usuário, os atalhos locais que rolavam uma página com todos os 
 
 Validação: 31 arquivos/114 testes comerciais aprovados; tipos, build local, build preview e pacote aprovados. Novo scripts/verify-local-navigation.mjs passou no executável NEXO-Windows-1790861899529 offline com base temporária: visibilidade de uma área, cadastro sob demanda, rascunho preservado, produto novo disponível para vender, compra por IPC, venda pela UI, saldo e fechamento de caixa, backup acessível em Mais opções e isolamento de empresas. Roteiros históricos verify-local-window/operator/finance-summary/excel foram escritos para a página única da V1.0.0 e precisam navegar explicitamente antes de usar seus seletores na nova versão; não foram apresentados como aprovados nesta atualização.
 
-## Indicador de backup — 08/10/2026
+## Revisão incremental — 13/10/2026
 
-Cabeçalho local mostra ao administrador Backup: Nunca feito ou Backup: Feito em [data/hora], a partir de status.lastBackup. Clique abre Mais opções > Backup e dados. Sem prazo arbitrário ou backup automático. Logout reinicia navegação em Vender, evitando manter área administrativa ao trocar para operador.
+Correções de interação e proteção de estado propostas em branch separada. Tipos, testes unitários e build aprovados na nuvem; navegação real/validação visual continuam pendentes devido ao bloqueio de lançamento do Chromium. O histórico anterior não representa uma nova homologação. Detalhes em [relatório desta revisão](REVIEW-2026-10-13.md).
 
-Build local/tipagem aprovados. scripts/verify-local-backup-indicator.mjs aprovado com janela oculta/offline e base temporária: estado inicial, atalho, backup SQLite real, data atualizada, indicador persistente entre telas e ausente para operador. Alteração no código local; ZIP publicado anteriormente não contém esta atualização.
-## Usabilidade e formulários — 10/10/2026
+## Melhorias locais de outubro — integração em 15/10/2026
 
-Mantida a navegação por tarefa e uma única área visível. Novo produto e Cancelar remontam o formulário limpo; troca de empresa fecha o cadastro, limpa busca/edição e remonta os campos. Navegação entre áreas da mesma empresa mantém o rascunho. Excel remonta por empresa; respostas de um painel desmontado não atualizam mensagens/prévias nem iniciam o callback de importação. Callback de atualização de produtos confere a empresa antes e depois da consulta. Não foi feita uma revisão geral de concorrência dos módulos comerciais nesta etapa.
+- 08/10: indicador administrativo do último backup e atalho para Backup e dados.
+- 10/10: limpeza em Novo produto/Cancelar, descarte de formulários na troca de empresa e proteção de callbacks Excel após desmontagem.
+- 13/10: [tutorial contextual](TUTORIAL-2026-10-13.md) no desktop e na prévia, com preferências por usuário/empresa; proteções da PR #1 conciliadas.
+- 14/10: [remoção individual de itens da venda](SALES-REMOVAL-2026-10-14.md), preservando identidade/foco, demais linhas e cálculos.
+- 14/10: [consultas por área, paginação/busca, Excel adiado e diagnóstico somente leitura](IMPROVEMENTS-2026-10-14.md).
+- 15/10: conjunto integrado sobre a main `4a640c8`; 123 testes unitários, 24 regressões Edge, typecheck/builds e cinco roteiros no mesmo pacote final Windows aprovados com dados temporários. Instalação e base originais preservadas.
 
-Validação: 31 arquivos/114 testes aprovados; tipagem/build desktop aprovados; roteiro Electron offline/base temporária passou, incluindo regressões de Cancelar, Novo produto e troca de empresa. Indicador de backup aprovado em execução isolada; primeira tentativa concorrente falhou ao iniciar Electron, repetição isolada passou. ZIP local gerado: artifacts/NEXO-Windows-usabilidade-2026-10-10.zip. Sem publicação nesta etapa.
-`nRoteiro verify-local-navigation aprovado também no pacote NEXO-Windows-1791641461991/NEXO.exe: execução offline com base temporária. Outra máquina Windows limpa não foi testada.
-
-
-## Tutorial integrado — 13/10/2026
-
-Tutorial contextual em português no desktop e guia próprio para a demonstração web. Ajuda e tutorial permite pular, fechar/Esc, desativar, reativar, retomar e reiniciar; dez etapas de administrador e cinco de operador. Preferências locais por usuário/empresa em arquivo separado do banco, com autorização e identidade de sessão verificadas pela ponte; nenhuma migração ou operação comercial no tutorial.
-
-Conciliação conservadora das proteções de Excel da PR1 remota com as mudanças locais já existentes. HEAD preservado em b1b6748, sem merge/reset/commit/push. Indicador de backup, rascunhos e callbacks locais mantidos. Prévia original fictícia preservada.
-
-Tipagem, builds desktop/prévia e pacote aprovados; 32 arquivos/116 testes e quatro regressões Edge aprovados. Tutorial validado em Electron real e no pacote Windows, offline e com base temporária: quatro aberturas, preferências, isolamento usuário/empresa/sessão antiga, teclado/foco, 900x650 e zoom 200%. Hash das tabelas preservado durante o guia. Navegação/backup anteriores também passaram conforme o relatório, sem uso de dados reais.
-
-Pacote final: artifacts/NEXO-Windows-1791933474461/NEXO.exe. Não exige novo instalador; manter a pasta completa, fechar a versão anterior e abrir esse executável. Dados continuam em %LOCALAPPDATA%/NEXO. Não foram substituídos atalhos/pacotes antigos nem publicada a prévia. Outra máquina Windows limpa, uso manual de leitor de tela e diálogos nativos manuais não foram homologados.
-
-Evidências e ocorrências de teste: [TUTORIAL-2026-10-13.md](TUTORIAL-2026-10-13.md), artifacts/tutorial-1791933505461/result.json.
-
-
-## Remoção de qualquer item da venda — 14/10/2026
-
-Botão Remover item por linha, identidade UUID independente do produto e foco no próximo/anterior; único item substituído por linha vazia. Demais itens/quantidades preservados; totais/troco recalculados pelas regras exatas existentes. Desconto excessivo permanece bloqueado. Navegação preserva rascunho; troca de empresa e fechamento mantêm descarte preexistente.
-
-Tipagem/build e 116 testes aprovados. Novo roteiro Electron aprovado no desenvolvimento e pacote: A/B/C, exclusão do meio/primeiro/último/único, duplicados recusados e remoção individual, foco/teclado, desconto/recebido/PIX, navegação/isolar empresa, venda fictícia e reabertura. Capturas 900×650/200% inspecionadas. Navegação e indicador de backup existentes aprovados no pacote.
-
-Workspace real D:\Projetos\ERP; caminho antigo via junction. Pacote novo artifacts/NEXO-Windows-1791982604432/NEXO.exe. Tutorial, preferências e proteções de Excel anteriores preservados; dados temporários, sem commit/push/merge/publicação. Não homologado em outro Windows limpo ou leitor de tela manual. Relatório: [SALES-REMOVAL-2026-10-14.md](SALES-REMOVAL-2026-10-14.md).
-
-## Desempenho, estabilidade e utilidades — 14/10/2026
-
-Carregamento por primeira visita e consultas apenas da área visível, proteção contra respostas/erros antigos e snapshots anteriores a gravações, páginas de 50 produtos/saldos, busca sem acento e filtro de produtos sem estoque. Histórico de estoque sem recálculo de saldo ao paginar. Excel adiado até uso. Novo Verificar dados em Backup e dados com checagem estrutural/vínculos, data e tamanho da base, somente leitura e ADMIN das duas empresas. Categorias de rascunhos preservadas mesmo carregadas depois.
-
-34 arquivos/123 testes; 20 regressões novas e 4 existentes Edge aprovadas; tipos/builds aprovados. Pacote final NEXO-Windows-1792010815728/NEXO.exe: utilidades, Excel real, backup, diagnóstico com hash preservado, reabertura, isolamento, operador e navegação aprovados offline/base temporária/ambiente mínimo. Venda/tutoriais validados no pacote intermediário antes da última correção isolada de mensagem de caixa. ZIP NEXO-Windows-atualizado-2026-10-14.zip conferido, 1061 arquivos. Sem publicação. Limites e evidências detalhadas em [IMPROVEMENTS-2026-10-14.md](IMPROVEMENTS-2026-10-14.md).
+Procedimentos, resultados e limites: [INTEGRATION-2026-10-15.md](INTEGRATION-2026-10-15.md). Os logs, capturas e pacotes locais não são versionados. A validação não inclui outro Windows limpo ou leitor de tela manual.
 
 ## Reavaliação de estrutura, funcionamento e usabilidade — 18/10/2026
 

@@ -6,7 +6,7 @@ const folder = await mkdtemp(path.join(tmpdir(), 'nexo-navigation-'));
 let app;
 try {
  const executable=process.env.NEXO_VERIFY_EXECUTABLE;
- app=await electron.launch({...(executable?{executablePath:executable,args:[],cwd:folder}:{args:['electron/main.cjs']}),env:{...process.env,LOCALAPPDATA:folder,NEXO_TEST_HIDE_WINDOW:'1'}});
+ app=await electron.launch({...(executable?{executablePath:executable,args:[],cwd:folder}:{args:['electron/main.cjs']}),env:{...process.env,LOCALAPPDATA:folder,NEXO_TEST_HIDE_WINDOW:'1',...(executable?{PATH:`${process.env.SystemRoot}\\System32;${process.env.SystemRoot}`,NODE_PATH:''}:{})}});
  await app.context().setOffline(true);
  const page=await app.firstWindow();page.setDefaultTimeout(7000);
  await page.getByLabel('Nome do responsável').fill('Teste navegação');

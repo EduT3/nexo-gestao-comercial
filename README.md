@@ -77,7 +77,7 @@ Use **Ajuda e tutorial** em qualquer tela. O guia em português explica os fluxo
 
 Você pode **Pular tutorial**, **Fechar tutorial** (ou Esc), **Desativar tutorial**, **Retomar tutorial**, **Reativar tutorial** e **Reiniciar tutorial**. A escolha e a etapa são guardadas por usuário e empresa. No Windows ficam em `%LOCALAPPDATA%\NEXO\tutorial-preferences`, separadas do banco comercial e preservadas ao abrir outra pasta do programa. A prévia fictícia guarda sua própria preferência no navegador.
 
-O pacote do tutorial de 13/10 está em `artifacts/NEXO-Windows-1791933474461/NEXO.exe`. Para a versão local atual, use o pacote indicado abaixo. Não exige instalador novo: mantenha todos os arquivos dessa pasta juntos, faça seu backup habitual, feche a versão anterior e abra o novo executável. A pasta de dados continua a mesma. Os atalhos e pacotes antigos não foram substituídos.
+O procedimento de empacotamento e as validações desta integração estão descritos em [Integração local — 15/10/2026](docs/INTEGRATION-2026-10-15.md). Mantenha todos os arquivos do pacote juntos, faça seu backup habitual e feche a versão anterior antes de abrir outro executável. Os atalhos e a instalação existente não foram substituídos.
 
 Durante uma operação Excel, aguarde antes de trocar de empresa, sair ou usar backup/restauração. Selecionar outra planilha descarta a prévia anterior mesmo quando o seletor é cancelado. Rascunhos de produto e prévias Excel não atravessam empresas.
 
@@ -103,3 +103,8 @@ Pacote atual: artifacts/NEXO-Windows-1792341909772/NEXO.exe. ZIP portátil: arti
 - Produto salvo e operações corrigidas apresentam retorno visível, sem prefixos internos da ponte.
 
 Para atualizar, gere um backup, feche a versão anterior, extraia a pasta nova e abra NEXO.exe. Preserve %LOCALAPPDATA%/NEXO. Evidências e limites em [Compras, caixa e financeiro](docs/PURCHASES-CASH-FINANCE-2026-10-18.md).
+
+
+## Revisão de manutenção
+
+[Revisão remota de 13/10](docs/REVIEW-2026-10-13.md) e [integração de 15/10](docs/INTEGRATION-2026-10-15.md) preservadas no histórico. As atualizações de 18/10 estão descritas acima e em STATUS.
