@@ -1,29 +1,35 @@
-import { useEffect, useState, type FormEvent } from 'react';
-export type CashSession = { id: string; closed: bigint; balance_cents: bigint; movements: { id: string; reason: string; amount_cents: bigint }[]; closure: { expected_cents: bigint; counted_cents: bigint } | null };
+import { errorMessage } from './local-format';
+import { useLocalQuery } from './useLocalQuery';
+import { useState, type FormEvent } from 'react';
+export type CashSession = { id: string; can_operate: boolean; actor_name: string; closed: bigint; balance_cents: bigint; movements: { id: string; reason: string; amount_cents: bigint }[]; closure: { expected_cents: bigint; counted_cents: bigint } | null };
 function money(value: bigint) { const sign = value < 0n ? '-' : ''; const absolute = value < 0n ? -value : value; return `${sign}R$ ${absolute / 100n},${(absolute % 100n).toString().padStart(2, '0')}`; }
 function cents(value: FormDataEntryValue | null) {
   const text = String(value); if (!/^\d{1,8}(?:[,.]\d{1,2})?$/.test(text)) throw new Error('Informe um valor com até duas casas decimais.');
   const [whole, fraction = ''] = text.replace(',', '.').split('.'); return Number(BigInt(whole!) * 100n + BigInt(fraction.padEnd(2, '0')));
 }
-export function LocalCash({ company, refreshToken = 0, administrator = true }: { company: string; refreshToken?: number; administrator?: boolean }) {
+export function LocalCash({ company, active = true, refreshToken = 0, administrator = true }: { company: string; active?: boolean; refreshToken?: number; administrator?: boolean }) {
   const bridge = window.nexoLocal!; const [sessions, setSessions] = useState<CashSession[]>([]);
   const [busy, setBusy] = useState(false); const [message, setMessage] = useState('');
   const [openKey, setOpenKey] = useState(() => crypto.randomUUID()); const [moveKey, setMoveKey] = useState(() => crypto.randomUUID());
   const current = sessions.find(row => row.closed === 0n);
-  useEffect(() => { let active = true; if (company) void bridge.cash(company).then(rows => { if (active) setSessions(rows); }).catch(error => { if (active) setMessage(String(error)); }); return () => { active = false; }; }, [company, refreshToken]);
+  const requests = useLocalQuery(company, active, refreshToken, () => bridge.cash(company), setSessions, error => setMessage(errorMessage(error)));
+  const { refresh } = requests;
   async function submit(event: FormEvent<HTMLFormElement>, action: 'open' | 'move' | 'close') {
-    event.preventDefault(); const element = event.currentTarget; const form = new FormData(element); setBusy(true); setMessage('');
+    event.preventDefault(); const element = event.currentTarget; const form = new FormData(element); const task = requests.beginMutation(); if (!task) return; setBusy(true); setMessage('');
     try {
-      if (action === 'open') { await bridge.openCash(company, openKey, { openingCents: cents(form.get('amount')) }); setOpenKey(crypto.randomUUID()); }
-      if (action === 'move' && current) { await bridge.moveCash(company, moveKey, { sessionId: current.id, kind: form.get('kind'), amountCents: cents(form.get('amount')), notes: form.get('notes') }); setMoveKey(crypto.randomUUID()); }
+      if (action === 'open') { await bridge.openCash(company, openKey, { openingCents: cents(form.get('amount')) }); if (task.isCurrent()) setOpenKey(crypto.randomUUID()); }
+      if (action === 'move' && current) { await bridge.moveCash(company, moveKey, { sessionId: current.id, kind: form.get('kind'), amountCents: cents(form.get('amount')), notes: form.get('notes') }); if (task.isCurrent()) setMoveKey(crypto.randomUUID()); }
       if (action === 'close' && current) await bridge.closeCash(company, current.id, { countedCents: cents(form.get('amount')), notes: form.get('notes') });
-      element.reset(); setSessions(await bridge.cash(company)); setMessage('Caixa atualizado no computador.');
-    } catch (error) { setMessage(String(error)); } finally { setBusy(false); }
+      task.finish(); if (!task.isCurrent()) return;
+      element.reset(); setMessage('Caixa atualizado no computador.'); await refresh();
+    } catch (error) { if (task.isCurrent()) setMessage(errorMessage(error)); } finally { if (task.finish()) setBusy(false); }
   }
   return <details className="panel"><summary>Caixa</summary>
     <h2>{current ? 'Caixa aberto' : 'Caixa fechado'}</h2>{current && <p aria-label="Saldo do caixa"><strong>Saldo: {money(current.balance_cents)}</strong></p>}
     {!current && <form aria-label="Abertura de caixa" onSubmit={event => void submit(event, 'open')}><label>Valor inicial (R$)<input name="amount" required defaultValue="0,00" inputMode="decimal" /></label><button className="button primary" disabled={busy}>Abrir caixa</button></form>}
-    {current && <>{administrator && <details><summary>Adicionar ou retirar dinheiro</summary><form aria-label="Movimentação de caixa" onSubmit={event => void submit(event, 'move')} className="form-grid"><label>Tipo de movimento<select aria-label="Tipo de movimento" name="kind"><option value="SUPPLY">Suprimento</option><option value="WITHDRAWAL">Sangria</option></select></label><label>Valor do movimento (R$)<input name="amount" required inputMode="decimal" /></label><label>Motivo do movimento<input name="notes" required minLength={2} maxLength={1000} /></label><button className="button primary" disabled={busy}>Registrar movimento</button></form></details>}
+    {current && <p>Responsável pelo caixa: {current.actor_name}</p>}
+    {current && !current.can_operate && <p role="status">Este caixa pertence a {current.actor_name}. Somente esse operador pode movimentar ou encerrar o atendimento.</p>}
+    {current?.can_operate && <>{administrator && <details><summary>Adicionar ou retirar dinheiro</summary><form aria-label="Movimentação de caixa" onSubmit={event => void submit(event, 'move')} className="form-grid"><label>Tipo de movimento<select aria-label="Tipo de movimento" name="kind"><option value="SUPPLY">Suprimento</option><option value="WITHDRAWAL">Sangria</option></select></label><label>Valor do movimento (R$)<input name="amount" required inputMode="decimal" /></label><label>Motivo do movimento<input name="notes" required minLength={2} maxLength={1000} /></label><button className="button primary" disabled={busy}>Registrar movimento</button></form></details>}
     <details><summary>Encerrar atendimento e fechar caixa</summary><form aria-label="Fechamento de caixa" onSubmit={event => void submit(event, 'close')} className="form-grid"><label>Dinheiro contado (R$)<input name="amount" required inputMode="decimal" /></label><label>Observações do fechamento<input name="notes" maxLength={1000} /></label><button className="button secondary" disabled={busy}>Fechar caixa</button></form></details></>}
     <p role="status">{message}</p>
     <table aria-label="Histórico de caixas"><thead><tr><th>Situação</th><th>Saldo esperado</th><th>Contado</th><th>Diferença</th></tr></thead><tbody>{sessions.map(row => <tr key={row.id}><td>{row.closed === 1n ? 'Fechado' : 'Aberto'}</td><td>{money(row.balance_cents)}</td><td>{row.closure ? money(row.closure.counted_cents) : '—'}</td><td>{row.closure ? money(row.closure.counted_cents - row.closure.expected_cents) : '—'}</td></tr>)}</tbody></table>

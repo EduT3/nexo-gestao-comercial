@@ -7,6 +7,7 @@ process.env.NEXO_E2E_CONTROL_TOKEN ??= randomBytes(32).toString('hex');
 
 export default defineConfig({
   testDir: './tests/e2e',
+  testIgnore: ['**/published-preview.spec.ts'],
   fullyParallel: false,
   workers: 1,
   retries: 0,

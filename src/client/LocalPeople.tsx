@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react';
 
-export function LocalPeople({ company, kind, disabled }: { company: string; kind: 'customer' | 'supplier'; disabled: boolean }) {
+export function LocalPeople({ company, active: visible = true, kind, disabled }: { company: string; active?: boolean; kind: 'customer' | 'supplier'; disabled: boolean }) {
   const bridge = window.nexoLocal!;
   const title = kind === 'customer' ? 'Clientes' : 'Fornecedores';
   const [rows, setRows] = useState<{ id: string; name: string; taxId?: string | null; phone?: string | null }[]>([]);
@@ -9,10 +9,10 @@ export function LocalPeople({ company, kind, disabled }: { company: string; kind
   const [search, setSearch] = useState('');
   useEffect(() => {
     let active = true;
-    if (company) void bridge.people(company, kind).then(result => { if (active) setRows(result); })
+    if (company && visible) void bridge.people(company, kind).then(result => { if (active) setRows(result); })
       .catch(error => { if (active) setMessage(String(error)); });
     return () => { active = false; };
-  }, [company, kind]);
+  }, [company, kind, visible]);
   async function save(event: FormEvent<HTMLFormElement>) {
     event.preventDefault(); const element = event.currentTarget;
     const form = new FormData(element);

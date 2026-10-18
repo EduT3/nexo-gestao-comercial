@@ -46,6 +46,8 @@ Baixe o modelo dentro do aplicativo. A importação aceita até 1.000 linhas e 5
 
 ## Prévia visual web
 
+[Abrir a demonstração do NEXO](https://nexo-gestao-comercial.vercel.app). Compras, caixa, histórico de vendas e financeiro acompanham a interface do aplicativo Windows, com dados fictícios e gravações bloqueadas.
+
 `npm.cmd run build:preview` compila uma demonstração navegável com dados fictícios. Ela não acessa a base local e bloqueia alterações com uma mensagem clara. A prévia permite acompanhar a aparência; o produto operacional é o executável Windows.
 
 ## Limitações conhecidas da V1
@@ -67,3 +69,37 @@ npm.cmd run package:local
 ```
 
 Os testes usam diretórios temporários e nunca devem apontar para a base real. Evidências e pendências ficam em [docs/STATUS.md](docs/STATUS.md); decisões técnicas em [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+
+
+## Ajuda e tutorial integrado
+
+Use **Ajuda e tutorial** em qualquer tela. O guia em português explica os fluxos disponíveis para seu perfil sem criar registros nem executar operações. **Ver esta tela** navega para o módulo; **Ajuda desta tela** escolhe a orientação correspondente.
+
+Você pode **Pular tutorial**, **Fechar tutorial** (ou Esc), **Desativar tutorial**, **Retomar tutorial**, **Reativar tutorial** e **Reiniciar tutorial**. A escolha e a etapa são guardadas por usuário e empresa. No Windows ficam em `%LOCALAPPDATA%\NEXO\tutorial-preferences`, separadas do banco comercial e preservadas ao abrir outra pasta do programa. A prévia fictícia guarda sua própria preferência no navegador.
+
+O pacote do tutorial de 13/10 está em `artifacts/NEXO-Windows-1791933474461/NEXO.exe`. Para a versão local atual, use o pacote indicado abaixo. Não exige instalador novo: mantenha todos os arquivos dessa pasta juntos, faça seu backup habitual, feche a versão anterior e abra o novo executável. A pasta de dados continua a mesma. Os atalhos e pacotes antigos não foram substituídos.
+
+Durante uma operação Excel, aguarde antes de trocar de empresa, sair ou usar backup/restauração. Selecionar outra planilha descarta a prévia anterior mesmo quando o seletor é cancelado. Rascunhos de produto e prévias Excel não atravessam empresas.
+
+Detalhes de uso, persistência, testes e limites em [Tutorial integrado — 13/10/2026](docs/TUTORIAL-2026-10-13.md).
+
+
+## Recuperação e histórico — atualização de 18/10/2026
+
+Pacote da etapa de recuperação/histórico: artifacts/NEXO-Windows-1792340357595/NEXO.exe. A versão atual está indicada na seção seguinte. ZIP portátil: artifacts/NEXO-Windows-recuperacao-historico-2026-10-18.zip. Gere um backup, feche a versão anterior, extraia o ZIP e abra o novo executável. Preserve %LOCALAPPDATA%/NEXO.
+
+Se a base não abrir, a tela de recuperação permite tentar novamente, escolher uma cópia, abrir a pasta e guardar diagnóstico. A restauração exige a senha do responsável existente nessa cópia e sua confirmação; os arquivos anteriores são guardados. Essa rota exige backup que já contenha a senha local e não recupera senha esquecida.
+
+Em Vender, o Histórico de vendas mostra data, identificação e cliente, com busca, período, situação e páginas para todas as vendas. Detalhes permite conferir os itens e valores originais antes de cancelar. Evidências e limites em [Recuperação e histórico](docs/RECOVERY-HISTORY-2026-10-18.md).
+
+
+## Compras, caixa e financeiro — atualização de 18/10/2026
+
+Pacote atual: artifacts/NEXO-Windows-1792341909772/NEXO.exe. ZIP portátil: artifacts/NEXO-Windows-compras-caixa-financeiro-2026-10-18.zip.
+
+- Compras mostra subtotais e total antes de receber; Remover item corrige qualquer linha.
+- Vender informa a situação do caixa e quem o abriu. Ir ao caixa preserva o rascunho; é necessário um caixa do próprio operador para concluir.
+- Financeiro oferece Pagar, Receber e Resumo. As listas começam em aberto; use situação, vencimento e busca para consultar outras contas. Nova conta a receber abre o cadastro quando necessário.
+- Produto salvo e operações corrigidas apresentam retorno visível, sem prefixos internos da ponte.
+
+Para atualizar, gere um backup, feche a versão anterior, extraia a pasta nova e abra NEXO.exe. Preserve %LOCALAPPDATA%/NEXO. Evidências e limites em [Compras, caixa e financeiro](docs/PURCHASES-CASH-FINANCE-2026-10-18.md).

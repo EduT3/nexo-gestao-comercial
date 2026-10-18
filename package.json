@@ -10,7 +10,7 @@
     "build:local": "npm run typecheck && vite build --mode desktop && tsc -p tsconfig.local.json",
     "start:local": "electron electron/main.cjs",
     "package:local": "npm run build:local && node scripts/package-local.mjs",
-    "build:preview": "tsx scripts/generate-visual-preview.ts && vite build --mode visual-preview",
+    "build:preview": "vite build --mode visual-preview",
     "dev": "concurrently -k -n API,WEB \"npm:dev:api\" \"npm:dev:web\"",
     "dev:api": "tsx watch src/server/main.ts",
     "dev:web": "vite --host 127.0.0.1",

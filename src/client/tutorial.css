@@ -1,0 +1,17 @@
+.tutorial-shell{min-width:0}
+.tutorial-help{margin-bottom:8px}
+.tutorial-panel{border:1px solid var(--line,#cbd2c4);border-left:4px solid var(--green,#315840);border-radius:6px;background:var(--surface,#fff);padding:18px 22px;overflow-wrap:anywhere;scroll-margin-top:100px}
+.tutorial-heading{display:flex;align-items:flex-start;justify-content:space-between;gap:16px}
+.tutorial-panel h2{font-size:19px;line-height:1.4;margin:0}
+.tutorial-panel p{line-height:1.6;margin:10px 0}
+.tutorial-panel .tutorial-context{font-size:12px;font-weight:700;color:#3b5845;margin:0 0 4px}
+.tutorial-progress{font-size:13px;font-weight:700;color:#3b5845}
+.tutorial-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px 16px;margin:12px 0}
+.tutorial-shell button{min-height:44px;white-space:normal}
+.tutorial-shell :focus-visible{outline:3px solid #315840;outline-offset:3px}
+.tutorial-secondary{border-top:1px solid var(--line,#cbd2c4);padding-top:8px}
+.tutorial-panel .tutorial-note{font-size:12px;color:#536052}
+.tutorial-status:empty{display:none}
+.tutorial-status{font-size:13px;color:#6a3a15}
+@media(max-width:760px){.tutorial-panel{padding:14px}.tutorial-heading{flex-wrap:wrap}.tutorial-actions{gap:8px}.tutorial-actions .button{flex:1 1 140px}.tutorial-heading>.button{margin-left:auto}}
+@media(forced-colors:active){.tutorial-panel{border:2px solid CanvasText}.tutorial-shell :focus-visible{outline-color:Highlight}}

@@ -39,3 +39,17 @@
 ## Limites mantidos
 
 Um computador por instalação, sem sincronização em rede/nuvem. Emissão fiscal, integrações bancárias, e-commerce, delivery, CRM, BI avançado e inteligência artificial ficam fora da V1. O pacote não possui instalador tradicional nem assinatura digital; a homologação no computador operacional continua sendo uma etapa de implantação, sem uso de dados reais nos testes automatizados.
+
+
+## Correções após reavaliação — 18/10/2026
+
+- [x] F1: recuperação independente da abertura da base, com preservação dos arquivos anteriores.
+- [x] F2: histórico de vendas identificável, detalhado e paginado acima de cem registros.
+- [x] F3: conferência de compras, totais e remoção individual de item.
+- [x] F4: condição do caixa no PDV e mensagens legíveis nas áreas corrigidas.
+- [x] F5: confirmação visível de produto salvo e de restauração no login.
+- [x] F6: Pagar/Receber/Resumo separados, com filtros e datas brasileiras.
+- [ ] Manutenção: identificação interna de versão/build, extração adicional de LocalApp e contratos centrais.
+- [ ] Crescimento: medir bases grandes e evoluir consultas/paginação SQL dos demais históricos.
+
+Evidências e limites em RECOVERY-HISTORY-2026-10-18.md e PURCHASES-CASH-FINANCE-2026-10-18.md. A nova organização operacional foi entregue no Windows; não houve nova publicação da demonstração.

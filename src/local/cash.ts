@@ -86,13 +86,25 @@ export async function moveLocalCash(db: LocalDatabase, actor: string, company: s
 export async function listLocalCash(db: LocalDatabase, actor: string, company: string) {
   return db.transaction(async tx => {
     await authorizeLocalCatalog(tx, actor, company, false);
-    const sessions = await tx.query('SELECT id,opening_cents,closed,created_at FROM local_cash_sessions WHERE company_id=? ORDER BY created_at DESC,id LIMIT 100', [company]);
+    const sessions = await tx.query('SELECT s.id,s.actor_id,u.name AS actor_name,s.opening_cents,s.closed,s.created_at FROM local_cash_sessions s JOIN local_users u ON u.id=s.actor_id WHERE s.company_id=? ORDER BY s.closed ASC,s.created_at DESC,s.id LIMIT 100', [company]);
     const movements = await tx.query(`SELECT m.id,m.session_id,m.amount_cents,m.created_at,CASE a.action WHEN 'payable.paid' THEN 'PAYMENT' WHEN 'payable.payment_reversed' THEN 'PAYMENT_REVERSAL' WHEN 'receivable.received' THEN 'RECEIPT' WHEN 'receivable.receipt_reversed' THEN 'RECEIPT_REVERSAL' ELSE m.reason END AS reason FROM local_cash_movements m LEFT JOIN local_audit a ON a.company_id=m.company_id AND a.entity_id=m.operation_id AND a.action IN('payable.paid','payable.payment_reversed','receivable.received','receivable.receipt_reversed') WHERE m.company_id=? ORDER BY m.created_at,m.id`, [company]);
     const closures = await tx.query('SELECT session_id,expected_cents,counted_cents,notes FROM local_cash_closures WHERE company_id=?', [company]);
-    return sessions.map(session => ({ ...session, id: String(session.id), closed: BigInt(String(session.closed)),
+    return sessions.map(session => ({ ...session, can_operate: session.actor_id === actor, id: String(session.id), closed: BigInt(String(session.closed)),
       balance_cents: movements.filter(row => row.session_id === session.id).reduce((sum, row) => sum + BigInt(String(row.amount_cents)), BigInt(String(session.opening_cents))),
       movements: movements.filter(row => row.session_id === session.id),
       closure: closures.find(row => row.session_id === session.id) ?? null,
     }));
   });
+}
+
+
+/** Read only the open session, independent of the historical list's window. */
+export async function getLocalCashAvailability(db: LocalDatabase, actor: string, company: string): Promise<import('../shared/cash-status.js').CashAvailability> {
+ return db.transaction(async tx=>{
+  await authorizeLocalCatalog(tx,actor,company,false);
+  const row=(await tx.query('SELECT s.id,s.actor_id,s.created_at,s.opening_cents,u.name AS operator_name FROM local_cash_sessions s JOIN local_users u ON u.id=s.actor_id WHERE s.company_id=? AND s.closed=0',[company]))[0];
+  if(!row)return {open:false};
+  const movements=await tx.query('SELECT amount_cents FROM local_cash_movements WHERE company_id=? AND session_id=?',[company,String(row.id)]);
+  return {open:true,canSell:row.actor_id===actor,operatorName:String(row.operator_name),openedAt:String(row.created_at),balanceCents:movements.reduce((total,value)=>total+BigInt(String(value.amount_cents)),BigInt(String(row.opening_cents)))};
+ });
 }

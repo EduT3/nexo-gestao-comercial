@@ -25,3 +25,28 @@
 .local-app .table-panel>.button{margin:16px 22px 0}
 .local-app .topbar{position:sticky;top:0;z-index:5}
 .local-app .local-anchor>details{margin:0}
+.local-backup-indicator{border:1px solid var(--line);border-radius:6px;background:transparent;color:#5d6b5f;padding:7px 10px;font:inherit;font-size:11px;text-align:left;cursor:pointer;max-width:250px}
+.local-backup-indicator:hover{background:#e3e6da;color:var(--green)}
+.local-backup-indicator:focus-visible{outline:2px solid var(--green);outline-offset:3px}
+.local-backup-indicator:disabled{opacity:.6;cursor:wait}
+@media(max-width:760px){.local-app .topbar{flex-wrap:wrap}.local-backup-indicator{max-width:100%}}
+
+/* Keep large operational tables inside their screen at enlarged text/zoom. */
+.local-app .local-anchor{min-width:0;max-width:100%;overflow-x:auto}
+.local-app>div,.local-app .sidebar nav{min-width:0}
+@media(max-width:760px){.local-app .sidebar{grid-template-columns:minmax(0,1fr) auto}.local-app .local-page-heading>div{min-width:0}}
+@media(max-width:760px){.local-app .topbar{position:static}}
+
+/* Keep each removal control next to its own sale item. */
+.local-app .form-grid.sale-line{grid-template-columns:minmax(0,2fr) minmax(100px,1fr) auto;align-items:end}
+@media(max-width:760px){.local-app .form-grid.sale-line{grid-template-columns:repeat(2,minmax(0,1fr))}.local-app .sale-line>.button{grid-column:1/-1;justify-self:start}}
+
+.local-list-pager { display: flex; flex-wrap: wrap; align-items: center; gap: 0.65rem; margin: 1rem 0; }
+.local-list-pager span { margin-right: auto; }
+.local-data-health { border-top: 1px solid var(--border, #d9dee7); margin-top: 1.5rem; padding-top: 1rem; }
+
+.sales-history{margin-top:2rem;border-top:1px solid #cbd5d1;padding-top:1rem}.sales-history-table{overflow-x:auto;max-width:100%}.sales-history-table table{min-width:620px}.sale-reference{display:block;font-size:.8rem;overflow-wrap:anywhere;max-width:24rem;margin-top:.4rem}.sales-history-pager{display:flex;gap:12px;align-items:center;justify-content:space-between;flex-wrap:wrap;margin:16px 0}.sale-detail{border:1px solid #9dafaa;border-radius:10px;padding:16px;margin-top:20px}.sales-history td button{margin:3px}.sales-history fieldset{min-width:0}
+
+.purchase-line{border:1px solid #ccd8d2;border-radius:8px;padding:14px}.purchase-line-footer{display:flex;align-items:center;justify-content:space-between;gap:12px;flex-wrap:wrap}.purchase-review,.cash-guidance{padding:16px;border:1px solid #a6bdb3;border-radius:8px;background:#f2f7f3}.cash-guidance{margin-bottom:20px}.purchase-history{margin-top:20px}.account-table{overflow-x:auto;max-width:100%}.account-table table{min-width:570px}.account-reference{display:block;font-size:.8rem;overflow-wrap:anywhere;max-width:25rem;margin-top:6px}.account-filters{min-width:0;margin:20px 0}.account-checkbox{display:flex!important;flex-direction:row!important;align-items:center;gap:8px}.account-checkbox input{width:auto!important}.account-overdue{display:block;color:#8b3a13;font-weight:600;margin-top:4px}.account-operation{border:1px solid #a6bdb3;border-radius:8px;padding:18px;margin:18px 0}.account-operation fieldset{min-width:0}.local-tabs{flex-wrap:wrap}
+
+.local-preview-banner{position:sticky;top:0;z-index:100;min-height:68px;padding:12px 24px;background:#173f35;color:#fff;display:flex;flex-direction:column;justify-content:center;gap:4px;font-size:13px;border-bottom:2px solid #b6cb83}.local-preview-banner strong{font-size:14px}.local-preview .sidebar{top:68px;height:calc(100vh - 68px)}.local-preview .topbar{top:68px}.local-preview #main-content{scroll-margin-top:170px}.local-preview #active-company{scroll-margin-top:140px}@media(max-width:760px){.local-preview-banner{min-height:92px;padding:12px 16px}.local-preview .sidebar{position:static;height:auto}.local-preview .topbar{top:92px}.local-preview .topbar>span{display:none}.local-preview .topbar{flex-wrap:wrap}.local-preview .form-grid{grid-template-columns:1fr}.local-preview .topbar label{min-width:0;flex:1}.local-preview .topbar select{max-width:100%}}

@@ -11,7 +11,8 @@ export interface LocalDatabase {
 /** Trusted main-process interface. Never expose SQL to the renderer. */
 export function openLocalDatabase(path:string):LocalDatabase {
   const engine=new DatabaseSync(path);
-  engine.exec('PRAGMA foreign_keys=ON; PRAGMA busy_timeout=5000; PRAGMA journal_mode=WAL; PRAGMA synchronous=FULL;');
+  try { engine.exec('PRAGMA foreign_keys=ON; PRAGMA busy_timeout=5000; PRAGMA journal_mode=WAL; PRAGMA synchronous=FULL;'); }
+  catch (error) { engine.close(); throw error; }
   let queue=Promise.resolve();
   let closed=false;
   function enqueue<T>(operation:()=>Promise<T>):Promise<T>{

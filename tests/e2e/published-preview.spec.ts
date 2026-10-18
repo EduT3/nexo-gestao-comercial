@@ -1,0 +1,53 @@
+import { test, expect } from '@playwright/test';
+
+test('prévia publicada: histórico paginado, financeiro e bloqueio de gravação', async ({ page }) => {
+ const errors: string[] = []; const api: string[] = [];
+ page.on('pageerror', error => errors.push(error.message));
+ page.on('request', request => { if (new URL(request.url()).pathname.startsWith('/api/')) api.push(request.url()); });
+ await page.goto('/#pos');
+ await page.getByRole('region', { name: 'Tutorial do NEXO', exact: true }).getByRole('button', { name: 'Desativar tutorial', exact: true }).click();
+ await expect(page.getByRole('complementary', { name: 'Aviso da demonstração' })).toContainText('fictícios');
+ const history = page.getByRole('table', { name: 'Vendas realizadas', exact: true });
+ await expect(history.locator('tbody tr')).toHaveCount(50);
+ await page.getByRole('button', { name: 'Vendas mais antigas', exact: true }).click();
+ await expect(history.locator('tbody tr')).toHaveCount(3);
+ await history.getByRole('button', { name: 'Detalhes', exact: true }).first().click();
+ await expect(page.getByRole('table', { name: 'Itens da venda', exact: true })).toContainText('Água mineral');
+ const navigation = page.getByRole('navigation', { name: 'Navegação principal' });
+ await navigation.getByRole('button', { name: 'Financeiro', exact: true }).click();
+ await expect(page).toHaveURL(/#finance$/);
+ const tasks = page.getByRole('group', { name: 'Tarefas do financeiro' });
+ await expect(tasks.getByRole('button')).toHaveCount(3);
+ await expect(page.getByRole('table', { name: 'Contas a pagar', exact: true })).toBeVisible();
+ await tasks.getByRole('button', { name: 'Receber', exact: true }).click();
+ await expect(page.getByRole('table', { name: 'Contas a receber', exact: true })).toBeVisible();
+ await tasks.getByRole('button', { name: 'Resumo', exact: true }).click();
+ await expect(page.getByText('Resumo do dia', { exact: true })).toBeVisible();
+ await navigation.getByRole('button', { name: 'Produtos', exact: true }).click();
+ await page.getByRole('button', { name: 'Novo produto', exact: true }).click();
+ await page.getByLabel('Código interno').fill('TESTE-PREVIA');
+ await page.getByLabel('Nome', { exact: true }).fill('Produto que não deve ser salvo');
+ await page.getByLabel('Preço de venda (R$)').fill('9,50');
+ await page.getByRole('button', { name: 'Salvar produto', exact: true }).click();
+ await expect(page.getByText('Esta operação não foi realizada.', { exact: false })).toBeVisible();
+ await expect(page.getByRole('table').filter({ hasText: 'TESTE-PREVIA' })).toHaveCount(0);
+ expect(errors).toEqual([]); expect(api).toEqual([]);
+});
+
+test('endereços compartilhados abrem caixa e compras atualizados', async ({ page }) => {
+ await page.goto('/#cash');
+ await page.getByRole('region', { name: 'Tutorial do NEXO', exact: true }).getByRole('button', { name: 'Desativar tutorial', exact: true }).click();
+ await expect(page.getByRole('heading', { name: 'Caixa', exact: true })).toBeVisible();
+ await page.goto('/#purchases');
+ await expect(page.getByRole('heading', { name: 'Compras', exact: true })).toBeVisible();
+ const purchase = page.locator('#compras > details');
+ if (!(await purchase.evaluate(node => (node as HTMLDetailsElement).open))) await purchase.locator(':scope > summary').click();
+ await expect(page.getByLabel('Total da compra', { exact: true })).toBeVisible();
+ await page.getByRole('button', { name: 'Adicionar item', exact: true }).click();
+ await expect(page.getByRole('group', { name: 'Item da compra 2', exact: true })).toBeVisible();
+ await page.getByRole('button', { name: 'Remover item da compra 1', exact: true }).click();
+ await expect(page.getByRole('group', { name: /^Item da compra/ })).toHaveCount(1);
+ await page.setViewportSize({ width: 390, height: 844 });
+ await expect(page.getByRole('heading', { name: 'Compras', exact: true })).toBeVisible();
+ await page.screenshot({ path: 'artifacts/published-preview-purchases-mobile.png', fullPage: true });
+});

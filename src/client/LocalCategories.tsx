@@ -1,6 +1,6 @@
 import { useEffect, useState, type FormEvent } from 'react';
 
-export function LocalCategories({ company, disabled, onSaved }: { company: string; disabled: boolean; onSaved(): void }) {
+export function LocalCategories({ company, active: visible = true, disabled, onSaved }: { company: string; active?: boolean; disabled: boolean; onSaved(): void }) {
   const bridge = window.nexoLocal!;
   const [rows, setRows] = useState<{ id: string; name: string; description: string }[]>([]);
   const [message, setMessage] = useState('');
@@ -8,10 +8,10 @@ export function LocalCategories({ company, disabled, onSaved }: { company: strin
   useEffect(() => {
     let active = true;
     setRows([]); setMessage('');
-    if (company) void bridge.categories(company).then(result => { if (active) setRows(result); })
+    if (company && visible) void bridge.categories(company).then(result => { if (active) setRows(result); })
       .catch(error => { if (active) setMessage(String(error)); });
     return () => { active = false; };
-  }, [company]);
+  }, [company, visible]);
   async function save(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     const element = event.currentTarget;

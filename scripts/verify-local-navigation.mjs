@@ -33,6 +33,19 @@ try {
  await page.getByRole('button',{name:'Salvar produto'}).click();
  await expect(page.getByRole('cell',{name:'Produto simples',exact:true})).toBeVisible();
  await expect(page.getByRole('form',{name:'Cadastro de produtos'})).toBeHidden();
+ await page.getByRole('button',{name:'Novo produto'}).click();
+ await expect(page.getByLabel('Código interno')).toHaveValue('');
+ await page.getByLabel('Código interno').fill('DESCARTAR');
+ await page.getByRole('button',{name:'Cancelar',exact:true}).click();
+ await page.getByRole('button',{name:'Novo produto'}).click();
+ await expect(page.getByLabel('Código interno')).toHaveValue('');
+ await page.getByLabel('Código interno').fill('EMPRESA-ANTERIOR');
+ await page.getByLabel('Empresa em uso').selectOption('deposito-jg');
+ await expect(page.getByRole('form',{name:'Cadastro de produtos'})).toBeHidden();
+ await page.getByRole('button',{name:'Novo produto'}).click();
+ await expect(page.getByLabel('Código interno')).toHaveValue('');
+ await page.getByRole('button',{name:'Cancelar',exact:true}).click();
+ await page.getByLabel('Empresa em uso').selectOption('adega-jg');
  const productId = await page.evaluate(async () => {
   const product=(await window.nexoLocal.products('adega-jg'))[0];
   const supplier=await window.nexoLocal.createPerson('adega-jg','supplier',{name:'Fornecedor teste'});
