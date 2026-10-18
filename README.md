@@ -2,6 +2,10 @@
 
 Aplicativo local para a operação diária da **Adega JG** e do **Depósito JG**. O NEXO funciona no Windows sem internet, servidor, Node.js, Docker ou banco instalado pelo usuário. Cada empresa mantém seus próprios cadastros e movimentos.
 
+## Baixar o programa para Windows
+
+[**Baixar NEXO-Windows-v1.0.2.zip**](https://github.com/EduT3/nexo-gestao-comercial/releases/download/v1.0.2/NEXO-Windows-v1.0.2.zip) — programa completo, sem fontes de desenvolvimento nem dados de teste. Extraia todos os arquivos e abra **NEXO.exe**.
+
 ## Abrir o aplicativo
 
 1. Mantenha juntos todos os arquivos da pasta `NEXO-Windows-*`.

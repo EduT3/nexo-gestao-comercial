@@ -52,4 +52,4 @@ Um computador por instalação, sem sincronização em rede/nuvem. Emissão fisc
 - [ ] Manutenção: identificação interna de versão/build, extração adicional de LocalApp e contratos centrais.
 - [ ] Crescimento: medir bases grandes e evoluir consultas/paginação SQL dos demais históricos.
 
-Evidências e limites em RECOVERY-HISTORY-2026-10-18.md e PURCHASES-CASH-FINANCE-2026-10-18.md. A nova organização operacional foi entregue no Windows; não houve nova publicação da demonstração.
+Evidências e limites em RECOVERY-HISTORY-2026-10-18.md e PURCHASES-CASH-FINANCE-2026-10-18.md. A nova organização operacional foi entregue no Windows e publicada na demonstração web em 18/10/2026. O pacote portátil v1.0.2 está preparado para download no GitHub Releases.

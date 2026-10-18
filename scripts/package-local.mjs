@@ -12,7 +12,15 @@ await cp('electron', path.join(appFolder, 'electron'), { recursive: true });
 await cp('node_modules/exceljs/dist/exceljs.min.js', path.join(appFolder, 'electron', 'exceljs.cjs'));
 await cp('dist/client', path.join(appFolder, 'dist/client'), { recursive: true });
 await cp('dist/local-runtime', path.join(appFolder, 'dist/local-runtime'), { recursive: true });
-await cp('node_modules/zod', path.join(appFolder, 'node_modules/zod'), { recursive: true });
+// Ship the library's executable modules and license, excluding development sources/tests/types.
+const zodSource = path.resolve('node_modules/zod');
+await cp(zodSource, path.join(appFolder, 'node_modules/zod'), {
+  recursive: true,
+  filter: source => {
+    const relative = path.relative(zodSource, source);
+    return !relative.split(path.sep).includes('src') && !/\.d\.(?:ts|cts|mts)$/.test(relative);
+  },
+});
 await writeFile(path.join(appFolder, 'package.json'), JSON.stringify({ name: 'nexo-local', version: '0.1.0', type: 'module', main: 'electron/main.cjs' }));
 await writeFile(path.join(destination, 'LEIA-ME.txt'), [
   'NEXO — Gestão Comercial',

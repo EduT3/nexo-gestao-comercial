@@ -253,3 +253,14 @@ Publicação autorizada pelo usuário no repositório EduT3/nexo-gestao-comercia
 A ponte da demonstração usa somente exemplos fictícios em memória. Todas as operações comerciais de gravação, backup, restauração e acesso a arquivos são recusadas com aviso explícito; não há acesso à base SQLite do computador. Preferências do tutorial continuam restritas ao navegador. O produto operacional permanece o executável Windows.
 
 Validação antes do envio: 39 arquivos/152 testes, tipagem/build geral e prévia aprovados; 23 regressões do aplicativo e seis verificações da prévia/isolamento/tutorial no Edge aprovadas. A aprovação dos casos Windows empacotados anteriores está registrada nos relatórios de recuperação/histórico e compras/caixa/financeiro. Esta publicação web não regenera o ZIP Windows.
+
+
+## Programa portátil para download — v1.0.2, 18/10/2026
+
+ZIP NEXO-Windows-v1.0.2.zip preparado para GitHub Releases, com o programa Windows e suas bibliotecas. O empacotamento da Zod agora exclui fontes, testes e declarações de tipos; os módulos executáveis e a licença permanecem incluídos. Sem bancos, credenciais, logs ou arquivos de desenvolvimento. A aplicação compilada corresponde ao código comercial de bec32c6; esta entrega altera o empacotamento e a documentação.
+
+Verificação do ZIP: 505 arquivos, 172945265 bytes, todos com SHA-256 igual ao pacote após extração; 169 arquivos próprios do runtime iguais à compilação. SHA-256 do ZIP: dfd7ed9aae51ef230852cb485240b39099c408bf968d34d29d23f7714377d1e4.
+
+Tipagem e build desktop aprovados. Programa extraído validado com janela oculta, contexto Chromium offline, LOCALAPPDATA temporário e PATH sem Node: 10 grupos de compras/caixa/financeiro e 12 grupos de recuperação/histórico, todos aprovados. Incluem persistência ao reabrir, 101 vendas em três páginas, cancelamento e negativos da restauração. Recibos locais: artifacts/commerce-usability-1792343991470/result.json e artifacts/recovery-history-1792344107662/result.json. Nenhuma base operacional foi aberta ou substituída. Mantêm-se os limites de homologação em outra máquina Windows limpa.
+
+Download: https://github.com/EduT3/nexo-gestao-comercial/releases/download/v1.0.2/NEXO-Windows-v1.0.2.zip. Extraia tudo e abra NEXO.exe; preserve LOCALAPPDATA/NEXO ao atualizar.

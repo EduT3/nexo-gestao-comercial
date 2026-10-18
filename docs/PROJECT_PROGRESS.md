@@ -52,3 +52,6 @@ Procedimentos, resultados e limites: [INTEGRATION-2026-10-15.md](INTEGRATION-202
 
 
 18/10/2026: versão para publicação autorizada no GitHub/Vercel; demonstração alinhada à interface Windows com dados fictícios em memória e gravações bloqueadas. 152 testes e 29 verificações distintas de navegador aprovados. Endereços públicos preservados. ZIP Windows anterior não regenerado nesta entrega. Ver STATUS para escopo e validação.
+
+
+18/10/2026: pacote portátil v1.0.2 preparado para download no GitHub. ZIP somente do programa e dependências, sem fontes/testes da biblioteca, bases ou credenciais. 505 arquivos conferidos após extração; 22 grupos de testes no executável extraído aprovados offline com dados temporários, incluindo reabertura e recuperação. Tipagem/build aprovados; detalhes e hash em STATUS.
