@@ -33,7 +33,7 @@ export function NexoNavigation({
   return (
     <aside className="sidebar nexo-sidebar">
       <div className="nexo-brand" aria-label="NEXO Balcão">
-        <img className="nexo-brand-icon" src={`${import.meta.env.BASE_URL}nexo-icon.png`} alt="" width={40} height={40} /><strong>NEXO</strong>
+        <strong aria-label="NEXO"><img className="nexo-brand-icon" src={`${import.meta.env.BASE_URL}nexo-icon.png`} alt="" width={40} height={40} />EXO</strong>
         <span>Balcão</span>
       </div>
       <nav aria-label="Navegação principal">

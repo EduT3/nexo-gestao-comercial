@@ -1,7 +1,7 @@
 const { contextBridge, ipcRenderer } = require('electron');
 contextBridge.exposeInMainWorld('nexoLocal', Object.freeze({
   createOperator: input => ipcRenderer.invoke('nexo:create-operator', input),
-  login: (id, password) => ipcRenderer.invoke('nexo:login', id, password),
+  login: id => ipcRenderer.invoke('nexo:login', id),
   logout: () => ipcRenderer.invoke('nexo:logout'),
   stockHistory: (company, input) => ipcRenderer.invoke('nexo:stock-history', company, input),
   status: () => ipcRenderer.invoke('nexo:status'),

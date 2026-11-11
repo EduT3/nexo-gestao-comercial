@@ -38,7 +38,8 @@
   overflow: auto;
 }
 .nexo-brand { display: flex; flex-direction: column; align-items: flex-start; padding-left: 24px; margin: 1px 0 48px; }
-.nexo-brand-icon { display: block; margin-bottom: 6px; object-fit: contain; } .nexo-brand strong { color: var(--nexo-ink); font-size: 40px; font-weight: 800; letter-spacing: -2px; line-height: 1.08; }
+.nexo-brand-icon { display: block; width: 1em; height: 1em; object-fit: contain; }
+.nexo-brand strong { display: flex; align-items: center; gap: 2px; color: var(--nexo-ink); font-size: 40px; font-weight: 800; letter-spacing: -2px; line-height: 1.08; }
 .nexo-brand > span { margin-top: 4px; padding: 6px 14px; border-radius: 9px; background: var(--nexo-teal); color: #fff; font-size: 16px; font-weight: 700; line-height: 1.15; }
 .local-app .nexo-sidebar nav { margin: 0; padding: 0; overflow: visible; display: flex; flex-direction: column; gap: 10px; }
 .local-app .nexo-sidebar .nav-link,

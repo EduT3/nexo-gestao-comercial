@@ -15,17 +15,15 @@ byId('open').onclick = () => run(() => bridge.folder());
 byId('diagnostic').onclick = () => run(() => bridge.diagnostic());
 byId('exit').onclick = () => run(() => bridge.exit());
 byId('select').onclick = async () => {
-  candidate = undefined; byId('restore').hidden = true; byId('password').value = '';
+  candidate = undefined; byId('restore').hidden = true;
   const result = await run(() => bridge.select());
   if (!result?.token) return;
   candidate = result; byId('selected').textContent = 'Cópia selecionada: ' + result.name;
   byId('user').replaceChildren(...result.users.map(user => { const option = document.createElement('option'); option.value = user.id; option.textContent = user.name; return option; }));
-  byId('restore').hidden = false; byId('password').focus();
+  byId('restore').hidden = false; byId('user').focus();
 };
 byId('restore').onsubmit = async event => {
   event.preventDefault(); if (!candidate) return;
-  const password = byId('password').value;
-  byId('password').value = '';
-  await run(() => bridge.restore(candidate.token, byId('user').value, password));
+  await run(() => bridge.restore(candidate.token, byId('user').value));
 };
 void bridge.status().then(status => { byId('error').textContent = status.message; byId('folder').textContent = status.folder; }).catch(() => { byId('message').textContent = 'Não foi possível carregar o diagnóstico.'; });

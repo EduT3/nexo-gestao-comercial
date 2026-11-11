@@ -5,7 +5,7 @@ import path from 'node:path';
 import { openLocalDatabase } from '../src/local/sqlite';
 import { prepareLocalDatabase } from '../src/local/migrations';
 import { initializeLocalOwner } from '../src/local/onboarding';
-import { setInitialLocalPassword, createLocalOperator, authenticateLocalUser, createNamedOperator, enterLocalUser, listNamedUsers } from '../src/local/access';
+import { setInitialLocalPassword, createLocalOperator, authenticateLocalUser } from '../src/local/access';
 import { listLocalProducts, createLocalProduct } from '../src/local/catalog';
 import { openLocalCash, closeLocalCash } from '../src/local/cash';
 import { randomUUID } from 'node:crypto';
@@ -39,27 +39,5 @@ it('acesso local: credenciais protegidas, operador isolado, permissões e persis
   expect(await authenticateLocalUser(db, operator.id, password)).toEqual(operator);
   await db.query('UPDATE local_users SET active=0 WHERE id=?', [operator.id]);
   await expect(authenticateLocalUser(db, operator.id, password)).rejects.toThrow('Usuário ou senha');
- } finally { await db.close(); await rm(folder, { recursive: true, force: true }); }
-});
-it('permite entrada por nome ao operador e preserva a senha administrativa', async () => {
- const folder = await mkdtemp(path.join(tmpdir(), 'nexo-named-access-'));
- const file = path.join(folder, 'base.sqlite');
- const db = openLocalDatabase(file);
- try {
-  await prepareLocalDatabase(db, file);
-  const owner = await initializeLocalOwner(db, 'Responsável');
-  const operator = await createNamedOperator(db, owner.id, { name: 'Operador', companies: ['adega-jg'] });
-  await expect(enterLocalUser(db, operator.id, undefined)).resolves.toEqual(operator);
-  await expect(enterLocalUser(db, owner.id, undefined)).rejects.toThrow();
-  await expect(enterLocalUser(db, owner.id, 'SenhaAdministrativa')).resolves.toEqual(owner);
-  await expect(enterLocalUser(db, owner.id, 'SenhaIncorreta')).rejects.toThrow('senha inválidos');
-  expect(await listNamedUsers(db)).toEqual([
-   { ...operator, requiresPassword: false, hasPassword: false },
-   { ...owner, requiresPassword: true, hasPassword: true },
-  ]);
-  expect(await db.query('SELECT user_id FROM local_credentials')).toEqual([{ user_id: owner.id }]);
-  await expect(createNamedOperator(db, operator.id, { name: 'Outro operador', companies: ['adega-jg'] })).rejects.toThrow('administrador');
-  await db.query('UPDATE local_memberships SET active=0 WHERE user_id=?', [operator.id]);
-  await expect(enterLocalUser(db, operator.id, undefined)).rejects.toThrow('acesso à loja');
  } finally { await db.close(); await rm(folder, { recursive: true, force: true }); }
 });

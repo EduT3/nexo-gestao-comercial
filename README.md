@@ -10,7 +10,7 @@ Aplicativo local para a operação diária da **Adega JG** e do **Depósito JG**
 
 1. Mantenha juntos todos os arquivos da pasta `NEXO-Windows-*`.
 2. Abra `NEXO.exe`.
-3. No primeiro acesso, cadastre o responsável e defina a senha administrativa.
+3. No primeiro acesso, cadastre o responsável e selecione o nome para entrar.
 4. Escolha a empresa em operação, sempre mostrada no topo da tela.
 
 Os dados ficam em `%LOCALAPPDATA%\NEXO\nexo.sqlite`, fora da pasta do programa e fora do OneDrive. Fechar ou atualizar o aplicativo não remove essa base.
@@ -59,7 +59,7 @@ Baixe o modelo dentro do aplicativo. A importação aceita até 1.000 linhas e 5
 - uma instalação atende um computador, sem sincronização em rede ou nuvem;
 - não há emissão fiscal, integração bancária, e-commerce, delivery, CRM ou BI avançado;
 - o pacote ainda não possui assinatura digital nem instalador tradicional;
-- operadores entram pelo nome. O responsável usa a senha administrativa.
+- qualquer pessoa com acesso ao programa neste computador pode selecionar um usuário, inclusive o responsável.
 
 ## Desenvolvimento e validação
 
@@ -92,7 +92,7 @@ Detalhes de uso, persistência, testes e limites em [Tutorial integrado — 13/1
 
 Pacote da etapa de recuperação/histórico: artifacts/NEXO-Windows-1792340357595/NEXO.exe. A versão atual está indicada na seção seguinte. ZIP portátil: artifacts/NEXO-Windows-recuperacao-historico-2026-10-18.zip. Gere um backup, feche a versão anterior, extraia o ZIP e abra o novo executável. Preserve %LOCALAPPDATA%/NEXO.
 
-Se a base não abrir, a tela de recuperação permite tentar novamente, escolher uma cópia, abrir a pasta e guardar diagnóstico. Para restaurar, informe a senha do responsável cadastrado no backup e confirme. O programa guarda os arquivos anteriores.
+Se a base não abrir, a tela de recuperação permite tentar novamente, escolher uma cópia, abrir a pasta e guardar diagnóstico. Para restaurar, selecione o nome do responsável cadastrado no backup e confirme. O programa guarda os arquivos anteriores.
 
 Em Vender, o Histórico de vendas mostra data, identificação e cliente, com busca, período, situação e páginas para todas as vendas. Detalhes permite conferir os itens e valores originais antes de cancelar. Evidências e limites em [Recuperação e histórico](docs/RECOVERY-HISTORY-2026-10-18.md).
 

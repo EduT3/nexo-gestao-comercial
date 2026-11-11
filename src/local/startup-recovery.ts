@@ -6,7 +6,7 @@ import { randomUUID } from 'node:crypto';
 import { LOCAL_SCHEMA_VERSION } from './migrations.js';
 import { validateLocalBackup } from './recovery.js';
 import { openLocalDatabase } from './sqlite.js';
-import { authenticateLocalUser } from './access.js';
+import { selectNamedUser } from './access.js';
 import { authorizeLocalCatalog } from './catalog.js';
 
 export async function inspectStartupDatabase(file: string) {
@@ -28,17 +28,16 @@ export async function stageStartupBackup(source: string, folder: string) {
     await copyFile(source, staged, constants.COPYFILE_EXCL); await syncFile(staged); validateLocalBackup(staged);
     const engine = new DatabaseSync(staged, { readOnly: true });
     try {
-      if (Number(engine.prepare('PRAGMA user_version').get()?.user_version) < 11) throw new Error('Use uma cópia com a senha do responsável configurada.');
-      const users = engine.prepare("SELECT u.id,u.name FROM local_users u JOIN local_credentials c ON c.user_id=u.id WHERE u.active=1 AND EXISTS(SELECT 1 FROM local_memberships m WHERE m.user_id=u.id AND m.company_id='adega-jg' AND m.active=1 AND m.role='ADMIN') AND NOT EXISTS(SELECT 1 FROM local_companies company WHERE NOT EXISTS(SELECT 1 FROM local_memberships m WHERE m.user_id=u.id AND m.company_id=company.id AND m.active=1 AND m.role='ADMIN')) ORDER BY u.name").all() as { id: string; name: string }[];
-      if (!users.length) throw new Error('A cópia não possui um responsável com senha e acesso ativo a toda a instalação.');
+      const users = engine.prepare("SELECT u.id,u.name FROM local_users u WHERE u.active=1 AND EXISTS(SELECT 1 FROM local_memberships m WHERE m.user_id=u.id AND m.company_id='adega-jg' AND m.active=1 AND m.role='ADMIN') AND NOT EXISTS(SELECT 1 FROM local_companies company WHERE NOT EXISTS(SELECT 1 FROM local_memberships m WHERE m.user_id=u.id AND m.company_id=company.id AND m.active=1 AND m.role='ADMIN')) ORDER BY u.name").all() as { id: string; name: string }[];
+      if (!users.length) throw new Error('A cópia não possui um responsável com acesso ativo a toda a instalação.');
       return { staged, users };
     } finally { engine.close(); }
   } catch (error) { await unlink(staged).catch(() => undefined); throw error; }
 }
-export async function authorizeStartupBackup(staged: string, userId: string, password: unknown) {
+export async function authorizeStartupBackup(staged: string, userId: string) {
   const database = openLocalDatabase(staged);
   try {
-    const actor = await authenticateLocalUser(database, userId, password);
+    const actor = await selectNamedUser(database, userId);
     await database.transaction(async tx => {
       const companies = await tx.query('SELECT id FROM local_companies');
       if (!companies.length) throw new Error('Cópia sem loja cadastrada.');

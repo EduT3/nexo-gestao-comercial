@@ -37,8 +37,8 @@ it('instala uma loja nova e preserva bases antigas de duas empresas', async () =
     await db.backup(backup);
     validateLocalBackup(backup);
     const staged = await stageStartupBackup(backup, folder);
-    await expect(authorizeStartupBackup(staged.staged, owner.id, 'senha-temporaria-qa')).resolves.toBeUndefined();
-    await expect(authorizeStartupBackup(staged.staged, operator.id, 'senha-operador-qa')).rejects.toThrow('administrador');
+    await expect(authorizeStartupBackup(staged.staged, owner.id)).resolves.toBeUndefined();
+    await expect(authorizeStartupBackup(staged.staged, operator.id)).rejects.toThrow('administrador');
     await prepareLocalDatabase(db, fresh, { singleStore: true });
     expect(await db.query('SELECT id FROM local_companies')).toEqual([{ id: 'adega-jg' }]);
   } finally {
