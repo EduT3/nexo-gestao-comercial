@@ -31,7 +31,7 @@ import { NexoNavigation } from './NexoNavigation';
 import { NexoTopbar } from './NexoTopbar';
 import { LocalPurchases } from './LocalPurchases';
 
-export type Status = { userId?: string; authenticated: boolean; users: { id: string; name: string }[]; configured: boolean; owner?: string; dataFolder: string; lastBackup?: string; startupNotice?: string; companies: { id: string; name: string; role: 'ADMIN' | 'OPERADOR' }[] };
+export type Status = { userId?: string; authenticated: boolean; users: { id: string; name: string; requiresPassword: boolean; hasPassword: boolean }[]; configured: boolean; owner?: string; dataFolder: string; lastBackup?: string; startupNotice?: string; companies: { id: string; name: string; role: 'ADMIN' | 'OPERADOR' }[] };
 type Product = { id: string; name: string; internal_code: string; price_cents: bigint; cost_cents?: bigint; unit: string; active: bigint; category_id?: string | null };
 declare global {
   interface Window {
@@ -42,7 +42,7 @@ declare global {
       stockHistory(company: string, input: unknown): Promise<StockHistory>;
       status(): Promise<Status>;
       buildInfo?(): Promise<BuildInfo>;
-      login(id: string): Promise<void>;
+      login(id: string, password?: string): Promise<void>;
       logout(): Promise<void>;
       receivables(company: string): Promise<ReceivableRow[]>;
       createReceivable(company: string, key: string, input: unknown): Promise<unknown>;

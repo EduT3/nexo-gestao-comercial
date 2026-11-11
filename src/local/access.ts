@@ -9,8 +9,9 @@ function credential(password: string) { const salt = randomBytes(16).toString('h
 export async function setInitialLocalPassword(db: LocalDatabase, ownerId: string, input: unknown) {
  const password = passwordSchema.parse(input);
  return db.transaction(async tx => {
-  if ((await tx.query('SELECT user_id FROM local_credentials LIMIT 1')).length) throw new Error('A senha inicial já foi configurada. Entre com sua senha.');
-  const users = await tx.query('SELECT id FROM local_users WHERE active=1');
+  if ((await tx.query(`SELECT c.user_id FROM local_credentials c
+    JOIN local_memberships m ON m.user_id=c.user_id WHERE m.role='ADMIN' LIMIT 1`)).length) throw new Error('A senha inicial já foi configurada. Entre com sua senha.');
+  const users = await tx.query("SELECT u.id FROM local_users u WHERE u.active=1 AND EXISTS (SELECT 1 FROM local_memberships m WHERE m.user_id=u.id AND m.active=1 AND m.role='ADMIN')");
   if (users.length !== 1 || users[0]?.id !== ownerId) throw new Error('O responsável inicial não foi identificado.');
   const memberships = await tx.query("SELECT company_id FROM local_memberships WHERE user_id=? AND role='ADMIN' AND active=1", [ownerId]);
   const companies = await tx.query('SELECT id FROM local_companies');
@@ -59,16 +60,25 @@ export async function authenticateLocalUser(db: LocalDatabase, userId: string, i
  });
 }
 export async function listNamedUsers(db: LocalDatabase) {
- const rows = await db.query(`SELECT u.id,u.name FROM local_users u WHERE u.active=1
+ const rows = await db.query(`SELECT u.id,u.name,
+  EXISTS (SELECT 1 FROM local_memberships m WHERE m.user_id=u.id AND m.active=1 AND m.role='ADMIN') AS is_admin,
+  EXISTS (SELECT 1 FROM local_credentials c WHERE c.user_id=u.id) AS has_password
+  FROM local_users u WHERE u.active=1
   AND EXISTS (SELECT 1 FROM local_memberships m WHERE m.user_id=u.id AND m.active=1)
-  ORDER BY u.name,u.id`);
- return rows.map(row => ({ id: String(row.id), name: String(row.name) }));
+  ORDER BY is_admin,u.name,u.id`);
+ return rows.map(row => ({
+  id: String(row.id), name: String(row.name),
+  requiresPassword: row.is_admin === 1n, hasPassword: row.has_password === 1n,
+ }));
 }
 
-export async function selectNamedUser(db: LocalDatabase, input: unknown) {
+export async function enterLocalUser(db: LocalDatabase, input: unknown, password: unknown) {
  const id = z.string().uuid().parse(input);
- const user = (await db.query(`SELECT u.id,u.name FROM local_users u WHERE u.id=? AND u.active=1
-  AND EXISTS (SELECT 1 FROM local_memberships m WHERE m.user_id=u.id AND m.active=1)`, [id]))[0];
+ const user = (await listNamedUsers(db)).find(candidate => candidate.id === id);
  if (!user) throw new Error('Selecione um usuário ativo com acesso à loja.');
- return { id: String(user.id), name: String(user.name) };
+ if (user.requiresPassword) {
+  if (!user.hasPassword) await setInitialLocalPassword(db, id, password);
+  return authenticateLocalUser(db, id, password);
+ }
+ return { id: user.id, name: user.name };
 }

@@ -23,7 +23,7 @@ else app.whenReady().then(async () => {
   const { openLocalDatabase } = await runtime('local/sqlite.js');
   const { listLocalProducts, createLocalProduct, updateLocalProduct } = await runtime('local/catalog.js');
   const { prepareLocalDatabase } = await runtime('local/migrations.js');
-  const { listNamedUsers, selectNamedUser, createNamedOperator } = await runtime('local/access.js');
+  const { listNamedUsers, enterLocalUser, createNamedOperator } = await runtime('local/access.js');
   const { createTutorialPreferences } = await runtime('local/tutorial-preferences.js');
   const { initializeLocalOwner } = await runtime('local/onboarding.js');
   const { previewLocalProductImport, commitLocalProductImport, getLocalProductImportTemplateData } = await runtime('local/product-import.js');
@@ -63,7 +63,7 @@ else app.whenReady().then(async () => {
       await db?.close().catch(() => undefined); db = undefined;
       const result = await require('./startup-recovery.cjs').showStartupRecovery({ folder: dataFolder, error, services: startupServices, pendingOperations });
       if (result.exit || quitting) return;
-      if (result.restored) startupNotice = 'Cópia restaurada. Entre selecionando seu nome. Os arquivos anteriores estão guardados em ' + result.retained;
+      if (result.restored) startupNotice = 'Cópia restaurada. Use a senha do responsável da cópia para acessar a administração. Os arquivos anteriores estão guardados em ' + result.retained;
     }
   }
   if (quitting) return;
@@ -96,9 +96,9 @@ else app.whenReady().then(async () => {
       companies: actor ? await db.query('SELECT c.id,c.name,m.role FROM local_companies c JOIN local_memberships m ON m.company_id=c.id WHERE m.user_id=? AND m.active=1', [actor.id]) : [] };
   });
   handle('nexo:configure', name => changeSession(async () => { await initializeLocalOwner(db, name); return { configured: true }; }));
-  handle('nexo:login', id => changeSession(async () => {
+  handle('nexo:login', (id, password) => changeSession(async () => {
     if (actor) throw new Error('Saia do acesso atual antes de entrar com outro usuário.');
-    actor = await selectNamedUser(db, id); startupNotice = undefined;
+    actor = await enterLocalUser(db, id, password); startupNotice = undefined;
   }));
   handle('nexo:logout', () => changeSession(async () => { actor = undefined; productImportPreview = undefined; }));
   const requireActor = () => { if (switchingSession || !actor) throw new Error('Entre com seu usuário antes de continuar.'); return actor.id; };
