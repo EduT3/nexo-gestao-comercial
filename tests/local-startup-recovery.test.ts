@@ -27,7 +27,7 @@ it.each(['corrupt','future','empty','foreign'])('recusa %s sem alterar os bytes 
   const file=path.join(await folder(),'nexo.sqlite');
   if(scenario==='corrupt')await writeFile(file,'arquivo inválido de teste');
   else if(scenario==='empty')await writeFile(file,'');
-  else {const db=new DatabaseSync(file);db.exec(scenario==='future'?'PRAGMA user_version=12':'CREATE TABLE outro(id TEXT)');db.close();}
+  else {const db=new DatabaseSync(file);db.exec(scenario==='future'?'PRAGMA user_version=13':'CREATE TABLE outro(id TEXT)');db.close();}
   const before=await readFile(file);await expect(inspectStartupDatabase(file)).rejects.toThrow();expect(await readFile(file)).toEqual(before);
 });
 it('marcador de interrupção impede criar instalação vazia quando a base foi movida',async()=>{
@@ -38,20 +38,21 @@ it('backup inválido não toca a base ativa nem altera a origem',async()=>{
   const root=await folder(),file=path.join(root,'nexo.sqlite'),bad=path.join(root,'invalido.sqlite');await writeFile(file,'original');await writeFile(bad,'não é um backup');
   await expect(stageStartupBackup(bad,root)).rejects.toThrow();expect(await readFile(file,'utf8')).toBe('original');expect(await readFile(bad,'utf8')).toBe('não é um backup');
 });
-it('exige credencial do responsável da cópia e mantém a origem byte a byte',async()=>{
+it('seleciona o responsável da cópia e mantém a origem byte a byte',async()=>{
   const root=await folder(), {file,owner,operator}=await backupAt(root), before=await readFile(file);
   const staged=await stageStartupBackup(file,root);expect(staged.users).toEqual([{id:owner.id,name:owner.name}]);
-  await expect(authorizeStartupBackup(staged.staged,owner.id,'errada-123')).rejects.toThrow('senha inválidos');
-  await expect(authorizeStartupBackup(staged.staged,operator!.id,'operador-123')).rejects.toThrow('administrador');
-  await authorizeStartupBackup(staged.staged,owner.id,'senha-segura');expect(await readFile(file)).toEqual(before);
+  await expect(authorizeStartupBackup(staged.staged,operator!.id)).rejects.toThrow('administrador');
+  await authorizeStartupBackup(staged.staged,owner.id);expect(await readFile(file)).toEqual(before);
 });
-it('recusa backup sem senha com orientação de recuperação',async()=>{
-  const root=await folder(),{file}=await backupAt(root,false);await expect(stageStartupBackup(file,root)).rejects.toThrow('responsável com senha');
+it('aceita cópia de uma instalação sem senha',async()=>{
+  const root=await folder(),{file,owner}=await backupAt(root,false);
+  const staged=await stageStartupBackup(file,root);
+  await expect(authorizeStartupBackup(staged.staged,owner.id)).resolves.toBeUndefined();
 });
 it('instala cópia validada preservando todos os arquivos anteriores e reabre os dados',async()=>{
   const root=await folder(),{file,owner}=await backupAt(root), active=path.join(root,'nexo.sqlite');
   for(const suffix of ['','-wal','-shm','-journal'])await writeFile(active+suffix,'anterior'+suffix);
-  const stage=await stageStartupBackup(file,root);await authorizeStartupBackup(stage.staged,owner.id,'senha-segura');
+  const stage=await stageStartupBackup(file,root);await authorizeStartupBackup(stage.staged,owner.id);
   const result=await installStartupBackup(active,stage.staged);
   for(const suffix of ['','-wal','-shm','-journal'])expect(await readFile(path.join(result.retained,'nexo.sqlite'+suffix),'utf8')).toBe('anterior'+suffix);
   await expect(access(path.join(root,'recovery-pending.json'))).rejects.toThrow();await inspectStartupDatabase(active);

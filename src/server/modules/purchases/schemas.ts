@@ -15,12 +15,14 @@ export const receivePurchaseSchema = z.object({
   items: z.array(z.object({ productId: z.string().uuid(), quantity, unitCostCents: cents }).strict()).min(1).max(100),
   notes: z.string().trim().max(1000).default(''),
   payable: z.object({ dueDate: z.iso.date(), notes: z.string().trim().max(500).default('') }).strict().nullable().default(null),
-}).strict().superRefine((value, context) => {
+}).strict().superRefine(uniquePurchaseProducts);
+
+export function uniquePurchaseProducts(value:{items:readonly {productId:string}[]},context:z.RefinementCtx){
   const seen = new Set<string>();
   value.items.forEach((item, index) => {
     if (seen.has(item.productId)) context.addIssue({ code: 'custom', path: ['items', index, 'productId'], message: 'O produto está repetido na compra.' });
     seen.add(item.productId);
   });
-});
+}
 
 export const purchaseIdempotencyKeySchema = z.string().uuid('Idempotency-Key deve ser um UUID válido.');

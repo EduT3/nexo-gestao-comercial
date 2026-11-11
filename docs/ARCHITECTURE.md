@@ -81,3 +81,16 @@ docs/                 objetivo, roadmap, riscos e evidências
 ```
 
 O código antigo de API permanece apenas para sustentar a prévia histórica enquanto a interface web é convergida. Ele não faz parte do executável nem da rotina operacional.
+
+
+## Consultas financeiras paginadas — 19/10/2026
+
+Pagar e Receber usam os contratos aditivos payablesPage/receivablesPage: página zero-based, de 1 a 50 títulos por chamada, contagem e total em centavos de todo o filtro. Filtros de situação, intervalo de vencimento inclusivo, vencidas em aberto e busca sem acentos são aplicados no SQLite. A ordenação é vencimento/id. Contagem, soma e linhas compartilham uma transação autorizada; isso não mantém um cursor congelado entre chamadas quando há novas gravações.
+
+As baixas ativas são materializadas uma vez por consulta e juntadas aos títulos, evitando a varredura repetida da coleção de pagamentos. Duas funções registradas somente na conexão confiável normalizam a busca e somam centavos com BigInt/resultado decimal, inclusive acima de int64. Sem índices novos, migração ou mudanças nas tabelas. A soma acumulada da interface usa financeTotals, que retorna escalares sem listas comerciais. Métodos antigos de coleção permanecem compatíveis para consumidores existentes; a interface destas duas tarefas não os usa.
+
+useLocalAccountPage isola o ciclo de leitura por empresa/filtro/página, conservando formulários no espaço da empresa. Consultas de áreas escondidas e respostas antigas continuam descartadas. Clientes do formulário de recebível são consultados ao abrir o cadastro. Baixa/estorno continuam nos serviços e transações originais. Método e orçamento da medição: FINANCIAL-PAGINATION-METHOD-2026-10-19.md; resultados: FINANCIAL-PAGINATION-2026-10-19.md.
+
+O ciclo da gravação é separado do contexto de leitura: trocar de data/filtro não descarta a conclusão da baixa na mesma empresa. Empresa/remontagem continuam invalidando callbacks antigos. A lista atual é renovada após a gravação, incluindo a virada do dia.
+
+Quando há busca textual, o conjunto filtrado é materializado uma única vez na mesma instrução SQL para reutilização pela contagem/soma e página. Metadados internos de contagem/posição são removidos antes da resposta; a ponte recebe a mesma página limitada e os totais completos. Sem busca, contagem/soma e página continuam dentro da mesma transação.

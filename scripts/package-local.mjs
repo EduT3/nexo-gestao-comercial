@@ -1,5 +1,9 @@
 import { cp, mkdir, rename, writeFile } from 'node:fs/promises';
 import path from 'node:path';
+import {createRequire} from 'node:module';
+const require=createRequire(import.meta.url);
+const {loadBuildArtifacts,descriptor,verifyPackagedPayload}=require('../electron/build-info.cjs');
+const {info,manifest}=await loadBuildArtifacts(process.cwd());
 
 // Fresh destination avoids damaging a previous package or any active data.
 const destination = path.resolve('artifacts', `NEXO-Windows-${Date.now()}`);
@@ -21,14 +25,20 @@ await cp(zodSource, path.join(appFolder, 'node_modules/zod'), {
     return !relative.split(path.sep).includes('src') && !/\.d\.(?:ts|cts|mts)$/.test(relative);
   },
 });
-await writeFile(path.join(appFolder, 'package.json'), JSON.stringify({ name: 'nexo-local', version: '0.1.0', type: 'module', main: 'electron/main.cjs' }));
+await writeFile(path.join(appFolder, 'package.json'), JSON.stringify(descriptor(info.productVersion)));
+await cp('dist/build-info.json',path.join(appFolder,'build-info.json'));
+await cp('dist/build-manifest.json',path.join(appFolder,'build-manifest.json'));
+await verifyPackagedPayload(destination,manifest);
 await writeFile(path.join(destination, 'LEIA-ME.txt'), [
   'NEXO — Gestão Comercial',
+  `Versão NEXO: ${info.productVersion}`,
+  `Compilação: ${info.id}`,
+  `Gerado em: ${info.builtAt}`,
   '',
   'COMO ABRIR',
   '1. Mantenha todos os arquivos desta pasta juntos.',
   '2. Abra NEXO.exe.',
-  '3. No primeiro acesso, crie a senha do administrador.',
+  '3. No primeiro acesso, cadastre o responsável e selecione o nome para entrar.',
   '',
   'DADOS E ATUALIZAÇÕES',
   'A base fica em %LOCALAPPDATA%\\NEXO\\nexo.sqlite, fora desta pasta.',
@@ -44,7 +54,7 @@ await writeFile(path.join(destination, 'LEIA-ME.txt'), [
   'Use o botão Gerar backup e guarde uma cópia em outro dispositivo.',
   'Exportação Excel serve para consulta e não substitui o backup.',
   'Se os dados não abrirem, use a tela de recuperação para selecionar um backup.',
-  'Informe a senha do responsável cadastrada na cópia e confirme a restauração.',
+  'Selecione o nome do responsável cadastrado na cópia e confirme a restauração.',
   'Os arquivos anteriores ficam em recovery-saved-* dentro da pasta dos dados.',
   'Uma recuperação interrompida não cria uma instalação vazia: selecione novamente o backup.',
   '',

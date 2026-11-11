@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { errorMessage } from './local-format';
 type PreviewRow = {
   line: number;
   status: 'READY' | 'DUPLICATE' | 'ERROR';
@@ -43,7 +44,7 @@ export function LocalProductExcel({
         );
     } catch (error) {
       if (!active.current) return;
-      setMessage(String(error));
+      setMessage(errorMessage(error));
     } finally {
       running.current = false;
       if (active.current) { onBusyChange(false); setBusy(false); }
@@ -63,7 +64,7 @@ export function LocalProductExcel({
         );
     } catch (error) {
       if (!active.current) return;
-      setMessage(String(error));
+      setMessage(errorMessage(error));
     } finally {
       running.current = false;
       if (active.current) { onBusyChange(false); setBusy(false); }
@@ -82,7 +83,7 @@ export function LocalProductExcel({
     } catch (error) {
       if (!active.current) return;
       setPreview(undefined);
-      setMessage(String(error));
+      setMessage(errorMessage(error));
     } finally {
       running.current = false;
       if (active.current) { onBusyChange(false); setBusy(false); }
@@ -112,7 +113,7 @@ export function LocalProductExcel({
     } catch (error) {
       if (!active.current) return;
       setPreview(undefined);
-      setMessage(String(error));
+      setMessage(errorMessage(error));
     } finally {
       running.current = false;
       if (active.current) { onBusyChange(false); setBusy(false); }

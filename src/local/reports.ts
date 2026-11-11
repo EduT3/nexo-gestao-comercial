@@ -3,10 +3,16 @@ import { authorizeLocalCatalog } from './catalog.js';
 import type { LocalDatabase } from './sqlite.js';
 const periodSchema = z.object({ from: z.iso.datetime({ offset: true }), to: z.iso.datetime({ offset: true }) }).strict().refine(value => Date.parse(value.from) < Date.parse(value.to), 'O início do período deve ser anterior ao fim.');
 function total(rows: Record<string, unknown>[], field: string) { return rows.reduce((sum,row) => sum + BigInt(String(row[field])), 0n); }
+/** Both bounds round up on the stored millisecond grid to preserve [from, to). */
+function reportBoundary(value: string) {
+ const fraction = /\.(\d+)(?:Z|[+-]\d{2}:\d{2})$/.exec(value)?.[1] ?? '';
+ const extraMillisecond = /[1-9]/.test(fraction.slice(3)) ? 1 : 0;
+ return new Date(Date.parse(value) + extraMillisecond).toISOString();
+}
 export async function getLocalDailyReport(db: LocalDatabase, actor: string, company: string, input: unknown) {
  const period = periodSchema.parse(input);
  return db.transaction(async tx => {
-  await authorizeLocalCatalog(tx, actor, company, true); const range = [company,period.from,period.to];
+  await authorizeLocalCatalog(tx, actor, company, true); const range = [company,reportBoundary(period.from),reportBoundary(period.to)];
   const sales = await tx.query(`SELECT s.id,s.total_cents,p.method FROM local_sales s JOIN local_sale_payments p ON p.company_id=s.company_id AND p.sale_id=s.id WHERE s.company_id=? AND s.created_at>=? AND s.created_at<? ORDER BY s.created_at,s.id`,range);
   const cancellations = await tx.query('SELECT amount_cents FROM local_sale_cancellations WHERE company_id=? AND created_at>=? AND created_at<?',range);
   const receipts = await tx.query('SELECT amount_cents FROM local_receivable_receipts WHERE company_id=? AND created_at>=? AND created_at<?',range);

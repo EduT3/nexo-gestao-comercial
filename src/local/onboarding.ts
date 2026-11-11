@@ -14,7 +14,7 @@ export async function initializeLocalOwner(db: LocalDatabase, input: unknown) {
     const id = randomUUID();
     await tx.query('INSERT INTO local_users VALUES(?,?,1)', [id, name]);
     const companies = await tx.query('SELECT id FROM local_companies ORDER BY id');
-    if (companies.length !== 2) throw new Error('Não foi possível preparar as empresas.');
+    if (!companies.length) throw new Error('Não foi possível preparar a loja.');
     for (const company of companies) {
       const companyId = String(company.id);
       await tx.query('INSERT INTO local_memberships VALUES(?,?,?,1)', [companyId, id, 'ADMIN']);

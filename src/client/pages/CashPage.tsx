@@ -25,10 +25,10 @@ export function CashPage({ company }: { company: Company }) {
     catch (reason) { setError(errorMessage(reason)); } finally { setBusy(false); }
   }
   async function move(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault(); const form = new FormData(event.currentTarget); const amount = parseMoney(String(form.get('amount') ?? ''));
+    event.preventDefault(); const element = event.currentTarget; const form = new FormData(element); const amount = parseMoney(String(form.get('amount') ?? ''));
     if (amount === null || amount === 0) { setError('Informe um valor maior que zero.'); return; }
     setBusy(true); setError('');
-    try { await api(`/companies/${company.id}/cash/movements`, { method: 'POST', headers: { 'Idempotency-Key': crypto.randomUUID() }, body: { type: form.get('type'), amountCents: amount, notes: String(form.get('movementNotes') ?? '').trim() } }); setSuccess('Movimento registrado e saldo esperado atualizado.'); resource.reload(); movements.reload(); event.currentTarget.reset(); }
+    try { await api(`/companies/${company.id}/cash/movements`, { method: 'POST', headers: { 'Idempotency-Key': crypto.randomUUID() }, body: { type: form.get('type'), amountCents: amount, notes: String(form.get('movementNotes') ?? '').trim() } }); setSuccess('Movimento registrado e saldo esperado atualizado.'); resource.reload(); movements.reload(); element.reset(); }
     catch (reason) { setError(errorMessage(reason)); } finally { setBusy(false); }
   }
   const cash = resource.data?.cashRegister;

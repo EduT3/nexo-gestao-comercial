@@ -16,7 +16,13 @@ async function login(page: Page) {
 }
 
 async function navigate(page: Page, name: string) {
-  await page.getByRole('navigation', { name: 'Navegação principal' }).getByRole('link', { name, exact: true }).click();
+  const navigation = page.getByRole('navigation', { name: 'Navegação principal' });
+  const link = navigation.getByRole('link', { name, exact: true, includeHidden: true });
+  const group = link.locator('xpath=ancestor::details[1]');
+  if (await group.count() && await group.getAttribute('open') === null) {
+    await group.locator('summary').click();
+  }
+  await link.click();
   await expect(page.getByRole('heading', { name, exact: true, level: 1 })).toBeVisible();
 }
 
@@ -101,7 +107,7 @@ test(`ciclo comercial completo em ${companyName}`, async ({ page }, testInfo) =>
   await page.getByLabel('Quantidade').fill('5,125');
   await page.getByLabel('Observação').fill('Entrada validada pelo fluxo de navegador.');
   await page.getByRole('button', { name: 'Registrar movimentação' }).click();
-  await expect(page.getByRole('status')).toContainText('saldo e o histórico foram atualizados');
+  await expect(page.getByRole('status').filter({hasText:'saldo e o histórico foram atualizados'})).toBeVisible();
   await expect(page.getByRole('row').filter({ hasText: code }).first()).toContainText('5.125');
   await expect(page.getByRole('row').filter({ hasText: 'Entrada validada pelo fluxo de navegador.' })).toContainText('+5.125');
   await page.setViewportSize({ width: 360, height: 900 });
@@ -134,7 +140,7 @@ test(`ciclo comercial completo em ${companyName}`, async ({ page }, testInfo) =>
   await navigate(page, 'Caixa');
   await page.getByLabel('Saldo inicial').fill('100,00');
   await page.getByRole('button', { name: 'Abrir caixa' }).click();
-  await expect(page.getByRole('status')).toContainText('PDV está liberado');
+  await expect(page.getByRole('status').filter({hasText:'PDV está liberado'})).toBeVisible();
   await expect(page.getByText('R$ 100,00').first()).toBeVisible();
 
   await navigate(page, 'PDV / Vendas');
@@ -172,16 +178,21 @@ test(`ciclo comercial completo em ${companyName}`, async ({ page }, testInfo) =>
   await navigate(page, 'Caixa');
   await expect(page.getByText('R$ 100,00').first()).toBeVisible();
   await expect(page.getByText('R$ 18,90').first()).toBeVisible();
-  await page.getByLabel('Tipo').selectOption('ENTRY');
-  await page.getByLabel('Valor').fill('10,00');
-  await page.getByLabel('Motivo').fill('Troco adicional E2E');
+  const cashMovement = page.locator('details').filter({ has: page.getByText('Adicionar ou retirar dinheiro', { exact: true }) });
+  await cashMovement.locator('summary').click();
+  await cashMovement.getByRole('combobox').selectOption('ENTRY');
+  await cashMovement.getByLabel('Valor', { exact: true }).fill('10,00');
+  await cashMovement.getByLabel('Motivo', { exact: true }).fill('Troco adicional E2E');
   await page.getByRole('button', { name: 'Registrar movimento' }).click();
   await expect(page.getByText('Movimento registrado e saldo esperado atualizado.')).toBeVisible();
-  await page.getByLabel('Tipo').selectOption('EXIT');
-  await page.getByLabel('Valor').fill('5,00');
-  await page.getByLabel('Motivo').fill('Retirada operacional E2E');
+  await expect(page.getByText('R$ 110,00', { exact: true }).first()).toBeVisible();
+  if (await cashMovement.getAttribute('open') === null) await cashMovement.locator('summary').click();
+  await cashMovement.getByRole('combobox').selectOption('EXIT');
+  await cashMovement.getByLabel('Valor', { exact: true }).fill('5,00');
+  await cashMovement.getByLabel('Motivo', { exact: true }).fill('Retirada operacional E2E');
   await page.getByRole('button', { name: 'Registrar movimento' }).click();
   await expect(page.getByText('R$ 105,00').first()).toBeVisible();
+  await page.getByText('Encerrar atendimento e fechar caixa', { exact: true }).click();
   await page.getByLabel('Dinheiro contado').fill('104,75');
   await page.getByLabel('Observação do fechamento').fill('Conferência E2E com diferença.');
   await page.getByRole('button', { name: 'Conferir e fechar caixa' }).click();

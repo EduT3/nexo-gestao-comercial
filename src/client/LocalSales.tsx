@@ -41,9 +41,11 @@ export function LocalSales({ company, active = true, onSaved, administrator = tr
   const [discount, setDiscount] = useState('0,00'); const [method, setMethod] = useState('CASH'); const [received, setReceived] = useState('');
   const [key, setKey] = useState(() => crypto.randomUUID()); const [busy, setBusy] = useState(false); const [message, setMessage] = useState('');
   const requests = useLocalQuery(company, active, refreshToken,
-    () => Promise.all([bridge.products(company), bridge.people(company, 'customer')]),
-    ([catalog, people]) => { setProducts(catalog.filter(row => row.active === 1n)); setCustomers(people.filter(row => row.active)); },
+    () => bridge.products(company),
+    catalog => { setProducts(catalog.filter(row => row.active === 1n)); },
     error => setMessage(errorMessage(error)));
+  const [identifyCustomer,setIdentifyCustomer]=useState(false),[customer,setCustomer]=useState(''),[customerError,setCustomerError]=useState('');
+  const customerRequests=useLocalQuery(company,active&&identifyCustomer,refreshToken,()=>bridge.people(company,'customer'),people=>{setCustomers(people.filter(row=>row.active));setCustomerError('');},error=>setCustomerError(errorMessage(error)));
   const { refresh } = requests;
   let total = 0n; let change = 0n; let calculationError = '';
   try { for (const line of lines) { const product = products.find(row => row.id === line.productId); if (product) total += itemTotalCents(quantityToMilli(line.quantity.replace(',', '.')), product.price_cents); } total -= cents(discount); if (total < 0n) throw new Error('Desconto acima do subtotal.'); if (method === 'CASH' && received) { change = cents(received) - total; if (change < 0n) throw new Error('Valor recebido insuficiente.'); } } catch (error) { calculationError = (error as Error).message; }
@@ -52,9 +54,9 @@ export function LocalSales({ company, active = true, onSaved, administrator = tr
     try {
       if (!canSell) throw new Error(cashAvailability?.open ? 'O caixa aberto pertence a outro operador. Peça ao responsável para conferir o atendimento.' : 'Abra o caixa antes de registrar uma venda.');
       if (calculationError) throw new Error(calculationError);
-      const result = await bridge.confirmSale(company, key, { customerId: form.get('customer') || null, items: lines.map(row => ({ productId: row.productId, quantity: row.quantity.replace(',', '.') })), discountCents: Number(cents(discount)), paymentMethod: method, receivedCents: method === 'CASH' && received ? Number(cents(received)) : null, notes: form.get('notes') });
+      const result = await bridge.confirmSale(company, key, { customerId: customer || null, items: lines.map(row => ({ productId: row.productId, quantity: row.quantity.replace(',', '.') })), discountCents: Number(cents(discount)), paymentMethod: method, receivedCents: method === 'CASH' && received ? Number(cents(received)) : null, notes: form.get('notes') });
       task.finish(); if (!task.isCurrent()) return;
-      setKey(crypto.randomUUID()); setLines([newSaleLine()]); setDiscount('0,00'); setReceived(''); element.reset(); setMessage(`Venda salva. Total: ${money(result.totalCents)}. Troco: ${money(result.changeCents)}.`); setHistoryRevision(value => value + 1); onSaved(); await refresh();
+      setKey(crypto.randomUUID()); setLines([newSaleLine()]); setDiscount('0,00'); setReceived('');setCustomer('');setIdentifyCustomer(false); element.reset(); setMessage(`Venda salva. Total: ${money(result.totalCents)}. Troco: ${money(result.changeCents)}.`); setHistoryRevision(value => value + 1); onSaved(); await refresh();
     } catch (error) { if (task.isCurrent()) { setMessage(errorMessage(error)); void cashRequests.refresh(); } } finally { if (task.finish()) setBusy(false); }
   }
   return <details className="panel"><summary>Vendas</summary>
@@ -65,7 +67,7 @@ export function LocalSales({ company, active = true, onSaved, administrator = tr
       {!canSell && <button type="button" className="button secondary" onClick={onOpenCash}>Ir ao caixa</button>}
     </section>
     <form aria-label="Nova venda" onSubmit={save} className="form-stack"><fieldset disabled={busy} className="form-stack">
-      <label>Cliente da venda<select aria-label="Cliente da venda" name="customer"><option value="">Consumidor sem cadastro</option>{customers.map(row => <option key={row.id} value={row.id}>{row.name}</option>)}</select></label>
+      <p className="optional-hint">Pode vender sem cadastrar cliente. Identifique somente se precisar guardar o nome na venda.</p><details className="optional-party" open={identifyCustomer} onToggle={event=>setIdentifyCustomer(event.currentTarget.open)}><summary>{customer?'Cliente selecionado (opcional)':'Identificar cliente (opcional)'}</summary><label>Cliente da venda<select aria-label="Cliente da venda" name="customer" value={customer} onChange={event=>setCustomer(event.target.value)}><option value="">Consumidor sem cadastro</option>{customers.map(row=><option key={row.id} value={row.id}>{row.name}</option>)}</select></label>{customerError&&<p role="status">Não foi possível consultar clientes. Você pode vender sem identificar. <button type="button" onClick={()=>void customerRequests.refresh()}>Tentar novamente</button></p>}</details>
       {lines.map((line, index) => <div className="form-grid sale-line" role="group" aria-label={`Item da venda ${index + 1}`} key={line.id}>
         <label>Produto da venda {index + 1}<select aria-label={`Produto da venda ${index + 1}`} ref={element => { if (element) productInputs.current.set(line.id, element); else productInputs.current.delete(line.id); }} required value={line.productId} onChange={event => setLines(current => current.map(row => row.id === line.id ? { ...row, productId: event.target.value } : row))}><option value="">Selecione</option>{products.map(row => <option key={row.id} value={row.id}>{row.name}</option>)}</select></label>
         <label>Quantidade da venda {index + 1}<input required value={line.quantity} inputMode="decimal" onChange={event => setLines(current => current.map(row => row.id === line.id ? { ...row, quantity: event.target.value } : row))} /></label>

@@ -1,5 +1,6 @@
 import {searchText} from './local-list';
-export type AccountFilter={status:'OPEN'|'SETTLED'|'ALL';from:string;until:string;overdue:boolean;search:string};
+export type {AccountFilter} from '../shared/financial-accounts';
+import type {AccountFilter} from '../shared/financial-accounts';
 export const defaultAccountFilter=():AccountFilter=>({status:'OPEN',from:'',until:'',overdue:false,search:''});
 export function filterAccounts<T extends {status:string;due_date:string;amount_cents:bigint}>(rows:readonly T[],filter:AccountFilter,today:string,text:(row:T)=>string) {
  if(filter.from&&filter.until&&filter.from>filter.until)return [];

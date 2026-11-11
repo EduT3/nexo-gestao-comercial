@@ -50,14 +50,14 @@ exports.showStartupRecovery = async function ({ folder, error, services, pending
     candidate = { ...staged, name: path.basename(choice.filePaths[0]), token: randomUUID() };
     return { token: candidate.token, name: path.basename(choice.filePaths[0]), users: candidate.users };
   });
-  handle('restore', async (token, userId, password) => {
+  handle('restore', async (token, userId) => {
     const current = candidate;
     if (!current || current.token !== token) throw new Error('Selecione novamente o backup.');
     if (!current.users.some(user => user.id === userId)) throw new Error('Selecione o responsável desta cópia.');
-    await services.authorizeStartupBackup(current.staged, userId, password);
+    await services.authorizeStartupBackup(current.staged, userId);
     const confirmation = await dialog.showMessageBox(window, { type: 'warning', title: 'Recuperar NEXO',
       message: 'Substituir os dados pela cópia ' + current.name + '?',
-      detail: 'Os dados posteriores ao backup não aparecerão na base recuperada. Os arquivos atuais serão guardados na pasta dos dados. Entre depois com a senha cadastrada nesta cópia.',
+      detail: 'Os dados posteriores ao backup não aparecerão na base recuperada. Os arquivos atuais serão guardados na pasta dos dados. Entre depois selecionando seu nome.',
       buttons: ['Voltar', 'Restaurar dados'], defaultId: 0, cancelId: 0 });
     if (confirmation.response !== 1) return { canceled: true };
     const installed = await services.installStartupBackup(path.join(folder, 'nexo.sqlite'), current.staged);

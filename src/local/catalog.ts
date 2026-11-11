@@ -12,11 +12,11 @@ export const LOCAL_CATALOG_SCHEMA = `CREATE TABLE IF NOT EXISTS local_companies(
       CREATE TRIGGER IF NOT EXISTS local_audit_immutable_update BEFORE UPDATE ON local_audit BEGIN SELECT RAISE(ABORT,'Histórico imutável'); END;
       CREATE TRIGGER IF NOT EXISTS local_audit_immutable_delete BEFORE DELETE ON local_audit BEGIN SELECT RAISE(ABORT,'Histórico imutável'); END;`;
 
-export async function initializeLocalCatalog(db:LocalDatabase){
+export async function initializeLocalCatalog(db:LocalDatabase, singleStore = false){
   await db.transaction(async tx=>{
     await tx.exec(LOCAL_CATALOG_SCHEMA);
-    await tx.query('INSERT OR IGNORE INTO local_companies VALUES(?,?)',['adega-jg','Adega JG']);
-    await tx.query('INSERT OR IGNORE INTO local_companies VALUES(?,?)',['deposito-jg','Depósito JG']);
+    await tx.query('INSERT OR IGNORE INTO local_companies VALUES(?,?)',['adega-jg', singleStore ? 'Minha loja' : 'Adega JG']);
+    if (!singleStore) await tx.query('INSERT OR IGNORE INTO local_companies VALUES(?,?)',['deposito-jg','Depósito JG']);
   });
 }
 export async function authorizeLocalCatalog(db:LocalDatabase,userId:string,companyId:string,manage:boolean){
@@ -69,7 +69,8 @@ export async function updateLocalProduct(db: LocalDatabase, userId: string, comp
     await authorizeLocalCatalog(tx, userId, companyId, true);
     const before = (await tx.query('SELECT * FROM local_products WHERE company_id=? AND id=?', [companyId, id]))[0];
     if (!before) throw new Error('Produto não encontrado nesta empresa.');
-    if (Number((await tx.query('PRAGMA user_version'))[0]?.user_version) >= 3) {
+    const schemaVersion = Number((await tx.query('PRAGMA user_version'))[0]?.user_version);
+    if (schemaVersion >= 3) {
       before.category_id = (await tx.query('SELECT category_id FROM local_product_categories WHERE company_id=? AND product_id=?', [companyId, id]))[0]?.category_id ?? null;
     }
     const next = productSchema.parse({
@@ -78,6 +79,11 @@ export async function updateLocalProduct(db: LocalDatabase, userId: string, comp
       stockMin: `${BigInt(String(before.stock_min_milli)) / 1000n}.${(BigInt(String(before.stock_min_milli)) % 1000n).toString().padStart(3, '0')}`,
       categoryId: before.category_id ?? null, supplierId: null, active: before.active === 1n, ...patch,
     });
+    // A unit change would reinterpret every immutable quantity, even at zero stock.
+    if (next.unit !== before.unit && schemaVersion >= 4 &&
+      (await tx.query('SELECT 1 FROM local_stock_movements WHERE company_id=? AND product_id=? LIMIT 1', [companyId, id])).length) {
+      throw new Error('Não é possível alterar a unidade de um produto com movimentações de estoque. Mantenha a unidade ou cadastre outro produto para usar uma unidade diferente.');
+    }
     try {
       await tx.query('UPDATE local_products SET name=?,internal_code=?,barcode=?,unit=?,cost_cents=?,price_cents=?,stock_min_milli=?,active=? WHERE company_id=? AND id=?',
         [next.name, next.internalCode, next.barcode ?? null, next.unit, next.costCents, next.priceCents, quantityToMilli(next.stockMin), next.active ? 1 : 0, companyId, id]);

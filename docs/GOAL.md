@@ -160,3 +160,12 @@ Registrar o progresso por funcionalidades demonstráveis. Compilar, abrir uma p�
 O objetivo estará concluído quando for possível instalar ou abrir o NEXO em um Windows sem ambiente de desenvolvimento, trabalhar sem internet, executar o fluxo comercial principal, fechar e reabrir sem perder registros, exportar informações para Excel e recuperar uma cópia de segurança.
 
 **Regra de prioridade: cada decisão deve aproximar o usuário de abrir o programa e trabalhar. Complexidade adicional só entra quando resolve uma necessidade concreta deste escopo.**
+
+## Direção de usabilidade confirmada — 10/11/2026
+
+Inspirar-se na clareza do Bolsário: português simples, poucas opções iniciais e descrição curta onde ajuda. Prioridade: gerenciar estoque, registrar entradas e cadastrar produtos na mesma área, sem navegação entre módulos para completar essa tarefa. Mostrar quantidade junto ao cadastro; preservar o rascunho ao cadastrar produto/fornecedor durante uma entrada. Tutorial é apoio opt-in. Manter as operações reais de compra/estoque e sua autorização; não transformar cadastro simples em movimento silencioso.
+
+
+## Ajuste de uso — 10/11/2026
+
+Áreas distinguíveis por blocos, rótulos e cores inspiradas no Bolsário. Cadastro de fornecedor não é pré-requisito para entrada de estoque; cadastro de cliente não é pré-requisito para venda. Identificação permanece disponível como opcional. Atalhos entre áreas relacionadas devem preservar o rascunho na sessão. Implementação/evidências em ROTINAS-SIMPLES-2026-11-10.md.

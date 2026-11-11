@@ -39,6 +39,8 @@ test.beforeEach(async ({ page }) => {
               ];
             if (method === 'cashAvailability') return async () => ({ open: false });
             if (method === 'salesHistory') return async () => ({ rows: [], total: 0, page: 0, pageSize: 50 });
+            if (method === 'payablesPage' || method === 'receivablesPage') return async () => ({rows:[],total:0,totalCents:0n,page:0,pageSize:50});
+            if (method === 'financeTotals') return async () => undefined;
             if (method === 'stockHistory')
               return async () => ({ rows: [], hasMore: false });
             if (method === 'finance' || method === 'dailyReport')
@@ -87,39 +89,39 @@ test.beforeEach(async ({ page }) => {
     });
   });
   await page.goto('/');
-  await expect(page.getByLabel('Empresa em uso')).toHaveValue('a');
+  await expect(page.getByRole('combobox', { name: 'Empresa em operação' })).toHaveValue('a');
 });
 
 test('rascunho permanece ao navegar, mas não atravessa empresas', async ({
   page,
 }) => {
-  await page.getByRole('button', { name: 'Produtos', exact: true }).click();
-  await page.getByRole('button', { name: 'Novo produto', exact: true }).click();
+  await page.getByRole('button', { name: 'Estoque', exact: true }).click();
+  await page.getByRole('button', { name: 'Cadastrar produto', exact: true }).click();
   const form = page.getByRole('form', { name: 'Cadastro de produtos' });
   await form.getByLabel('Nome', { exact: true }).fill('Rascunho da empresa A');
+  await page.getByRole('button', { name: 'Ver movimentações', exact: true }).click();
   await page.getByRole('button', { name: 'Estoque', exact: true }).click();
-  await page.getByRole('button', { name: 'Produtos', exact: true }).click();
   await expect(form.getByLabel('Nome', { exact: true })).toHaveValue(
     'Rascunho da empresa A',
   );
-  await page.getByLabel('Empresa em uso').selectOption('b');
+  await page.getByRole('combobox', { name: 'Empresa em operação' }).selectOption('b');
   await expect(form).not.toBeVisible();
-  await page.getByRole('button', { name: 'Novo produto', exact: true }).click();
+  await page.getByRole('button', { name: 'Cadastrar produto', exact: true }).click();
   await expect(form.getByLabel('Nome', { exact: true })).toHaveValue('');
-  await expect(page.getByLabel('Buscar produto')).toHaveValue('');
+  await expect(page.getByLabel('Buscar produto', { exact: true })).toHaveValue('');
 });
 
 test('Excel bloqueia troca durante leitura e descarta prévia ao trocar empresa', async ({
   page,
 }) => {
-  await page.getByRole('button', { name: 'Mais opções', exact: true }).click();
+  await page.getByRole('button', { name: 'Configurações', exact: true }).click();
   await page
     .getByRole('button', { name: 'Planilhas Excel', exact: true })
     .click();
   await page
     .getByRole('button', { name: 'Selecionar planilha', exact: true })
     .click();
-  await expect(page.getByLabel('Empresa em uso')).toBeDisabled();
+  await expect(page.getByRole('combobox', { name: 'Empresa em operação' })).toBeDisabled();
   await expect(
     page.getByRole('button', { name: 'Sair', exact: true }),
   ).toBeDisabled();
@@ -134,8 +136,8 @@ test('Excel bloqueia troca durante leitura e descarta prévia ao trocar empresa'
   await expect(
     page.getByRole('table', { name: 'Prévia de produtos do Excel' }),
   ).toContainText('Importação a');
-  await expect(page.getByLabel('Empresa em uso')).toBeEnabled();
-  await page.getByLabel('Empresa em uso').selectOption('b');
+  await expect(page.getByRole('combobox', { name: 'Empresa em operação' })).toBeEnabled();
+  await page.getByRole('combobox', { name: 'Empresa em operação' }).selectOption('b');
   await expect(
     page.getByRole('table', { name: 'Prévia de produtos do Excel' }),
   ).toHaveCount(0);

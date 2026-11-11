@@ -1,3 +1,6 @@
+import type {HistoryFilter} from '../../shared/operation-history';
+import {filterAccounts,defaultAccountFilter} from '../account-filter';
+import type {AccountPageFilter} from '../../shared/financial-accounts';
 import type {Status} from '../LocalApp';
 import type {FinanceSummary} from '../LocalFinance';
 import type {SaleDetails,SaleHistoryRow,SaleHistoryFilter} from '../../shared/sale-history';
@@ -7,7 +10,7 @@ import type {DailyReport} from '../LocalDailyReport';
 import {localToday} from '../local-format';
 export const PREVIEW_READ_ONLY='Esta é uma demonstração com dados fictícios. Esta operação não foi realizada. Use o aplicativo Windows para gravar ou recuperar dados.';
 type Bridge=NonNullable<Window['nexoLocal']>;
-const companies=[{id:'adega-jg',name:'Adega JG',role:'ADMIN' as const},{id:'deposito-jg',name:'Depósito JG',role:'ADMIN' as const}];
+const companies=[{id:'adega-jg',name:'Loja demonstração',role:'ADMIN' as const},{id:'deposito-jg',name:'Depósito demonstração',role:'ADMIN' as const}];
 const today=localToday();
 function dayOffset(days:number){const date=new Date(today+'T12:00:00');date.setDate(date.getDate()+days);return [date.getFullYear(),String(date.getMonth()+1).padStart(2,'0'),String(date.getDate()).padStart(2,'0')].join('-');}
 const exampleTime=(index:number)=>new Date(today+'T08:00:00').getTime()+index*60000;
@@ -44,25 +47,41 @@ function example(company:string){
 }
 const copy=<T,>(value:T):T=>structuredClone(value);
 const blocked=async():Promise<never>=>{throw new Error(PREVIEW_READ_ONLY);};
+function previewPage<T extends {id:string;status:string;due_date:string;amount_cents:bigint}>(rows:T[],input:AccountPageFilter,text:(row:T)=>string){
+ const matched=filterAccounts(rows,{...defaultAccountFilter(),...input},input.today??today,text),pageSize=Math.max(1,Math.min(50,input.pageSize??50)),page=Math.min(Math.max(0,input.page??0),Math.max(0,Math.ceil(matched.length/pageSize)-1));
+ return {rows:copy(matched.slice(page*pageSize,(page+1)*pageSize)),total:matched.length,totalCents:matched.reduce((s,r)=>s+r.amount_cents,0n),page,pageSize};
+}
+function historyPage<T extends {id:string;created_at:string}>(rows:T[],input:HistoryFilter,text:(row:T)=>string){
+ const search=(input.search??'').normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().trim();
+ rows=rows.filter(row=>(!search||text(row).normalize('NFD').replace(/[\u0300-\u036f]/g,'').toLowerCase().includes(search))&&(!input.from||row.created_at>=input.from)&&(!input.until||row.created_at<input.until)).sort((a,b)=>b.created_at.localeCompare(a.created_at)||a.id.localeCompare(b.id));
+ const page=Math.min(input.page??0,Math.max(0,Math.ceil(rows.length/50)-1));return {rows:copy(rows.slice(page*50,(page+1)*50)),total:rows.length,page,pageSize:50};
+}
 /** Fictitious read-only bridge. No database, HTTP requests or business persistence. */
 export function createLocalPreviewBridge():Bridge {
  return Object.freeze({
-  async status():Promise<Status>{return {configured:true,authenticated:true,needsPassword:false,userId:'preview-visitor',owner:'Visitante da demonstração',users:[],dataFolder:'Demonstração web: nenhuma base do computador é acessada.',companies:copy(companies)};},
+  async status():Promise<Status>{return {configured:true,authenticated:true,userId:'preview-visitor',owner:'Visitante da demonstração',users:[],dataFolder:'Demonstração web: nenhuma base do computador é acessada.',companies:copy(companies)};},
   async products(company){return copy(example(company).products);},
   async people(company,kind){example(company);return [{id:'DEMO-'+kind+'-'+company,name:kind==='customer'?'Cliente da demonstração':'Fornecedor da demonstração',active:true}];},
   async categories(company){example(company);return [{id:'demo-category',name:company==='adega-jg'?'Bebidas (exemplo)':'Construção (exemplo)',description:'Categoria fictícia',active:1n}];},
   async stock(company){return example(company).products.map((row,index)=>({id:row.id,name:row.name,unit:row.unit,balance_milli:index===1?0n:24000n}));},
   async stockHistory(company,input){const data=example(company),filter=input as {productId?:string|null;offset?:number};const rows=data.products.filter(row=>!filter.productId||filter.productId===row.id).map(row=>({id:'DEMO-MOV-'+row.id,name:row.name,internal_code:row.internal_code,quantity_milli:24000n,reason:'PURCHASE',operation_id:'DEMO-COMPRA-'+company,created_at:new Date(exampleTime(0)).toISOString(),actor_name:'Operador da demonstração'}));return {rows:filter.offset?[]:rows,hasMore:false};},
   async purchases(company){const {finance}=example(company);return finance.payables.map(row=>({id:row.purchase_id,supplier_name:row.supplier_name,total_cents:row.amount_cents,due_date:row.due_date}));},
+  async purchaseDetails(company,id){const data=example(company),index=data.finance.payables.findIndex(row=>row.purchase_id===id),row=data.finance.payables[index];if(!row)throw new Error('Compra não encontrada nesta empresa da demonstração.');return copy({id,company_id:company,supplier_id:'DEMO-supplier-'+company,supplier_name:row.supplier_name,created_at:new Date(exampleTime(index)).toISOString(),total_cents:row.amount_cents,notes:'Compra fictícia para conhecer os detalhes do NEXO.',items:[{product_id:data.products[0]!.id,product_name:data.products[0]!.name,quantity_milli:1000n,unit_cost_cents:row.amount_cents,total_cents:row.amount_cents}],payable:{id:row.id,amount_cents:row.amount_cents,due_date:row.due_date,notes:'Conta fictícia, sem movimentação real.'}});},
+  async purchaseHistory(company,input={}){const {finance}=example(company);return historyPage(finance.payables.map((row,index)=>({id:row.purchase_id,supplier_name:row.supplier_name,total_cents:row.amount_cents,due_date:row.due_date,created_at:new Date(exampleTime(index)).toISOString()})),input,row=>row.id+' '+row.supplier_name);},
+  async cashHistory(company,input={}){const rows=example(company).cash.map((row,index)=>({...row,created_at:new Date(exampleTime(index)).toISOString()})).filter(row=>!input.status||input.status==='ALL'||(row.closed===1n?'CLOSED':'OPEN')===input.status);return historyPage(rows,input,row=>row.id+' '+row.actor_name);},
+  async activeCash(company){return copy(example(company).cash.find(row=>row.closed===0n)??null);},
   async cash(company){return copy(example(company).cash);},
   async cashAvailability(company){const data=example(company);return data.adega?{open:true,canSell:true,operatorName:'Operador da demonstração',openedAt:new Date(exampleTime(0)).toISOString(),balanceCents:data.cashBalance}:{open:false};},
   async sales(company){return copy(example(company).sales);},
   async salesHistory(company,input:SaleHistoryFilter){let rows=example(company).sales;const query=(input.search||'').trim().toLocaleLowerCase('pt-BR');if(query)rows=rows.filter(row=>(row.id+' '+(row.customer_name||'Consumidor sem cadastro')).toLocaleLowerCase('pt-BR').includes(query));if(input.from)rows=rows.filter(row=>row.created_at>=input.from!);if(input.until)rows=rows.filter(row=>row.created_at<input.until!);if(input.status&&input.status!=='ALL')rows=rows.filter(row=>row.status===input.status);const pageSize=50,page=Math.max(0,Math.min(Number.isInteger(input.page)?input.page!:0,Math.max(0,Math.ceil(rows.length/pageSize)-1)));return {rows:copy(rows.slice(page*pageSize,(page+1)*pageSize)),total:rows.length,page,pageSize};},
   async saleDetails(company,id):Promise<SaleDetails>{const data=example(company),sale=data.sales.find(row=>row.id===id);if(!sale)throw new Error('Venda não encontrada nesta empresa da demonstração.');return copy({...sale,subtotal_cents:sale.total_cents,discount_cents:0n,received_cents:sale.total_cents+sale.change_cents,notes:'Venda fictícia para conhecer o histórico do NEXO.',items:[{product_id:data.products[0]!.id,product_name:data.products[0]!.name,quantity_milli:1000n,unit_price_cents:sale.total_cents,total_cents:sale.total_cents}]});},
+  async payablesPage(company,input){return previewPage(example(company).finance.payables,input,row=>(row.supplier_name||'')+' '+(row.purchase_id||'')+' '+row.id);},
+  async receivablesPage(company,input){return previewPage(example(company).receivables,input,row=>row.description+' '+(row.customer_name||'')+' '+row.id);},
+  async financeTotals(company){const {payables,...totals}=example(company).finance;return copy(totals);},
   async finance(company){return copy(example(company).finance);},
   async receivables(company){return copy(example(company).receivables);},
   async dailyReport(company,input):Promise<DailyReport>{const data=example(company),period=input as {from:string;to:string};const rows=data.sales.filter(row=>row.created_at>=period.from&&row.created_at<period.to),grossSalesCents=rows.reduce((sum,row)=>sum+row.total_cents,0n),cancelledSalesCents=rows.filter(row=>row.status==='CANCELLED').reduce((sum,row)=>sum+row.total_cents,0n);const includesToday=period.from<new Date(exampleTime(1)).toISOString()&&period.to>new Date(exampleTime(1)).toISOString();return {period,saleCount:rows.length,grossSalesCents,cancelledSalesCents,netSalesCents:grossSalesCents-cancelledSalesCents,receivedCents:includesToday?1500n:0n,paidCents:includesToday?3200n:0n,financialBalanceCents:grossSalesCents-cancelledSalesCents+(includesToday?-1700n:0n),byPayment:(['CASH','PIX'] as const).map(method=>({method,amountCents:rows.filter(row=>row.method===method).reduce((sum,row)=>sum+row.total_cents,0n)})),products:rows.length?[{productId:data.products[0]!.id,name:data.products[0]!.name,quantityMilli:BigInt(rows.length)*1000n}]:[]};},
-  configure:blocked,setupPassword:blocked,login:blocked,logout:blocked,createOperator:blocked,
+  configure:blocked,login:blocked,logout:blocked,createOperator:blocked,
   createProduct:blocked,updateProduct:blocked,createPerson:blocked,createCategory:blocked,
   receivePurchase:blocked,confirmSale:blocked,cancelSale:blocked,openCash:blocked,moveCash:blocked,closeCash:blocked,
   createReceivable:blocked,receiveReceivable:blocked,reverseReceivable:blocked,payPayable:blocked,reversePayable:blocked,

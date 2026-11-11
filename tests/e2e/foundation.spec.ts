@@ -23,7 +23,13 @@ async function selectCompany(page: Page, name: string) {
 }
 
 async function navigate(page: Page, name: string) {
-  await page.getByRole('navigation', { name: 'Navegação principal' }).getByRole('link', { name, exact: true }).click();
+  const navigation = page.getByRole('navigation', { name: 'Navegação principal' });
+  const link = navigation.getByRole('link', { name, exact: true, includeHidden: true });
+  const group = link.locator('xpath=ancestor::details[1]');
+  if (await group.count() && await group.getAttribute('open') === null) {
+    await group.locator('summary').click();
+  }
+  await link.click();
   await expect(page.getByRole('heading', { name, exact: true, level: 1 })).toBeVisible();
 }
 

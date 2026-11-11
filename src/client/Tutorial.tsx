@@ -1,4 +1,4 @@
-import { useEffect, useId, useRef, useState } from 'react';
+import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { newTutorialPreference, type TutorialPreference } from '../shared/tutorial';
 import './tutorial.css';
 
@@ -12,9 +12,9 @@ export type TutorialStore = {
 };
 
 /** Inline help leaves the app operable; only explicit links change the current screen. */
-export function Tutorial({ steps, store, companyName, preview = false, currentRoute, onNavigate, busy = false }: {
+export function Tutorial({ steps, store, companyName, preview = false, currentRoute, onNavigate, busy = false, footer, autoOpen = true }: {
   steps: TutorialStep[]; store: TutorialStore; companyName: string; preview?: boolean;
-  currentRoute: string; onNavigate(step: TutorialStep): void; busy?: boolean;
+  currentRoute: string; onNavigate(step: TutorialStep): void; busy?: boolean; footer?: ReactNode; autoOpen?:boolean;
 }) {
   const panelId = useId();
   const help = useRef<HTMLButtonElement>(null);
@@ -34,12 +34,12 @@ export function Tutorial({ steps, store, companyName, preview = false, currentRo
     let canceled = false; mounted.current = true;
     void store.read().then(value => {
       if (canceled) return;
-      setPreference(value); setOpen(value.state === 'welcome' || value.state === 'active');
+      setPreference(value); setOpen(autoOpen && (value.state === 'welcome' || value.state === 'active'));
     }).catch(() => {
       if (!canceled) setError('Não foi possível carregar sua preferência. A ajuda continua disponível; tente salvá-la novamente.');
     }).finally(() => { if (!canceled) setReady(true); });
     return () => { canceled = true; mounted.current = false; };
-  }, [store]);
+  }, [store,autoOpen]);
   useEffect(() => { if (focusRevision) heading.current?.focus(); }, [focusRevision]);
 
   function save(value: TutorialPreference) {
@@ -90,6 +90,7 @@ export function Tutorial({ steps, store, companyName, preview = false, currentRo
         <button type="button" className="text-button" onClick={() => close('disabled')}>Desativar tutorial</button>
       </div>
       <p className="tutorial-note">Sua escolha vale para seu usuário nesta empresa. Fechar ou pular guarda a etapa; use Ajuda e tutorial para voltar. Tecla Esc fecha a ajuda.</p>
+      {footer}
     </section>}
     <p className="tutorial-status" role="status">{saving ? 'Salvando preferência…' : error}</p>
     {error && !saving && <button type="button" className="text-button" onClick={() => save(preference)}>Tentar salvar preferência novamente</button>}

@@ -1,5 +1,6 @@
 const { app, BrowserWindow, ipcMain, dialog } = require('electron');
 const path = require('node:path');
+const {readBuildInfo}=require('./build-info.cjs');
 const { pathToFileURL } = require('node:url');
 const { mkdir, readFile, writeFile, rename } = require('node:fs/promises');
 const { randomUUID } = require('node:crypto');
@@ -22,18 +23,21 @@ else app.whenReady().then(async () => {
   const { openLocalDatabase } = await runtime('local/sqlite.js');
   const { listLocalProducts, createLocalProduct, updateLocalProduct } = await runtime('local/catalog.js');
   const { prepareLocalDatabase } = await runtime('local/migrations.js');
-  const { setInitialLocalPassword, authenticateLocalUser, createLocalOperator } = await runtime('local/access.js');
+  const { listNamedUsers, selectNamedUser, createNamedOperator } = await runtime('local/access.js');
   const { createTutorialPreferences } = await runtime('local/tutorial-preferences.js');
   const { initializeLocalOwner } = await runtime('local/onboarding.js');
   const { previewLocalProductImport, commitLocalProductImport, getLocalProductImportTemplateData } = await runtime('local/product-import.js');
   const { createLocalCategory, listLocalCategories } = await runtime('local/categories.js');
   const { createLocalPerson, listLocalPeople } = await runtime('local/people.js');
+  const { listLocalPurchaseHistory, getLocalPurchaseDetails } = await runtime('local/purchase-history.js');
+  const { listLocalCashHistory, getLocalActiveCash } = await runtime('local/cash-history.js');
   const { receiveLocalPurchase, listLocalPurchases } = await runtime('local/purchases.js');
   const { openLocalCash, closeLocalCash, moveLocalCash, listLocalCash, getLocalCashAvailability } = await runtime('local/cash.js');
   const { listLocalSaleHistory, getLocalSaleDetails } = await runtime('local/sale-history.js');
   const { confirmLocalSale, listLocalSales } = await runtime('local/sales.js');
   const { cancelLocalSale } = await runtime('local/cancellations.js');
-  const { getLocalFinanceSummary } = await runtime('local/finance.js');
+  const { getLocalFinanceSummary, getLocalFinanceTotals } = await runtime('local/finance.js');
+  const { listLocalPayablesPage, listLocalReceivablesPage } = await runtime('local/financial-accounts.js');
   const { getLocalDailyReport } = await runtime('local/reports.js');
   const { getLocalExcelExport } = await runtime('local/exports.js');
   const { payLocalPayable, reverseLocalPayablePayment } = await runtime('local/settlements.js');
@@ -53,13 +57,13 @@ else app.whenReady().then(async () => {
     try {
       await startupServices.inspectStartupDatabase(path.join(dataFolder, 'nexo.sqlite'));
       db = openLocalDatabase(path.join(dataFolder, 'nexo.sqlite'));
-      await prepareLocalDatabase(db, path.join(dataFolder, 'nexo.sqlite'));
+      await prepareLocalDatabase(db, path.join(dataFolder, 'nexo.sqlite'), { singleStore: true });
       break;
     } catch (error) {
       await db?.close().catch(() => undefined); db = undefined;
       const result = await require('./startup-recovery.cjs').showStartupRecovery({ folder: dataFolder, error, services: startupServices, pendingOperations });
       if (result.exit || quitting) return;
-      if (result.restored) startupNotice = 'Cópia restaurada. Entre com a senha cadastrada nela. Os arquivos anteriores estão guardados em ' + result.retained;
+      if (result.restored) startupNotice = 'Cópia restaurada. Entre selecionando seu nome. Os arquivos anteriores estão guardados em ' + result.retained;
     }
   }
   if (quitting) return;
@@ -83,26 +87,21 @@ else app.whenReady().then(async () => {
     switchingSession = true;
     try { await Promise.allSettled(previousOperations); return await action(); } finally { switchingSession = false; }
   };
+  handle('nexo:build-info', () => readBuildInfo(root));
   handle('nexo:status', async () => {
-    const users = await db.query('SELECT u.id,u.name FROM local_users u JOIN local_credentials c ON c.user_id=u.id WHERE u.active=1 ORDER BY u.name');
+    const users = await listNamedUsers(db);
     const configured = (await db.query('SELECT id FROM local_users LIMIT 1')).length > 0;
-    return { configured, authenticated: !!actor, needsPassword: configured && !(await db.query('SELECT user_id FROM local_credentials LIMIT 1')).length,
+    return { configured, authenticated: !!actor,
       users, userId: actor?.id, owner: actor?.name, dataFolder, lastBackup, startupNotice,
       companies: actor ? await db.query('SELECT c.id,c.name,m.role FROM local_companies c JOIN local_memberships m ON m.company_id=c.id WHERE m.user_id=? AND m.active=1', [actor.id]) : [] };
   });
   handle('nexo:configure', name => changeSession(async () => { await initializeLocalOwner(db, name); return { configured: true }; }));
-  handle('nexo:setup-password', password => changeSession(async () => {
-    const owner = (await db.query('SELECT id FROM local_users WHERE active=1'))[0];
-    if (!owner) throw new Error('Cadastre o responsável antes de continuar.');
-    await setInitialLocalPassword(db, String(owner.id), password);
-    actor = await authenticateLocalUser(db, String(owner.id), password);
-  }));
-  handle('nexo:login', (id, password) => changeSession(async () => {
+  handle('nexo:login', id => changeSession(async () => {
     if (actor) throw new Error('Saia do acesso atual antes de entrar com outro usuário.');
-    actor = await authenticateLocalUser(db, id, password); startupNotice = undefined;
+    actor = await selectNamedUser(db, id); startupNotice = undefined;
   }));
   handle('nexo:logout', () => changeSession(async () => { actor = undefined; productImportPreview = undefined; }));
-  const requireActor = () => { if (switchingSession || !actor) throw new Error('Entre com seu usuário e senha antes de continuar.'); return actor.id; };
+  const requireActor = () => { if (switchingSession || !actor) throw new Error('Entre com seu usuário antes de continuar.'); return actor.id; };
   const requireTutorialActor = expectedUserId => {
     const userId = requireActor();
     if (userId !== expectedUserId) throw new Error('O usuário mudou. Abra a ajuda novamente.');
@@ -110,7 +109,7 @@ else app.whenReady().then(async () => {
   };
   handle('nexo:tutorial-preference', (company, expectedUserId) => tutorialPreferences.read(requireTutorialActor(expectedUserId), company));
   handle('nexo:save-tutorial-preference', (company, expectedUserId, input) => tutorialPreferences.write(requireTutorialActor(expectedUserId), company, input));
-  handle('nexo:create-operator', input => createLocalOperator(db, requireActor(), input));
+  handle('nexo:create-operator', input => createNamedOperator(db, requireActor(), input));
   handle('nexo:excel-export', async companyId => {
     const data=await getLocalExcelExport(db,requireActor(),companyId); const selection=await dialog.showSaveDialog(window,{title:'Exportar relatório Excel',defaultPath:`NEXO-relatorio-${companyId}-${Date.now()}.xlsx`,filters:[{name:'Planilha Excel',extensions:['xlsx']}]});
     if(selection.canceled||!selection.filePath)return {canceled:true}; await getExcel().writeFullExport(selection.filePath,data); return {canceled:false};
@@ -133,6 +132,10 @@ else app.whenReady().then(async () => {
   handle('nexo:categories', companyId => listLocalCategories(db, requireActor(), companyId));
   handle('nexo:create-category', (companyId, input) => createLocalCategory(db, requireActor(), companyId, input));
   handle('nexo:people', (companyId, kind) => listLocalPeople(db, requireActor(), companyId, kind));
+  handle('nexo:purchase-details', (company,id) => getLocalPurchaseDetails(db,requireActor(),company,id));
+  handle('nexo:purchase-history', (company,input) => listLocalPurchaseHistory(db,requireActor(),company,input));
+  handle('nexo:cash-history', (company,input) => listLocalCashHistory(db,requireActor(),company,input));
+  handle('nexo:active-cash', company => getLocalActiveCash(db,requireActor(),company));
   handle('nexo:cash-availability', company => getLocalCashAvailability(db, requireActor(), company));
   handle('nexo:cash', companyId => listLocalCash(db, requireActor(), companyId));
   handle('nexo:open-cash', (companyId, key, input) => openLocalCash(db, requireActor(), companyId, key, input));
@@ -151,6 +154,9 @@ else app.whenReady().then(async () => {
     await cancelLocalSale(db, userId, companyId, id, key, input);
     return { canceled: false };
   });
+  handle('nexo:payables-page', (company,input) => listLocalPayablesPage(db,requireActor(),company,input));
+  handle('nexo:receivables-page', (company,input) => listLocalReceivablesPage(db,requireActor(),company,input));
+  handle('nexo:finance-totals', company => getLocalFinanceTotals(db,requireActor(),company));
   handle('nexo:finance', companyId => getLocalFinanceSummary(db, requireActor(), companyId));
   handle('nexo:daily-report', (companyId, input) => getLocalDailyReport(db, requireActor(), companyId, input));
   handle('nexo:pay-payable', (companyId, id, key, input) => payLocalPayable(db, requireActor(), companyId, id, key, input));
@@ -188,8 +194,8 @@ else app.whenReady().then(async () => {
   });
   const requireBackupAdministrator = async () => {
     const id = requireActor();
-    const allowed = await db.query("SELECT u.id FROM local_users u WHERE u.id=? AND u.active=1 AND (SELECT count(*) FROM local_memberships m WHERE m.user_id=u.id AND m.active=1 AND m.role='ADMIN')=2", [id]);
-    if (!allowed.length) throw new Error('Somente o responsável pelas duas empresas pode gerar ou restaurar a cópia completa.');
+    const allowed = await db.query("SELECT u.id FROM local_users u WHERE u.id=? AND u.active=1 AND EXISTS(SELECT 1 FROM local_companies) AND NOT EXISTS(SELECT 1 FROM local_companies company WHERE NOT EXISTS(SELECT 1 FROM local_memberships m WHERE m.user_id=u.id AND m.company_id=company.id AND m.active=1 AND m.role='ADMIN'))", [id]);
+    if (!allowed.length) throw new Error('Somente o responsável por toda a instalação pode gerar ou restaurar a cópia completa.');
   };
   handle('nexo:data-health', () => checkLocalHealth(db, requireActor()));
   handle('nexo:backup', async () => {
@@ -227,11 +233,11 @@ else app.whenReady().then(async () => {
       actor = undefined; productImportPreview = undefined;
       await prepareLocalDatabase(db, activeFile);
       tutorialPreferences = createTutorialPreferences(db, dataFolder);
-      startupNotice = 'Dados restaurados. Entre com a senha da cópia selecionada. O estado anterior foi guardado na pasta dos dados.';
+      startupNotice = 'Dados restaurados. Entre selecionando seu nome. O estado anterior foi guardado na pasta dos dados.';
       return { canceled: false };
     } finally { recovering = false; }
   });
-  window = new BrowserWindow({ width: 1200, height: 800, minWidth: 900, minHeight: 650,
+  window = new BrowserWindow({ width: 1200, height: 800, minWidth: 900, minHeight: 650, icon: path.join(root, 'dist/client/nexo-icon.png'),
     show: process.env.NEXO_TEST_HIDE_WINDOW !== '1',
     webPreferences: { preload: path.join(__dirname, 'preload.cjs'), contextIsolation: true, nodeIntegration: false, sandbox: true,
       backgroundThrottling: process.env.NEXO_TEST_HIDE_WINDOW !== '1' } });

@@ -15,7 +15,7 @@ it('adoção do schema preserva dados e cópia anterior; reexecução não alter
     await initializeLocalCatalog(db);
     await db.query('INSERT INTO local_users VALUES(?,?,1)', ['owner', 'Responsável']);
     await prepareLocalDatabase(db, file);
-    expect(await db.query('PRAGMA user_version')).toEqual([{ user_version: 11n }]);
+    expect(await db.query('PRAGMA user_version')).toEqual([{ user_version: 12n }]);
     const copies = (await readdir(folder)).filter(name => name.includes('before-migration'));
     expect(copies).toHaveLength(1);
     const previous = openLocalDatabase(path.join(folder, copies[0]!));
@@ -24,9 +24,9 @@ it('adoção do schema preserva dados e cópia anterior; reexecução não alter
     await previous.close();
     await prepareLocalDatabase(db, file);
     expect(await db.query('SELECT id FROM local_users')).toEqual([{ id: 'owner' }]);
-    await db.exec('PRAGMA user_version=12');
+    await db.exec('PRAGMA user_version=13');
     await expect(prepareLocalDatabase(db, file)).rejects.toThrow('outra versão');
-    expect(await db.query('PRAGMA user_version')).toEqual([{ user_version: 12n }]);
+    expect(await db.query('PRAGMA user_version')).toEqual([{ user_version: 13n }]);
   } finally { await db.close(); await rm(folder, { recursive: true, force: true }); }
 });
 
@@ -45,7 +45,7 @@ it('backup v1 restaurado em instalação atual preserva origem e cadastro e perm
     await restoreLocalBackup(db, file, backup);
     db = openLocalDatabase(file);
     await prepareLocalDatabase(db, file);
-    expect(await db.query('PRAGMA user_version')).toEqual([{ user_version: 11n }]);
+    expect(await db.query('PRAGMA user_version')).toEqual([{ user_version: 12n }]);
     expect(await db.query('SELECT id FROM local_users')).toEqual([{ id: 'owner' }]);
     expect(await db.query('SELECT id FROM local_categories')).toHaveLength(0);
     validateLocalBackup(backup);

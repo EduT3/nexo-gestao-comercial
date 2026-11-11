@@ -18,7 +18,7 @@ describe('prévia pública sem gravação de dados comerciais', () => {
  });
  it('recusa todas as operações de gravação e ferramentas locais', async () => {
   const bridge = createLocalPreviewBridge();
-  const names = ['configure','setupPassword','login','logout','createOperator','createProduct','updateProduct','createPerson','createCategory','receivePurchase','confirmSale','cancelSale','openCash','moveCash','closeCash','createReceivable','receiveReceivable','reverseReceivable','payPayable','reversePayable','backup','restore','checkDataHealth','exportExcel','productImportTemplate','productImportPreview','productImportConfirm','tutorialPreference','saveTutorialPreference'] as const;
+  const names = ['configure','login','logout','createOperator','createProduct','updateProduct','createPerson','createCategory','receivePurchase','confirmSale','cancelSale','openCash','moveCash','closeCash','createReceivable','receiveReceivable','reverseReceivable','payPayable','reversePayable','backup','restore','checkDataHealth','exportExcel','productImportTemplate','productImportPreview','productImportConfirm','tutorialPreference','saveTutorialPreference'] as const;
   const before = await bridge.finance('adega-jg');
   for (const name of names) await expect((bridge[name] as (...args: unknown[]) => Promise<unknown>)('adega-jg', {})).rejects.toThrow(PREVIEW_READ_ONLY);
   expect(await bridge.finance('adega-jg')).toEqual(before);
@@ -45,4 +45,8 @@ describe('prévia pública sem gravação de dados comerciais', () => {
    expect(previewHash(location.area, location.more)).toBe(hash);
   }
  });
+});
+
+it('detalhe de compra na prévia é fictício, consistente, isolado e não altera financeiro',async()=>{
+ const bridge=createLocalPreviewBridge(),before=await bridge.finance('adega-jg'),page=await bridge.purchaseHistory('adega-jg',{}),row=page.rows[0]!,detail=await bridge.purchaseDetails('adega-jg',row.id);expect(detail).toMatchObject({id:row.id,company_id:'adega-jg',total_cents:row.total_cents,created_at:row.created_at,payable:{amount_cents:row.total_cents,due_date:row.due_date}});expect(detail.items.reduce((sum,item)=>sum+item.total_cents,0n)).toBe(detail.total_cents);detail.items[0]!.product_name='Alterado';expect((await bridge.purchaseDetails('adega-jg',row.id)).items[0]!.product_name).not.toBe('Alterado');await expect(bridge.purchaseDetails('deposito-jg',row.id)).rejects.toThrow('Compra não encontrada');expect(await bridge.finance('adega-jg')).toEqual(before);
 });

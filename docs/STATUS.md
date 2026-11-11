@@ -264,3 +264,155 @@ Verificação do ZIP: 505 arquivos, 172945265 bytes, todos com SHA-256 igual ao 
 Tipagem e build desktop aprovados. Programa extraído validado com janela oculta, contexto Chromium offline, LOCALAPPDATA temporário e PATH sem Node: 10 grupos de compras/caixa/financeiro e 12 grupos de recuperação/histórico, todos aprovados. Incluem persistência ao reabrir, 101 vendas em três páginas, cancelamento e negativos da restauração. Recibos locais: artifacts/commerce-usability-1792343991470/result.json e artifacts/recovery-history-1792344107662/result.json. Nenhuma base operacional foi aberta ou substituída. Mantêm-se os limites de homologação em outra máquina Windows limpa.
 
 Download: https://github.com/EduT3/nexo-gestao-comercial/releases/download/v1.0.2/NEXO-Windows-v1.0.2.zip. Extraia tudo e abra NEXO.exe; preserve LOCALAPPDATA/NEXO ao atualizar.
+
+
+## Paginação financeira SQLite — 19/10/2026
+
+GOAL-04 implementado localmente sobre 95dca75: Pagar/Receber agora usam filtros, contagem e totais transacionais com páginas limitadas no serviço a cinquenta títulos; Resumo usa escalares globais exatos. Compatibilidade dos métodos antigos preservada, sem migração ou alteração comercial. Rascunhos e descarte de respostas antigas por empresa/filtro/página verificados.
+
+Validação atual: 159 testes/40 arquivos, typecheck/build:local, 33 regressões distintas de navegador e 29 grupos no pacote extraído aprovados. Inclui todos os 10.000 títulos de cada tipo/empresa em snapshot imóvel, oráculo independente, negativas de perfil/limite, concorrência, recuperação/histórico e caixa. As evidências antigas de 152 testes/22 grupos permanecem históricas; não são recibo desta versão.
+
+Medição em 100/1.000/10.000 títulos por tipo/empresa, mesmo hash de dados e protocolo fixado, com latências/volume/tamanho/inicialização registrados em [FINANCIAL-PAGINATION-2026-10-19.md](FINANCIAL-PAGINATION-2026-10-19.md). Orçamentos do ensaio atual aprovados. ZIP local: artifacts/NEXO-Windows-financeiro-paginado-otimizado-2026-10-19.zip; SHA e recibos no relatório. Sem commit/push/publicação ou atualização da instalação usada.
+
+## Preparação revisável da próxima versão — 20/10/2026
+
+Revisão em leitura do patch GOAL-04 e ZIP otimizado, preservando código, dados e instalação. GitHub revalidado: main/HEAD em 95dca75c60534cc0c84d02dc0f5ea1c7303ccd31 e última release v1.0.2. Proposta v1.0.3 e escopo exato de 28 arquivos em [RELEASE-PREPARATION-v1.0.3-2026-10-20.md](RELEASE-PREPARATION-v1.0.3-2026-10-20.md), com riscos, exclusões, rascunho das notas e checklist.
+
+Verificado agora em cópia isolada: 159 testes/40 arquivos, tipagem/build desktop e prévia, 33 regressões de navegador e sete grupos financeiros no executável extraído aprovados. Os outros 22 grupos de recuperação/comércio do ZIP continuam evidência de 19/10; não reexecutados nesta revisão. Benchmark anterior apenas relido/conferido, sem nova coleta de latência. Os 513 arquivos do ZIP coincidem com a extração e os 56 arquivos próprios de um build limpo coincidem com o pacote, mas há 121 assets antigos extras (34.286.350 bytes descompactados). Preparar em staging vazio e validar novo ZIP antes de publicar; pacote original não foi corrigido/regenerado. Evidências em artifacts/release-preparation-2026-10-20. Sem commit/push/merge/publicação, instalação, alteração de configuração operacional ou dados reais. Windows limpo e atualização sintética para o candidato final permanecem gates da entrega.
+
+### Continuação autorizada — candidato limpo, 20/10/2026
+
+Após autorização de Eduardo, staging vazio com fontes/dependências existentes e empacotador original produziu `artifacts/NEXO-Windows-v1.0.3-candidato-limpo-2026-10-20.zip`: 392 arquivos, 164.003.000 bytes, SHA-256 `C812A44FC7E24C0C55E9F285E5774E16802FE0EE00C57D395C6A8DDF0DF4DB79`. Os 121 assets antigos foram excluídos por não existirem no staging novo; os 392 arquivos mantidos são idênticos aos do pacote anterior. Os 56 arquivos próprios coincidem com o build atual e toda a extração foi conferida por hash antes/depois dos testes.
+
+Tipagem/build/empacotamento e **29 grupos no novo executável extraído** aprovados nesta continuação: sete financeiros, doze recuperação/histórico e dez comércio, com base/LOCALAPPDATA temporários, janela oculta, contexto offline e PATH sem Node. Os 159 testes e 33 regressões da revisão inicial não foram repetidos. Nenhuma mudança de código/configuração, instalação de dependências, commit/push/merge/publicação, deploy ou atualização da instalação; pacote/patch anteriores e dados reais preservados. Versão interna continua 0.1.0; v1.0.3 é proposta/candidato. Windows limpo e atualização sintética específica permanecem pendentes. Recibo `artifacts/clean-package-2026-10-20/validation-receipt.json`; documento de preparação atualizado com manifesto, resultados e limites.
+
+
+## Qualificação sintética v1.0.2 → candidata limpa — 20/10/2026
+
+Atualização local aprovada para o ZIP candidato imutável de SHA-256 C812A44FC7E24C0C55E9F285E5774E16802FE0EE00C57D395C6A8DDF0DF4DB79. Base criada na v1.0.2 pelas operações reais: duas empresas, administrador/operador, 202 vendas, 114 compras/títulos a pagar, 114 recebíveis, caixas/fechamentos e estornos. Oráculo independente de todas as 27 tabelas, esquema e linhas confirma B0 idêntico na candidata e após reabertura. Nova venda pela interface: total 1253 centavos/troco 747; delta de sete tabelas e repetição concorrente sem duplicação.
+
+Backup, cancelamentos/falhas, restaurações B0/B1 com cópia anterior, falha após confirmação, recuperação de abertura autenticada e contingência da versão antiga em cópia anterior separada aprovados. Ambos os ZIPs e os 897 arquivos extraídos permaneceram idênticos; todos os arquivos preexistentes foram conferidos antes dos adendos documentais. Fonte/diff anterior, dependências, pacote e instalação não alterados; sem acesso à base operacional, commit/push/tag/release/deploy. Os 159 testes/33 regressões/29 grupos anteriores não foram recontados como testes desta entrega.
+
+Evidências próprias e procedimento de atualização/retorno: [UPDATE-QUALIFICATION-v1.0.2-v1.0.3-2026-10-20.md](UPDATE-QUALIFICATION-v1.0.2-v1.0.3-2026-10-20.md), artifacts/update-qualification-2026-10-20/qualification.json e acceptance.json. Quatro ocorrências do roteiro, encerradas e corrigidas apenas no harness, estão documentadas. **Outro Windows limpo/diálogos manuais: pendente externo**, sem alvo separado fornecido; PATH mínimo não equivale a essa homologação. Qualificação sintética concluída; instalação e publicação continuam fora da rodada.
+
+
+## Coerência da página financeira — 20/10/2026, rodada noturna
+
+Corrigida uma falha de leitura no hook compartilhado: após a última página deixar de existir (51 → 50 ou zero contas), a próxima atualização passa a usar a página efetiva devolvida pelo serviço. Antes, ao voltar a 51 contas, Pagar/Receber saltavam indevidamente à página 2. Quatro regressões novas falharam antes e passaram depois. Sem alteração de contratos, dinheiro, SQL, transações ou permissões.
+
+Validação desta unidade: 31 regressões de interface compilada (27 existentes + 4 novas), seis testes focados, tipagem e build de interface em pasta isolada aprovados. Ensaio ampliado em desenvolvimento apresentou 11 falhas ligadas às contagens/índices de consultas dos testes antigos; recibos preservados e contraste com modo compilado no [relatório](FINANCIAL-PAGE-COHERENCE-2026-10-20.md). Sem dados reais, package/instalação/publicação ou nova campanha de atualização. **Esta fonte não integra o ZIP candidato anterior**, mantido com SHA C812A44FC7E24C0C55E9F285E5774E16802FE0EE00C57D395C6A8DDF0DF4DB79. Outro Windows limpo continua pendente.
+
+
+## Resumo financeiro em falha de leitura — 20/10/2026, segunda unidade noturna
+
+Corrigida retenção de totais anteriores após erro ao atualizar o resumo financeiro acumulado. A interface agora diferencia consulta/falha/sucesso, retira valores antigos, apresenta alerta e permite Tentar novamente pelo canal local existente. Recuperação por teclado e erro da empresa atual com resposta atrasada de outra empresa verificados, sem chamadas de gravação.
+
+Dois testes novos falharam antes e passaram depois; 33 regressões de interface compilada (31 anteriores + 2 novas), seis testes focados, tipagem e build de interface em pasta separada aprovados. Hook de paginação da unidade 1 preservado. Sem mudanças em dinheiro, SQL, IPC, segurança ou dados reais. **A fonte não integra o ZIP candidato anterior**, mantido com SHA C812A44FC7E24C0C55E9F285E5774E16802FE0EE00C57D395C6A8DDF0DF4DB79; sem pacote/publicação/instalação. Windows limpo permanece pendente. Relatório: [FINANCIAL-SUMMARY-READ-ERROR-2026-10-20.md](FINANCIAL-SUMMARY-READ-ERROR-2026-10-20.md).
+
+
+## Nova tentativa de leitura em Pagar/Receber — 20/10/2026, terceira unidade noturna
+
+Adicionado controle compartilhado Tentar novamente junto ao erro de consulta de Pagar e Receber, reutilizando requests.refresh. Visível apenas no erro, protegido por busy/loading; pager de zero resultados não aparece como resultado válido quando a leitura falha. Operações, filtros, seleção, chaves, hook e backend não alterados.
+
+Quatro percursos novos falharam antes por falta do botão e passaram depois; **37 regressões de interface compilada (33 anteriores + 4 novas)**, seis testes focados, tipagem e build isolado aprovados. Retry por teclado, falha persistente, mesma empresa/filtro/página e descarte de resposta atrasada de outra empresa verificados sem IPC de mutação. Unidades 1/2 e seus recibos preservados. Fonte nova não integra o ZIP candidato anterior, mantido com SHA C812A44FC7E24C0C55E9F285E5774E16802FE0EE00C57D395C6A8DDF0DF4DB79; sem pacote/publicação/instalação, Windows limpo pendente. Relatório: [FINANCIAL-ACCOUNT-READ-RETRY-2026-10-20.md](FINANCIAL-ACCOUNT-READ-RETRY-2026-10-20.md).
+
+
+## Foco ao cancelar operação financeira — 20/10/2026, quarta unidade noturna
+
+Confirmada e corrigida perda de foco para BODY ao cancelar pelo teclado em Pagar/Receber. Somente o cancelamento explícito agora foca o botão que abriu a operação ou, se removido pela consulta, o título existente da lista. Nenhuma alteração nas funções save, em baixa/estorno/sucesso, chaves, seleção, filtros, regras ou dados.
+
+Quatro testes novos falharam antes e passaram depois; **41 regressões de UI compilada (37 anteriores + 4 novas)**, seis testes focados, tipagem e build isolado aprovados. Tab/Enter/Voltar, origem existente/removida, empresa correta e ausência de IPC de mutação verificados. Três unidades anteriores preservadas. Fonte nova fora do ZIP candidato anterior, que permanece íntegro; sem pacote/publicação/instalação. Windows limpo continua pendente. Relatório: [FINANCIAL-CANCEL-FOCUS-2026-10-20.md](FINANCIAL-CANCEL-FOCUS-2026-10-20.md).
+
+
+## Consulta financeira após erro/cancelamento — 21/10/2026
+
+Reproduzidos quatro travamentos de leitura em Pagar/Receber: uma operação invalida a consulta pendente e, ao falhar ou ter confirmação de estorno cancelada, faltava nova leitura. A atualização existente foi movida para finally nos dois formulários; filtros, rascunhos, mensagens e chamadas de negócio mantidos. A consulta antiga continua descartada; nenhuma gravação é repetida automaticamente.
+
+Quatro regressões falharam antes e passaram depois; **45 testes de interface compilada (41 anteriores + 4 novos)**, seis testes focados existentes, tipagem e builds de interface isolados aprovados. Testes usam somente IPC fictício, sem banco/negócios reais; sem execução Electron/pacote. Baseline de 267 arquivos e recibo em artifacts/financial-interrupted-read-2026-10-21. Primeira criação foi negada pelo contexto restrito; repetição pelo fluxo require_escalated explicitamente instruído foi permitida, sem mudar permissões persistentes. Fonte nova fora dos ZIPs preservados e do manifesto de publicação anterior, que precisa ser requalificado. Sem pacote/instalação/publicação. Relatório: [FINANCIAL-INTERRUPTED-READ-2026-10-21.md](FINANCIAL-INTERRUPTED-READ-2026-10-21.md).
+
+
+## Candidato Windows da fonte atual — 22/10/2026
+
+Fonte vigente conferida por hashes, congelada e construída em pasta nova com dependências existentes. Candidato local artifacts/windows-candidate-2026-10-22/NEXO-Windows-candidato-2026-10-22.zip, **164003225 bytes, 392 arquivos, SHA-256 63802B66B91FFEE63E20786A2EEDC5265A49F6C2ED7A3C7089C371B3153C95BA**. Versão interna 0.1.0 preservada; código funcional não alterado. Build da interface idêntico ao validado em 21/10, sem repetir as 45 UI/seis focados.
+
+Agora executados e aprovados **29 grupos no novo executável extraído** (7 financeiros, 12 histórico/recuperação, 10 comércio), mais **sete fases/23 verificações de atualização sintética v1.0.2 → este candidato**, com oráculo independente de 27 tabelas, nova venda, idempotência, backup/restauração/recuperação e contingência separada. Tipagem/build desktop, todos os arquivos do ZIP/extração e imutabilidade posterior aprovados. Duas ocorrências só de harness corrigidas e registradas; nenhum bug funcional novo encontrado. Fonte/correções e 13 ZIPs antigos preservados. Perfis/bases sintéticos novos removidos após os recibos. Sem publicação/instalação/dados reais. Windows limpo e diálogos manuais continuam pendentes externos. [Relatório completo](CANDIDATO-WINDOWS-2026-10-22.md).
+
+
+## Excel: arquivo inválido e validação do fluxo — 22/10/2026
+
+Reproduzido no candidato congelado: arquivo de texto com extensão XLSX preservava o banco, mas exibia erro interno em inglês/link técnico. Fonte corrigida minimamente: parser orienta usar XLSX válido/modelo NEXO e o componente aplica errorMessage aos erros. Nenhuma regra de importação/exportação ou autorização alterada. Duas regressões falharam antes e passaram depois; **cinco testes em três arquivos**, tipagem/build isolado e **11 grupos nativos na fonte compilada corrigida** aprovados, cobrindo cancelamentos, prévia, formatos inválidos, duplicidade, centavos/milésimos, exportação de oito abas, isolamento e reabertura. Uma tentativa do harness parou por seletor exato; corrigido apenas o roteiro e preservada a evidência.
+
+O ZIP 63802B66B91FFEE63E20786A2EEDC5265A49F6C2ED7A3C7089C371B3153C95BA e seus 392 arquivos permanecem íntegros e **não incluem esta correção posterior**. Nenhum novo pacote/publicação/instalação foi feito; fonte exige nova qualificação antes de distribuir. Dados/perfis sintéticos removidos após os testes; dados reais e cinco correções financeiras preservados. Windows limpo/diálogos manuais pendentes externos. [Relatório e limites](EXCEL-VALIDATION-2026-10-22.md).
+
+
+## Identificação de build em Ajuda/Sobre — 22/10/2026
+
+Implementada na fonte identificação gerada dos bytes compilados/runtime, com versão NEXO **0.1.0** preservada, data e ID verificáveis. Ponte nova somente leitura/sem argumentos; metadados ausentes ou inválidos mostram identificação indisponível sem impedir abertura, uso, reabertura ou recuperação. Empacotador confere manifesto e recusa arquivos alterados após build. Nenhuma alegação de commit, assinatura ou homologação.
+
+**Nove testes novos + 19 regressões**, tipagem/build desktop/web e **sete grupos nativos** aprovados. Build ensaiado: NEXO-64467B6F30C28A65, gerado 2026-10-22T21:07:19.150Z. Teste nativo usou layout interno do app e runtime existente, sem produzir pacote portátil/ZIP; candidato 63802B66… permanece íntegro e anterior à correção Excel e a esta unidade. A simulação de escala CSS (931 px em viewport900) foi preservada como diagnóstico, sem classificá-la como defeito/aceite de zoom nativo. Complemento por setContentSize/setZoomFactor aprovou conteúdo900×650 em fatores1/2 e1440×1000 em fator2, sem transbordamento e com foco/legibilidade de Sobre; nenhuma mudança de CSS/OS/DPI. Sem dados reais, instalação ou publicação. [Relatório e escopo](BUILD-IDENTIFICATION-2026-10-22.md).
+
+
+## Candidato atualizado com Excel e identificação — 22/10/2026
+
+Novo ZIP **NEXO-Windows-candidato-atualizado-2026-10-22.zip**, 164024818bytes/395arquivos, SHA-256 **FB96E2AFDB29DE21E4D7B44CC62745A07EA23FAB8B7E8E96ED928E805231D65C**. Incorpora as cinco correções financeiras, orientação de XLSX inválido e Sobre o NEXO. Versão interna0.1.0; ID NEXO-64467B6F30C28A65; gerado2026-10-22T21:40:40.461Z.
+
+Build, 28 testes locais, 45 UI com ponte sintética, campanhas nativas de núcleo(7/12/10 grupos), Excel(11), identificação em cópia descartável(7), zoom nativo no executável principal(3) e atualização sintética específica(7 fases/23 verificações, 27tabelas) aprovados. Arquivo/extração/fonte congelada conferidos após os testes. Quatorze ZIPs antigos preservados; dados/perfis sintéticos desta etapa removidos após recibos. Sem mudança funcional nesta unidade, instalação, dados reais ou publicação. Windows separado, diálogos manuais e Excel manual permanecem pendentes externos. [Relatório, evidências e limites](CANDIDATO-WINDOWS-ATUALIZADO-2026-10-22.md).
+
+
+## Históricos paginados de compras e caixa — 23/10/2026
+
+Implementadas consultas/telas com busca, período e páginas de50, contagem na mesma transação autorizada e desempate data/ID. Sessão ativa e ações separadas do histórico; somas/fechamentos restritos aos IDs consultados. Serviços comerciais/esquema/dependências preservados. APIs legadas ainda mantêm LIMIT100 por compatibilidade; as telas usam três canais novos de leitura.
+
+Validação desta entrega:10 testes SQLite (6 novos/4 regressões),7 da prévia,51 casos distintos de Edge com ponte fictícia (49 na suíte e2 corrigidos em ensaio direcionado),10 grupos reais no executável extraído e capturas nativas de leitura. Compra, movimento/fechamento/abertura, perfis/empresas e reabertura com oráculo de27 tabelas conferidos. Falhas de roteiro e build acidental no dist de desenvolvimento registradas; candidato final construído em staging novo.
+
+Candidato **NEXO-Windows-historicos-2026-10-23.zip**,164029662bytes/399arquivos, SHA-256 **7E5EB5587B6B3CCDC23353C423BC173DEE220318048A813DAE9C6285A0562143**, versão0.1.0, build **NEXO-F0ED4E26FEC6F090**, gerado2026-10-23T18:58:26.203Z. Quinze ZIPs anteriores preservados. Fonte aplicada e candidato local; instalação/base de uso não atualizadas. Processos próprios encerrados, dados/perfis sintéticos removidos após recibos. Sem publicação. Windows separado e validações manuais continuam externos. [Relatório e limites](HISTORICOS-PAGINADOS-2026-10-23.md).
+
+
+## Resumo diário: limites de data — 26/10/2026
+
+Correção somente na fonte de `getLocalDailyReport`: limites SQL em UTC canônico, preservando `period`, autorização/transação e BigInt. Frações adicionais são tratadas na grade de milissegundos sem incluir/excluir registros por truncamento. Cinco regressões falharam antes; delta final com nove testes SQLite e duas tipagens aprovado. Bases fictícias novas, snapshots sem mutação e conexões fechadas; negativos anteriores preservados.
+
+Fonte corrigida ainda não empacotada. BEFA e harness antigos intactos; nenhum build/ZIP/publicação ou dado operacional alterado. QA visual e homologação Windows anteriores continuam pendentes independentes. Evidências, método, hashes e limites em [DAILY-REPORT-PERIOD-2026-10-26.md](DAILY-REPORT-PERIOD-2026-10-26.md).
+
+
+## Candidata de teste com correção de datas — 27/10/2026
+
+Build isolado0.1.0 **NEXO-E6C849C38EF8B8E7** e ZIP de teste separados;400 arquivos extraídos conferidos. Nove regressões aprovadas usando o SQLite do NEXO.exe extraído em modoNode, mais quatro verificações de persistência/reabertura da mesma base fictícia,27tabelas invariantes e integridade/FK aprovadas. Não é nova alteração funcional.
+
+Após revisar os destinos efetivamente usados, o ensaio nativo/IPC passou em sete grupos e duas aberturas no mesmo perfil fictício, ambas encerradas0; identidade, caminhos e27tabelas preservados. Preflight e negativos de preparação anteriores mantidos. QAvisual não executada. Não abrir o executável em ambiente padrão; instruções de teste acompanham o ZIP. Sem instalação, atualização operacional ou publicação; antigos preservados. O ZIP parcial inicial de metadados não é a entrega. SHA,caminhos,ocorrências e limites em [CANDIDATA-DATAS-2026-10-27.md](CANDIDATA-DATAS-2026-10-27.md).
+
+
+## Unidade de produto após movimentação — 29/10/2026
+
+Corrigida na camada local a troca de unidade que reinterpretava o estoque/histórico sem conversão. Agora é recusada após qualquer movimento, inclusive saldo zerado; produto sem histórico e edição mantendo a unidade continuam permitidos. Pedido misto é recusado por inteiro antes de produto/categoria/auditoria; empresa/ADMIN mantidos. Excel continua ignorando duplicados sem alterar unidade existente.
+
+Cinco regressões reproduziram a falha;14 testes SQLite nos bytes compilados finais (9 novos +5 pertinentes), tipagem e compilação isolada aprovados. Snapshot27 tabelas, ordem concorrente na mesma fila, cancelamento/reabertura e valores exatos verificados. Erro inicial em duas assertivas de tipagem dos testes corrigido, recibos preservados. Candidata por fonte congelada/48 compilados e manifesto, sem novo ZIP. E6/BEFA,30 ZIPs, dist e fixture anteriores preservados; instalação/dados reais não alterados. Sem IPC/navegador/EXE nesta unidade, publicação ou reabertura da investigação de sockets/CIM. A correção ainda não integra a E6 ou versão em uso. [Relatório e limites](PRODUCT-UNIT-GUARD-2026-10-29.md).
+
+
+## Qualificação IPC da unidade — 29/10/2026
+
+Layout nativo de TESTE NEXO-C271C996BAB58331, separado, com catálogo corrigido e somente esse delta funcional frente àE6. Electron44.4.1/Node24.21.0/SQLite3.53.4, sandbox/preload/bootstrap originais e destinos efetivos novos conferidos. Dez grupos IPC, oito recusas com27 tabelas invariantes,25 snapshots, compra127/venda289centavos e1255milésimos, saldozero e mesma base após fechar/reabrir aprovados. Ambos os processos da campanha encerraram0.
+
+Duas falhas de identificação do harness anteriores às operações foram corrigidas somente na bancada, com negativos/perfis preservados e processos também encerrados0. Sem fonte funcional alterada,14 testes repetidos, aceite visual ou novo ZIP. Candidata fonte334, E6/BEFA,30 ZIPs e2414 arquivos protegidos intactos; instalação/dados reais não alterados, sem publicação. [Relatório e limites](PRODUCT-UNIT-IPC-2026-10-29.md).
+
+
+## Build manual sem senha — 10/11/2026
+
+A pedido do usuário, cópia temporária em artifacts/teste-sem-senha-2026-11-10: primeiro acesso pelo nome e seleção de usuário sem senha; cadastro de operadores sem senha, mantendo ADMIN/OPERADOR, empresas e auditoria. Fonte padrão e bases anteriores preservadas. Iniciador Abrir NEXO sem senha.cmd usa perfil manual novo; bootstrap recusa perfis externos. Tipagem, compilação local/frontend e10 verificações de IPC/DOMlogin com reabertura aprovadas, zero credenciais; dois processos QA encerrados0. Perfil manual segue vazio. Erro inicial de staging sem index.html corrigido e log preservado. Sem aceite visual/teclado, adaptação da recuperação autenticada, instalação ou publicação. Recibo e diff dentro da pasta desta build.
+
+
+## Produtos e estoque unificados — 10/11/2026
+
+Interface com Início simples e uma única área para produtos/saldo/cadastro/entrada/movimentos, fornecedor inline e retorno do cadastro à entrada com rascunho preservado. Tutorial local opt-in, linguagem curta e5destinos principais. APIs/regras comerciais e autenticação padrão preservadas; build de teste mantém entrada por nome.
+
+Treze casos distintos aprovados (cinco do helper conferidos novamente no final), tipagem/build isolado e oito grupos funcionais no Electron com estoque/empresa/perfil/reabertura aprovados. Build final NEXO-14069FB7D29BC736 limpo e smoke encerrado0; captura visual bloqueada por timeout, sem aceite visual. Negativos e versões anteriores preservados. Novo iniciador Abrir NEXO Produtos e Estoque.cmd usa o mesmo perfil manual sem lê-lo/alterá-lo durante o trabalho. [Resultado, limites e instruções](PRODUTOS-ESTOQUE-SIMPLES-2026-11-10.md).
+
+
+## 10/11/2026 — áreas distintas e participantes opcionais
+
+Build local de testes NEXO-56709C9338DD6A58: blocos/cores do Bolsário, atalhos entre áreas com rascunho preservado, fornecedor opcional real e identificação de cliente secundária. SQLite12 com backup automático antes da atualização; versões anteriores não leem a base12.38 testes dirigidos aprovados, atualização nativa11→12 preservando27 tabelas, compra/venda reais em perfil fictício e reabertura conferidas. Capturas nativas inspecionadas; aceite humano de usabilidade pendente. Perfil manual preservado durante os testes; entrada por nome mantida só nesta build. Sem publicação/instalação. Iniciador: `artifacts/teste-sem-senha-2026-11-10/Abrir NEXO Rotinas Simples.cmd`. Evidências e retorno seguro: [ROTINAS-SIMPLES-2026-11-10.md](ROTINAS-SIMPLES-2026-11-10.md).
+
+
+## 10/11/2026 — revisão final e ZIP portátil
+
+ZIP da build NEXO-56709C9338DD6A58 gerado sem dados pessoais/código-fonte. Executável extraído passou12grupos de integração (compra/venda/cancelamento/pagamento/estorno/caixa/backup/Excel/reabertura),46testes em19arquivos e tipagem aprovados. Capturas atuais inspecionadas; início conferido a1280/900px. Nenhum defeito do aplicativo encontrado no recorte; iniciador cria perfil novo na pasta extraída.403arquivos conferidos byte a byte após extração/QA; SHA256 `A9E652E74AED2E131A58D2C4BE5BCB98A52F746FB3B1246BDA5670C937BC0D10`. Sem publicação/instalação; Windows limpo e diálogos manuais não homologados. Evidências, imagens e instruções: [REVISAO-ZIP-2026-11-10.md](REVISAO-ZIP-2026-11-10.md).

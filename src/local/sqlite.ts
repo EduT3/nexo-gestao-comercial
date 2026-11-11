@@ -1,3 +1,4 @@
+import {normalizeAccountSearch} from '../shared/financial-accounts.js';
 import { DatabaseSync, type SQLInputValue } from 'node:sqlite';
 
 export interface LocalDatabase {
@@ -11,6 +12,11 @@ export interface LocalDatabase {
 /** Trusted main-process interface. Never expose SQL to the renderer. */
 export function openLocalDatabase(path:string):LocalDatabase {
   const engine=new DatabaseSync(path);
+  // Text-only functions remain inside the trusted connection, never exposed through IPC.
+  engine.function('nexo_account_text',{deterministic:true},value=>normalizeAccountSearch(String(value??'')));
+  // Decimal text result avoids SQLite SUM overflow and floating-point loss for large totals.
+  engine.aggregate('nexo_sum_cents',{start:0n,useBigIntArguments:true,
+    step:(sum,value)=>BigInt(String(sum))+BigInt(String(value??0)),result:sum=>String(sum)});
   try { engine.exec('PRAGMA foreign_keys=ON; PRAGMA busy_timeout=5000; PRAGMA journal_mode=WAL; PRAGMA synchronous=FULL;'); }
   catch (error) { engine.close(); throw error; }
   let queue=Promise.resolve();

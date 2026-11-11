@@ -16,6 +16,10 @@ export function useLocalQuery<T>(company: string, active: boolean, revision: num
     try { const data = await callbacks.current.load(); if (current()) callbacks.current.apply(data); }
     catch (error) { if (current()) callbacks.current.onError(error); }
   }, [company, lifecycle]);
-  useEffect(() => { void refresh(); }, [refresh, active, revision]);
+  useEffect(() => {
+    let cancelled = false;
+    queueMicrotask(() => { if (!cancelled) void refresh(); });
+    return () => { cancelled = true; };
+  }, [refresh, active, revision]);
   return { refresh, beginMutation: lifecycle.beginMutation };
 }

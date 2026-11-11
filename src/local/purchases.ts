@@ -1,5 +1,6 @@
+import {localPurchaseInput} from './purchase-input.js';
 import { randomUUID } from 'node:crypto';
-import { receivePurchaseSchema, purchaseIdempotencyKeySchema } from '../server/modules/purchases/schemas.js';
+import { purchaseIdempotencyKeySchema } from '../server/modules/purchases/schemas.js';
 import { itemTotalCents, quantityToMilli } from '../shared/scaled.js';
 import { authorizeLocalCatalog } from './catalog.js';
 import { appendStockMovement } from './stock.js';
@@ -8,8 +9,8 @@ import type { LocalDatabase } from './sqlite.js';
 export async function listLocalPurchases(db: LocalDatabase, userId: string, companyId: string) {
   return db.transaction(async tx => {
     await authorizeLocalCatalog(tx, userId, companyId, true);
-    return tx.query(`SELECT p.id,s.name AS supplier_name,p.total_cents,p.created_at,t.due_date
-      FROM local_purchases p JOIN local_suppliers s ON s.company_id=p.company_id AND s.id=p.supplier_id
+    return tx.query(`SELECT p.id,COALESCE(s.name,'Sem fornecedor informado') AS supplier_name,p.total_cents,p.created_at,t.due_date
+      FROM local_purchases p LEFT JOIN local_suppliers s ON s.company_id=p.company_id AND s.id=p.supplier_id
       LEFT JOIN local_purchase_payables t ON t.company_id=p.company_id AND t.purchase_id=p.id
       WHERE p.company_id=? ORDER BY p.created_at DESC,p.id LIMIT 100`, [companyId]);
   });
@@ -17,7 +18,7 @@ export async function listLocalPurchases(db: LocalDatabase, userId: string, comp
 
 export async function receiveLocalPurchase(db: LocalDatabase, userId: string, companyId: string, requestKey: string, input: unknown) {
   const key = purchaseIdempotencyKeySchema.parse(requestKey);
-  const body = receivePurchaseSchema.parse(input);
+  const body = localPurchaseInput.parse(input);
   const payload = JSON.stringify(body);
   return db.transaction(async tx => {
     await authorizeLocalCatalog(tx, userId, companyId, true);
@@ -26,8 +27,10 @@ export async function receiveLocalPurchase(db: LocalDatabase, userId: string, co
       if (previous.request_payload !== payload) throw new Error('Esta tentativa já foi usada em outra compra.');
       return { id: String(previous.id), totalCents: BigInt(String(previous.total_cents)), replayed: true };
     }
+    if(body.supplierId!==null){
     const supplier = (await tx.query('SELECT active FROM local_suppliers WHERE company_id=? AND id=?', [companyId, body.supplierId]))[0];
     if (!supplier || supplier.active !== 1n) throw new Error('Selecione um fornecedor ativo desta empresa.');
+    }
     const items = [];
     let total = 0n;
     for (const item of body.items) {

@@ -6,6 +6,7 @@ import { LocalApp } from './LocalApp';
 import './styles.css';
 import './product.css';
 import './local.css';
+import './nexo-balcao.css';
 
 async function start() {
   let preview = false;

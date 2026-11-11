@@ -110,3 +110,62 @@ Um único relatório XLSX contém Resumo, Produtos, Estoque, Vendas, Itens de ve
 Evidências: tests/local-export.test.ts aprova dados reais com compra, saldo2,000, vendas CASH/PIX, cancelamento, conta paga/recebida, isolamento e perfil negado; abre XLSX e verifica oito abas, valores tipados, aviso e ausência de erros de fórmula. scripts/verify-local-finance-summary.mjs aprova botão/diálogo e inspeciona relatório. scripts/verify-local-operator.mjs aprova painel oculto e IPC negado. Pacote artifacts/NEXO-Windows-1789780716307/NEXO.exe foi gerado e o roteiro financeiro/exportação passou com PATH mínimo/NODE_PATH vazio; uma primeira observação terminou com SyntaxError sem origem, repetição com node --trace-uncaught no mesmo pacote passou integralmente, sem recriação. Suíte final31 arquivos/114 testes; npm audit zero vulnerabilidades.
 
 Excel requerido pelo objetivo agora cobre importação de produtos com modelo/prévia/duplicidades e exportação de produtos, estoque, vendas e financeiro. Ainda pendentes: atualizar instruções do pacote, executar ciclo comercial completo no pacote atual, revisão de usabilidade/acabamento, prévia web coerente, validação final de atualização/preservação e publicação GitHub autorizada. Objetivo segue ativo.
+
+
+## Resumo diário: limites de data — 26/10/2026
+
+Correção somente na fonte de `getLocalDailyReport`: limites SQL em UTC canônico, preservando `period`, autorização/transação e BigInt. Frações adicionais são tratadas na grade de milissegundos sem incluir/excluir registros por truncamento. Cinco regressões falharam antes; delta final com nove testes SQLite e duas tipagens aprovado. Bases fictícias novas, snapshots sem mutação e conexões fechadas; negativos anteriores preservados.
+
+Fonte corrigida ainda não empacotada. BEFA e harness antigos intactos; nenhum build/ZIP/publicação ou dado operacional alterado. QA visual e homologação Windows anteriores continuam pendentes independentes. Evidências, método, hashes e limites em [DAILY-REPORT-PERIOD-2026-10-26.md](docs/DAILY-REPORT-PERIOD-2026-10-26.md).
+
+
+## Candidata de teste com correção de datas — 27/10/2026
+
+Build isolado0.1.0 **NEXO-E6C849C38EF8B8E7** e ZIP de teste separados;400 arquivos extraídos conferidos. Nove regressões aprovadas usando o SQLite do NEXO.exe extraído em modoNode, mais quatro verificações de persistência/reabertura da mesma base fictícia,27tabelas invariantes e integridade/FK aprovadas. Não é nova alteração funcional.
+
+Após revisar os destinos efetivamente usados, o ensaio nativo/IPC passou em sete grupos e duas aberturas no mesmo perfil fictício, ambas encerradas0; identidade, caminhos e27tabelas preservados. Preflight e negativos de preparação anteriores mantidos. QAvisual não executada. Não abrir o executável em ambiente padrão; instruções de teste acompanham o ZIP. Sem instalação, atualização operacional ou publicação; antigos preservados. O ZIP parcial inicial de metadados não é a entrega. SHA,caminhos,ocorrências e limites em [CANDIDATA-DATAS-2026-10-27.md](docs/CANDIDATA-DATAS-2026-10-27.md).
+
+
+## Unidade de produto após movimentação — 29/10/2026
+
+Corrigida na camada local a troca de unidade que reinterpretava o estoque/histórico sem conversão. Agora é recusada após qualquer movimento, inclusive saldo zerado; produto sem histórico e edição mantendo a unidade continuam permitidos. Pedido misto é recusado por inteiro antes de produto/categoria/auditoria; empresa/ADMIN mantidos. Excel continua ignorando duplicados sem alterar unidade existente.
+
+Cinco regressões reproduziram a falha;14 testes SQLite nos bytes compilados finais (9 novos +5 pertinentes), tipagem e compilação isolada aprovados. Snapshot27 tabelas, ordem concorrente na mesma fila, cancelamento/reabertura e valores exatos verificados. Erro inicial em duas assertivas de tipagem dos testes corrigido, recibos preservados. Candidata por fonte congelada/48 compilados e manifesto, sem novo ZIP. E6/BEFA,30 ZIPs, dist e fixture anteriores preservados; instalação/dados reais não alterados. Sem IPC/navegador/EXE nesta unidade, publicação ou reabertura da investigação de sockets/CIM. A correção ainda não integra a E6 ou versão em uso. [Relatório e limites](docs/PRODUCT-UNIT-GUARD-2026-10-29.md).
+
+
+## Qualificação IPC da unidade — 29/10/2026
+
+Layout nativo de TESTE NEXO-C271C996BAB58331, separado, com catálogo corrigido e somente esse delta funcional frente àE6. Electron44.4.1/Node24.21.0/SQLite3.53.4, sandbox/preload/bootstrap originais e destinos efetivos novos conferidos. Dez grupos IPC, oito recusas com27 tabelas invariantes,25 snapshots, compra127/venda289centavos e1255milésimos, saldozero e mesma base após fechar/reabrir aprovados. Ambos os processos da campanha encerraram0.
+
+Duas falhas de identificação do harness anteriores às operações foram corrigidas somente na bancada, com negativos/perfis preservados e processos também encerrados0. Sem fonte funcional alterada,14 testes repetidos, aceite visual ou novo ZIP. Candidata fonte334, E6/BEFA,30 ZIPs e2414 arquivos protegidos intactos; instalação/dados reais não alterados, sem publicação. [Relatório e limites](docs/PRODUCT-UNIT-IPC-2026-10-29.md).
+
+
+## Build manual sem senha — 10/11/2026
+
+A pedido do usuário, cópia temporária em artifacts/teste-sem-senha-2026-11-10: primeiro acesso pelo nome e seleção de usuário sem senha; cadastro de operadores sem senha, mantendo ADMIN/OPERADOR, empresas e auditoria. Fonte padrão e bases anteriores preservadas. Iniciador Abrir NEXO sem senha.cmd usa perfil manual novo; bootstrap recusa perfis externos. Tipagem, compilação local/frontend e10 verificações de IPC/DOMlogin com reabertura aprovadas, zero credenciais; dois processos QA encerrados0. Perfil manual segue vazio. Erro inicial de staging sem index.html corrigido e log preservado. Sem aceite visual/teclado, adaptação da recuperação autenticada, instalação ou publicação. Recibo e diff dentro da pasta desta build.
+
+
+## Produtos e estoque unificados — 10/11/2026
+
+Interface com Início simples e uma única área para produtos/saldo/cadastro/entrada/movimentos, fornecedor inline e retorno do cadastro à entrada com rascunho preservado. Tutorial local opt-in, linguagem curta e5destinos principais. APIs/regras comerciais e autenticação padrão preservadas; build de teste mantém entrada por nome.
+
+Treze casos distintos aprovados (cinco do helper conferidos novamente no final), tipagem/build isolado e oito grupos funcionais no Electron com estoque/empresa/perfil/reabertura aprovados. Build final NEXO-14069FB7D29BC736 limpo e smoke encerrado0; captura visual bloqueada por timeout, sem aceite visual. Negativos e versões anteriores preservados. Novo iniciador Abrir NEXO Produtos e Estoque.cmd usa o mesmo perfil manual sem lê-lo/alterá-lo durante o trabalho. [Resultado, limites e instruções](docs/PRODUTOS-ESTOQUE-SIMPLES-2026-11-10.md).
+
+
+## 10/11/2026 — áreas distintas e participantes opcionais
+
+Build local de testes NEXO-56709C9338DD6A58: blocos/cores do Bolsário, atalhos entre áreas com rascunho preservado, fornecedor opcional real e identificação de cliente secundária. SQLite12 com backup automático antes da atualização; versões anteriores não leem a base12.38 testes dirigidos aprovados, atualização nativa11→12 preservando27 tabelas, compra/venda reais em perfil fictício e reabertura conferidas. Capturas nativas inspecionadas; aceite humano de usabilidade pendente. Perfil manual preservado durante os testes; entrada por nome mantida só nesta build. Sem publicação/instalação. Iniciador: `artifacts/teste-sem-senha-2026-11-10/Abrir NEXO Rotinas Simples.cmd`. Evidências e retorno seguro: [ROTINAS-SIMPLES-2026-11-10.md](ROTINAS-SIMPLES-2026-11-10.md).
+
+
+## 10/11/2026 — revisão final e ZIP portátil
+
+ZIP da build NEXO-56709C9338DD6A58 gerado sem dados pessoais/código-fonte. Executável extraído passou12grupos de integração (compra/venda/cancelamento/pagamento/estorno/caixa/backup/Excel/reabertura),46testes em19arquivos e tipagem aprovados. Capturas atuais inspecionadas; início conferido a1280/900px. Nenhum defeito do aplicativo encontrado no recorte; iniciador cria perfil novo na pasta extraída.403arquivos conferidos byte a byte após extração/QA; SHA256 `A9E652E74AED2E131A58D2C4BE5BCB98A52F746FB3B1246BDA5670C937BC0D10`. Sem publicação/instalação; Windows limpo e diálogos manuais não homologados. Evidências, imagens e instruções: [REVISAO-ZIP-2026-11-10.md](docs/REVISAO-ZIP-2026-11-10.md).
+
+## 11/11/2026 — NEXO Balcão
+
+Integração seletiva na branch `feat/nexo-balcao` sobre a base local mais recente. Balcão com F2, carrinho fracionário, caixa, desconto, pagamentos e histórico sobre o IPC original. Testes Vitest 217/217 e integração no ZIP extraído da build NEXO-782EE60E3D16BC9A aprovados. QA de interface em 1487 × 1058, 1280 × 900 e 900 × 750. A suíte Playwright segue em validação e a correção de navegação legada em janela estreita requer ensaio. Evidências e checklist em [design-qa.md](design-qa.md).
+
+
+### Fechamento da candidata Balcão r4
+
+Build NEXO-E9061D585A4232E4, 217 testes Vitest e 62 cenários Playwright aprovados. Candidata portátil extraída e testada em perfil fictício, com vendas, caixa, histórico, backup e reabertura. A prévia compilada bloqueou gravação em navegador. Relatório, evidências e checklist manual em [design-qa.md](design-qa.md).

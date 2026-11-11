@@ -10,6 +10,6 @@ export function errorMessage(error: unknown) {
   let message=error instanceof Error?error.message:String(error);
   for(let i=0;i<3;i++)message=message.replace(/^Error: /,'').replace(/^Error invoking remote method '[^']+': /,'');
   try { const issues=JSON.parse(message);if(Array.isArray(issues))return issues.map(issue=>String(issue.message||'')).filter(value=>value&&!/^(Invalid|Too |Unrecognized)/.test(value)).join(' ')||'Confira os campos informados e tente novamente.'; } catch { /* A business message is plain text. */ }
-  if(/SQLITE_|no such table|constraint failed|syntax error|file is not a database/i.test(message))return 'Não foi possível concluir a operação. Peça ao responsável para verificar os dados em Mais opções > Backup e dados.';
+  if(/SQLITE_|no such table|constraint failed|syntax error|file is not a database/i.test(message))return 'Não foi possível concluir a operação. Peça ao responsável para verificar os dados em Cadastros e configurações > Backup e dados.';
   return message||'Não foi possível concluir. Tente novamente.';
 }
