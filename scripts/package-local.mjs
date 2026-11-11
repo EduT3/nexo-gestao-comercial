@@ -42,6 +42,7 @@ await writeFile(path.join(destination, 'LEIA-ME.txt'), [
   '',
   'DADOS E ATUALIZAÇÕES',
   'A base fica em %LOCALAPPDATA%\\NEXO\\nexo.sqlite, fora desta pasta.',
+  'Em Configurações, clique em Verificar atualização para consultar o GitHub.',
   'Para atualizar: gere um backup, feche o NEXO e abra o executável da nova pasta.',
   'Não apague nem mova %LOCALAPPDATA%\\NEXO.',
   '',

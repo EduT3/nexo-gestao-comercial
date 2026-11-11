@@ -2,6 +2,12 @@
 
 Aplicativo local para a operação diária da **Adega JG** e do **Depósito JG**. O NEXO funciona no Windows sem internet, servidor, Node.js, Docker ou banco instalado pelo usuário. Cada empresa mantém seus próprios cadastros e movimentos.
 
+## Atualizar pelo GitHub
+
+No NEXO para Windows, abra **Configurações** e clique em **Verificar atualização**. O navegador abre as versões do repositório privado. Se necessário, entre no GitHub com uma conta que tenha acesso.
+
+Para trocar de versão, baixe o ZIP publicado, faça uma cópia de segurança pelo NEXO, feche o programa e extraia todos os arquivos em outra pasta. Em uma instalação normal, abra o novo executável para usar a base local. Em uma candidata portátil, use o iniciador e, se precisar recuperar dados de outra pasta de teste, restaure a cópia de segurança pelo app.
+
 ## Baixar o programa para Windows
 
 [**Baixar NEXO-Windows-v1.0.2.zip**](https://github.com/EduT3/nexo-gestao-comercial/releases/download/v1.0.2/NEXO-Windows-v1.0.2.zip) — programa completo, sem fontes de desenvolvimento nem dados de teste. Extraia todos os arquivos e abra **NEXO.exe**.

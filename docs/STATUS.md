@@ -416,3 +416,7 @@ Build local de testes NEXO-56709C9338DD6A58: blocos/cores do Bolsário, atalhos 
 ## 10/11/2026 — revisão final e ZIP portátil
 
 ZIP da build NEXO-56709C9338DD6A58 gerado sem dados pessoais/código-fonte. Executável extraído passou12grupos de integração (compra/venda/cancelamento/pagamento/estorno/caixa/backup/Excel/reabertura),46testes em19arquivos e tipagem aprovados. Capturas atuais inspecionadas; início conferido a1280/900px. Nenhum defeito do aplicativo encontrado no recorte; iniciador cria perfil novo na pasta extraída.403arquivos conferidos byte a byte após extração/QA; SHA256 `A9E652E74AED2E131A58D2C4BE5BCB98A52F746FB3B1246BDA5670C937BC0D10`. Sem publicação/instalação; Windows limpo e diálogos manuais não homologados. Evidências, imagens e instruções: [REVISAO-ZIP-2026-11-10.md](REVISAO-ZIP-2026-11-10.md).
+
+### Candidata Windows 1.0.3
+
+A candidata Windows 1.0.3 inclui o botão Verificar atualização em Configurações. O botão abre as versões do repositório privado no navegador. A entrada de estoque mantém a ação de salvar visível durante a rolagem. Os ícones de editar, inativar, reativar e remover têm rótulos acessíveis.

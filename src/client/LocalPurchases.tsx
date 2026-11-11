@@ -1,3 +1,4 @@
+import { Trash } from '@phosphor-icons/react';
 import {useEffect} from 'react';
 import {addEntrySelection,stockUnitLabels,type StockEntrySelection} from './stock-entry-selection';
 import {LocalOperationHistory} from './LocalOperationHistory';
@@ -35,6 +36,10 @@ export function LocalPurchases({company,active=true,refreshToken=0,selection,onN
   }catch(error){if(task.isCurrent())setMessage(errorMessage(error));}finally{if(task.finish())setBusy(false);}
  }
  return <details className="panel"><summary>Adicionar produtos ao estoque</summary><p>Registre somente as mercadorias que já chegaram. A quantidade será somada ao saldo atual.</p>{onNewProduct&&<button type="button" className="button secondary" disabled={busy} onClick={onNewProduct}>Produto novo? Cadastrar aqui</button>}<form aria-label="Entrada de mercadorias" onSubmit={save} className="form-stack"><fieldset disabled={busy||!company} className="form-stack">
+  <div className="stock-entry-actions">
+   <button type="submit" className="button primary">{busy ? 'Salvando…' : 'Salvar entrada no estoque'}</button>
+   <p role="status">{message}</p>
+  </div>
   <p className="optional-hint">Não precisa cadastrar fornecedor para dar entrada. Preencha só os produtos, as quantidades e os custos.</p>
   <details className="optional-party" open={identifySupplier} onToggle={event=>setIdentifySupplier(event.currentTarget.open)}><summary>{supplier?'Fornecedor selecionado (opcional)':'Informar fornecedor (opcional)'}</summary>
   <label>De quem você recebeu?<select aria-label="Fornecedor" value={supplier} onChange={event=>{setMessage('');setSupplier(event.target.value);}}><option value="">Sem fornecedor informado</option>{suppliers.map(row=><option key={row.id} value={row.id}>{row.name}</option>)}</select></label>
@@ -46,13 +51,13 @@ export function LocalPurchases({company,active=true,refreshToken=0,selection,onN
    <label>Produto {index+1}<select aria-label={'Produto '+(index+1)} ref={element=>{if(element)inputs.current.set(line.id,element);else inputs.current.delete(line.id);}} required value={line.productId} onChange={event=>{const id=event.target.value,cost=products.find(product=>product.id===id)?.cost_cents;update(line.id,{productId:id,...(cost===undefined?{}:{cost:`${cost/100n},${(cost%100n).toString().padStart(2,'0')}`})});}}><option value="">Selecione</option>{products.map(row=><option key={row.id} value={row.id}>{row.name} · {stockUnitLabels[row.unit]??row.unit}</option>)}</select></label>
    <label>Quantidade {index+1}<input required inputMode="decimal" value={line.quantity} onChange={event=>update(line.id,{quantity:event.target.value})}/></label>
    <label>Custo unitário {index+1} (R$)<input required inputMode="decimal" value={line.cost} onChange={event=>update(line.id,{cost:event.target.value})}/></label>
-   </div><div className="purchase-line-footer"><p aria-label={'Subtotal do item '+(index+1)}>Subtotal: <strong>{calculated.rows[index]!.subtotal===null?'A preencher':money(calculated.rows[index]!.subtotal!)}</strong></p><button type="button" className="button secondary" aria-label={'Remover item da compra '+(index+1)} onClick={()=>remove(line.id)}>Remover item</button></div>
+   </div><div className="purchase-line-footer"><p aria-label={'Subtotal do item '+(index+1)}>Subtotal: <strong>{calculated.rows[index]!.subtotal===null?'A preencher':money(calculated.rows[index]!.subtotal!)}</strong></p><button type="button" className="button secondary nexo-row-icon" aria-label={'Remover item da compra '+(index+1)} title="Remover item" onClick={()=>remove(line.id)}><Trash size={19} aria-hidden="true" /></button></div>
    {line.productId&&calculated.rows[index]!.error&&<p className="message">{calculated.rows[index]!.error}</p>}
   </div>)}
   <button type="button" className="button secondary" disabled={lines.length>=100} onClick={()=>setLines(current=>[...current,newLine()])}>Adicionar item</button>
   <label>Pagar depois? Informe o vencimento<input type="date" value={dueDate} onChange={event=>{setMessage('');setDueDate(event.target.value);}}/></label><p>Deixe o vencimento vazio para receber sem gerar conta a pagar.</p>
   <label>Observações da compra<input name="notes" maxLength={1000}/></label>
   <section className="purchase-review" aria-label="Conferência da compra"><h2>Confira a entrada</h2><p>Fornecedor: <strong>{suppliers.find(row=>row.id===supplier)?.name||'Sem fornecedor informado'}</strong></p><p>{dueDate?'Conta a pagar com vencimento em '+shortDate(dueDate):'Sem geração de conta a pagar'}</p><p aria-label="Total da compra">Total da compra: <strong>{calculated.total===null?'Preencha e confira todos os itens':money(calculated.total)}</strong></p></section>
-  <button className="button primary">Salvar entrada no estoque</button></fieldset></form><p role="status">{message}</p>
+  </fieldset></form>
   <details className="purchase-history"><summary>Consultar entradas anteriores</summary><LocalOperationHistory key={company} kind="purchases" company={company} active={active} refreshToken={refreshToken+historyRevision}/></details></details>;
 }

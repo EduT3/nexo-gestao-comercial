@@ -1,6 +1,7 @@
-const { app, BrowserWindow, ipcMain, dialog } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron');
 const path = require('node:path');
 const {readBuildInfo}=require('./build-info.cjs');
+const releasesUrl = 'https://github.com/EduT3/nexo-gestao-comercial/releases';
 const { pathToFileURL } = require('node:url');
 const { mkdir, readFile, writeFile, rename } = require('node:fs/promises');
 const { randomUUID } = require('node:crypto');
@@ -88,6 +89,10 @@ else app.whenReady().then(async () => {
     try { await Promise.allSettled(previousOperations); return await action(); } finally { switchingSession = false; }
   };
   handle('nexo:build-info', () => readBuildInfo(root));
+  handle('nexo:open-releases', () => {
+    requireActor();
+    return shell.openExternal(releasesUrl);
+  });
   handle('nexo:status', async () => {
     const users = await listNamedUsers(db);
     const configured = (await db.query('SELECT id FROM local_users LIMIT 1')).length > 0;

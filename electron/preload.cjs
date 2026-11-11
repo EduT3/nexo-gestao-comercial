@@ -5,6 +5,7 @@ contextBridge.exposeInMainWorld('nexoLocal', Object.freeze({
   logout: () => ipcRenderer.invoke('nexo:logout'),
   stockHistory: (company, input) => ipcRenderer.invoke('nexo:stock-history', company, input),
   status: () => ipcRenderer.invoke('nexo:status'),
+  openReleases: () => ipcRenderer.invoke('nexo:open-releases'),
   buildInfo: () => ipcRenderer.invoke('nexo:build-info'),
   tutorialPreference: (company, expectedUserId) => ipcRenderer.invoke('nexo:tutorial-preference', company, expectedUserId),
   saveTutorialPreference: (company, expectedUserId, input) => ipcRenderer.invoke('nexo:save-tutorial-preference', company, expectedUserId, input),
