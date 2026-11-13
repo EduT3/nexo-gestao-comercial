@@ -420,3 +420,7 @@ ZIP da build NEXO-56709C9338DD6A58 gerado sem dados pessoais/código-fonte. Exec
 ### Candidata Windows 1.0.3
 
 A candidata Windows 1.0.3 inclui o botão Verificar atualização em Configurações. O botão abre as versões do repositório privado no navegador. A entrada de estoque mantém a ação de salvar visível durante a rolagem. Os ícones de editar, inativar, reativar e remover têm rótulos acessíveis.
+
+## Auditoria da candidata 1.0.5
+
+Instalação sobre a 1.0.4, persistência, recuperação e benchmarks registrados em [Auditoria Windows](AUDITORIA-WINDOWS.md).

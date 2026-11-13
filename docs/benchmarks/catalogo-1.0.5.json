@@ -1,0 +1,164 @@
+{
+  "machine": {
+    "cpu": "AMD Ryzen 7 7700X 8-Core Processor             ",
+    "ramBytes": 33409609728,
+    "node": "v24.22.1",
+    "sqlite": "3.53.4"
+  },
+  "samples": 12,
+  "datasets": [
+    {
+      "products": 1000,
+      "sales": 1000,
+      "stockMovements": 2000,
+      "measurements": {
+        "catalog": {
+          "before": {
+            "medianMs": 2.004,
+            "p95Ms": 3.287
+          },
+          "after": {
+            "medianMs": 2.06,
+            "p95Ms": 2.508
+          },
+          "resultSha256": "bf19094f16660e9831eafe8c0c047cfafeb5840dfba19bdfbbaa6fa402bd931a"
+        },
+        "stock": {
+          "before": {
+            "medianMs": 1.331,
+            "p95Ms": 2.22
+          },
+          "after": {
+            "medianMs": 1.295,
+            "p95Ms": 1.894
+          },
+          "resultSha256": "fe56ef53fca3dace57f051cfaa9a446e5940324b786db769f6a7740b4a7f438b"
+        },
+        "salesHistory": {
+          "before": {
+            "medianMs": 1.25,
+            "p95Ms": 1.987
+          },
+          "after": {
+            "medianMs": 1.279,
+            "p95Ms": 1.347
+          },
+          "resultSha256": "2cddf6c318db2b04cdd154fa1f74a808ff81296b983c355f2b8a61f0a73808dc"
+        },
+        "stockHistory": {
+          "before": {
+            "medianMs": 1.717,
+            "p95Ms": 2.252
+          },
+          "after": {
+            "medianMs": 1.179,
+            "p95Ms": 1.282
+          },
+          "resultSha256": "29ccff8ca5aae1911dda56bcb69138ec828f094d6fda7025a883094220e7651a"
+        }
+      }
+    },
+    {
+      "products": 10000,
+      "sales": 10000,
+      "stockMovements": 20000,
+      "measurements": {
+        "catalog": {
+          "before": {
+            "medianMs": 21.812,
+            "p95Ms": 31.437
+          },
+          "after": {
+            "medianMs": 24.091,
+            "p95Ms": 28.136
+          },
+          "resultSha256": "9425d2a4d27b37592fe41471b03294a2b161b8c3acabb69cfccd508a395022bf"
+        },
+        "stock": {
+          "before": {
+            "medianMs": 15.646,
+            "p95Ms": 18.901
+          },
+          "after": {
+            "medianMs": 15.961,
+            "p95Ms": 21.282
+          },
+          "resultSha256": "c4c5191cb2a06c347832c476a595052b66924666dff77e21967e6c33e973a9c1"
+        },
+        "salesHistory": {
+          "before": {
+            "medianMs": 13.789,
+            "p95Ms": 16.397
+          },
+          "after": {
+            "medianMs": 12.664,
+            "p95Ms": 13.926
+          },
+          "resultSha256": "883e67235568e81c17fd2cf497dd592ac39ba34398640937543723865b9f3ca5"
+        },
+        "stockHistory": {
+          "before": {
+            "medianMs": 19.736,
+            "p95Ms": 31.644
+          },
+          "after": {
+            "medianMs": 11.467,
+            "p95Ms": 12.128
+          },
+          "resultSha256": "cc932e483f475626183b0959247a26f5e481da14364a4b6babd66e930d528baf"
+        }
+      }
+    },
+    {
+      "products": 50000,
+      "sales": 50000,
+      "stockMovements": 100000,
+      "measurements": {
+        "catalog": {
+          "before": {
+            "medianMs": 130.892,
+            "p95Ms": 175.86
+          },
+          "after": {
+            "medianMs": 134.044,
+            "p95Ms": 191.74
+          },
+          "resultSha256": "480618d522d9992daa8bfeed354583493a1595afed1f55e37997e6b069f8177b"
+        },
+        "stock": {
+          "before": {
+            "medianMs": 97.059,
+            "p95Ms": 117.994
+          },
+          "after": {
+            "medianMs": 94.449,
+            "p95Ms": 113.112
+          },
+          "resultSha256": "fe33a1da77f01b5b0c1aca469ae2ecceaf776e1055b41c62aa81eb8ac98116bf"
+        },
+        "salesHistory": {
+          "before": {
+            "medianMs": 77.455,
+            "p95Ms": 82.635
+          },
+          "after": {
+            "medianMs": 68.189,
+            "p95Ms": 77.341
+          },
+          "resultSha256": "471c7d3f7f09f316c848ac5d1e820feb904e41fbd050004e4e175752e3d8d100"
+        },
+        "stockHistory": {
+          "before": {
+            "medianMs": 109.44,
+            "p95Ms": 145.822
+          },
+          "after": {
+            "medianMs": 58.782,
+            "p95Ms": 77.733
+          },
+          "resultSha256": "047252368bba36ce23dd9191a5beddbf02948d230dc9372fc0b8bddedb7d1303"
+        }
+      }
+    }
+  ]
+}

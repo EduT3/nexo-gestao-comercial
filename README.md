@@ -1,6 +1,6 @@
 # NEXO — Gestão Comercial
 
-Aplicativo local para a operação diária da **Adega JG** e do **Depósito JG**. O NEXO funciona no Windows sem internet, servidor, Node.js, Docker ou banco instalado pelo usuário. Cada empresa mantém seus próprios cadastros e movimentos.
+Aplicativo Windows para vendas, caixa, estoque e contas. O banco fica no computador e o trabalho diário funciona offline. A configuração inicial cria uma loja.
 
 ## Instalação e atualização
 
@@ -12,16 +12,33 @@ A publicação contém o instalador e os metadados usados pelo atualizador. O re
 
 ## Baixar o programa para Windows
 
-[**Baixar NEXO-Windows-v1.0.2.zip**](https://github.com/EduT3/nexo-gestao-comercial/releases/download/v1.0.2/NEXO-Windows-v1.0.2.zip) — programa completo, sem fontes de desenvolvimento nem dados de teste. Extraia todos os arquivos e abra **NEXO.exe**.
+[Instalador Windows publicado](https://github.com/EduT3/nexo-gestao-comercial/releases/latest)
 
-## Abrir o aplicativo
+Depois de instalar, abra o NEXO e cadastre o responsável no primeiro acesso. Selecione um perfil pelo nome. Essa seleção identifica as operações no sistema e permite que qualquer pessoa com acesso ao app escolha o perfil administrativo. Os dados ficam em `%LOCALAPPDATA%/NEXO/nexo.sqlite`.
 
-1. Mantenha juntos todos os arquivos da pasta `NEXO-Windows-*`.
-2. Abra `NEXO.exe`.
-3. No primeiro acesso, cadastre o responsável e selecione o nome para entrar.
-4. Escolha a empresa em operação, sempre mostrada no topo da tela.
+## Desempenho e hardware
 
-Os dados ficam em `%LOCALAPPDATA%\NEXO\nexo.sqlite`, fora da pasta do programa e fora do OneDrive. Fechar ou atualizar o aplicativo não remove essa base.
+Na base sintética com 50 mil produtos, 50 mil vendas e 100 mil movimentos, a mediana da consulta de histórico de estoque passou de 109,44 ms para 58,78 ms. As medições rodaram em Windows x64, Ryzen 7 7700X e 32 GB de RAM. Elas medem consultas locais, sem incluir renderização. O catálogo completo continua sendo o ponto mais pesado do benchmark. O instalador da candidata caiu de 148,66 MB para 124,15 MB. A instalação sobre a 1.0.4, a restauração e a reabertura com os mesmos dados sintéticos passaram no Windows da nuvem. [Método e resultados](docs/AUDITORIA-WINDOWS.md)
+
+| Perfil | Hardware | Evidência |
+|---|---|---|
+| Mínimo | Windows 11 x64 em PC compatível | O mínimo do NEXO ainda não foi estabelecido em bancada. A Microsoft exige 4 GB de RAM e dispositivo de armazenamento de 64 GB para o Windows 11. |
+| Recomendado | PC x64 com quatro núcleos, 8 GB de RAM e SSD | Estimativa inicial para uma estação de balcão. Requer validação nesse perfil. |
+| Ideal | PC x64 com seis núcleos, 16 GB de RAM e SSD | Estimativa para maior folga com planilhas e multitarefa. O ensaio atual foi feito em uma máquina mais potente. |
+
+[Requisitos oficiais do Windows 11](https://support.microsoft.com/en-us/windows/experience/compatibility/windows-11-system-requirements)
+
+## Roadmap
+
+| Prioridade | Entrega | Benefício | Complexidade | Dependências e riscos |
+|---|---|---|---|---|
+| P0 | Autenticação do responsável e controle de permissões | Protege administração, backups e auditoria | Média | Recuperação de acesso, migração de perfis e compatibilidade com bases antigas |
+| P0 | Teste integral de atualização e contingência | Valida download, troca de versão e dados após reinício | Média | Duas versões qualificadas e controle do canal de publicação |
+| P1 | Paginação do catálogo e busca em bases grandes | Reduz tempo de resposta e memória no caixa | Média | Medir IPC, renderização e memória. Preservar busca por código e leitura de saldo |
+| P1 | Backup agendado com restauração ensaiada | Reduz risco de perda em falha de disco | Média | Destino externo, retenção e teste periódico de recuperação |
+| P1 | Assinatura digital do instalador | Identifica o editor no Windows | Média | Certificado, custo recorrente e validação de identidade |
+| P2 | Leitor de código de barras e impressão de comprovantes | Acelera o atendimento | Média | Matriz de dispositivos, formatos e reimpressão |
+| P2 | Conciliação Pix e integração fiscal | Reduz digitação e divergências | Alta | Provedor, credenciais, regras fiscais e contingência offline |
 
 ## Recursos entregues
 
