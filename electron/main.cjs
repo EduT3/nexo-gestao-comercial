@@ -15,10 +15,15 @@ let recovering = false;
 let booting = true;
 let quitting = false;
 let readyToQuit = false;
+let updates;
+let installUpdate = false;
 const pendingOperations = new Set();
 if (!app.requestSingleInstanceLock()) app.quit();
 else app.whenReady().then(async () => {
   const root = path.resolve(__dirname, '..');
+  if (require('node:fs').existsSync(path.join(process.resourcesPath,'app-update.yml'))) {
+    updates = require('./updates.cjs').createUpdates(require('electron-updater').autoUpdater);
+  }
   const runtime = relative => import(pathToFileURL(path.join(root, 'dist/local-runtime', relative)).href);
   const { checkLocalHealth } = await runtime('local/health.js');
   const { openLocalDatabase } = await runtime('local/sqlite.js');
@@ -92,6 +97,18 @@ else app.whenReady().then(async () => {
   handle('nexo:open-releases', () => {
     requireActor();
     return shell.openExternal(releasesUrl);
+  });
+  handle('nexo:update-status', () => updates?.status() ?? {phase:'portable'});
+  handle('nexo:update-check', () => { requireActor(); return updates?.check() ?? {phase:'portable'}; });
+  handle('nexo:update-download', () => { requireActor(); if(!updates) throw Error('Use o instalador para atualizar.'); return updates.download(); });
+  handle('nexo:update-install', async () => {
+    await requireBackupAdministrator();
+    if(updates?.status().phase!=='ready') throw Error('Baixe a atualização primeiro.');
+    const answer=await dialog.showMessageBox(window,{type:'question',title:'Atualizar NEXO',message:'Salvar uma cópia e reiniciar para atualizar?',detail:'Conclua os formulários em andamento antes de continuar.',buttons:['Continuar trabalhando','Atualizar agora'],cancelId:0,defaultId:0});
+    if(answer.response!==1) return;
+    await db.backup(path.join(dataFolder,'before-update-'+Date.now()+'.sqlite'));
+    installUpdate=true;
+    setImmediate(()=>app.quit());
   });
   handle('nexo:status', async () => {
     const users = await listNamedUsers(db);
@@ -261,6 +278,7 @@ app.on('before-quit', event => {
     await Promise.allSettled([...pendingOperations]);
     if (db) await db.close().catch(error => console.error('Falha ao fechar a base:', error.message));
     readyToQuit = true;
-    app.quit();
+    if (installUpdate) updates.install();
+    else app.quit();
   })();
 });

@@ -1,5 +1,5 @@
 const { stat,readFile,writeFile } = require('node:fs/promises');
-let ExcelJS; try { ExcelJS=require('exceljs'); } catch { ExcelJS=require('./exceljs.cjs'); }
+let ExcelJS; try { ExcelJS=require('exceljs'); } catch { ExcelJS=require(require('node:fs').existsSync(require('node:path').join(__dirname,'exceljs.cjs')) ? './exceljs.cjs' : require('node:path').join(process.resourcesPath,'exceljs.cjs')); }
 const HEADERS=['Código interno','Nome','Unidade','Código de barras','Custo (R$)','Preço (R$)','Estoque mínimo','Categoria','Ativo'];
 const MAX_FILE_BYTES=5*1024*1024,MAX_ROWS=1000;
 function text(cell,line,column){ const value=cell.value;if(value===null||value===undefined)return '';if(typeof value==='object')throw new Error(`Linha ${line}, coluna ${column}: use um valor simples, sem fórmula, link, imagem ou texto formatado.`);if(typeof value==='number'){if(!Number.isFinite(value))throw new Error(`Linha ${line}, coluna ${column}: número inválido.`);return String(value);}if(typeof value==='string'||typeof value==='boolean')return String(value);throw new Error(`Linha ${line}, coluna ${column}: valor inválido.`); }

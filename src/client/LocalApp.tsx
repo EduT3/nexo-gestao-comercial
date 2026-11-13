@@ -43,6 +43,10 @@ declare global {
       createOperator(input: unknown): Promise<unknown>;
       stockHistory(company: string, input: unknown): Promise<StockHistory>;
       status(): Promise<Status>;
+      updateStatus?(): Promise<{phase:string;percent?:number;version?:string}>;
+      checkUpdate?(): Promise<{phase:string;percent?:number;version?:string}>;
+      downloadUpdate?(): Promise<{phase:string;percent?:number;version?:string}>;
+      installUpdate?(): Promise<void>;
       openReleases?(): Promise<void>;
       buildInfo?(): Promise<BuildInfo>;
       login(id: string): Promise<void>;

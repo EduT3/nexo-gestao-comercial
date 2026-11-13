@@ -1,6 +1,6 @@
 {
   "name": "nexo-gestao-comercial",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "private": true,
   "type": "module",
   "engines": {
@@ -22,7 +22,8 @@
     "test:e2e": "playwright test",
     "build": "npm run typecheck && vite build && tsc -p tsconfig.server.json",
     "start": "node dist/server/main.js",
-    "check": "npm run typecheck && npm test && npm run build"
+    "check": "npm run typecheck && npm test && npm run build",
+    "package:installer": "npm run build:local && electron-builder --win nsis --x64 --publish never"
   },
   "dependencies": {
     "@electric-sql/pglite": "0.5.8",
@@ -33,12 +34,13 @@
     "@fontsource/inter": "^5.3.0",
     "@phosphor-icons/react": "^2.1.10",
     "dotenv": "17.4.2",
+    "electron-updater": "6.8.11",
     "exceljs": "^4.4.0",
     "fastify": "5.12.4",
     "pg": "8.23.0",
     "react": "19.3.0",
     "react-dom": "19.3.0",
-    "zod": "4.6.5"
+    "zod": "4.6.7"
   },
   "devDependencies": {
     "@playwright/test": "1.63.0",
@@ -50,6 +52,7 @@
     "agent-browser": "0.37.1",
     "concurrently": "10.0.5",
     "electron": "44.4.1",
+    "electron-builder": "26.18.0",
     "tsx": "4.23.13",
     "typescript": "7.0.2",
     "vite": "8.3.0",
@@ -59,5 +62,6 @@
     "exceljs": {
       "uuid": "11.1.1"
     }
-  }
+  },
+  "main": "electron/main.cjs"
 }

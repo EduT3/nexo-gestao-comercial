@@ -1,0 +1,27 @@
+appId: com.nexo.balcao
+productName: NEXO
+asar: false
+directories:
+  output: artifacts/installer
+files:
+  - electron/**
+  - dist/client/**
+  - dist/local-runtime/**
+  - dist/build-info.json
+extraMetadata:
+  main: electron/main.cjs
+afterPack: scripts/after-pack.cjs
+win:
+  target: nsis
+  icon: public/nexo-icon.png
+  signAndEditExecutable: true
+nsis:
+  oneClick: false
+  perMachine: false
+  allowToChangeInstallationDirectory: true
+  deleteAppDataOnUninstall: false
+  artifactName: NEXO-Setup-${version}.${ext}
+publish:
+  provider: github
+  owner: EduT3
+  repo: nexo-gestao-comercial
