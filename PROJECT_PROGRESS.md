@@ -173,3 +173,7 @@ Build NEXO-E9061D585A4232E4, 217 testes Vitest e 62 cenários Playwright aprovad
 ### Candidata Windows 1.0.3
 
 Candidata Windows 1.0.3 preparada com botão de atualização pelo GitHub, ações de estoque por ícones e salvamento visível durante a rolagem. A compilação limpa a saída do frontend antes de montar o pacote. Os 219 testes Vitest passaram.
+
+## NEXO Guard M1
+
+Implementação candidata na branch de trabalho. A integração Windows verifica configuração, bloqueio de IPC, teclado de PIN e persistência após reabrir.

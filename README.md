@@ -137,3 +137,7 @@ Para atualizar, gere um backup, feche a versão anterior, extraia a pasta nova e
 ## Revisão de manutenção
 
 [Revisão remota de 13/10](docs/REVIEW-2026-10-13.md) e [integração de 15/10](docs/INTEGRATION-2026-10-15.md) preservadas no histórico. As atualizações de 18/10 estão descritas acima e em STATUS.
+
+## Proteção administrativa opcional
+
+O NEXO Guard usa PIN para autorizar ações administrativas selecionadas. Consulte [configuração, recuperação e limites](docs/NEXO-GUARD.md).

@@ -424,3 +424,7 @@ A candidata Windows 1.0.3 inclui o botão Verificar atualização em Configuraç
 ## Auditoria da candidata 1.0.5
 
 Instalação sobre a 1.0.4, persistência, recuperação e benchmarks registrados em [Auditoria Windows](AUDITORIA-WINDOWS.md).
+
+## NEXO Guard M1
+
+A candidata inclui configuração opcional do Guard, PIN de quatro dígitos, autorização de uso único no processo principal e chave individual de recuperação. A validação Windows segue na execução https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43500559656.
