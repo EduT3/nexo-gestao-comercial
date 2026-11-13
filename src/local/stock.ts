@@ -38,7 +38,15 @@ export async function listLocalStockHistory(db: LocalDatabase, actor: string, co
  return db.transaction(async tx => {
   await authorizeLocalCatalog(tx, actor, company, false);
   if (filter.productId && !(await tx.query('SELECT id FROM local_products WHERE company_id=? AND id=?', [company, filter.productId])).length) throw new Error('Produto não encontrado nesta empresa.');
-  const rows = await tx.query(`SELECT m.id,m.product_id,p.name,p.internal_code,p.unit,m.quantity_milli,m.reason,m.operation_id,m.created_at,u.name AS actor_name FROM local_stock_movements m JOIN local_products p ON p.company_id=m.company_id AND p.id=m.product_id JOIN local_users u ON u.id=m.actor_id WHERE m.company_id=? AND (? IS NULL OR m.product_id=?) ORDER BY m.created_at DESC,m.rowid DESC LIMIT 51 OFFSET ?`, [company, filter.productId, filter.productId, filter.offset]);
+  const rows = await tx.query(`WITH page AS (
+      SELECT m.*, m.rowid AS movement_order FROM local_stock_movements m
+      WHERE m.company_id=? AND (? IS NULL OR m.product_id=?)
+      ORDER BY m.created_at DESC,m.rowid DESC LIMIT 51 OFFSET ?
+    )
+    SELECT m.id,m.product_id,p.name,p.internal_code,p.unit,m.quantity_milli,m.reason,m.operation_id,m.created_at,u.name AS actor_name
+    FROM page m JOIN local_products p ON p.company_id=m.company_id AND p.id=m.product_id
+    JOIN local_users u ON u.id=m.actor_id
+    ORDER BY m.created_at DESC,m.movement_order DESC`, [company, filter.productId, filter.productId, filter.offset]);
   return { rows: rows.slice(0,50), hasMore: rows.length > 50 };
  });
 }

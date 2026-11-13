@@ -1,4 +1,4 @@
-const {readFile, readdir, rm, stat, writeFile} = require('node:fs/promises');
+const {copyFile, readFile, readdir, rm, stat, writeFile} = require('node:fs/promises');
 const {createRequire} = require('node:module');
 const path = require('node:path');
 
@@ -27,7 +27,7 @@ module.exports = async context => {
     return false;
   }
 
-  const runtime = ['electron-updater', 'exceljs', 'zod'];
+  const runtime = ['electron-updater', 'zod'];
   const manifest = path.join(app, 'package.json');
   for (const name of runtime) {
     if (!await retain(name, manifest)) throw Error('Dependência Windows ausente: ' + name);
@@ -60,6 +60,7 @@ module.exports = async context => {
     }
   }
   await prune(modules);
+  await copyFile(path.join(context.packager.projectDir, 'node_modules/exceljs/dist/exceljs.min.js'), path.join(app, 'electron', 'exceljs.cjs'));
   const after = await bytes(modules);
   const inventory = {dependencyBytesBefore:before, dependencyBytesAfter:after, removed};
   console.log(JSON.stringify(inventory));

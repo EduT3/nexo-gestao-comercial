@@ -19,9 +19,20 @@ export async function listLocalSaleHistory(db: LocalDatabase, actor: string, com
     if (filter.until) { clauses.push('s.created_at<?'); params.push(new Date(filter.until).toISOString()); }
     if (filter.status !== 'ALL') clauses.push(filter.status === 'CONFIRMED' ? 'c.id IS NULL' : 'c.id IS NOT NULL');
     const where = ' WHERE ' + clauses.join(' AND ');
-    const total = Number((await tx.query('SELECT COUNT(*) AS total ' + joins + where, params))[0]!.total);
+    const directPage = !filter.search && filter.status === 'ALL';
+    const salesSource = 'FROM local_sales s';
+    const paid = ' AND EXISTS (SELECT 1 FROM local_sale_payments payment WHERE payment.company_id=s.company_id AND payment.sale_id=s.id)';
+    const totalSource = directPage ? salesSource : joins;
+    const totalWhere = directPage ? where + paid : where;
+    const total = Number((await tx.query('SELECT COUNT(*) AS total ' + totalSource + totalWhere, params))[0]!.total);
     const pageSize = 50; const page = Math.min(filter.page, Math.max(0, Math.ceil(total/pageSize) - 1));
-    const rows = await tx.query('SELECT ' + fields + ' ' + joins + where + ' ORDER BY s.created_at DESC,s.id ASC LIMIT ? OFFSET ?', [...params,pageSize,page*pageSize]);
+    const order = ' ORDER BY s.created_at DESC,s.id ASC';
+    const pagination = order + ' LIMIT ? OFFSET ?';
+    const bindings = [...params, pageSize, page * pageSize];
+    const rows = directPage
+      ? await tx.query('WITH page AS (SELECT s.* ' + salesSource + totalWhere + pagination + ') SELECT '
+          + fields + ' ' + joins.replace(salesSource, 'FROM page s') + order, bindings)
+      : await tx.query('SELECT ' + fields + ' ' + joins + where + pagination, bindings);
     return { rows: rows as SaleHistoryRow[], total, page, pageSize };
   });
 }
