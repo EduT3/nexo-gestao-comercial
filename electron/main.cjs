@@ -316,7 +316,7 @@ else app.whenReady().then(async () => {
     webPreferences: { preload: path.join(__dirname, 'preload.cjs'), contextIsolation: true, nodeIntegration: false, sandbox: true,
       backgroundThrottling: process.env.NEXO_TEST_HIDE_WINDOW !== '1' } });
   window.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
-  window.webContents.on('did-start-navigation', (_event, details) => { if (details.isMainFrame) guard.invalidate(); });
+  window.webContents.on('did-start-navigation', details => { if (details.isMainFrame) guard.invalidate(); });
   window.webContents.on('render-process-gone', () => guard.invalidate());
   window.webContents.on('will-navigate', event => event.preventDefault());
   await window.loadFile(path.join(root, 'dist/client/index.html'));

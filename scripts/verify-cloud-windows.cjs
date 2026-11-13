@@ -160,7 +160,9 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  const guardedBackup=path.join(profile,'guard-backup.sqlite');
  await app.evaluate(({dialog},file)=>{dialog.showSaveDialog=async()=>({canceled:false,filePath:file});},guardedBackup);
  await page.evaluate(()=>{window.nexoLocal.registerGuardPrompt(null);});
- await assert.rejects(()=>call('backup'),/NEXO_GUARD_REQUIRED/);
+ const directFailure=await call('backup').then(()=>{throw Error('Backup sem autorização');},error=>String(error));
+ const staleId=/NEXO_GUARD_REQUIRED:([0-9a-f-]{36})/.exec(directFailure)?.[1];
+ assert(staleId,'A chamada direta deve exigir Guard');
  assert.equal(fs.existsSync(guardedBackup),false);
  await page.reload();await expect(nav('Vender')).toBeVisible();
  const backupPromise=call('backup');
