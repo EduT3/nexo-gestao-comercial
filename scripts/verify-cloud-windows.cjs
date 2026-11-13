@@ -30,7 +30,7 @@ async function open(){
  assert.equal(path.resolve(runtime.userData),d['user-data']);assert.equal(runtime.userData,runtime.sessionData);assert(runtime.sandbox&&runtime.contextIsolation&&!runtime.nodeIntegration);assert.equal((await call('buildInfo')).id,id.id);result.launches.at(-1).runtime=runtime;
  timings.push({operation:'launch',ms:Math.round(performance.now()-began)});
  await app.evaluate(({dialog},folder)=>{
-  dialog.showSaveDialog=async(_w,o)=>{if(o.title!=='Guardar cópia de segurança')throw Error('Diálogo inesperado');return {canceled:false,filePath:folder+'/backup.sqlite'};};
+  dialog.showSaveDialog=async(_w,o)=>{if(o.title==='Exportar relatório Excel')return {canceled:false,filePath:folder+'/relatorio.xlsx'};if(o.title!=='Guardar cópia de segurança')throw Error('Diálogo inesperado');return {canceled:false,filePath:folder+'/backup.sqlite'};};
   dialog.showOpenDialog=async(_w,o)=>{if(o.title!=='Selecionar backup NEXO')throw Error('Diálogo inesperado');return {canceled:false,filePaths:[folder+'/backup.sqlite']};};
   dialog.showMessageBox=async(_w,o)=>{if(o.title!=='Restaurar dados?'&&o.title!=='Cancelar venda')throw Error('Diálogo inesperado');return {response:1};};
  },profile);
@@ -116,6 +116,11 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  await nav('Contas').click();await expect(page.getByRole('heading',{name:'Contas',exact:true})).toBeVisible();await page.getByRole('button',{name:'Resumo',exact:true}).click();await shot('12-resumo');
  await page.getByRole('button',{name:'Configurações',exact:true}).click();await page.getByRole('button',{name:'Clientes, fornecedores e categorias',exact:true}).click();await shot('13-cadastros');
  await page.getByRole('button',{name:'Abrir Backup e dados',exact:true}).click();await shot('14-backup');
+ step='Excel e atualizador';
+ assert.equal((await call('exportExcel',A)).canceled,false);
+ assert.equal(fs.readFileSync(path.join(profile,'relatorio.xlsx')).subarray(0,2).toString(),'PK');
+ assert.equal((await call('updateStatus')).phase,'idle');
+ check('Exportação XLSX e inicialização do atualizador no app instalado.');
  step='backup e restauração';assert.equal((await call('backup')).canceled,false);assert(fs.existsSync(path.join(profile,'backup.sqlite')));
  await call('createProduct',A,{name:'Criado depois da cópia',internalCode:'TEMP-QA',unit:'KG',costCents:10,priceCents:20});
  assert.equal((await call('restore')).canceled,false);await page.reload();await login();assert(!(await call('products',A)).some(p=>p.internal_code==='TEMP-QA'));assert.equal((await call('salesHistory',A,{})).total,5);
