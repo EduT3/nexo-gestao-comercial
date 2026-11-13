@@ -1,3 +1,4 @@
+import { GuardPrompt } from './Guard';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import { App } from './App';
@@ -14,6 +15,6 @@ async function start() {
     const { createLocalPreviewBridge } = await import('./preview/local-adapter');
     window.nexoLocal = createLocalPreviewBridge(); preview = true;
   }
-  createRoot(document.getElementById('root')!).render(<StrictMode>{window.nexoLocal ? <LocalApp preview={preview} /> : <App />}</StrictMode>);
+  createRoot(document.getElementById('root')!).render(<StrictMode>{window.nexoLocal ? <><GuardPrompt /><LocalApp preview={preview} /></> : <App />}</StrictMode>);
 }
 void start();

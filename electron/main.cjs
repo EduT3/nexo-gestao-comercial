@@ -53,6 +53,7 @@ else app.whenReady().then(async () => {
   if (!process.env.LOCALAPPDATA) throw new Error('A pasta local do Windows não está disponível.');
   const dataFolder = path.join(process.env.LOCALAPPDATA, 'NEXO');
   await mkdir(dataFolder, { recursive: true });
+  const guardStore = require('./guard-store.cjs').createGuardStore(dataFolder);
   const backupMetadata = path.join(dataFolder, 'backup.json');
   let lastBackup;
   try { lastBackup = JSON.parse(await readFile(backupMetadata, 'utf8')).createdAt; }
@@ -67,12 +68,14 @@ else app.whenReady().then(async () => {
       break;
     } catch (error) {
       await db?.close().catch(() => undefined); db = undefined;
-      const result = await require('./startup-recovery.cjs').showStartupRecovery({ folder: dataFolder, error, services: startupServices, pendingOperations });
+      const result = await require('./startup-recovery.cjs').showStartupRecovery({ folder: dataFolder, error, services: startupServices, pendingOperations, guardStore });
       if (result.exit || quitting) return;
       if (result.restored) startupNotice = 'Cópia restaurada. Entre selecionando seu nome. Os arquivos anteriores estão guardados em ' + result.retained;
     }
   }
   if (quitting) return;
+  const { createGuardBroker, operations } = require('./guard-broker.cjs');
+  const guard = createGuardBroker(guardStore);
   let tutorialPreferences = createTutorialPreferences(db, dataFolder);
   actor = undefined;
   const handle = (channel, action) => ipcMain.handle(channel, async (event, ...args) => {
@@ -81,7 +84,11 @@ else app.whenReady().then(async () => {
     }
     if (quitting) throw new Error('O programa está sendo fechado.');
     if (recovering) throw new Error('Aguarde a recuperação dos dados terminar.');
-    const operation = Promise.resolve(action(...args));
+    const name = channel.slice('nexo:'.length);
+    const guarded = Object.hasOwn(operations, name)
+      && (name !== 'confirm-sale' || Number(args[2]?.discountCents ?? 0) !== 0);
+    if (guarded) requireActor();
+    const operation = guarded ? guard.run(name, () => action(...args)) : Promise.resolve(action(...args));
     pendingOperations.add(operation);
     try { return await operation; }
     finally { pendingOperations.delete(operation); }
@@ -91,8 +98,27 @@ else app.whenReady().then(async () => {
     if (switchingSession) throw new Error('Aguarde a troca de acesso terminar.');
     const previousOperations = [...pendingOperations];
     switchingSession = true;
+    guard.invalidate();
     try { await Promise.allSettled(previousOperations); return await action(); } finally { switchingSession = false; }
   };
+  handle('nexo:guard-status', async () => {
+    await requireBackupAdministrator();
+    return { ...await guardStore.status(), operations };
+  });
+  handle('nexo:guard-configure', async input => {
+    await requireBackupAdministrator();
+    guard.invalidate();
+    return guardStore.configure(input);
+  });
+  handle('nexo:guard-recover', async input => {
+    await requireBackupAdministrator();
+    guard.invalidate();
+    return guardStore.recover(input);
+  });
+  handle('nexo:guard-describe', id => { requireActor(); return guard.describe(id); });
+  handle('nexo:guard-cancel', id => { requireActor(); guard.cancel(id); });
+  handle('nexo:guard-approve', (id, pin) => { requireActor(); return guard.approve(id, pin); });
+  handle('nexo:guard-invalidate', () => guard.invalidate());
   handle('nexo:build-info', () => readBuildInfo(root));
   handle('nexo:open-releases', () => {
     requireActor();
@@ -252,6 +278,7 @@ else app.whenReady().then(async () => {
         try { await db.query('SELECT 1'); }
         catch { db = openLocalDatabase(activeFile); }
       }
+      guard.invalidate();
       actor = undefined; productImportPreview = undefined;
       await prepareLocalDatabase(db, activeFile);
       tutorialPreferences = createTutorialPreferences(db, dataFolder);

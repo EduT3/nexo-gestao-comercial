@@ -2,7 +2,7 @@ const { BrowserWindow, ipcMain, dialog, shell, app } = require('electron');
 const path = require('node:path');
 const { unlink, writeFile } = require('node:fs/promises');
 const { randomUUID } = require('node:crypto');
-exports.showStartupRecovery = async function ({ folder, error, services, pendingOperations }) {
+exports.showStartupRecovery = async function ({ folder, error, services, pendingOperations, guardStore }) {
   let candidate, busy = false, continuing = false;
   const channels = [];
   const window = new BrowserWindow({ width: 900, height: 740, minWidth: 700, minHeight: 600,
@@ -48,13 +48,16 @@ exports.showStartupRecovery = async function ({ folder, error, services, pending
     if (choice.canceled || !choice.filePaths[0]) return { canceled: true };
     const staged = await services.stageStartupBackup(choice.filePaths[0], folder);
     candidate = { ...staged, name: path.basename(choice.filePaths[0]), token: randomUUID() };
-    return { token: candidate.token, name: path.basename(choice.filePaths[0]), users: candidate.users };
+    const guard = await guardStore.status();
+    return { token: candidate.token, name: path.basename(choice.filePaths[0]), users: candidate.users,
+      pinRequired: guard.enabled && (guard.all || guard.actions.includes('restore')) };
   });
-  handle('restore', async (token, userId) => {
+  handle('restore', async (token, userId, pin) => {
     const current = candidate;
     if (!current || current.token !== token) throw new Error('Selecione novamente o backup.');
     if (!current.users.some(user => user.id === userId)) throw new Error('Selecione o responsável desta cópia.');
     await services.authorizeStartupBackup(current.staged, userId);
+    await guardStore.authorize('restore', pin);
     const confirmation = await dialog.showMessageBox(window, { type: 'warning', title: 'Recuperar NEXO',
       message: 'Substituir os dados pela cópia ' + current.name + '?',
       detail: 'Os dados posteriores ao backup não aparecerão na base recuperada. Os arquivos atuais serão guardados na pasta dos dados. Entre depois selecionando seu nome.',
