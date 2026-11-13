@@ -1,4 +1,4 @@
-.guard-dialog { width: min(23rem, calc(100% - 2rem)); border: 1px solid #d5dfdc; border-radius: 20px; padding: 24px; color: #172c36; text-align: center; }
+.guard-dialog { width: min(23rem, calc(100% - 2rem)); max-height: calc(100% - 2rem); overflow: auto; border: 1px solid #d5dfdc; border-radius: 20px; padding: 24px; color: #172c36; text-align: center; }
 .guard-dialog::backdrop { background: #12242c99; }
 .guard-dots { display: flex; justify-content: center; gap: 12px; margin: 20px 0; }
 .guard-dots span { width: 14px; height: 14px; border: 2px solid #08796b; border-radius: 50%; transition: background 120ms; }
