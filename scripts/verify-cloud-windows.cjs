@@ -1,9 +1,10 @@
+const {execFileSync}=require('node:child_process');
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),crypto=require('node:crypto'),{DatabaseSync}=require('node:sqlite');
 const O=path.resolve('artifacts/cloud-qa');fs.mkdirSync(O,{recursive:true});const stage=process.cwd(),{_electron,expect}=require('@playwright/test');
 const program=path.resolve(process.env.NEXO_QA_PROGRAM || 'artifacts/installer/win-unpacked');
 const baseline=process.env.NEXO_QA_BASELINE;
 const buildAt=folder=>JSON.parse(fs.readFileSync(path.join(folder,'resources/app/dist/build-info.json')));
-const id=JSON.parse(fs.readFileSync(path.join(program,'resources/app/dist/build-info.json')));
+const id=JSON.parse(fs.readFileSync(path.join('artifacts/installer/win-unpacked','resources/app/dist/build-info.json')));
 const profile=fs.mkdtempSync(path.join(O,'qa-balcao-')),d={};
 for(const n of ['local','roaming','user-data','cache','tmp'])fs.mkdirSync(d[n]=path.join(profile,n));
 const env={...process.env,LOCALAPPDATA:d.local,APPDATA:d.roaming,TEMP:d.tmp,TMP:d.tmp,NEXO_TEST_HIDE_WINDOW:'1',NODE_OPTIONS:'',NODE_PATH:''};
@@ -53,7 +54,7 @@ async function addBySearch(key){await search().fill(key);await search().press('E
 async function login(){const f=page.getByRole('form',{name:'Acesso local'});await expect(f.locator('input[type=password]')).toHaveCount(0);await f.getByLabel('Usuário',{exact:true}).selectOption({label:'Responsável QA Balcão'});await f.getByRole('button',{name:'Entrar',exact:true}).click();await expect(nav('Vender')).toBeVisible();}
 function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.equal(db.prepare('PRAGMA integrity_check').get().integrity_check,'ok');assert.deepEqual(db.prepare('PRAGMA foreign_key_check').all(),[]);assert.equal(db.prepare('PRAGMA user_version').get().user_version,12);assert.equal(db.prepare('SELECT count(*) n FROM local_credentials').get().n,0);return {sales:db.prepare('SELECT count(*) n FROM local_sales').get().n,tables:db.prepare("SELECT count(*) n FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'").get().n};}finally{db.close();}}
 (async()=>{try{
- await open(baseline);await size(1487,1058);
+ await open();await size(1487,1058);
  step='primeiro acesso';await page.getByLabel('Nome do responsável',{exact:true}).fill('Responsável QA Balcão');await page.getByRole('button',{name:'Começar',exact:true}).click();
  let f=page.getByRole('form',{name:'Acesso local'});await expect(f.getByLabel('Usuário',{exact:true})).toBeVisible();await shot('01-login');
  await login();
@@ -63,8 +64,10 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  const operator=await call('createOperator',{name:'Operador QA',companies:[A]});
  await call('logout');await call('login',operator.id);
  assert.equal((await call('status')).companies[0].role,'OPERADOR');
+ await assert.rejects(()=>call('createOperator',{name:'Operador indevido',companies:[A]}));
  await call('logout');await call('login',owner);
- check('Cadastro de operador e troca de identidade por nome.');
+ assert.equal((await call('status')).companies[0].role,'ADMIN');
+ check('Operador bloqueado no cadastro da equipe. Selecionar o nome do responsável concede acesso administrativo sem senha.');
  step='atualização pelo GitHub';
  await app.evaluate(({shell})=>{shell.openExternal=async url=>{globalThis.__nexoOpened=url;};});
  await page.getByRole('button',{name:'Configurações',exact:true}).click();
@@ -120,7 +123,11 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  await page.getByRole('button',{name:'Configurações',exact:true}).click();await page.getByRole('button',{name:'Clientes, fornecedores e categorias',exact:true}).click();await shot('13-cadastros');
  await page.getByRole('button',{name:'Abrir Backup e dados',exact:true}).click();await shot('14-backup');
  if(baseline){
+  step='instalação sobre a versão publicada';
   await close();const previous=dbCheck();
+  assert.equal(buildAt(program).productVersion,'1.0.4');
+  execFileSync(process.env.NEXO_QA_SETUP,['/S','/D='+program],{windowsHide:true,timeout:180000});
+  assert.equal(buildAt(program).id,id.id);
   await open();await login();
   assert.equal((await call('salesHistory',A,{})).total,5);
   assert.deepEqual(dbCheck(),previous);
