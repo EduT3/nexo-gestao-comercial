@@ -27,7 +27,7 @@ else app.whenReady().then(async () => {
   const runtime = relative => import(pathToFileURL(path.join(root, 'dist/local-runtime', relative)).href);
   const { checkLocalHealth } = await runtime('local/health.js');
   const { openLocalDatabase } = await runtime('local/sqlite.js');
-  const { listLocalProducts, createLocalProduct, updateLocalProduct } = await runtime('local/catalog.js');
+  const { authorizeLocalCatalog, listLocalProducts, createLocalProduct, updateLocalProduct } = await runtime('local/catalog.js');
   const { prepareLocalDatabase } = await runtime('local/migrations.js');
   const { listNamedUsers, selectNamedUser, createNamedOperator } = await runtime('local/access.js');
   const { createTutorialPreferences } = await runtime('local/tutorial-preferences.js');
@@ -87,8 +87,8 @@ else app.whenReady().then(async () => {
     const name = channel.slice('nexo:'.length);
     const guarded = Object.hasOwn(operations, name)
       && (name !== 'confirm-sale' || Number(args[2]?.discountCents ?? 0) !== 0);
-    if (guarded) requireActor();
-    const operation = guarded ? guard.run(name, () => action(...args)) : Promise.resolve(action(...args));
+    const actorId = guarded ? requireActor() : undefined;
+    const operation = guarded ? authorizeGuarded(name, args, actorId, action) : Promise.resolve(action(...args));
     pendingOperations.add(operation);
     try { return await operation; }
     finally { pendingOperations.delete(operation); }
@@ -101,6 +101,34 @@ else app.whenReady().then(async () => {
     guard.invalidate();
     try { await Promise.allSettled(previousOperations); return await action(); } finally { switchingSession = false; }
   };
+  async function authorizeGuarded(name, args, actorId, action) {
+    await checkGuardPermission(name, args, actorId);
+    if (requireActor() !== actorId) throw Error('O operador mudou.');
+    return guard.run(name, async () => {
+      if (requireActor() !== actorId) throw Error('O operador mudou.');
+      await checkGuardPermission(name, args, actorId);
+      return action(...args);
+    });
+  }
+  async function checkGuardPermission(name, args, actorId) {
+    if (['backup', 'restore', 'update-install', 'data-health'].includes(name)) {
+      await requireBackupAdministrator();
+    } else if (name === 'create-operator') {
+      const companies = args[0]?.companies;
+      if (!Array.isArray(companies) || !companies.length || companies.length > 2) {
+        throw Error('Selecione as empresas do operador.');
+      }
+      for (const company of companies) await authorizeLocalCatalog(db, actorId, company, true);
+    } else if (name === 'product-import-confirm') {
+      const preview = productImportPreview;
+      if (!preview || preview.token !== args[0] || preview.userId !== actorId) {
+        throw Error('A prévia não está mais disponível.');
+      }
+      await authorizeLocalCatalog(db, actorId, preview.companyId, true);
+    } else {
+      await authorizeLocalCatalog(db, actorId, args[0], true);
+    }
+  }
   handle('nexo:guard-status', async () => {
     await requireBackupAdministrator();
     return { ...await guardStore.status(), operations };
@@ -291,6 +319,8 @@ else app.whenReady().then(async () => {
     webPreferences: { preload: path.join(__dirname, 'preload.cjs'), contextIsolation: true, nodeIntegration: false, sandbox: true,
       backgroundThrottling: process.env.NEXO_TEST_HIDE_WINDOW !== '1' } });
   window.webContents.setWindowOpenHandler(() => ({ action: 'deny' }));
+  window.webContents.on('did-start-navigation', (_event, details) => { if (details.isMainFrame) guard.invalidate(); });
+  window.webContents.on('render-process-gone', () => guard.invalidate());
   window.webContents.on('will-navigate', event => event.preventDefault());
   await window.loadFile(path.join(root, 'dist/client/index.html'));
   booting = false;
