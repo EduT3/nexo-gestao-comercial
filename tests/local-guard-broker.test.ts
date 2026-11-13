@@ -42,3 +42,20 @@ it('discards a request if the company changes during permission lookup', async (
   await expect(request).rejects.toThrow('contexto');
   expect(perform).not.toHaveBeenCalled();
 });
+
+it('keeps independent requests and refuses one whose permission is revoked', async () => {
+  const guard = createGuardBroker({
+    status: async () => ({enabled:true,all:true}),
+    authorize: async () => {},
+  });
+  const first = vi.fn(() => 'first');
+  const second = vi.fn(() => 'second');
+  const permission = vi.fn(async () => {});
+  const firstId = (await guard.run('backup', first, permission).catch((e: Error) => e.message)).split(':')[1];
+  const secondId = (await guard.run('restore', second).catch((e: Error) => e.message)).split(':')[1];
+  permission.mockRejectedValueOnce(Error('Permissão revogada.'));
+  await expect(guard.approve(firstId, '0123')).rejects.toThrow('revogada');
+  await expect(guard.approve(secondId, '0123')).resolves.toBe('second');
+  expect(first).not.toHaveBeenCalled();
+  expect(second).toHaveBeenCalledTimes(1);
+});

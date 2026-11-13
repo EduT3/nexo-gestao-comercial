@@ -56,7 +56,7 @@ function createGuardBroker(store) {
       const now = Date.now();
       for (const [key, request] of pending) if (request.expires <= now) pending.delete(key);
       if (pending.size >= 32) throw Error('Há muitas autorizações pendentes.');
-      pending.set(id, { operation, perform, expires: now + 60000 });
+      pending.set(id, { operation, perform, checkPermission, expires: now + 60000 });
       throw Error('NEXO_GUARD_REQUIRED:' + id);
     },
     describe(id) {
@@ -75,6 +75,7 @@ function createGuardBroker(store) {
       request.verifying = true;
       try {
         await store.authorize(request.operation, pin);
+        await request.checkPermission();
         if (scope !== generation || pending.get(id) !== request || request.expires <= Date.now()) {
           throw Error('Solicitação expirada ou cancelada.');
         }

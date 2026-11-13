@@ -104,7 +104,6 @@ else app.whenReady().then(async () => {
   async function authorizeGuarded(name, args, actorId, action) {
     return guard.run(name, async () => {
       if (requireActor() !== actorId) throw Error('O operador mudou.');
-      await checkGuardPermission(name, args, actorId);
       return action(...args);
     }, () => checkGuardPermission(name, args, actorId));
   }
