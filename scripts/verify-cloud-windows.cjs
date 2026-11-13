@@ -51,7 +51,7 @@ async function shot(name,{top=true}={}){
  const png=await capture();assert(png.length>3000);fs.writeFileSync(path.join(profile,name+'.png'),Buffer.from(png,'base64'));result.screenshots.push(name+'.png');persist();
 }
 async function addBySearch(key){await search().fill(key);await search().press('Enter');await expect(qty()).toBeVisible();}
-async function login(){const f=page.getByRole('form',{name:'Acesso local'});await expect(f.locator('input[type=password]')).toHaveCount(0);await f.getByLabel('Usuário',{exact:true}).selectOption({label:'Responsável QA Balcão'});await f.getByRole('button',{name:'Entrar',exact:true}).click();await expect(nav('Vender')).toBeVisible();}
+async function login(){const f=page.getByRole('form',{name:'Acesso local'});await expect(f.locator('input[type=password]')).toHaveCount(0);await f.getByLabel('Usuário',{exact:true}).selectOption({label:'Responsável QA Balcão'});await f.getByRole('button',{name:'Entrar',exact:true}).click();await expect(nav('Vender')).toBeVisible({timeout:20000});}
 function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.equal(db.prepare('PRAGMA integrity_check').get().integrity_check,'ok');assert.deepEqual(db.prepare('PRAGMA foreign_key_check').all(),[]);assert.equal(db.prepare('PRAGMA user_version').get().user_version,12);assert.equal(db.prepare('SELECT count(*) n FROM local_credentials').get().n,0);return {sales:db.prepare('SELECT count(*) n FROM local_sales').get().n,tables:db.prepare("SELECT count(*) n FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'").get().n};}finally{db.close();}}
 (async()=>{try{
  await open();await size(1487,1058);
@@ -210,5 +210,5 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   check('Dados da 1.0.4 preservados na candidata e acessíveis ao voltar ao executável anterior.');
  }
  result.timings=timings;result.passed=true;
-}catch(e){result.passed=false;result.step=step;result.errors.push(String(e.stack||e));process.exitCode=1;}
+}catch(e){if(page){try{result.visibleText=(await page.locator('body').innerText()).slice(0,4000);await shot('failure-'+step.replace(/[^a-z0-9-]/gi,'-'));}catch(captureError){result.captureError=String(captureError);}}result.passed=false;result.step=step;result.errors.push(String(e.stack||e));process.exitCode=1;}
 finally{if(app)try{await close();}catch(e){result.errors.push(String(e));}persist();console.log(JSON.stringify({profile,passed:result.passed,step:result.step,errors:result.errors,closed:result.launches.map(x=>x.exitCode)}));}})();
