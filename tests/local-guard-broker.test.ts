@@ -30,3 +30,15 @@ it('invalidates approval in flight when context changes', async () => {
   await expect(approval).rejects.toThrow('cancelada');
   expect(perform).not.toHaveBeenCalled();
 });
+
+it('discards a request if the company changes during permission lookup', async () => {
+  let finish!: () => void;
+  const checkPermission = () => new Promise<void>(resolve => { finish = resolve; });
+  const guard = createGuardBroker({status:async()=>({enabled:true,all:true})});
+  const perform = vi.fn();
+  const request = guard.run('backup', perform, checkPermission);
+  guard.invalidate();
+  finish();
+  await expect(request).rejects.toThrow('contexto');
+  expect(perform).not.toHaveBeenCalled();
+});

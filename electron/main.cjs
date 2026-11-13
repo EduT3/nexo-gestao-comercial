@@ -102,13 +102,11 @@ else app.whenReady().then(async () => {
     try { await Promise.allSettled(previousOperations); return await action(); } finally { switchingSession = false; }
   };
   async function authorizeGuarded(name, args, actorId, action) {
-    await checkGuardPermission(name, args, actorId);
-    if (requireActor() !== actorId) throw Error('O operador mudou.');
     return guard.run(name, async () => {
       if (requireActor() !== actorId) throw Error('O operador mudou.');
       await checkGuardPermission(name, args, actorId);
       return action(...args);
-    });
+    }, () => checkGuardPermission(name, args, actorId));
   }
   async function checkGuardPermission(name, args, actorId) {
     if (['backup', 'restore', 'update-install', 'data-health'].includes(name)) {

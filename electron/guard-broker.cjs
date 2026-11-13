@@ -45,9 +45,10 @@ function createGuardBroker(store) {
 
   return {
     invalidate,
-    async run(operation, perform) {
+    async run(operation, perform, checkPermission = async () => {}) {
       if (!Object.hasOwn(operations, operation)) return perform();
       const scope = generation;
+      await checkPermission();
       const config = await store.status();
       if (scope !== generation) throw Error('O contexto da operação mudou.');
       if (!config.enabled || (!config.all && !config.actions.includes(operation))) return perform();
