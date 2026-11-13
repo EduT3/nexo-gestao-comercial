@@ -35,12 +35,12 @@ const operations = {
 };
 
 function createGuardBroker(store) {
-  let pending;
+  const pending = new Map();
   let generation = 0;
 
   function invalidate() {
     generation++;
-    pending = undefined;
+    pending.clear();
   }
 
   return {
@@ -52,28 +52,32 @@ function createGuardBroker(store) {
       if (scope !== generation) throw Error('O contexto da operação mudou.');
       if (!config.enabled || (!config.all && !config.actions.includes(operation))) return perform();
       const id = randomUUID();
-      pending = { id, operation, perform, expires: Date.now() + 60000 };
+      const now = Date.now();
+      for (const [key, request] of pending) if (request.expires <= now) pending.delete(key);
+      if (pending.size >= 32) throw Error('Há muitas autorizações pendentes.');
+      pending.set(id, { operation, perform, expires: now + 60000 });
       throw Error('NEXO_GUARD_REQUIRED:' + id);
     },
     describe(id) {
-      if (pending?.id !== id || pending.expires <= Date.now()) throw Error('Solicitação expirada.');
-      return { label: operations[pending.operation] };
+      const request = pending.get(id);
+      if (!request || request.expires <= Date.now()) throw Error('Solicitação expirada.');
+      return { label: operations[request.operation] };
     },
     cancel(id) {
-      if (pending?.id === id) invalidate();
+      pending.delete(id);
     },
     async approve(id, pin) {
-      const request = pending;
+      const request = pending.get(id);
       const scope = generation;
-      if (!request || request.id !== id || request.expires <= Date.now()) throw Error('Solicitação expirada.');
+      if (!request || request.expires <= Date.now()) throw Error('Solicitação expirada.');
       if (request.verifying) throw Error('Aguarde a validação do PIN.');
       request.verifying = true;
       try {
         await store.authorize(request.operation, pin);
-        if (scope !== generation || pending !== request || request.expires <= Date.now()) {
+        if (scope !== generation || pending.get(id) !== request || request.expires <= Date.now()) {
           throw Error('Solicitação expirada ou cancelada.');
         }
-        pending = undefined;
+        pending.delete(id);
         return request.perform();
       } finally {
         request.verifying = false;

@@ -1,14 +1,23 @@
 const { contextBridge, ipcRenderer } = require('electron');
 let promptForGuard;
+let promptQueue = Promise.resolve();
 async function invoke(channel, ...args) {
   try { return await ipcRenderer.invoke(channel, ...args); }
   catch (error) {
     const match = /NEXO_GUARD_REQUIRED:([0-9a-f-]{36})/.exec(error.message);
     if (!match || !promptForGuard) throw error;
     const id = match[1];
-    const { label } = await ipcRenderer.invoke('nexo:guard-describe', id);
-    try { return await promptForGuard(id, label); }
-    finally { await ipcRenderer.invoke('nexo:guard-cancel', id).catch(() => undefined); }
+    const prompt = promptQueue.then(async () => {
+      try {
+        if (!promptForGuard) throw error;
+        const { label } = await ipcRenderer.invoke('nexo:guard-describe', id);
+        return await promptForGuard(id, label);
+      } finally {
+        await ipcRenderer.invoke('nexo:guard-cancel', id).catch(() => undefined);
+      }
+    });
+    promptQueue = prompt.catch(() => undefined);
+    return prompt;
   }
 }
 contextBridge.exposeInMainWorld('nexoLocal', Object.freeze({
