@@ -276,7 +276,15 @@ app.on('before-quit', event => {
   quitting = true;
   void (async () => {
     await Promise.allSettled([...pendingOperations]);
-    if (db) await db.close().catch(error => console.error('Falha ao fechar a base:', error.message));
+    if (db) {
+      try { await db.close(); }
+      catch (error) {
+        quitting = false;
+        installUpdate = false;
+        dialog.showErrorBox('NEXO — Fechamento interrompido', 'Não foi possível fechar os dados. Tente novamente antes de atualizar.');
+        return;
+      }
+    }
     readyToQuit = true;
     if (installUpdate) updates.install();
     else app.quit();
