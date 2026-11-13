@@ -21,6 +21,18 @@ jobs:
       - run: npm run package:installer
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
+      - name: Stage previous public release
+        shell: pwsh
+        run: |
+          $setup = Join-Path $env:RUNNER_TEMP 'NEXO-Setup-1.0.4.exe'
+          Invoke-WebRequest 'https://github.com/EduT3/nexo-gestao-comercial/releases/download/v1.0.4/NEXO-Setup-1.0.4.exe' -OutFile $setup
+          if ((Get-FileHash -LiteralPath $setup).Hash -ne '830AC83A9038A521403FFF6A597FF09882B427E9E431429D402353CE495E6119') { throw 'Previous installer digest mismatch' }
+          $destination = Join-Path $env:RUNNER_TEMP 'NEXO-previous'
+          $result = Start-Process -FilePath $setup -ArgumentList @('/S', "/D=$destination") -PassThru -Wait -WindowStyle Hidden
+          if ($result.ExitCode -ne 0 -or !(Test-Path "$destination/NEXO.exe")) { throw 'Previous installation failed' }
+          $snapshot = Join-Path $env:RUNNER_TEMP 'NEXO-previous-snapshot'
+          Copy-Item -LiteralPath $destination -Destination $snapshot -Recurse
+          "NEXO_QA_BASELINE=$snapshot" >> $env:GITHUB_ENV
       - name: Install in disposable Windows runner
         shell: pwsh
         run: |
@@ -41,5 +53,6 @@ jobs:
             artifacts/installer/*.blockmap
             artifacts/installer/latest.yml
             artifacts/installer/package-audit.json
-            artifacts/cloud-qa/**
+            artifacts/cloud-qa/**/result.json
+            artifacts/cloud-qa/**/*.png
           retention-days: 14
