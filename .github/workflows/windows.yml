@@ -40,5 +40,6 @@ jobs:
             artifacts/installer/*.exe
             artifacts/installer/*.blockmap
             artifacts/installer/latest.yml
+            artifacts/installer/package-audit.json
             artifacts/cloud-qa/**
           retention-days: 14
