@@ -61,3 +61,19 @@ it('recovers only with the individual key and rotates it after use', async () =>
     await rm(folder,{recursive:true,force:true});
   }
 });
+
+it('keeps the original policy and PIN when a replacement cannot be confirmed', async () => {
+  const folder = await mkdtemp(path.join(tmpdir(), 'nexo-guard-'));
+  try {
+    const guard = createGuardStore(folder);
+    const policy = {enabled:true,all:false,actions:['backup']};
+    await guard.configure({...policy,pin:'0123',confirmation:'0123'});
+    const file = path.join(folder,'guard.json');
+    const original = await readFile(file,'utf8');
+    await expect(guard.configure({...policy,all:true,currentPin:'0123',pin:'4567',confirmation:'4568'})).rejects.toThrow('iguais');
+    expect(await readFile(file,'utf8')).toBe(original);
+    await guard.authorize('backup','0123');
+  } finally {
+    await rm(folder,{recursive:true,force:true});
+  }
+});
