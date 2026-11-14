@@ -30,7 +30,7 @@ Pagar e Receber retornaram zero registros, com 12 amostras por operação e vers
 
 ## Próximos passos da homologação
 
-1. Revisar as capturas da candidata aprovada. O ZIP já foi baixado e o instalador conferido contra o manifesto.
+1. As capturas da candidata aprovada confirmaram o espaçamento dos filtros de estoque em 1280 × 720, 1366 × 768 e 1920 × 1080 e o histórico de caixa recolhido em 1280 × 720. O instalador baixado foi conferido contra o manifesto.
 2. Confirmar reabertura automática e recuperação por falha após o início do NSIS em ambiente isolado. A verificação publicada usa reabertura controlada. O instalador de teste está sem assinatura digital.
 3. Aplicar o [roteiro de primeiro uso](USABILIDADE-M2.md) quando houver participantes. O roteiro preparado ainda não tem resultados de sessões reais.
 
