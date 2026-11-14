@@ -24,7 +24,13 @@ async function main() {
   assert.ok((await stat(path.join(root, name + '.blockmap'))).size > 0, 'Blockmap vazio');
   const audit = JSON.parse(await readFile(path.join(root, 'package-audit.json'), 'utf8'));
   assert.ok(audit.dependencyBytesBefore >= audit.dependencyBytesAfter);
-  const build = JSON.parse(await readFile(path.join(root, 'win-unpacked/resources/app/dist/build-info.json'), 'utf8'));
+  const resources = path.join(root, 'win-unpacked/resources');
+  const feed = yaml.load(await readFile(path.join(resources, 'app-update.yml'), 'utf8'));
+  assert.equal(feed.provider, 'github', 'Provedor de atualização inesperado');
+  assert.equal(feed.owner, 'EduT3', 'Proprietário do canal de atualização inesperado');
+  assert.equal(feed.repo, 'nexo-gestao-comercial', 'Repositório de atualizações inesperado');
+  assert.equal(feed.private, undefined, 'O canal público não deve exigir credenciais');
+  const build = JSON.parse(await readFile(path.join(resources, 'app/dist/build-info.json'), 'utf8'));
   assert.equal(build.productVersion, version, 'Versão da aplicação empacotada divergente');
   console.log(JSON.stringify({version, installer:name, bytes:bytes.length, sha512, build:build.id}));
 }
