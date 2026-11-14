@@ -314,7 +314,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
    const query=command=>execFileSync('powershell.exe',['-NoProfile','-NonInteractive','-Command',command],{
     encoding:'utf8',windowsHide:true,timeout:10000,env:{...process.env,NEXO_QA_INSTALLED_EXE:path.join(program,'NEXO.exe')},
    }).trim();
-   const installedWindow="Get-Process -Name NEXO -ErrorAction SilentlyContinue | Where-Object { $_.Path -eq $env:NEXO_QA_INSTALLED_EXE -and $_.MainWindowHandle -ne 0 }";
+   const installedWindow="Get-Process -Name NEXO -ErrorAction SilentlyContinue | Where-Object { $_.Path -eq $env:NEXO_QA_INSTALLED_EXE -and $_.MainWindowHandle -ne 0 -and $_.MainWindowTitle -eq 'NEXO Balcão' }";
    let relaunchedPid;
    await expect.poll(()=>{
     relaunchedPid=query(installedWindow+' | Select-Object -ExpandProperty Id');
