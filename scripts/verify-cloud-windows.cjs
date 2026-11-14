@@ -152,11 +152,19 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
    const install=updater.quitAndInstall.bind(updater);
    // Keep the real installer launch; reopen under the isolated profile ourselves.
    updater.quitAndInstall=()=>install(true,false);
+   let confirmations=0;
    dialog.showMessageBox=async(_window,options)=>{
     if(options.title!=='Atualizar NEXO') throw Error('Diálogo inesperado: '+options.title);
-    return {response:1};
+    return {response:confirmations++ === 0 ? 0 : 1};
    };
   });
+  const backupsBefore=fs.readdirSync(path.dirname(dbfile)).filter(name=>name.startsWith('before-update-'));
+  await call('installUpdate');
+  assert.equal(child.exitCode,null);
+  assert.equal(buildAt(program).productVersion,'1.0.4');
+  assert.equal((await call('updateStatus')).phase,'ready');
+  assert.deepEqual(fs.readdirSync(path.dirname(dbfile)).filter(name=>name.startsWith('before-update-')),backupsBefore);
+  check('Cancelar a instalação manteve a versão anterior aberta e o download pronto para nova tentativa.');
   const exited=new Promise(resolve=>child.once('exit',resolve));
   const installStarted=performance.now();
   await page.getByRole('button',{name:'Reiniciar e atualizar',exact:true}).click();
