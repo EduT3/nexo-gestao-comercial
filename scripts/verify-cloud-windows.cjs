@@ -1,4 +1,3 @@
-const {execFileSync}=require('node:child_process');
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),crypto=require('node:crypto'),{DatabaseSync}=require('node:sqlite');
 const O=path.resolve('artifacts/cloud-qa');fs.mkdirSync(O,{recursive:true});const stage=process.cwd(),{_electron,expect}=require('@playwright/test');
 const program=path.resolve(process.env.NEXO_QA_PROGRAM || 'artifacts/installer/win-unpacked');
@@ -145,11 +144,30 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
    result.updateFeedRequests=feed.requests;
    check('Aplicativo instalado consultou o manifesto e baixou o instalador pelo atualizador.');
   } finally { await feed.close(); }
-  step='instalação sobre a versão publicada';
-  await close();const previous=dbCheck();
+  step='instalação pelo atualizador';
+  const previous=dbCheck();
   assert.equal(buildAt(program).productVersion,'1.0.4');
-  execFileSync(process.env.NEXO_QA_SETUP,['/S','/D='+program],{windowsHide:true,timeout:180000});
-  assert.equal(buildAt(program).id,id.id);
+  await app.evaluate(({dialog})=>{
+   const updater=process.mainModule.require('electron-updater').autoUpdater;
+   const install=updater.quitAndInstall.bind(updater);
+   // Keep the real installer launch; reopen under the isolated profile ourselves.
+   updater.quitAndInstall=()=>install(true,false);
+   dialog.showMessageBox=async(_window,options)=>{
+    if(options.title!=='Atualizar NEXO') throw Error('Diálogo inesperado: '+options.title);
+    return {response:1};
+   };
+  });
+  const exited=new Promise(resolve=>child.once('exit',resolve));
+  const installStarted=performance.now();
+  await page.getByRole('button',{name:'Reiniciar e atualizar',exact:true}).click();
+  await expect.poll(()=>child.exitCode,{timeout:60000}).toBe(0);
+  assert.equal(await exited,0);
+  result.launches.at(-1).exitCode=0;
+  app=undefined;
+  await expect.poll(()=>{try{return buildAt(program).id;}catch{return null;}},{timeout:180000}).toBe(id.id);
+  timings.push({operation:'update-install',version:id.productVersion,ms:Math.round(performance.now()-installStarted)});
+  assert(fs.readdirSync(path.dirname(dbfile)).some(name=>/^before-update-.*\.sqlite$/.test(name)));
+  check('Botão de atualização acionou o instalador baixado e gerou backup antes do fechamento.');
   await open();await login();
   assert.equal((await call('salesHistory',A,{})).total,5);
   assert.deepEqual(dbCheck(),previous);
