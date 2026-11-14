@@ -59,15 +59,15 @@ As origens 1.0.4 e 1.0.5 com Guard recusaram abrir a base fictícia marcada com 
 | Versão atual, falha na consulta, download interrompido e nova tentativa | Duas origens instaladas na execução 43596780998 | A falha foi induzida no canal local, sem desligar a rede do Windows. |
 | Hash divergente, cancelamento e instalação pelo aplicativo | Execução 43596780998 | Canal local e NSIS silencioso, com reabertura pelo roteiro. |
 | Banco, usuário, permissões e Guard após atualização | Execuções 43596780998 e 43597240803 | Bases e perfis fictícios. |
-| Falha imediata ao iniciar o instalador | Execução 43597240803 | Evento simulado. Falha depois que o NSIS começa continua sem evidência. |
+| Falha imediata ao iniciar o instalador | Execução 43597240803 | Evento simulado para a falha imediata. A interrupção do NSIS em execução tem ensaio separado. |
 | Retorno a executável anterior | Execução 43597240803 | Cópia compatível reaberta. Esquema futuro simulado recusado sem alteração dos bytes. |
 | Consulta HTTPS à origem pública configurada | Execução 43598510779 aprovada com 242 testes automatizados | A candidata foi distribuída pelo canal local de teste. |
 | Segunda instância enquanto a atualização aguarda confirmação | Execução 43623401359 aprovada nas duas origens | A segunda abertura encerrou, o processo original permaneceu ativo e os registros e o download foram preservados. |
 | Reabertura automática após instalar | Execução 43623280591 aprovada | NSIS silencioso no Windows descartável. |
-| Interrupção durante a troca dos binários | Execução 43624501699 aprovada | NSIS interrompido após escrever arquivo da candidata. Reinstalação e registros verificados no perfil fictício. |
+| Interrupção durante a troca dos binários | Execução 43624707886 aprovada | Reinstalação no mesmo destino, registros, integridade SQLite e arquivo do Guard verificados. |
 | Assinatura do instalador | Instalador de teste sem assinatura | A verificação do manifesto não comprova a identidade do publicador por certificado. |
 
-O relatório continua aberto até a execução dos cenários pendentes e a revisão da candidata final. O mesmo número 1.0.6 aparece em várias candidatas de teste. Use o identificador do build e a execução do GitHub para identificar o pacote analisado.
+A candidata 1.0.6 está disponível para testes. Seguem sem evidência o reinício integral do Windows durante a instalação e o download de uma candidata por um canal público HTTPS. A consulta HTTPS ao canal configurado e a instalação pelo canal local foram verificadas. O mesmo número 1.0.6 aparece em várias candidatas de teste. Use o identificador do build e a execução do GitHub para identificar o pacote analisado.
 
 ### Integridade da distribuição pública 1.0.4
 
