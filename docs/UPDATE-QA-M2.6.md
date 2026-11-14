@@ -45,3 +45,9 @@ A execução usou um canal de teste em loopback e acionou o NSIS silenciosamente
 A execução [43596780998](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43596780998) passou com 241 testes automatizados e dois perfis Windows fictícios, partindo de 1.0.4 e 1.0.5 com Guard. A consulta reconheceu a versão instalada, sinalizou perda de conexão e recuperou na nova tentativa. Um download truncado manteve a versão anterior e bloqueou a instalação. A nova tentativa baixou e instalou a candidata 1.0.6, build NEXO-5913A87B0F41F026. A versão com Guard preservou a política e o PIN.
 
 Os relatórios baixados do [ZIP Windows](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43596780998/artifacts/14115127959) confirmam tempos de download de 2,885 s e 2,881 s, e de instalação de 15,254 s e 11,220 s, respectivamente. As medições usaram loopback no runner Windows, com instalação silenciosa e reabertura controlada.
+
+### M2.6 — recuperação e retorno incompatível no Windows
+
+A execução [43597240803](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43597240803), revisão ac10af6, passou com 242 testes automatizados. Nos dois perfis fictícios, a candidata manteve o aplicativo aberto e tornou a abrir a base após uma falha imediata simulada ao iniciar o instalador. O roteiro comparou os registros da base ativa e da cópia anterior à tentativa.
+
+As origens 1.0.4 e 1.0.5 com Guard recusaram abrir a base fictícia marcada com versão SQLite futura, conservaram seus bytes e voltaram a abrir a cópia compatível com as cinco vendas. O teste simula incompatibilidade de versão do esquema. O [ZIP da candidata 1.0.6](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43597240803/artifacts/14114974245) contém o build NEXO-9726593EFCF75BFE, manifesto de atualização, blockmap e relatórios.

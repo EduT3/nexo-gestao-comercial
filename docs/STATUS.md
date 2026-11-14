@@ -510,3 +510,9 @@ Os relatórios baixados do [ZIP Windows](https://github.com/EduT3/nexo-gestao-co
 ### M2.4 — conferência do fechamento validada no Windows
 
 A execução [43596872161](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43596872161), revisão 401814e, passou com 241 testes automatizados e verificou na candidata instalada que o saldo esperado aparece no formulário, a diferença muda ao digitar R$ 11,00 e R$ 12,00 e o fechamento confirma a operação. O roteiro passou nas origens 1.0.4 e 1.0.5 com Guard, reabriu o aplicativo e encontrou as cinco vendas e 27 tabelas íntegras em cada perfil fictício. [ZIP Windows](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43596872161/artifacts/14115178073).
+
+### M2.6 — recuperação e retorno incompatível no Windows
+
+A execução [43597240803](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43597240803), revisão ac10af6, passou com 242 testes automatizados. Nos dois perfis fictícios, a candidata manteve o aplicativo aberto e tornou a abrir a base após uma falha imediata simulada ao iniciar o instalador. O roteiro comparou os registros da base ativa e da cópia anterior à tentativa.
+
+As origens 1.0.4 e 1.0.5 com Guard recusaram abrir a base fictícia marcada com versão SQLite futura, conservaram seus bytes e voltaram a abrir a cópia compatível com as cinco vendas. O teste simula incompatibilidade de versão do esquema. O [ZIP da candidata 1.0.6](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43597240803/artifacts/14114974245) contém o build NEXO-9726593EFCF75BFE, manifesto de atualização, blockmap e relatórios.
