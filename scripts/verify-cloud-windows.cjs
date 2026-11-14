@@ -190,6 +190,19 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   result.launches.at(-1).exitCode=0;
   app=undefined;
   await expect.poll(()=>{try{return buildAt(program).id;}catch{return null;}},{timeout:180000}).toBe(id.id);
+  // The installer writes build-info before all application dependencies are extracted.
+  const packedApp=path.resolve('artifacts/installer/win-unpacked/resources/app');
+  const installedApp=path.join(program,'resources/app');
+  const expectedFiles=fs.readdirSync(packedApp,{recursive:true,withFileTypes:true})
+   .filter(entry=>entry.isFile())
+   .map(entry=>{
+    const file=path.join(entry.parentPath,entry.name);
+    return {relative:path.relative(packedApp,file),size:fs.statSync(file).size};
+   });
+  await expect.poll(()=>expectedFiles.every(file=>{
+   try{return fs.statSync(path.join(installedApp,file.relative)).size===file.size;}
+   catch{return false;}
+  }),{timeout:180000}).toBe(true);
   timings.push({operation:'update-install',version:id.productVersion,ms:Math.round(performance.now()-installStarted)});
   assert(fs.readdirSync(path.dirname(dbfile)).some(name=>/^before-update-.*\.sqlite$/.test(name)));
   check('Botão de atualização acionou o instalador baixado e gerou backup antes do fechamento.');
