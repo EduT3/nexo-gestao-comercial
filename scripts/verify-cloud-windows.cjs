@@ -790,6 +790,29 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   assert.deepEqual(fs.readFileSync(guardFile),guardBefore);
   check('Instalador interrompido em pasta descartavel. Nova instalacao abriu e preservou os registros e a politica do Guard.');
  }
+ step='importacao Excel no aplicativo instalado';
+ const workbook=new (require('exceljs').Workbook)();
+ const sheet=workbook.addWorksheet('Produtos');
+ sheet.addRow(require('../electron/excel.cjs').HEADERS);
+ sheet.addRow(['QA-XLSX','Produto importado QA','Unidade','',2,5,0,'','Sim']);
+ const importFile=path.join(profile,'qa-import.xlsx');
+ await workbook.xlsx.writeFile(importFile);
+ await open();await login();
+ await call('guardConfigure',{enabled:false,all:true,actions:[],currentPin:'0123'});
+ await app.evaluate(({dialog},file)=>{
+  dialog.showOpenDialog=async()=>({canceled:false,filePaths:[file]});
+ },importFile);
+ const importedProduct=async()=>(await call('products',A)).find(row=>row.internal_code==='QA-XLSX');
+ const preview=await call('productImportPreview',A);
+ assert.equal(preview.canceled,false);
+ assert(preview.token);
+ assert.equal(await importedProduct(),undefined);
+ await call('productImportConfirm',preview.token);
+ assert.equal((await importedProduct()).price_cents,500n);
+ await close();await open();await login();
+ assert.equal((await importedProduct()).name,'Produto importado QA');
+ await close();
+ check('Importacao XLSX no aplicativo instalado respeitou a previa e persistiu apos reabrir.');
  assert.deepEqual(result.rendererErrors,[]);result.passed=true;
 }catch(e){console.error('Falha na etapa: '+step,e);if(page){try{result.visibleText=(await page.locator('body').innerText()).slice(0,4000);await shot('failure-'+step.replace(/[^a-z0-9-]/gi,'-'));}catch(captureError){result.captureError=String(captureError);}}result.passed=false;result.step=step;result.errors.push(String(e.stack||e));process.exitCode=1;}
 finally{if(app)try{await close();}catch(e){result.errors.push(String(e));result.passed=false;process.exitCode=1;}result.timings=timings;persist();console.log(JSON.stringify({profile,passed:result.passed,step:result.step,errors:result.errors,closed:result.launches.map(x=>x.exitCode)}));}})();
