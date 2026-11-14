@@ -33,3 +33,18 @@ A suíte local da revisão `8fc6036` passou 235 testes em 53 arquivos. A valida�
 - O arquivo `guard.json` e a chave de recuperação não são incluídos no backup SQLite. A migração de computador exige preservar separadamente a política e a chave; restaurar apenas um banco em uma instalação sem o arquivo não reativa o Guard.
 - A seleção de nome não comprova identidade; o PIN de quatro dígitos limita erros e uso casual, mas não protege contra quem controla o Windows ou os arquivos locais.
 - Avaliar proteção de chaves por recursos do Windows, autenticação individual e políticas por empresa em uma etapa futura, preservando operação offline e recuperação.
+
+
+## Rastreabilidade da aceitação M1
+
+| Requisito | Evidência disponível | Limite ou trabalho restante |
+| --- | --- | --- |
+| Ativação opcional, PIN e políticas | `tests/local-guard-store.test.ts`; integração Windows 43531850681 | A execução mais recente deve ser concluída. |
+| PIN, bloqueio, recuperação e falha na gravação | Testes do armazenamento temporário, incluindo tentativas concorrentes e chave rotativa | A política e a chave não integram o backup SQLite. |
+| Pedidos de uso único, concorrência, cancelamento e mudança de contexto | `tests/local-guard-broker.test.ts` e testes de mudança de política | A prova específica de troca de empresa usa o broker isolado; falta evidência integrada com instalação legada de múltiplas empresas. |
+| Permissões e IPC | Checagem no processo principal e teste Windows de chamada direta e recarga em 43531850681 | Teste Windows de troca de operador foi acrescentado na revisão `9d4ee7c` e ainda depende de execução. |
+| Compatibilidade e regressões comerciais | Teste de instalação sobre 1.0.4, cópia/restauração e fluxos sintéticos em 43531850681; 235 testes locais | A cobertura não demonstra todas as combinações de instalações legadas nem homologação humana. |
+| Interface e acessibilidade | Diálogo nativo, teclado físico e botões exercitados em 43531850681 | Capturas em duas dimensões e sua inspeção visual estão pendentes de validação da revisão `8fc6036` ou posterior. |
+| Instalador Windows | Candidata de 43531850681 instalada e executada em perfil fictício | A candidata da revisão mais recente ainda precisa terminar e ser verificada. |
+
+Estas evidências não certificam segurança contra acesso administrativo ao computador ou alteração dos arquivos locais. A conclusão do marco depende de resolver ou registrar explicitamente as lacunas de execução e validação acima.

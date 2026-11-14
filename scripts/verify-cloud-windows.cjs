@@ -261,6 +261,26 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   await close();assert.deepEqual(dbCheck(),before);
   check('Dados da 1.0.4 preservados na candidata e acessíveis ao voltar ao executável anterior.');
  }
+ step='troca de empresa em base fictícia legada';
+ assert(path.resolve(dbfile).startsWith(path.resolve(profile)+path.sep));
+ const legacyDb=new DatabaseSync(dbfile);
+ try {
+  legacyDb.prepare('INSERT INTO local_companies(id,name) VALUES(?,?)').run(B,'Outra loja QA');
+  legacyDb.prepare("INSERT INTO local_memberships(company_id,user_id,role,active) VALUES(?,?,'ADMIN',1)").run(B,owner);
+ } finally { legacyDb.close(); }
+ await open();await login();
+ assert.equal((await call('status')).companies.length,2);
+ await call('guardConfigure',{enabled:true,all:true,actions:[],pin:'0123',confirmation:'0123'});
+ await page.evaluate(()=>{window.nexoLocal.registerGuardPrompt(null);});
+ const crossCompany=await call('createProduct',A,{name:'Não gravar QA',internalCode:'GUARD-CROSS',unit:'UNIT',costCents:1,priceCents:2}).then(()=>{throw Error('Produto criado sem PIN');},error=>String(error));
+ const companyRequest=/NEXO_GUARD_REQUIRED:([0-9a-f-]{36})/.exec(crossCompany)?.[1];
+ assert(companyRequest,'Cadastro deve aguardar autorização');
+ await picker().selectOption(B);
+ await assert.rejects(()=>call('guardApprove',companyRequest,'0123'),/expirada/i);
+ assert(!(await call('products',A)).some(item=>item.internal_code==='GUARD-CROSS'));
+ assert(!(await call('products',B)).some(item=>item.internal_code==='GUARD-CROSS'));
+ await close();
+ check('Troca de empresa invalida autorização pendente em base fictícia de duas empresas.');
  result.timings=timings;result.passed=true;
 }catch(e){if(page){try{result.visibleText=(await page.locator('body').innerText()).slice(0,4000);await shot('failure-'+step.replace(/[^a-z0-9-]/gi,'-'));}catch(captureError){result.captureError=String(captureError);}}result.passed=false;result.step=step;result.errors.push(String(e.stack||e));process.exitCode=1;}
 finally{if(app)try{await close();}catch(e){result.errors.push(String(e));}persist();console.log(JSON.stringify({profile,passed:result.passed,step:result.step,errors:result.errors,closed:result.launches.map(x=>x.exitCode)}));}})();
