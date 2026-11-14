@@ -14,6 +14,8 @@ A publicação contém o instalador e os metadados usados pelo atualizador. O re
 
 [Instalador Windows publicado](https://github.com/EduT3/nexo-gestao-comercial/releases/latest)
 
+[ZIP Windows da candidata M2 1.0.6](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43624707886/artifacts/14125079915). Artefato de teste disponível até 28 de novembro de 2026. Extraia e execute installer/NEXO-Setup-1.0.6.exe. O instalador está sem assinatura digital. O ZIP inclui o manifesto, o blockmap e os relatórios da execução com 242 testes aprovados.
+
 Depois de instalar, abra o NEXO e cadastre o responsável no primeiro acesso. Selecione um perfil pelo nome. Essa seleção identifica as operações no sistema e permite que qualquer pessoa com acesso ao app escolha o perfil administrativo. Os dados ficam em `%LOCALAPPDATA%/NEXO/nexo.sqlite`.
 
 ## Desempenho e hardware
