@@ -60,6 +60,10 @@ Na base sintética com 50 mil produtos, 50 mil vendas e 100 mil movimentos, a me
 
 Use **Gerar backup** e guarde uma cópia em outro dispositivo. A tela informa a data do último backup. Para restaurar, selecione um backup válido e confirme a operação; o NEXO salva automaticamente uma cópia do estado anterior. Exportação Excel serve para consulta e não substitui o backup.
 
+## Evolução M2
+
+O [relatório da evolução M2](docs/EVOLUCAO-M2.md) reúne as mudanças operacionais, as candidatas verificadas e os testes que ainda faltam. As [medições SQLite](docs/benchmarks/catalogo-m2.json) usam as mesmas bases fictícias e o mesmo computador antes e depois. As medições preliminares do executável Windows estão no relatório M2.
+
 ## Atualizar o NEXO
 
 No NEXO instalado pelo instalador Windows, abra **Configurações** e selecione **Verificar atualização**. Quando uma versão estiver disponível no GitHub Releases, o aplicativo oferece o download. A instalação exige confirmação de um responsável e cria uma cópia SQLite antes de fechar. Termine a venda ou movimentação em andamento antes de confirmar.
