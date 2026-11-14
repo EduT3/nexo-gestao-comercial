@@ -226,6 +226,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  const guide=page.getByRole('region',{name:'Tutorial do NEXO'});
  await expect(guide).toBeVisible();
  await expect(help).toHaveAttribute('aria-expanded','true');
+ await shot('ajuda-global-1000x650',{top:false});
  await page.keyboard.press('Escape');
  await expect(guide).toHaveCount(0);
  await expect(help).toBeFocused();
