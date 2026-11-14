@@ -1,6 +1,6 @@
 # NEXO Balcão — relatório de evolução M2
 
-O M2 reorganiza as rotinas de venda, estoque, caixa e contas e melhora a autorização de operações administrativas. A candidata Windows aprovada é a **1.0.6**, build **NEXO-17AEB4E230DDCD9F**, com a correção do histórico de caixa e as medições do executável. [Execução Windows e 242 testes aprovados](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43599952832) · [ZIP da candidata](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43599952832/artifacts/14115859392).
+O M2 reorganiza as rotinas de venda, estoque, caixa e contas e melhora a autorização de operações administrativas. A candidata Windows aprovada é a **1.0.6**, build **NEXO-3E2B6BE692122B3C**. [Execução Windows e 242 testes aprovados](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43624707886) · [ZIP conferido](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43624707886/artifacts/14125079915).
 
 | Marco | Alteração e evidência |
 |---|---|
@@ -11,7 +11,7 @@ O M2 reorganiza as rotinas de venda, estoque, caixa e contas e melhora a autoriz
 | M2.5 · Interface | A navegação por teclado e a largura da página foram verificadas em 1280 × 720, 1366 × 768 e 1920 × 1080 nas áreas Vender, Estoque, Caixa e Contas. O monograma aparece na interface empacotada e no ícone extraído do instalador da [execução 43598010478](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43598010478). |
 | M2.6 · Atualização | As origens 1.0.4 e 1.0.5 com Guard instalaram a candidata por um canal isolado, preservando registros e configurações. O relatório técnico distingue falhas reais de transporte, falhas simuladas do instalador e limites do teste. |
 
-A [comparação SQLite](benchmarks/catalogo-m2.json) usou o mesmo computador e bases fictícias de 1.000, 10.000 e 50.000 produtos. Com 50.000 produtos, as medianas antes e depois ficaram em 110,8 e 111,1 ms no catálogo, 92,3 e 90,9 ms no estoque, 67,0 e 66,5 ms no histórico de vendas e 55,6 e 55,8 ms no histórico de estoque. Os resultados coincidiram nas duas versões. O roteiro instalado coleta medições adicionais de exportação, processos e contas. A execução aprovada mediu duas origens no mesmo runner Windows, com atualização em perfis fictícios.
+A [comparação SQLite](benchmarks/catalogo-m2.json) usou o mesmo computador e bases fictícias de 1.000, 10.000 e 50.000 produtos. Com 50.000 produtos, as medianas antes e depois ficaram em 110,8 e 111,1 ms no catálogo, 92,3 e 90,9 ms no estoque, 67,0 e 66,5 ms no histórico de vendas e 55,6 e 55,8 ms no histórico de estoque. Os resultados coincidiram nas duas versões. O roteiro instalado coleta medições adicionais de exportação, processos e contas. A execução 43599952832 mediu duas origens no mesmo runner Windows, com atualização em perfis fictícios.
 
 | Origem | Medida | Antes | Candidata 1.0.6 |
 |---|---|---:|---:|
@@ -31,7 +31,7 @@ Pagar e Receber retornaram zero registros, com 12 amostras por operação e vers
 ## Próximos passos da homologação
 
 1. As capturas da candidata aprovada confirmaram o espaçamento dos filtros de estoque em 1280 × 720, 1366 × 768 e 1920 × 1080 e o histórico de caixa recolhido em 1280 × 720. O instalador baixado foi conferido contra o manifesto.
-2. A [reabertura automática em modo silencioso](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43623101334) foi comprovada na atualização a partir da versão com Guard. Falta testar a recuperação após uma falha com o NSIS já em execução. O instalador de teste está sem assinatura digital.
+2. A [reabertura automática em modo silencioso](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43623101334) foi comprovada na atualização a partir da versão com Guard. A [recuperação após interromper o NSIS](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43624707886) também passou, com integridade SQLite e preservação da política do Guard. O ensaio interrompeu o processo do instalador. A reinicialização do computador durante a instalação segue sem evidência. O instalador de teste está sem assinatura digital.
 3. Aplicar o [roteiro de primeiro uso](USABILIDADE-M2.md) quando houver participantes. O roteiro preparado ainda não tem resultados de sessões reais.
 
 ## Próximas evoluções propostas
