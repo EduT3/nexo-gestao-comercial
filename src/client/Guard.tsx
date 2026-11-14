@@ -90,6 +90,7 @@ function PinDialog({ label, pinLength, authorized, onCancel, onApprove }: {
   const dialog = useRef<HTMLDialogElement>(null);
   const [digits, setDigits] = useState('');
   const [message, setMessage] = useState('');
+  const submitting = useRef(false);
   const [busy, setBusy] = useState(false);
   useEffect(() => {
     const element = dialog.current!;
@@ -103,19 +104,23 @@ function PinDialog({ label, pinLength, authorized, onCancel, onApprove }: {
 
   async function submit(event: FormEvent) {
     event.preventDefault();
-    if (busy || digits.length !== pinLength) return;
+    if (submitting.current || digits.length !== pinLength) return;
+    submitting.current = true;
     setBusy(true);
     setMessage('');
     const pin = digits;
     setDigits('');
     try { await onApprove(pin); }
     catch (error) { setMessage(String(error).includes('bloque') ? 'Guard bloqueado temporariamente.' : 'PIN incorreto. Tente novamente.'); }
-    finally { setBusy(false); }
+    finally {
+      submitting.current = false;
+      setBusy(false);
+    }
   }
 
   return <dialog ref={dialog} className="guard-dialog" aria-labelledby="guard-title" onCancel={event => {
     event.preventDefault();
-    if (!busy) onCancel();
+    if (!submitting.current) onCancel();
   }} onKeyDown={event => {
     if (busy || event.ctrlKey || event.altKey || event.metaKey) return;
     if (/^[0-9]$/.test(event.key)) { event.preventDefault(); add(event.key); }
