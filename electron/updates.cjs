@@ -33,7 +33,9 @@ function createUpdates(updater) {
   },
   install() {
    if(state.phase!=='ready') throw Error('A atualização ainda não foi baixada.');
-   updater.quitAndInstall(false,true);
+   try { updater.quitAndInstall(false,true); }
+   catch { state={phase:'error'}; }
+   return state.phase !== 'error';
   },
  };
 }

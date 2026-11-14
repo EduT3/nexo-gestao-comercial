@@ -19,7 +19,7 @@ it('consulta, baixa e instala somente quando o download terminou',async()=>{
  await expect(service.download()).rejects.toThrow();
  expect(await service.check()).toEqual({phase:'available',version:'1.0.5'});
  expect(await service.download()).toEqual({phase:'ready',version:'1.0.5'});
- service.install();
+ expect(service.install()).toBe(true);
  expect(updater.quitAndInstall).toHaveBeenCalledWith(false,true);
 });
 it('falha de download permite nova consulta e bloqueia instalação',async()=>{
@@ -78,4 +78,18 @@ it('keeps verified release metadata through successful download', async () => {
  updater.checkForUpdates.mockResolvedValueOnce({isUpdateAvailable:true,updateInfo:{version:'1.0.5',files:[{size:124000000}]}});
  expect(await service.check()).toEqual({phase:'available',version:'1.0.5',size:124000000});
  expect(await service.download()).toEqual({phase:'ready',version:'1.0.5',size:124000000});
+});
+
+it('reports synchronous installer launch failures and permits a fresh check', async () => {
+ const {updater,service}=fixture();
+ await service.check();
+ await service.download();
+ updater.quitAndInstall.mockImplementationOnce(() => updater.emit('error',new Error('Installer unavailable')));
+ expect(service.install()).toBe(false);
+ expect(service.status().phase).toBe('error');
+ expect((await service.check()).phase).toBe('available');
+ await service.download();
+ updater.quitAndInstall.mockImplementationOnce(() => { throw new Error('Installer unavailable'); });
+ expect(service.install()).toBe(false);
+ expect(service.status().phase).toBe('error');
 });

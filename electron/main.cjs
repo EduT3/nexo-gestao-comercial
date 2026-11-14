@@ -8,6 +8,7 @@ const { randomUUID } = require('node:crypto');
 let excel;
 const getExcel = () => excel ??= require('./excel.cjs');
 let db;
+let reopenDatabase;
 let window;
 let actor;
 let productImportPreview;
@@ -64,7 +65,8 @@ else app.whenReady().then(async () => {
   while (!quitting) {
     try {
       await startupServices.inspectStartupDatabase(path.join(dataFolder, 'nexo.sqlite'));
-      db = openLocalDatabase(path.join(dataFolder, 'nexo.sqlite'));
+      reopenDatabase = () => openLocalDatabase(path.join(dataFolder, 'nexo.sqlite'));
+      db = reopenDatabase();
       await prepareLocalDatabase(db, path.join(dataFolder, 'nexo.sqlite'), { singleStore: true });
       break;
     } catch (error) {
@@ -349,8 +351,29 @@ app.on('before-quit', event => {
         return;
       }
     }
-    readyToQuit = true;
-    if (installUpdate) updates.install();
-    else app.quit();
+    if (!installUpdate) {
+      readyToQuit = true;
+      app.quit();
+      return;
+    }
+    try {
+      if (updates.install()) {
+        readyToQuit = true;
+        return;
+      }
+    } catch (error) {
+      console.error('Falha ao iniciar atualização:', error.message);
+    }
+    installUpdate = false;
+    try {
+      db = reopenDatabase();
+      quitting = false;
+      dialog.showErrorBox('NEXO — Atualização interrompida', 'Não foi possível iniciar o instalador. A versão atual continua aberta.');
+    } catch (error) {
+      console.error('Falha ao reabrir os dados:', error.message);
+      dialog.showErrorBox('NEXO — Atualização interrompida', 'Não foi possível reabrir os dados. Abra o NEXO novamente. A cópia anterior à atualização foi preservada.');
+      readyToQuit = true;
+      app.quit();
+    }
   })();
 });
