@@ -5,7 +5,7 @@ const {createUpdates}=createRequire(import.meta.url)('../electron/updates.cjs');
 function fixture(){
  const updater=Object.assign(new EventEmitter(),{
   autoDownload:true,autoInstallOnAppQuit:true,allowPrerelease:true,allowDowngrade:true,
-  checkForUpdates:vi.fn(async()=>({isUpdateAvailable:true,updateInfo:{version:'1.0.5'}})),
+  checkForUpdates:vi.fn(async(): Promise<{isUpdateAvailable:boolean;updateInfo:{version:string;files?:{size:number}[]}}>=>({isUpdateAvailable:true,updateInfo:{version:'1.0.5'}})),
   downloadUpdate:vi.fn(async()=>{}),
   quitAndInstall:vi.fn(),
  });
@@ -18,7 +18,7 @@ it('consulta, baixa e instala somente quando o download terminou',async()=>{
  expect(()=>service.install()).toThrow();
  await expect(service.download()).rejects.toThrow();
  expect(await service.check()).toEqual({phase:'available',version:'1.0.5'});
- expect(await service.download()).toEqual({phase:'ready'});
+ expect(await service.download()).toEqual({phase:'ready',version:'1.0.5'});
  service.install();
  expect(updater.quitAndInstall).toHaveBeenCalledWith(false,true);
 });
@@ -69,6 +69,13 @@ it('rejects a second download while the first is active', async () => {
  await service.check();
  const download=service.download();
  await expect(service.download()).rejects.toThrow();
- expect(await download).toEqual({phase:'ready'});
+ expect(await download).toEqual({phase:'ready',version:'1.0.5'});
  expect(updater.downloadUpdate).toHaveBeenCalledTimes(1);
+});
+
+it('keeps verified release metadata through successful download', async () => {
+ const {updater,service}=fixture();
+ updater.checkForUpdates.mockResolvedValueOnce({isUpdateAvailable:true,updateInfo:{version:'1.0.5',files:[{size:124000000}]}});
+ expect(await service.check()).toEqual({phase:'available',version:'1.0.5',size:124000000});
+ expect(await service.download()).toEqual({phase:'ready',version:'1.0.5',size:124000000});
 });

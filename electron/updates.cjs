@@ -15,14 +15,19 @@ function createUpdates(updater) {
    state={phase:'checking'};
    try {
     const result=await updater.checkForUpdates();
-    state={phase:result?.isUpdateAvailable ? 'available':'current',version:result?.updateInfo.version};
+    const info = result?.updateInfo;
+    const size = info?.files?.length === 1 ? info.files[0].size : undefined;
+    state={phase:result?.isUpdateAvailable ? 'available':'current',version:info?.version};
+    if (result?.isUpdateAvailable && Number.isSafeInteger(size) && size > 0) state.size = size;
    } catch { state={phase:'error'}; }
    return {...state};
   },
   async download() {
    if(state.phase!=='available') throw Error('Consulte uma atualização disponível.');
-   state={phase:'downloading',percent:0};
-   try { await updater.downloadUpdate(); state={phase:'ready'}; }
+   const {version,size} = state;
+   const metadata = size === undefined ? {version} : {version,size};
+   state={...metadata,phase:'downloading',percent:0};
+   try { await updater.downloadUpdate(); state={...metadata,phase:'ready'}; }
    catch { state={phase:'error'}; }
    return {...state};
   },
