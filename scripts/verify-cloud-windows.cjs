@@ -288,13 +288,14 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
    await app.evaluate(({dialog},file)=>{
     dialog.showSaveDialog=async()=>({canceled:false,filePath:file});
    },persistedBackup);
-   const pendingBackup=call('backup');
+   const pendingBackup=call('backup').then(value=>({value}),error=>({error}));
    const preservedPrompt=page.getByRole('dialog',{name:'Autorização administrativa'});
    await expect(preservedPrompt.getByText('Gerar backup',{exact:true})).toBeVisible();
    assert.equal(fs.existsSync(persistedBackup),false);
    await page.keyboard.type('0123');
    await preservedPrompt.getByRole('button',{name:'Autorizar',exact:true}).click();
-   assert.equal((await pendingBackup).canceled,false);
+   const pendingBackupResult=await pendingBackup; if ('error' in pendingBackupResult) throw pendingBackupResult.error;
+ assert.equal(pendingBackupResult.value.canceled,false);
    assert(fs.existsSync(persistedBackup));
    await app.evaluate(({dialog},folder)=>{
     dialog.showSaveDialog=async(_window,options)=>{
@@ -441,7 +442,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  assert.equal(fs.existsSync(guardedBackup),false);
  await page.reload();await expect(nav('Vender')).toBeVisible();
  await assert.rejects(()=>call('guardApprove',staleId,'0123'),/expirada/i);
- const backupPromise=call('backup');
+ const backupPromise=call('backup').then(value=>({value}),error=>({error}));
  const modal=page.getByRole('dialog',{name:'Autorização administrativa'});
  await expect(modal).toBeVisible();
  await expect(modal.getByText('Gerar backup',{exact:true})).toBeVisible();
@@ -466,7 +467,8 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  await expect(modal.getByRole('status')).toContainText('PIN incorreto');
  for(const digit of '0123') await modal.getByRole('button',{name:digit,exact:true}).click();
  await modal.getByRole('button',{name:'Autorizar',exact:true}).click();
- assert.equal((await backupPromise).canceled,false);
+ const backupPromiseResult=await backupPromise; if ('error' in backupPromiseResult) throw backupPromiseResult.error;
+ assert.equal(backupPromiseResult.value.canceled,false);
  await expect(page.getByRole('status').filter({hasText:'Autorização confirmada: Gerar backup.'})).toBeVisible();
  assert(fs.existsSync(guardedBackup));
  step='rascunho de produto durante autorização';
@@ -630,5 +632,5 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  await close();
  check('Troca de empresa invalida autorização pendente em base fictícia de duas empresas.');
  result.timings=timings;result.passed=true;
-}catch(e){if(page){try{result.visibleText=(await page.locator('body').innerText()).slice(0,4000);await shot('failure-'+step.replace(/[^a-z0-9-]/gi,'-'));}catch(captureError){result.captureError=String(captureError);}}result.passed=false;result.step=step;result.errors.push(String(e.stack||e));process.exitCode=1;}
+}catch(e){console.error('Falha na etapa: '+step,e);if(page){try{result.visibleText=(await page.locator('body').innerText()).slice(0,4000);await shot('failure-'+step.replace(/[^a-z0-9-]/gi,'-'));}catch(captureError){result.captureError=String(captureError);}}result.passed=false;result.step=step;result.errors.push(String(e.stack||e));process.exitCode=1;}
 finally{if(app)try{await close();}catch(e){result.errors.push(String(e));}persist();console.log(JSON.stringify({profile,passed:result.passed,step:result.step,errors:result.errors,closed:result.launches.map(x=>x.exitCode)}));}})();
