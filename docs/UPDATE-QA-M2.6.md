@@ -61,7 +61,7 @@ As origens 1.0.4 e 1.0.5 com Guard recusaram abrir a base fictícia marcada com 
 | Banco, usuário, permissões e Guard após atualização | Execuções 43596780998 e 43597240803 | Bases e perfis fictícios. |
 | Falha imediata ao iniciar o instalador | Execução 43597240803 | Evento simulado. Falha depois que o NSIS começa continua sem evidência. |
 | Retorno a executável anterior | Execução 43597240803 | Cópia compatível reaberta. Esquema futuro simulado recusado sem alteração dos bytes. |
-| Consulta HTTPS à origem pública configurada | Execução 43598510779 em andamento no fechamento deste registro | A candidata não foi publicada no canal público. |
+| Consulta HTTPS à origem pública configurada | A etapa passou na execução 43598589366 | A candidata foi distribuída pelo canal local de teste. |
 | Reabertura automática, reinicialização durante a instalação e assinatura | Pendente | Ainda exige evidência específica. |
 
 O relatório continua aberto até a execução dos cenários pendentes e a revisão da candidata final. O mesmo número 1.0.6 aparece em várias candidatas de teste. Use o identificador do build e a execução do GitHub para identificar o pacote analisado.
@@ -73,3 +73,7 @@ O manifesto, o instalador e o blockmap da [release pública 1.0.4](https://githu
 ### Origem embutida e assinatura da candidata
 
 A execução [43598010478](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43598010478) conferiu o provedor GitHub e o repositório EduT3/nexo-gestao-comercial no app-update.yml empacotado. O ZIP baixado continha o instalador 1.0.6 de 124.153.244 bytes, o blockmap e o manifesto com SHA-512 correspondente ao executável. A inspeção Authenticode classificou o instalador como sem assinatura. O hash comprova a correspondência com o manifesto da execução, enquanto a identidade do publicador continua sem validação por certificado.
+
+### Consulta HTTPS e retenção do instalador quando o teste falha
+
+Na execução [43598589366](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43598589366), o NEXO 1.0.4 instalado consultou o GitHub Releases pela origem configurada de fábrica e recebeu um estado de atualização válido antes de usar o canal de teste. A execução falhou posteriormente na verificação do histórico recolhido do caixa. O GitHub publicou o diagnóstico e reteve o ZIP com instalador, conforme a regra de distribuição. A confirmação da correção do histórico segue na execução 43599279108.
