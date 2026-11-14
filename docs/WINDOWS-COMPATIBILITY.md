@@ -55,3 +55,5 @@ Ainda não há defeitos específicos confirmados no Windows 10 ou 11 cliente. Fa
 ### Altura mínima da janela em escala elevada
 
 Com escala de 150%, o build NEXO-D9777AA12793DE3B recebeu um pedido de área de conteúdo de 910 × 512 pixels lógicos. A janela ficou com 921 × 650 pixels externos e 910 × 598 de conteúdo, por causa da altura mínima fixa. A correção limita as dimensões iniciais e mínimas das janelas principal e de recuperação à área útil do monitor principal. Os testes do cálculo e a compilação local passaram. A confirmação no pacote Windows após a correção segue pendente.
+
+A integração local com o Electron confirmou as duas janelas na compilação corrigida, com sandbox ativo e área útil de 910 × 480 pixels lógicos simulada antes da inicialização. A janela principal abriu com 910 × 480 e a recuperação, acionada por SQLite fictício inválido, com 901 × 480. O teste não mudou configurações do sistema.
