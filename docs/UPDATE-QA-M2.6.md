@@ -79,3 +79,12 @@ A execução [43598010478](https://github.com/EduT3/nexo-gestao-comercial/action
 Na execução [43598589366](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43598589366), o NEXO 1.0.4 instalado consultou o GitHub Releases pela origem configurada de fábrica e recebeu um estado de atualização válido antes de usar o canal de teste. A execução falhou posteriormente na verificação do histórico recolhido do caixa. O GitHub publicou o diagnóstico e reteve o ZIP com instalador, conforme a regra de distribuição. A confirmação da correção do histórico segue na execução 43599279108.
 
 A execução [43598510779](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43598510779) confirmou a consulta HTTPS e concluiu as atualizações controladas a partir de 1.0.4 e 1.0.5 com Guard. Os 242 testes automatizados passaram. O [ZIP aprovado](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43598510779/artifacts/14116091263) corresponde ao build NEXO-DA69ABFF1376B072 e antecede a mudança do histórico de caixa.
+
+## Recuperação após atualização interrompida
+
+1. Aguarde o instalador encerrar. Feche o NEXO antes de copiar a pasta de dados. Preserve a pasta completa em outro local, inclusive os arquivos do Guard e a cópia SQLite criada antes da atualização.
+2. Tente reinstalar o pacote compatível, obtido da distribuição oficial. Confira o tamanho e o SHA-512 com o manifesto do mesmo pacote. Retome a operação somente depois de abrir o NEXO e conferir usuários, Guard, vendas, estoque e caixa.
+3. Se a base não abrir, use a tela de recuperação para escolher uma cópia compatível. Confira a data da cópia antes de confirmar. Registros feitos após essa data precisarão ser reconciliados. Guarde os arquivos preservados pelo programa.
+4. Se precisar voltar para um executável anterior, teste primeiro com uma cópia dos dados em perfil isolado. Se a versão antiga recusar o esquema, preserve a base original e abra-a com uma versão compatível.
+
+O ensaio Windows comprovou a cópia pré-atualização, a recuperação da falha simulada de lançamento e a recusa de esquema futuro. O procedimento acima ainda precisa ser ensaiado após interrupção real do NSIS durante a instalação.
