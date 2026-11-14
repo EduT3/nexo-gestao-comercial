@@ -192,3 +192,8 @@ A execução [43534470859](https://github.com/EduT3/nexo-gestao-comercial/action
 ### Guard — revisão atual
 
 Candidata `fefab96`: execução [43535721498](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43535721498) aprovada com 236 testes, instalador e verificação do aplicativo em perfil fictício. Confirmação visual, troca de usuário e empresa, recuperação e retorno à versão anterior foram exercitados. PIN permanece em quatro dígitos; seis são trabalho futuro. Sem release estável ou merge.
+
+
+### Guard — teclado e foco
+
+A execução [43536830745](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43536830745), revisão `d450186`, aprovou 236 testes e validou foco, Tab, teclado físico, exclusão de dígitos e Escape no aplicativo Windows instalado. Instalador baixado e identificado no relatório do Guard; candidata sem release estável.

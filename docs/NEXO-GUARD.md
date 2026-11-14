@@ -41,11 +41,11 @@ A suíte local da revisão `8fc6036` passou 235 testes em 53 arquivos. A valida�
 | --- | --- | --- |
 | Ativação opcional, PIN e políticas | `tests/local-guard-store.test.ts`; integração Windows 43531850681 | A execução mais recente deve ser concluída. |
 | PIN, bloqueio, recuperação e falha na gravação | Testes do armazenamento temporário, incluindo tentativas concorrentes e chave rotativa | A política e a chave não integram o backup SQLite. |
-| Pedidos de uso único, concorrência, cancelamento e mudança de contexto | `tests/local-guard-broker.test.ts` e testes de mudança de política | A prova específica de troca de empresa usa o broker isolado; falta evidência integrada com instalação legada de múltiplas empresas. |
-| Permissões e IPC | Checagem no processo principal e teste Windows de chamada direta e recarga em 43531850681 | Teste Windows de troca de operador foi acrescentado na revisão `9d4ee7c` e ainda depende de execução. |
+| Pedidos de uso único, concorrência, cancelamento e mudança de contexto | `tests/local-guard-broker.test.ts` e testes de mudança de política | Troca de empresa também aprovada em base fictícia com duas empresas na execução 43536830745. |
+| Permissões e IPC | Checagem no processo principal e teste Windows de chamada direta e recarga em 43531850681 | Troca de operador e recusa de acesso administrativo aprovadas na execução 43536830745. |
 | Compatibilidade e regressões comerciais | Teste de instalação sobre 1.0.4, cópia/restauração e fluxos sintéticos em 43531850681; 235 testes locais | A cobertura não demonstra todas as combinações de instalações legadas nem homologação humana. |
-| Interface e acessibilidade | Diálogo nativo, teclado físico e botões exercitados em 43531850681 | Capturas em duas dimensões e sua inspeção visual estão pendentes de validação da revisão `8fc6036` ou posterior. |
-| Instalador Windows | Candidata de 43531850681 instalada e executada em perfil fictício | A candidata da revisão mais recente ainda precisa terminar e ser verificada. |
+| Interface e acessibilidade | Diálogo nativo, teclado físico e botões exercitados em 43531850681 | Capturas da configuração e do teclado inspecionadas em duas dimensões na execução 43535721498. |
+| Instalador Windows | Candidata de 43531850681 instalada e executada em perfil fictício | Candidata da revisão `d450186` instalada e verificada na execução 43536830745. |
 
 Estas evidências não certificam segurança contra acesso administrativo ao computador ou alteração dos arquivos locais. A conclusão do marco depende de resolver ou registrar explicitamente as lacunas de execução e validação acima.
 
@@ -65,3 +65,8 @@ As capturas da configuração e do teclado foram inspecionadas em 1000 × 650 e 
 A execução [43535721498](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43535721498), revisão `fefab96`, aprovou 236 testes em 53 arquivos, empacotamento, instalação, atualização sobre 1.0.4 e roteiro de aplicativo com dados fictícios. O roteiro verificou a confirmação visível após autorizar backup, as trocas de operador e empresa, o bloqueio de IPC direto e a recuperação com PIN. O instalador baixado `NEXO-Setup-1.0.5.exe` tem SHA-256 `471D5D832150787CEFDE32FFDBB78C3439D6BCE920EA80D6088CF6A38EB31115` e está no artefato `nexo-windows` da execução, com retenção até 28/11/2026. Não é release estável.
 
 O comprimento do PIN é transmitido da política para o diálogo e seus campos; a política e a recuperação na abertura continuam implementadas somente para quatro dígitos. A opção de seis dígitos exige implementação e teste futuros, incluindo migração e recuperação.
+
+
+## Validação de teclado e foco
+
+A execução [43536830745](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43536830745) aprovou 236 testes em 53 arquivos e o roteiro no instalador da revisão `d450186`. No diálogo, foram testados foco inicial, Tab, teclado físico, Backspace, botão para apagar e ausência dos dígitos digitados no texto do diálogo; Escape também foi exercitado no cancelamento do desconto. O artefato `nexo-windows` foi baixado e sua build é `NEXO-246E464A5C4B9E3B`; o SHA-256 do instalador é `4DC2325400FE5743FE0826B18266735EE570C0970520F24366B5D5779A5CB61A`. O artefato expira em 28/11/2026 e permanece candidato de teste.
