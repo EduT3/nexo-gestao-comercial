@@ -49,6 +49,23 @@ async function shot(name,{top=true}={}){
  await capture();await page.waitForTimeout(220);
  const png=await capture();assert(png.length>3000);fs.writeFileSync(path.join(profile,name+'.png'),Buffer.from(png,'base64'));result.screenshots.push(name+'.png');persist();
 }
+async function measureInstalledFinance(version) {
+ const snapshots={};
+ for (const method of ['payablesPage','receivablesPage']) {
+  const filter={status:'ALL',page:0,today:'2026-11-14'};
+  const expected=await call(method,A,filter);
+  const samples=[];
+  for(let index=0;index<12;index++){
+   const started=performance.now();
+   const actual=await call(method,A,filter);
+   samples.push(+(performance.now()-started).toFixed(3));
+   assert.deepEqual(actual,expected);
+  }
+  timings.push({operation:method,version,samples,records:expected.total});
+  snapshots[method]=expected;
+ }
+ return snapshots;
+}
 async function measureInstalledExport(version) {
  const started=performance.now();
  assert.equal((await call('exportExcel',A)).canceled,false);
@@ -171,6 +188,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
    check('Aplicativo instalado consultou o GitHub Releases pelo canal público HTTPS configurado.');
   }
   step='medição da versão instalada antes de atualizar';
+  const financeBefore=await measureInstalledFinance(sourceBuild.productVersion);
   await measureInstalledExport(sourceBuild.productVersion);
   step='consulta e download pelo atualizador instalado';
   const setup = path.basename(process.env.NEXO_QA_SETUP);
@@ -307,6 +325,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   assert.equal((await call('status')).userId,owner);
   check('Após atualizar, o Windows reabriu a candidata com os mesmos usuários, vínculos e registros comerciais.');
   step='medição da candidata após atualizar';
+  assert.deepEqual(await measureInstalledFinance(id.productVersion),financeBefore);
   await measureInstalledExport(id.productVersion);
   if(originalGuard){
    const updatedGuard=await call('guardStatus');
