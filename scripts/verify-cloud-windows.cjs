@@ -172,6 +172,17 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
    await expect(updatePanel.getByRole('button',{name:'Reiniciar e atualizar',exact:true})).toHaveCount(0);
    check('O atualizador rejeitou o instalador com hash divergente e manteve a versão anterior.');
    await feed.setManifest(manifest);
+   step='download interrompido pelo canal de atualização';
+   feed.interruptDownload(setup);
+   await updatePanel.getByRole('button',{name:'Verificar atualização',exact:true}).click();
+   await expect(download).toBeVisible({timeout:30000});
+   await download.click();
+   await expect.poll(async()=>(await call('updateStatus')).phase,{timeout:120000}).toBe('error');
+   assert(feed.requests.some(request=>request.method==='GET'&&request.interrupted));
+   assert.equal(buildAt(program).id,sourceBuild.id);
+   await expect(updatePanel.getByRole('button',{name:'Reiniciar e atualizar',exact:true})).toHaveCount(0);
+   check('Download interrompido manteve a versão anterior e bloqueou a instalação.');
+   feed.interruptDownload(null);
    await updatePanel.getByRole('button',{name:'Verificar atualização',exact:true}).click();
    const started=performance.now();
    await download.click();

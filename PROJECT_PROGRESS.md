@@ -239,3 +239,9 @@ A execução [43542065192](https://github.com/EduT3/nexo-gestao-comercial/action
 ### M2.6 — conteúdo do backup e preservação dos registros
 
 A execução Windows [43542456692](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43542456692), revisão 1e446e5, confirmou uma única cópia SQLite pré-atualização, integridade da cópia e igualdade dos registros de 16 tabelas com a base anterior. Após instalar e reabrir, a base ativa também manteve esses registros e o responsável voltou a entrar com o mesmo identificador. O roteiro usou perfil fictício e canal local de teste. A preservação do Guard já ativado na versão de origem ainda requer uma origem que inclua o recurso.
+
+### M2.6 — atualização Windows com Guard ativo
+
+A execução Windows [43543550789](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43543550789), revisão 4ccfc3e, aprovou a instalação pelo atualizador da candidata 1.0.6 em perfil fictício. A origem com Guard ativo veio do instalador de teste da execução 43536830745. O roteiro confirmou a preservação da política e do PIN de origem após a atualização. O instalador, o blockmap, o latest.yml e as evidências foram publicados no [artefato temporário nexo-windows](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43543550789/artifacts/14093078381). A auditoria automatizada confirmou a versão 1.0.6, o tamanho de 124152958 bytes e o SHA-512 do instalador em relação ao manifesto.
+
+A execução usou um canal de teste em loopback e acionou o NSIS silenciosamente, com reabertura controlada pelo roteiro. Seguem pendentes a validação de um canal HTTPS de distribuição, instalação com retorno automático, interrupção de download, falha de execução do instalador e recuperação com migração incompatível.

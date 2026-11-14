@@ -14,6 +14,7 @@ async function startUpdateQaFeed(directory, filenames) {
     files.set('/' + encodeURIComponent(name), { file, size: info.size });
   }
   const requests = [];
+  let interruptedPath;
   const server = createServer((request, response) => {
     const pathname = request.url.split('?')[0];
     requests.push({ method: request.method, pathname });
@@ -22,10 +23,20 @@ async function startUpdateQaFeed(directory, filenames) {
       response.writeHead(404).end();
       return;
     }
+    if (pathname === interruptedPath) response.setHeader('Connection', 'close');
     // Serving full responses also exercises the updater's full-download fallback.
     response.writeHead(200, { 'Content-Length': entry.size, 'Content-Type': 'application/octet-stream' });
     if (request.method === 'HEAD') {
       response.end();
+      return;
+    }
+    if (pathname === interruptedPath) {
+      requests.at(-1).interrupted = true;
+      const partial = createReadStream(entry.file, { end: 65535 });
+      partial.on('error', () => response.destroy());
+      response.on('close', () => partial.destroy());
+      partial.on('data', chunk => response.write(chunk));
+      partial.on('end', () => response.end());
       return;
     }
     const stream = createReadStream(entry.file);
@@ -40,6 +51,11 @@ async function startUpdateQaFeed(directory, filenames) {
   return {
     url: 'http://127.0.0.1:' + server.address().port + '/',
     requests,
+    interruptDownload(name) {
+      const pathname = name === null ? undefined : '/' + encodeURIComponent(name);
+      if (pathname && !files.has(pathname)) throw Error('Update fixture is not configured');
+      interruptedPath = pathname;
+    },
     async setManifest(file) {
       const entry = files.get('/latest.yml');
       if (!entry) throw Error('Update manifest is not configured');
