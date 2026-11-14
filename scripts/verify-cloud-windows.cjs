@@ -339,8 +339,10 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   updater.checkForUpdates=async()=>({isUpdateAvailable:true,updateInfo:{version:'99.0.0'}});
   updater.downloadUpdate=async()=>[];
   updater.quitAndInstall=()=>updater.emit('error',new Error('Falha de execução simulada'));
-  dialog.showMessageBox=async()=>({response:1});
-  dialog.showErrorBox=(title)=>{globalThis.nexoQaUpdateError=title;};
+  const confirm=dialog.showMessageBox;
+  const report=dialog.showErrorBox;
+  dialog.showMessageBox=async()=>{dialog.showMessageBox=confirm;return {response:1};};
+  dialog.showErrorBox=(title)=>{dialog.showErrorBox=report;globalThis.nexoQaUpdateError=title;};
  });
  assert.equal((await call('checkUpdate')).phase,'available');
  assert.equal((await call('downloadUpdate')).phase,'ready');
@@ -552,6 +554,29 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   assert.equal((await call('salesHistory',A,{})).total,5);
   await close();assert.deepEqual(dbCheck(),before);
   check('Dados preservados na candidata e acessíveis ao voltar ao executável anterior.');
+  step='retorno bloqueado com versão SQLite incompatível';
+  assert(path.resolve(dbfile).startsWith(path.resolve(profile)+path.sep));
+  const compatible=fs.readFileSync(dbfile);
+  const future=new DatabaseSync(dbfile);
+  try {
+   const version=Number(future.prepare('PRAGMA user_version').get().user_version);
+   future.exec('PRAGMA user_version='+ (version+1));
+  } finally { future.close(); }
+  const incompatible=fs.readFileSync(dbfile);
+  assert.notDeepEqual(incompatible,compatible);
+  app=await _electron.launch({executablePath:path.join(baseline,'NEXO.exe'),args:['--user-data-dir='+d['user-data'],'--disk-cache-dir='+d.cache],cwd:O,env,chromiumSandbox:true,timeout:30000});
+  child=app.process();result.launches.push({pid:child.pid});persist();
+  page=await app.firstWindow();
+  await page.waitForURL('file:///**/recovery.html');
+  await expect(page.locator('body')).toContainText(/outra versão do NEXO|versão compatível/i);
+  await close();
+  assert.deepEqual(fs.readFileSync(dbfile),incompatible);
+  fs.writeFileSync(dbfile,compatible);
+  await open(baseline);await login();
+  assert.equal((await call('salesHistory',A,{})).total,5);
+  await close();assert.deepEqual(dbCheck(),before);
+  check('Executável anterior recusou a cópia com versão SQLite futura sem alterar seus bytes. A cópia compatível reabriu com as cinco vendas.');
+
  }
  step='troca de empresa em base fictícia legada';
  assert(path.resolve(dbfile).startsWith(path.resolve(profile)+path.sep));
