@@ -252,6 +252,25 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
    assert.equal(updatedGuard.enabled,originalGuard.enabled);
    assert.equal(updatedGuard.all,originalGuard.all);
    assert.deepEqual(updatedGuard.actions,originalGuard.actions);
+   const persistedBackup=path.join(profile,'guard-preserved-backup.sqlite');
+   await app.evaluate(({dialog},file)=>{
+    dialog.showSaveDialog=async()=>({canceled:false,filePath:file});
+   },persistedBackup);
+   const pendingBackup=call('backup');
+   const preservedPrompt=page.getByRole('dialog',{name:'Autorização administrativa'});
+   await expect(preservedPrompt.getByText('Gerar backup',{exact:true})).toBeVisible();
+   assert.equal(fs.existsSync(persistedBackup),false);
+   await page.keyboard.type('0123');
+   await preservedPrompt.getByRole('button',{name:'Autorizar',exact:true}).click();
+   assert.equal((await pendingBackup).canceled,false);
+   assert(fs.existsSync(persistedBackup));
+   await app.evaluate(({dialog},folder)=>{
+    dialog.showSaveDialog=async(_window,options)=>{
+     if(options.title==='Exportar relatório Excel')return {canceled:false,filePath:folder+'/relatorio.xlsx'};
+     if(options.title==='Guardar cópia de segurança')return {canceled:false,filePath:folder+'/backup.sqlite'};
+     throw Error('Diálogo inesperado: '+options.title);
+    };
+   },profile);
    await assert.rejects(()=>call('guardConfigure',{enabled:false,all:true,actions:[],currentPin:'9999'}),/PIN incorreto/i);
    await call('guardConfigure',{enabled:false,all:true,actions:[],currentPin:'0123'});
    check('A atualização preservou a política do Guard e o PIN de origem.');
