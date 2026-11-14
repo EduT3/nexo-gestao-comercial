@@ -18,3 +18,8 @@ A execução Windows [43541022951](https://github.com/EduT3/nexo-gestao-comercia
 A execução [43541207713](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43541207713) confirmou que cancelar manteve a versão anterior aberta, sem criar backup e com o download pronto para tentar novamente. Na nova tentativa, o botão iniciou o instalador e gerou o backup antes do fechamento. A reabertura encontrou uma dependência ausente naquele momento. A revisão ce3aa84 passou a aguardar a presença e o tamanho de todos os arquivos do aplicativo antes de reabrir. A confirmação da reabertura está na execução [43541885976](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43541885976).
 
 A execução [43541307995](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43541307995) confirmou a rejeição do hash divergente e preservou a versão anterior antes da nova tentativa. A reabertura após a tentativa válida ainda falhou nessa revisão.
+
+
+### M2.6 — atualização pelo botão e reabertura confirmadas
+
+A execução [43541885976](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43541885976), revisão ce3aa84, aprovou a atualização 1.0.4 → candidata 1.0.5 pelo botão do NEXO em perfil fictício. O roteiro rejeitou hash divergente, baixou o instalador válido, cancelou e retomou a instalação, conferiu a criação do backup e aguardou a extração dos arquivos antes de reabrir. As cinco vendas permaneceram acessíveis na candidata e no executável anterior. A ajuda global também abriu em janela compacta e devolveu o foco ao fechar. A validação de todos os registros comparados e do conteúdo da cópia pré-atualização segue na execução 43542456692.
