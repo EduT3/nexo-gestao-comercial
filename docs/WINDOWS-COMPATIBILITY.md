@@ -51,3 +51,7 @@ A primeira abertura medida no roteiro ficou em 571 ms. Dez reaberturas medidas f
 O ensaio SQLite existente usa bases fictícias de 1.000, 10.000 e 50.000 produtos. O relatório M2 também registra inicialização, memória, CPU e Excel no runner, com as limitações de amostragem. Nenhum desses ensaios compara os dois sistemas cliente nas mesmas condições. O mínimo do NEXO segue sem medição, e o perfil de 8 GB é o ponto de partida da bancada. [Benchmarks SQLite](benchmarks/catalogo-m2.json) · [Relatório M2](EVOLUCAO-M2.md) · [Cenários de atualização](UPDATE-QA-M2.6.md)
 
 Ainda não há defeitos específicos confirmados no Windows 10 ou 11 cliente. Falhas e correções do empacotamento e do atualizador no Windows Server permanecem nos relatórios técnicos. Nenhuma alteração de dependência foi feita para a matriz.
+
+### Altura mínima da janela em escala elevada
+
+Com escala de 150%, o build NEXO-D9777AA12793DE3B recebeu um pedido de área de conteúdo de 910 × 512 pixels lógicos. A janela ficou com 921 × 650 pixels externos e 910 × 598 de conteúdo, por causa da altura mínima fixa. A correção limita as dimensões iniciais e mínimas das janelas principal e de recuperação à área útil do monitor principal. Os testes do cálculo e a compilação local passaram. A confirmação no pacote Windows após a correção segue pendente.

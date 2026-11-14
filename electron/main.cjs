@@ -1,5 +1,6 @@
-const { app, BrowserWindow, ipcMain, dialog, shell } = require('electron');
+const { app, BrowserWindow, ipcMain, dialog, shell, screen } = require('electron');
 const path = require('node:path');
+const { fitWindowToWorkArea } = require('./window-size.cjs');
 const {readBuildInfo}=require('./build-info.cjs');
 const releasesUrl = 'https://github.com/EduT3/nexo-gestao-comercial/releases';
 const { pathToFileURL } = require('node:url');
@@ -325,7 +326,7 @@ else app.whenReady().then(async () => {
       return { canceled: false };
     } finally { recovering = false; }
   });
-  window = new BrowserWindow({ width: 1200, height: 800, minWidth: 900, minHeight: 650, icon: path.join(root, 'dist/client/nexo-icon.png'),
+  window = new BrowserWindow({ ...fitWindowToWorkArea({ width: 1200, height: 800, minWidth: 900, minHeight: 650 }, screen.getPrimaryDisplay().workAreaSize), icon: path.join(root, 'dist/client/nexo-icon.png'),
     show: process.env.NEXO_TEST_HIDE_WINDOW !== '1',
     webPreferences: { preload: path.join(__dirname, 'preload.cjs'), contextIsolation: true, nodeIntegration: false, sandbox: true,
       backgroundThrottling: process.env.NEXO_TEST_HIDE_WINDOW !== '1' } });

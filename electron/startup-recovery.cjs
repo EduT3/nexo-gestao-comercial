@@ -1,11 +1,12 @@
-const { BrowserWindow, ipcMain, dialog, shell, app } = require('electron');
+const { BrowserWindow, ipcMain, dialog, shell, app, screen } = require('electron');
 const path = require('node:path');
+const { fitWindowToWorkArea } = require('./window-size.cjs');
 const { unlink, writeFile } = require('node:fs/promises');
 const { randomUUID } = require('node:crypto');
 exports.showStartupRecovery = async function ({ folder, error, services, pendingOperations, guardStore }) {
   let candidate, busy = false, continuing = false;
   const channels = [];
-  const window = new BrowserWindow({ width: 900, height: 740, minWidth: 700, minHeight: 600,
+  const window = new BrowserWindow({ ...fitWindowToWorkArea({ width: 900, height: 740, minWidth: 700, minHeight: 600 }, screen.getPrimaryDisplay().workAreaSize),
     show: process.env.NEXO_TEST_HIDE_WINDOW !== '1',
     webPreferences: { preload: path.join(__dirname, 'recovery-preload.cjs'), contextIsolation: true,
       nodeIntegration: false, sandbox: true, backgroundThrottling: process.env.NEXO_TEST_HIDE_WINDOW !== '1' } });
