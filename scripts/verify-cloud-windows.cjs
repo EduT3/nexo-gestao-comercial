@@ -58,6 +58,12 @@ async function measureInstalledFinance(version) {
  for (const method of ['payablesPage','receivablesPage']) {
   const filter={status:'ALL',page:0,today:'2026-11-14'};
   const expected=await call(method,A,filter);
+  assert.equal(expected.total,60);
+  assert.equal(expected.rows.length,50);
+  const lastPage=await call(method,A,{...filter,page:1});
+  assert.equal(lastPage.total,60);
+  assert.equal(lastPage.rows.length,10);
+  assert.equal(new Set([...expected.rows,...lastPage.rows].map(row=>row.id)).size,60);
   const samples=[];
   for(let index=0;index<12;index++){
    const started=performance.now();
@@ -66,7 +72,7 @@ async function measureInstalledFinance(version) {
    assert.deepEqual(actual,expected);
   }
   timings.push({operation:method,version,samples,records:expected.total});
-  snapshots[method]=expected;
+  snapshots[method]={firstPage:expected,lastPage};
  }
  return snapshots;
 }
@@ -190,6 +196,19 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
    assert.match((await call('updateStatus')).version,/^\d+\.\d+\.\d+$/);
    assert.equal(buildAt(program).id,sourceBuild.id);
    check('Aplicativo instalado consultou o GitHub Releases pelo canal público HTTPS configurado.');
+  }
+  step='preparar as contas fictícias para a comparação antes e depois';
+  const supplier=await call('createPerson',A,'supplier',{name:'Fornecedor de desempenho QA'});
+  const customer=await call('createPerson',A,'customer',{name:'Cliente de desempenho QA'});
+  for(let index=0;index<60;index++){
+   const dueDate='2026-11-'+String(1+index%28).padStart(2,'0');
+   await call('receivePurchase',A,crypto.randomUUID(),{
+    supplierId:supplier.id,items:[{productId:product,quantity:'1',unitCostCents:200+index}],payable:{dueDate},
+   });
+   await call('createReceivable',A,crypto.randomUUID(),{
+    customerId:customer.id,description:'Conta fictícia '+index,category:'QA',
+    amountCents:300+index,dueDate,
+   });
   }
   step='medição da versão instalada antes de atualizar';
   const financeBefore=await measureInstalledFinance(sourceBuild.productVersion);
@@ -455,8 +474,8 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  step='Excel e atualizador';
  assert.equal((await call('exportExcel',A)).canceled,false);
  assert.equal(fs.readFileSync(path.join(profile,'relatorio.xlsx')).subarray(0,2).toString(),'PK');
- assert.equal((await call('updateStatus')).phase,'idle');
- check('Exportação XLSX e inicialização do atualizador no app instalado.');
+ assert.equal((await call('updateStatus')).phase,requireUpdateReceipt?'completed':'idle');
+ check('Exportação XLSX e estado do atualizador no app instalado.');
  step='falha imediata ao iniciar instalador na candidata';
  const beforeLaunchFailure=commercialSnapshot(dbfile);
  const existingUpdateBackups=new Set(fs.readdirSync(path.dirname(dbfile)));
