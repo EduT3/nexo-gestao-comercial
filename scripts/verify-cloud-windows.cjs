@@ -309,6 +309,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
    const digest=file=>crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
    assert.equal(digest(path.join(installedApp,relative)),digest(path.join(packedApp,relative)),relative);
   }
+  timings.push({operation:'update-install',version:id.productVersion,ms:Math.round(performance.now()-installStarted)});
   if (autoRelaunch) {
    step='reabertura automática pelo instalador';
    const query=command=>execFileSync('powershell.exe',['-NoProfile','-NonInteractive','-Command',command],{
@@ -321,12 +322,12 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
     return relaunchedPid;
    },{timeout:60000}).toMatch(/^\d+$/);
    assert.notEqual(Number(relaunchedPid),child.pid);
+   timings.push({operation:'update-window-detected',version:id.productVersion,ms:Math.round(performance.now()-installStarted)});
    const relaunchedProcess='Get-Process -Id '+relaunchedPid+' -ErrorAction SilentlyContinue | Where-Object { $_.Path -eq $env:NEXO_QA_INSTALLED_EXE }';
    assert.equal(query(relaunchedProcess+' | ForEach-Object { $_.CloseMainWindow() }'),'True');
    await expect.poll(()=>query(relaunchedProcess+' | Select-Object -ExpandProperty Id'),{timeout:30000}).toBe('');
    check('O NSIS reabriu o executável instalado e criou uma janela sem lançamento manual no runner descartável.');
   }
-  timings.push({operation:'update-install',version:id.productVersion,ms:Math.round(performance.now()-installStarted)});
   const updateBackups=fs.readdirSync(path.dirname(dbfile))
    .filter(name=>/^before-update-.*\.sqlite$/.test(name)&&!backupsBefore.includes(name));
   assert.equal(updateBackups.length,1);
