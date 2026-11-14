@@ -726,14 +726,21 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   const setup=path.resolve(process.env.NEXO_QA_SETUP);
   const target=fs.mkdtempSync(path.join(process.env.RUNNER_TEMP,'nexo-interrupted-'));
   const args=['/S','/D='+target];
-  const installer=spawn(setup,args,{env,windowsHide:true,stdio:'ignore'});
+  const options={env,windowsHide:true,timeout:120000};
+  await runExecutable(process.env.NEXO_QA_GUARD_SETUP,args,options);
+  assert.equal(buildAt(target).id,buildAt(baseline).id);
+  const clientAssets='resources/app/dist/client/assets';
+  const candidateAssets=fs.readdirSync(path.join('artifacts/installer/win-unpacked',clientAssets));
+  const newAsset=candidateAssets.find(name=>name.startsWith('index-')&&name.endsWith('.js')&&!fs.existsSync(path.join(target,clientAssets,name)));
+  assert(newAsset,'A candidata deve ter um arquivo de interface distinto para observar a substituicao.');
+  const installer=spawn(setup,['--updated',...args],{env,windowsHide:true,stdio:'ignore'});
   const exited=new Promise((resolve,reject)=>{
    installer.once('error',reject);
    installer.once('exit',(code,signal)=>resolve({code,signal}));
   });
   // Observe a file written by NSIS before terminating only this test installer.
   try {
-   await expect.poll(()=>fs.existsSync(path.join(target,'NEXO.exe')),{timeout:30000,intervals:[20]}).toBe(true);
+   await expect.poll(()=>fs.existsSync(path.join(target,clientAssets,newAsset)),{timeout:30000,intervals:[20]}).toBe(true);
    assert.equal(installer.exitCode,null);
    assert(installer.kill());
   } finally {
@@ -741,7 +748,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
    assert.notEqual((await exited).code,0);
   }
   assert.deepEqual(commercialSnapshot(dbfile),records);
-  await runExecutable(setup,args,{env,windowsHide:true,timeout:120000});
+  await runExecutable(setup,args,options);
   assert.equal(buildAt(target).id,id.id);
   await open(target);await login();
   assert.equal((await call('salesHistory',A,{})).total,5);

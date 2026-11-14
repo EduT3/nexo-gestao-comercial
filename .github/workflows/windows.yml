@@ -61,6 +61,7 @@ jobs:
           $env:NEXO_QA_BASELINE = $snapshot
           $env:NEXO_QA_PROGRAM = $destination
           $env:NEXO_QA_REQUIRE_GUARD_SOURCE = '1'
+          $env:NEXO_QA_GUARD_SETUP = $setup
           node scripts/verify-cloud-windows.cjs
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Verificar arquivos de distribuicao
