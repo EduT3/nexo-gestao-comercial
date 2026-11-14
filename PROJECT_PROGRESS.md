@@ -214,3 +214,8 @@ O processo principal agora sinaliza o PIN aceito depois das verificações de pe
 ### M2.6 — auditoria inicial do atualizador
 
 O atualizador libera a instalação apenas após download bem-sucedido e evita confirmações simultâneas. Quatro testes simulados passaram. A validação instalada permanece pendente. Veja docs/UPDATE-QA-M2.6.md.
+
+
+### M2.1 — resultado da primeira candidata Windows
+
+A execução [43539993490](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43539993490), revisão 8e513a9, confirmou no aplicativo instalado que cancelar a autorização no cadastro mantém o rascunho e não grava o produto. Uma nova solicitação com PIN correto gravou um único produto. A suíte local posterior de 1dd18fd passou 237 testes em 53 arquivos. A validação integrada de PIN incorreto segue na execução 43540152770.
