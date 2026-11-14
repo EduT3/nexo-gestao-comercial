@@ -177,3 +177,8 @@ Candidata Windows 1.0.3 preparada com botão de atualização pelo GitHub, açõ
 ## NEXO Guard M1
 
 Implementação candidata na branch de trabalho. A integração Windows verifica configuração, bloqueio de IPC, teclado de PIN e persistência após reabrir.
+
+
+### Guard — autorização pendente e validação
+
+A revisão `0f29d10` impede que alteração da política dispense o PIN de uma solicitação já protegida. A suíte local passou 235 testes em 53 arquivos na revisão `8fc6036`. A execução Windows [43533630029](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43533630029), incluindo duas dimensões para a interface do Guard, está em andamento; o instalador dessa revisão ainda não foi homologado. Detalhes e limitações: [NEXO-GUARD.md](docs/NEXO-GUARD.md).

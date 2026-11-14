@@ -428,3 +428,8 @@ Instalação sobre a 1.0.4, persistência, recuperação e benchmarks registrado
 ## NEXO Guard M1
 
 A candidata inclui configuração opcional do Guard, PIN de quatro dígitos, autorização de uso único no processo principal e chave individual de recuperação. A validação Windows segue na execução https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43500559656.
+
+
+### Guard — autorização pendente e validação
+
+A revisão `0f29d10` impede que alteração da política dispense o PIN de uma solicitação já protegida. A suíte local passou 235 testes em 53 arquivos na revisão `8fc6036`. A execução Windows [43533630029](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43533630029), incluindo duas dimensões para a interface do Guard, está em andamento; o instalador dessa revisão ainda não foi homologado. Detalhes e limitações: [NEXO-GUARD.md](NEXO-GUARD.md).

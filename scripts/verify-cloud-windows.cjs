@@ -211,6 +211,18 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  check('Venda comum sem PIN, desconto cancelado sem gravação e política mantida após restaurar.');
  await close();await open();await login();
  assert.equal((await call('guardStatus')).enabled,true);
+ step='troca de usuário e permissões do Guard';
+ await page.evaluate(()=>{window.nexoLocal.registerGuardPrompt(null);});
+ const pendingFailure=await call('backup').then(()=>{throw Error('Backup sem autorização');},error=>String(error));
+ const pendingId=/NEXO_GUARD_REQUIRED:([0-9a-f-]{36})/.exec(pendingFailure)?.[1];
+ assert(pendingId,'O backup deve aguardar autorização');
+ await call('logout');await call('login',operator.id);
+ await assert.rejects(()=>call('guardApprove',pendingId,'0123'),/expirada/i);
+ await assert.rejects(()=>call('guardConfigure',{enabled:false,all:true,actions:[],currentPin:'0123'}));
+ await assert.rejects(()=>call('backup'));
+ await call('logout');await call('login',owner);
+ assert.equal((await call('guardStatus')).enabled,true);
+ check('Troca de usuário invalida solicitação; operador não configura Guard nem executa backup.');
  step='recuperação na abertura com Guard';
  await close();
  assert(path.resolve(dbfile).startsWith(path.resolve(profile)+path.sep));
