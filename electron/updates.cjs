@@ -5,8 +5,9 @@ function createUpdates(updater) {
  updater.allowDowngrade = false;
  let state = {phase:'idle'};
  updater.on('error', () => { state={phase:'error'}; });
- updater.on('download-progress', progress => { state={phase:'downloading',percent:Math.round(progress.percent)}; });
- updater.on('update-downloaded', () => { state={phase:'ready'}; });
+ updater.on('download-progress', progress => {
+  if (state.phase==='downloading') state={...state,percent:Math.round(progress.percent)};
+ });
  return {
   status: () => ({...state}),
   async check() {

@@ -17,6 +17,7 @@ let quitting = false;
 let readyToQuit = false;
 let updates;
 let installUpdate = false;
+let confirmingUpdate = false;
 const pendingOperations = new Set();
 if (!app.requestSingleInstanceLock()) app.quit();
 else app.whenReady().then(async () => {
@@ -157,12 +158,18 @@ else app.whenReady().then(async () => {
   handle('nexo:update-download', () => { requireActor(); if(!updates) throw Error('Use o instalador para atualizar.'); return updates.download(); });
   handle('nexo:update-install', async () => {
     await requireBackupAdministrator();
-    if(updates?.status().phase!=='ready') throw Error('Baixe a atualização primeiro.');
-    const answer=await dialog.showMessageBox(window,{type:'question',title:'Atualizar NEXO',message:'Salvar uma cópia e reiniciar para atualizar?',detail:'Conclua os formulários em andamento antes de continuar.',buttons:['Continuar trabalhando','Atualizar agora'],cancelId:0,defaultId:0});
-    if(answer.response!==1) return;
-    await db.backup(path.join(dataFolder,'before-update-'+Date.now()+'.sqlite'));
-    installUpdate=true;
-    setImmediate(()=>app.quit());
+    if (confirmingUpdate || installUpdate) throw Error('Já existe uma instalação de atualização em andamento.');
+    confirmingUpdate = true;
+    try {
+      if(updates?.status().phase!=='ready') throw Error('Baixe a atualização primeiro.');
+      const answer=await dialog.showMessageBox(window,{type:'question',title:'Atualizar NEXO',message:'Salvar uma cópia e reiniciar para atualizar?',detail:'Conclua os formulários em andamento antes de continuar.',buttons:['Continuar trabalhando','Atualizar agora'],cancelId:0,defaultId:0});
+      if(answer.response!==1) return;
+      await db.backup(path.join(dataFolder,'before-update-'+Date.now()+'.sqlite'));
+      installUpdate=true;
+      setImmediate(()=>app.quit());
+    } finally {
+      confirmingUpdate = false;
+    }
   });
   handle('nexo:status', async () => {
     const users = await listNamedUsers(db);

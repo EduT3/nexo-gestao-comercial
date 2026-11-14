@@ -37,3 +37,19 @@ it('consulta concorrente não dispara outra requisição',async()=>{
  await pending;
  expect(updater.checkForUpdates).toHaveBeenCalledTimes(1);
 });
+
+it('does not allow installation on a download event before successful completion', async () => {
+ const {updater,service}=fixture();
+ await service.check();
+ let rejectDownload!: (error: Error) => void;
+ updater.downloadUpdate.mockImplementationOnce(() => new Promise<void>((_, reject) => { rejectDownload = reject; }));
+ const download=service.download();
+ updater.emit('update-downloaded');
+ expect(service.status().phase).toBe('downloading');
+ expect(() => service.install()).toThrow();
+ rejectDownload(new Error('hash inválido'));
+ expect(await download).toEqual({phase:'error'});
+ updater.emit('download-progress',{percent:100});
+ expect(service.status().phase).toBe('error');
+ expect(updater.quitAndInstall).not.toHaveBeenCalled();
+});
