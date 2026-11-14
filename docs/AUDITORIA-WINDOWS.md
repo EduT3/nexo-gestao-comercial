@@ -37,6 +37,12 @@ A seleção do nome registra a identidade declarada. Qualquer pessoa que possa a
 
 A suíte cobre falha de substituição da base, preservação dos arquivos originais e nova tentativa. O instalador 1.0.4 publicado tem 148.655.544 bytes e foi usado como referência de distribuição. O manifesto publicado tem o SHA-512 do instalador. A assinatura Authenticode e o ciclo do atualizador entre duas releases públicas são verificações próprias.
 
+## Falha da execução NEXO Windows nº 6
+
+Na [execução 43487203493](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43487203493), os 222 testes passaram. O primeiro erro fatal ocorreu depois, no empacotamento. O gancho after-pack interrompeu a compilação com a mensagem de dependência Windows ausente para string_decoder. A compilação terminou antes de gerar o conjunto de distribuição.
+
+O commit d2d3a5d passou a usar o bundle Excel já utilizado no pacote portátil e manteve a auditoria da árvore do atualizador e do Zod. O workflow também passou a verificar o EXE, o blockmap, o manifesto e seus hashes antes de disponibilizar o pacote. O caminho de publicação fica em artifacts/installer e os relatórios em artifacts/cloud-qa. A execução [43599952832](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43599952832) aprovou 242 testes, instalou a candidata nos dois perfis Windows e disponibilizou o ZIP. O instalador baixado coincidiu com o tamanho e SHA-512 do manifesto.
+
 ## Validação do instalador
 
 [Execução Windows 43488248174](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43488248174), commit `d0ba483`. A suíte executou 222 testes. O ensaio instalado criou dados na 1.0.4, executou o instalador da candidata sobre o mesmo diretório e conferiu integridade SQLite, chaves estrangeiras, vendas e saldo. Também verificou exportação XLSX, restauração, reabertura e retorno ao executável 1.0.4 preservado. A suíte local de falhas incluiu falha injetada na substituição da base. A instalação foi comandada pelo teste e o retorno foi feito pelo executável preservado. A troca iniciada pelo botão do atualizador e uma falha durante a substituição dos binários ainda precisam de ensaio próprio.
