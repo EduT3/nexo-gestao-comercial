@@ -769,10 +769,13 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   assert(path.resolve(pendingPublicCache).startsWith(path.resolve(d.local)+path.sep));
   const cachedFiles=fs.existsSync(pendingPublicCache)?fs.readdirSync(pendingPublicCache):[];
   assert(!cachedFiles.some(name=>name.includes('1.0.4')&&name.endsWith('.exe')));
-  const publicUpdate=await call('checkUpdate');
-  assert.equal(publicUpdate.phase,'available');
-  assert.equal(publicUpdate.version,'1.0.4');
-  assert.equal((await call('downloadUpdate')).phase,'ready');
+  await page.getByRole('button',{name:'Configurações',exact:true}).click();
+  const publicPanel=page.getByRole('region',{name:'Atualização do NEXO'});
+  await publicPanel.getByRole('button',{name:'Verificar atualização',exact:true}).click();
+  const publicDownload=publicPanel.getByRole('button',{name:'Baixar versão 1.0.4',exact:true});
+  await expect(publicDownload).toBeVisible({timeout:45000});
+  await publicDownload.click();
+  await expect(publicPanel.getByRole('button',{name:'Reiniciar e atualizar',exact:true})).toBeVisible({timeout:120000});
   const publicInstaller=await app.evaluate(()=>process.mainModule.require('electron-updater').autoUpdater.installerPath);
   assert(publicInstaller);
   assert.equal(crypto.createHash('sha256').update(fs.readFileSync(publicInstaller)).digest('hex'),
