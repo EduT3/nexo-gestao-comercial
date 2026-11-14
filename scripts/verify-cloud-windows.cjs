@@ -391,6 +391,17 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  assert.equal((await call('products',A)).filter(item=>item.internal_code==='QA-GUARD-M2').length,1);
  const emptyProduct=page.getByRole('row').filter({hasText:'QA-GUARD-M2'});
  await expect(emptyProduct.getByText('Sem estoque',{exact:true})).toBeVisible();
+ const stockSearch=page.getByRole('searchbox',{name:'Buscar produto',exact:true});
+ await stockSearch.fill('QA-GUARD-M2');
+ await page.getByRole('checkbox',{name:'Somente sem estoque'}).check();
+ await expect(emptyProduct).toBeVisible();
+ await stockSearch.fill('QA-PRODUTO-INEXISTENTE');
+ await expect(emptyProduct).toHaveCount(0);
+ await page.getByRole('button',{name:'Limpar filtros',exact:true}).click();
+ await expect(stockSearch).toHaveValue('');
+ await expect(page.getByRole('checkbox',{name:'Somente sem estoque'})).not.toBeChecked();
+ await expect(emptyProduct).toBeVisible();
+
  check('Produto recém-cadastrado aparece com saldo zero identificado na lista.');
  check('Cadastro protegido mantém rascunho e não grava com PIN incorreto ou ao cancelar. Nova autorização grava um produto.');
 
