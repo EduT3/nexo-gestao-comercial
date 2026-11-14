@@ -768,11 +768,20 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   const args=['/S','/D='+target];
   const options={env,windowsHide:true,timeout:120000};
   await runExecutable(process.env.NEXO_QA_GUARD_SETUP,args,options);
-  assert.equal(buildAt(target).id,buildAt(baseline).id);
+  const installedSource=buildAt(target);
+  assert.equal(installedSource.id,buildAt(baseline).id);
+  assert(installedSource.id!==id.id || installedSource.productVersion!==id.productVersion,
+   'A origem e o destino precisam ter metadados distintos para observar a substituicao.');
   const clientAssets='resources/app/dist/client/assets';
   const candidateAssets=fs.readdirSync(path.join('artifacts/installer/win-unpacked',clientAssets));
   const newAsset=candidateAssets.find(name=>name.startsWith('index-')&&name.endsWith('.js')&&!fs.existsSync(path.join(target,clientAssets,name)));
-  assert(newAsset,'A candidata deve ter um arquivo de interface distinto para observar a substituicao.');
+  const destinationWritten=()=>{
+   if(newAsset && fs.existsSync(path.join(target,clientAssets,newAsset))) return true;
+   try {
+    const build=buildAt(target);
+    return build.id===id.id && build.productVersion===id.productVersion;
+   }catch{return false;}
+  };
   const installer=spawn(setup,['--updated',...args],{env,windowsHide:true,stdio:'ignore'});
   const exited=new Promise((resolve,reject)=>{
    installer.once('error',reject);
@@ -780,7 +789,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   });
   // Observe a file written by NSIS before terminating only this test installer.
   try {
-   await expect.poll(()=>fs.existsSync(path.join(target,clientAssets,newAsset)),{timeout:30000,intervals:[20]}).toBe(true);
+   await expect.poll(destinationWritten,{timeout:30000,intervals:[20]}).toBe(true);
    assert.equal(installer.exitCode,null);
    assert(installer.kill());
   } finally {
