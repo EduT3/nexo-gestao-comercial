@@ -315,9 +315,15 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
     encoding:'utf8',windowsHide:true,timeout:10000,env:{...process.env,NEXO_QA_INSTALLED_EXE:path.join(program,'NEXO.exe')},
    }).trim();
    const installedWindow="Get-Process -Name NEXO -ErrorAction SilentlyContinue | Where-Object { $_.Path -eq $env:NEXO_QA_INSTALLED_EXE -and $_.MainWindowHandle -ne 0 }";
-   await expect.poll(()=>query(installedWindow+' | Select-Object -ExpandProperty Id'),{timeout:60000}).toMatch(/^\d+$/);
-   assert.equal(query(installedWindow+' | ForEach-Object { $_.CloseMainWindow() }'),'True');
-   await expect.poll(()=>query(installedWindow+' | Select-Object -ExpandProperty Id'),{timeout:30000}).toBe('');
+   let relaunchedPid;
+   await expect.poll(()=>{
+    relaunchedPid=query(installedWindow+' | Select-Object -ExpandProperty Id');
+    return relaunchedPid;
+   },{timeout:60000}).toMatch(/^\d+$/);
+   assert.notEqual(Number(relaunchedPid),child.pid);
+   const relaunchedProcess='Get-Process -Id '+relaunchedPid+' -ErrorAction SilentlyContinue | Where-Object { $_.Path -eq $env:NEXO_QA_INSTALLED_EXE }';
+   assert.equal(query(relaunchedProcess+' | ForEach-Object { $_.CloseMainWindow() }'),'True');
+   await expect.poll(()=>query(relaunchedProcess+' | Select-Object -ExpandProperty Id'),{timeout:30000}).toBe('');
    check('O NSIS reabriu o executável instalado e criou uma janela sem lançamento manual no runner descartável.');
   }
   timings.push({operation:'update-install',version:id.productVersion,ms:Math.round(performance.now()-installStarted)});
