@@ -62,6 +62,7 @@ As origens 1.0.4 e 1.0.5 com Guard recusaram abrir a base fictícia marcada com 
 | Falha imediata ao iniciar o instalador | Execução 43597240803 | Evento simulado. Falha depois que o NSIS começa continua sem evidência. |
 | Retorno a executável anterior | Execução 43597240803 | Cópia compatível reaberta. Esquema futuro simulado recusado sem alteração dos bytes. |
 | Consulta HTTPS à origem pública configurada | Execução 43598510779 aprovada com 242 testes automatizados | A candidata foi distribuída pelo canal local de teste. |
+| Segunda instância enquanto a atualização aguarda confirmação | Execução 43623401359 aprovada nas duas origens | A segunda abertura encerrou, o processo original permaneceu ativo e os registros e o download foram preservados. |
 | Reabertura automática após instalar | Execução 43623280591 aprovada | NSIS silencioso no Windows descartável. |
 | Interrupção durante a troca dos binários e assinatura | Ensaio de interrupção em execução. Instalador de teste sem assinatura | Ainda falta comprovar a recuperação da instalação interrompida. |
 
@@ -95,3 +96,7 @@ O ensaio Windows comprovou a cópia pré-atualização, a recuperação da falha
 Na [execução 43623101334](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43623101334), a atualização de 1.0.5 com Guard para 1.0.6 por canal de teste relançou a janela principal do NEXO em um novo processo, sem abertura manual. O roteiro usou o modo silencioso do NSIS e confirmou o encerramento desse processo antes de reabrir em perfil fictício para conferir os registros e o PIN de origem. O [ZIP aprovado](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43623101334/artifacts/14125407186) está disponível no GitHub Actions. A interrupção durante a instalação e a recuperação correspondente ainda precisam de ensaio próprio.
 
 A [execução 43623280591](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43623280591), revisão ba1dd96, repetiu a reabertura automática com a correção de registro do diálogo do Guard. Os 242 testes automatizados passaram. Os dois perfis Windows passaram pelo teclado, bloqueio do acesso direto, autorização do backup e persistência da política. O [ZIP aprovado](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43623280591/artifacts/14125746418) corresponde ao build NEXO-3E2B6BE692122B3C.
+
+### Segunda instância com atualização pendente
+
+A [execução 43623401359](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43623401359) verificou a tentativa de abrir o mesmo executável com o mesmo perfil fictício antes de confirmar a instalação. O NEXO que já estava aberto continuou operando e manteve a atualização pronta. O cenário passou a partir da 1.0.4 e da 1.0.5 com Guard. [ZIP aprovado](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43623401359/artifacts/14125801543).
