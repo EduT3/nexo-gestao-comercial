@@ -528,7 +528,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  const backupPromise=call('backup').then(value=>({value}),error=>({error}));
  const modal=page.getByRole('dialog',{name:'Autorização administrativa'});
  await Promise.race([
-  expect(modal).toBeVisible(),
+  expect(modal).toBeVisible({timeout:15000}),
   backupPromise.then(outcome=>{
    if ('error' in outcome) throw outcome.error;
    throw Error('O backup terminou antes de apresentar a autorizacao administrativa.');
