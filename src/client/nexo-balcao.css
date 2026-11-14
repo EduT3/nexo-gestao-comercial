@@ -264,3 +264,5 @@
   .stock-entry-actions { top: 0; }
   .local-preview .stock-entry-actions { top: 92px; }
 }
+
+.nexo-stock-empty { color: #874617; background: #fff3e2; white-space: nowrap; }
