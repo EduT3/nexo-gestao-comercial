@@ -323,7 +323,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
    },{timeout:60000}).toMatch(/^\d+$/);
    assert.notEqual(Number(relaunchedPid),child.pid);
    timings.push({operation:'update-window-detected',version:id.productVersion,ms:Math.round(performance.now()-installStarted)});
-   const relaunchedProcess='Get-Process -Id '+relaunchedPid+' -ErrorAction SilentlyContinue | Where-Object { $_.Path -eq $env:NEXO_QA_INSTALLED_EXE }';
+   const relaunchedProcess='Get-Process | Where-Object { $_.Id -eq '+relaunchedPid+' -and $_.Path -eq $env:NEXO_QA_INSTALLED_EXE }';
    assert.equal(query(relaunchedProcess+' | ForEach-Object { $_.CloseMainWindow() }'),'True');
    await expect.poll(()=>query(relaunchedProcess+' | Select-Object -ExpandProperty Id'),{timeout:30000}).toBe('');
    check('O NSIS reabriu o executável instalado e criou uma janela sem lançamento manual no runner descartável.');
