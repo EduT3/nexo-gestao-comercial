@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
+import { createContext, useContext, useEffect, useLayoutEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import './guard.css';
 
 type Policy = { enabled: boolean; all: boolean; actions: string[] };
@@ -35,7 +35,7 @@ export function GuardPrompt({ children }: { children: ReactNode }) {
     if (current.current?.id === id) setAuthorizedId(id);
   }), [bridge]);
 
-  useEffect(() => {
+  useLayoutEffect(() => {
     bridge?.registerGuardPrompt?.((id, label, pinLength) => new Promise((resolve, reject) => {
       setNotice('');
       current.current?.reject(Error('Solicitação substituída.'));
