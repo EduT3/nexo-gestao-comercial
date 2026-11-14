@@ -8,6 +8,8 @@ const baseline=process.env.NEXO_QA_BASELINE;
 const requireUpdateReceipt=process.env.NEXO_QA_REQUIRE_UPDATE_RECEIPT==='1';
 const buildAt=folder=>JSON.parse(fs.readFileSync(path.join(folder,'resources/app/dist/build-info.json')));
 const id=JSON.parse(fs.readFileSync(path.join('artifacts/installer/win-unpacked','resources/app/dist/build-info.json')));
+assert.match(id.productVersion,/^\d+\.\d+\.\d+$/,'Versão da candidata ausente no manifesto');
+const completedUpdateMessage='Atualização concluída. Você está usando a versão '+id.productVersion+'.';
 const profile=fs.mkdtempSync(path.join(O,'qa-balcao-')),d={};
 for(const n of ['local','roaming','user-data','cache','tmp'])fs.mkdirSync(d[n]=path.join(profile,n));
 const env={...process.env,LOCALAPPDATA:d.local,APPDATA:d.roaming,TEMP:d.tmp,TMP:d.tmp,NEXO_TEST_HIDE_WINDOW:'1',NODE_OPTIONS:'',NODE_PATH:''};
@@ -380,7 +382,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   if (requireUpdateReceipt) {
    await page.getByRole('button',{name:'Configurações',exact:true}).click();
    const panel=page.getByRole('region',{name:'Atualização do NEXO'});
-   await expect(panel.getByRole('status')).toHaveText('Atualização concluída. Você está usando a versão '+id.productVersion+'.');
+   await expect(panel.getByRole('status')).toHaveText(completedUpdateMessage);
    assert.equal(fs.existsSync(pendingReceipt),false);
    check('A origem registrou a instalacao pelo atualizador e a versao instalada confirmou a conclusao na interface.');
   }
@@ -877,7 +879,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  await open(finalProgram);await login();
  await page.getByRole('button',{name:'Configurações',exact:true}).click();
  const updatePanel=page.getByRole('region',{name:'Atualização do NEXO'});
- await expect(updatePanel.getByRole('status')).toHaveText('Atualização concluída. Você está usando a versão '+id.version+'.');
+ await expect(updatePanel.getByRole('status')).toHaveText(completedUpdateMessage);
  assert.equal(fs.existsSync(pendingReceipt),false);
  await close();await open(finalProgram);
  assert.equal((await call('updateStatus')).phase,'idle');
