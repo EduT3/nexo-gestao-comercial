@@ -62,6 +62,13 @@ Use **Gerar backup** e guarde uma cópia em outro dispositivo. A tela informa a 
 
 ## Atualizar o NEXO
 
+No NEXO instalado pelo instalador Windows, abra **Configurações**, entre em **Backup e dados** e selecione **Verificar atualização**. Quando uma versão estiver disponível no GitHub Releases, o aplicativo oferece o download. A instalação exige confirmação de um responsável e cria uma cópia SQLite antes de fechar. Termine a venda ou movimentação em andamento antes de confirmar.
+
+Os ZIPs do GitHub Actions são candidatas para teste e têm prazo de disponibilidade. O teste da candidata 1.0.6 usou um canal local isolado. Consulte as [evidências de atualização no Windows](docs/UPDATE-QA-M2.6.md).
+
+Para atualizar uma cópia portátil manualmente:
+
+
 1. Gere um backup e feche o NEXO.
 2. Extraia a nova pasta do programa.
 3. Abra o `NEXO.exe` da nova pasta.

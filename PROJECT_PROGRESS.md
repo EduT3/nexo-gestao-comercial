@@ -249,3 +249,9 @@ A execução usou um canal de teste em loopback e acionou o NSIS silenciosamente
 ### M2.6 — comparação de consultas SQLite
 
 Comparação entre 868ad0a e 68ae238 no mesmo computador, com cópias das mesmas bases fictícias. Foram 12 amostras por cenário e 1.000, 10.000 e 50.000 produtos, com o mesmo número de vendas e o dobro de movimentos de estoque. Os resultados das consultas coincidiram. Com 50.000 produtos, as medianas antes e depois foram 110,813 e 111,116 ms no catálogo, 92,348 e 90,861 ms no estoque, 66,983 e 66,544 ms no histórico de vendas e 55,578 e 55,801 ms no histórico de estoque. Esta medição cobre consultas locais e não mede o tempo de renderização do aplicativo.
+
+### M2.6 — consulta, download interrompido e nova tentativa
+
+A execução [43596780998](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43596780998) passou com 241 testes automatizados e dois perfis Windows fictícios, partindo de 1.0.4 e 1.0.5 com Guard. A consulta reconheceu a versão instalada, sinalizou perda de conexão e recuperou na nova tentativa. Um download truncado manteve a versão anterior e bloqueou a instalação. A nova tentativa baixou e instalou a candidata 1.0.6, build NEXO-5913A87B0F41F026. A versão com Guard preservou a política e o PIN.
+
+Os relatórios baixados do [ZIP Windows](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43596780998/artifacts/14115127959) confirmam tempos de download de 2,885 s e 2,881 s, e de instalação de 15,254 s e 11,220 s, respectivamente. As medições usaram loopback no runner Windows, com instalação silenciosa e reabertura controlada.
