@@ -331,6 +331,31 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  assert.equal(fs.readFileSync(path.join(profile,'relatorio.xlsx')).subarray(0,2).toString(),'PK');
  assert.equal((await call('updateStatus')).phase,'idle');
  check('Exportação XLSX e inicialização do atualizador no app instalado.');
+ step='falha imediata ao iniciar instalador na candidata';
+ const beforeLaunchFailure=commercialSnapshot(dbfile);
+ const existingUpdateBackups=new Set(fs.readdirSync(path.dirname(dbfile)));
+ await app.evaluate(({dialog})=>{
+  const updater=process.mainModule.require('electron-updater').autoUpdater;
+  updater.checkForUpdates=async()=>({isUpdateAvailable:true,updateInfo:{version:'99.0.0'}});
+  updater.downloadUpdate=async()=>[];
+  updater.quitAndInstall=()=>updater.emit('error',new Error('Falha de execução simulada'));
+  dialog.showMessageBox=async()=>({response:1});
+  dialog.showErrorBox=(title)=>{globalThis.nexoQaUpdateError=title;};
+ });
+ assert.equal((await call('checkUpdate')).phase,'available');
+ assert.equal((await call('downloadUpdate')).phase,'ready');
+ await call('installUpdate');
+ await expect.poll(()=>app.evaluate(()=>globalThis.nexoQaUpdateError),{timeout:30000}).toMatch(/NEXO.*Atualização interrompida/);
+ assert.equal(child.exitCode,null);
+ assert.equal(buildAt(program).id,id.id);
+ assert.equal((await call('updateStatus')).phase,'error');
+ assert.equal((await call('salesHistory',A,{})).total,5);
+ assert.deepEqual(commercialSnapshot(dbfile),beforeLaunchFailure);
+ const failureBackups=fs.readdirSync(path.dirname(dbfile))
+  .filter(name=>name.startsWith('before-update-')&&!existingUpdateBackups.has(name));
+ assert.equal(failureBackups.length,1);
+ assert.deepEqual(commercialSnapshot(path.join(path.dirname(dbfile),failureBackups[0])),beforeLaunchFailure);
+ check('Falha imediata simulada ao iniciar o instalador manteve a candidata aberta, reabriu o banco e preservou o backup.');
  step='backup e restauração';assert.equal((await call('backup')).canceled,false);assert(fs.existsSync(path.join(profile,'backup.sqlite')));
  await call('createProduct',A,{name:'Criado depois da cópia',internalCode:'TEMP-QA',unit:'KG',costCents:10,priceCents:20});
  assert.equal((await call('restore')).canceled,false);await page.reload();await login();assert(!(await call('products',A)).some(p=>p.internal_code==='TEMP-QA'));assert.equal((await call('salesHistory',A,{})).total,5);
