@@ -53,3 +53,22 @@ it('does not allow installation on a download event before successful completion
  expect(service.status().phase).toBe('error');
  expect(updater.quitAndInstall).not.toHaveBeenCalled();
 });
+
+it('recovers from offline check failure and reports when no update is available', async () => {
+ const {updater,service}=fixture();
+ updater.checkForUpdates.mockRejectedValueOnce(new Error('offline'));
+ expect(await service.check()).toEqual({phase:'error'});
+ updater.checkForUpdates.mockResolvedValueOnce({isUpdateAvailable:false,updateInfo:{version:'1.0.5'}});
+ expect(await service.check()).toEqual({phase:'current',version:'1.0.5'});
+ await expect(service.download()).rejects.toThrow();
+ expect(updater.downloadUpdate).not.toHaveBeenCalled();
+});
+
+it('rejects a second download while the first is active', async () => {
+ const {updater,service}=fixture();
+ await service.check();
+ const download=service.download();
+ await expect(service.download()).rejects.toThrow();
+ expect(await download).toEqual({phase:'ready'});
+ expect(updater.downloadUpdate).toHaveBeenCalledTimes(1);
+});
