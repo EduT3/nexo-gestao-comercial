@@ -1,156 +1,109 @@
-# NEXO — Gestão Comercial
+<img src="public/nexo-icon.png" alt="Monograma N do NEXO" width="72">
 
-Aplicativo Windows para vendas, caixa, estoque e contas. O banco fica no computador e o trabalho diário funciona offline. A configuração inicial cria uma loja.
+# NEXO Balcão
 
-## Instalação e atualização
+Gestão comercial para lojas que precisam vender, controlar estoque, operar o caixa e acompanhar contas em um computador Windows. As rotinas de balcão funcionam offline, com os dados no próprio computador.
 
-Baixe o instalador Windows na página de versões do GitHub. A partir da instalação 1.0.4, Configurações oferece consultar e baixar atualizações, com confirmação para reiniciar. O programa guarda uma cópia da base antes da atualização.
+[Baixar versão pública 1.0.4](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.4) · [Ver demonstração](https://nexo-gestao-comercial.vercel.app) · [Compatibilidade Windows](docs/WINDOWS-COMPATIBILITY.md)
 
-Quem utiliza o ZIP portátil deve instalar esta versão uma vez. Se a cópia portátil usa uma pasta de perfil separada, gere um backup nela e restaure pelo NEXO instalado.
+## Capturas e demonstração
 
-A publicação contém o instalador e os metadados usados pelo atualizador. O repositório é público. Os testes, medições e limitações estão em [Windows 1.0.4](docs/WINDOWS-1.0.4.md).
+Capturas do aplicativo Windows em testes com dados fictícios. A tela inicial mostra a versão de origem. Vendas, estoque e Guard mostram a candidata M2. A demonstração web usa dados fictícios e bloqueia gravações. [Execução Windows e evidências](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43650469127)
 
-## Baixar o programa para Windows
+![Tela inicial com atalhos para venda, estoque, caixa e contas](docs/assets/windows/inicio.png)
 
-[Instalador Windows publicado](https://github.com/EduT3/nexo-gestao-comercial/releases/latest)
+<details>
+<summary>Frente de vendas</summary>
 
-[ZIP Windows da candidata M2 1.0.6](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43650469127/artifacts/14136755503). Artefato de teste disponível até 28 de novembro de 2026. Extraia e execute installer/NEXO-Setup-1.0.6.exe. O instalador está sem assinatura digital. O ZIP inclui o manifesto, o blockmap e os relatórios da execução com 242 testes aprovados.
+![Frente de vendas com busca de produto, itens e formas de pagamento](docs/assets/windows/vendas.png)
 
-Depois de instalar, abra o NEXO e cadastre o responsável no primeiro acesso. Selecione um perfil pelo nome. Essa seleção identifica as operações no sistema e permite que qualquer pessoa com acesso ao app escolha o perfil administrativo. Os dados ficam em `%LOCALAPPDATA%/NEXO/nexo.sqlite`.
+</details>
 
-## Desempenho e hardware
+<details>
+<summary>Produtos e estoque</summary>
 
-Na base sintética com 50 mil produtos, 50 mil vendas e 100 mil movimentos, a mediana da consulta de histórico de estoque passou de 109,44 ms para 58,78 ms. As medições rodaram em Windows x64, Ryzen 7 7700X e 32 GB de RAM. Elas medem consultas locais, sem incluir renderização. O catálogo completo continua sendo o ponto mais pesado do benchmark. O instalador da candidata caiu de 148,66 MB para 124,15 MB. A instalação sobre a 1.0.4, a restauração e a reabertura com os mesmos dados sintéticos passaram no Windows da nuvem. [Método e resultados](docs/AUDITORIA-WINDOWS.md)
+![Produtos e estoque com ações de cadastro, recebimento e movimentações](docs/assets/windows/estoque.png)
 
-| Perfil | Hardware | Evidência |
-|---|---|---|
-| Mínimo | Windows 11 x64 em PC compatível | O mínimo do NEXO ainda não foi estabelecido em bancada. A Microsoft exige 4 GB de RAM e dispositivo de armazenamento de 64 GB para o Windows 11. |
-| Recomendado | PC x64 com quatro núcleos, 8 GB de RAM e SSD | Estimativa inicial para uma estação de balcão. Requer validação nesse perfil. |
-| Ideal | PC x64 com seis núcleos, 16 GB de RAM e SSD | Estimativa para maior folga com planilhas e multitarefa. O ensaio atual foi feito em uma máquina mais potente. |
+</details>
 
-[Requisitos oficiais do Windows 11](https://support.microsoft.com/en-us/windows/experience/compatibility/windows-11-system-requirements)
+<details>
+<summary>NEXO Guard</summary>
 
-## Roadmap
+![Autorização para gerar backup com teclado numérico e campos de PIN vazios](docs/assets/windows/guard.png)
 
-| Prioridade | Entrega | Benefício | Complexidade | Dependências e riscos |
-|---|---|---|---|---|
-| P0 | Autenticação do responsável e controle de permissões | Protege administração, backups e auditoria | Média | Recuperação de acesso, migração de perfis e compatibilidade com bases antigas |
-| P0 | Teste integral de atualização e contingência | Valida download, troca de versão e dados após reinício | Média | Duas versões qualificadas e controle do canal de publicação |
-| P1 | Paginação do catálogo e busca em bases grandes | Reduz tempo de resposta e memória no caixa | Média | Medir IPC, renderização e memória. Preservar busca por código e leitura de saldo |
-| P1 | Backup agendado com restauração ensaiada | Reduz risco de perda em falha de disco | Média | Destino externo, retenção e teste periódico de recuperação |
-| P1 | Assinatura digital do instalador | Identifica o editor no Windows | Média | Certificado, custo recorrente e validação de identidade |
-| P2 | Leitor de código de barras e impressão de comprovantes | Acelera o atendimento | Média | Matriz de dispositivos, formatos e reimpressão |
-| P2 | Conciliação Pix e integração fiscal | Reduz digitação e divergências | Alta | Provedor, credenciais, regras fiscais e contingência offline |
+</details>
 
-## Recursos entregues
+## Funcionalidades
 
-- produtos, categorias, clientes e fornecedores;
-- compras com entrada de estoque e conta a pagar;
-- saldo e histórico de movimentações de estoque;
-- abertura, movimentação e fechamento de caixa;
-- venda com desconto, dinheiro, Pix, débito e crédito;
-- baixa de estoque e lançamentos financeiros na mesma gravação da venda;
-- cancelamentos e estornos com histórico preservado;
-- contas a pagar e receber;
-- resumo diário de vendas, estoque e financeiro;
-- administrador e operador com permissões verificadas na camada local;
-- importação de produtos por Excel, com modelo, prévia e confirmação;
-- exportação de produtos, estoque, vendas e financeiro para Excel;
-- backup consistente e restauração validada.
+- **Vendas e caixa.** Dinheiro, Pix, débito, crédito, descontos, troco e histórico. Controle de abertura, suprimento, sangria, fechamento e estornos.
+- **Produtos e estoque.** Catálogo, compras, entradas, quantidades fracionárias, saldos e histórico de movimentações.
+- **Contas.** Pagar, receber e resumo financeiro. Cadastros de clientes e fornecedores disponíveis conforme a operação.
+- **Planilhas e recuperação.** Importação de produtos com prévia, exportação Excel e backup restaurável.
+- **Operação guiada.** Perfis de responsável e operador, permissões verificadas no aplicativo e tutorial integrado.
 
-## Backup e restauração
+A galeria mostra etapas do desenvolvimento. Consulte as notas de cada versão para confirmar os recursos da sua instalação. [Versão pública](docs/WINDOWS-1.0.4.md) · [Evolução M2](docs/EVOLUCAO-M2.md)
 
-Use **Gerar backup** e guarde uma cópia em outro dispositivo. A tela informa a data do último backup. Para restaurar, selecione um backup válido e confirme a operação; o NEXO salva automaticamente uma cópia do estado anterior. Exportação Excel serve para consulta e não substitui o backup.
+## NEXO Guard
 
-## Evolução M2
+Na candidata M2, o Guard é opcional e começa desativado. O responsável pode exigir um PIN de quatro dígitos para autorizar ações administrativas selecionadas. A escolha por nome identifica quem registra a operação. Qualquer pessoa com acesso à tela de entrada pode escolher os nomes disponíveis. O PIN acrescenta autorização operacional e tem alcance limitado diante de acesso aos arquivos ou de controle do Windows.
 
-O [relatório da evolução M2](docs/EVOLUCAO-M2.md) reúne as mudanças operacionais, as candidatas verificadas e os testes que ainda faltam. As [medições SQLite](docs/benchmarks/catalogo-m2.json) usam as mesmas bases fictícias e o mesmo computador antes e depois. As medições preliminares do executável Windows estão no relatório M2.
+Preserve `guard.json` ao migrar de computador e guarde a **chave de recuperação separadamente**, em local seguro. A cópia SQLite gerada pelo aplicativo cobre a base comercial. [Configuração, recuperação e limites](docs/NEXO-GUARD.md)
 
-## Atualizar o NEXO
+## Download e instalação
 
-No NEXO instalado pelo instalador Windows, abra **Configurações** e selecione **Verificar atualização**. Quando uma versão estiver disponível no GitHub Releases, o aplicativo oferece o download. A instalação exige confirmação de um responsável e cria uma cópia SQLite antes de fechar. Termine a venda ou movimentação em andamento antes de confirmar.
+| Opção | Uso |
+| --- | --- |
+| **Instalador público 1.0.4** | Baixe `NEXO-Setup-1.0.4.exe` na [release pública](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.4). Abra o NEXO e cadastre o responsável no primeiro acesso. O instalador está sem assinatura digital. |
+| **Candidata M2 1.0.6** | [Artefato temporário do GitHub Actions](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43650469127/artifacts/14136755503), para perfil isolado e dados fictícios. O ZIP contém o instalador de teste em `installer/`, o manifesto e os relatórios. |
+| **ZIP portátil** | Extraia a pasta completa e execute `NEXO.exe` diretamente. A cópia portátil usa atualização manual. Para migrar de um perfil portátil separado, gere o backup nele e restaure pelo programa instalado. |
 
-Os ZIPs do GitHub Actions são candidatas para teste e têm prazo de disponibilidade. O teste da candidata 1.0.6 usou um canal local isolado. Consulte as [evidências de atualização no Windows](docs/UPDATE-QA-M2.6.md).
+O banco da instalação padrão fica em `%LOCALAPPDATA%\NEXO\nexo.sqlite`. Veja as evidências do ambiente e da versão antes de adotar o NEXO em uma estação comercial. [Compatibilidade e instalação por sistema](docs/WINDOWS-COMPATIBILITY.md)
 
-Para atualizar uma cópia portátil manualmente:
+## Atualizações e backup
 
+No programa instalado, abra **Configurações → Verificar atualização**. O aplicativo consulta o GitHub Releases, oferece download quando há uma versão disponível e pede confirmação para reiniciar. O fluxo cria uma cópia SQLite antes de instalar. A versão pública 1.0.4 foi consultada e baixada por HTTPS em teste. A instalação da candidata M2 foi exercitada em canal isolado. [Evidências do atualizador](docs/UPDATE-QA-M2.6.md)
 
-1. Gere um backup e feche o NEXO.
-2. Extraia a nova pasta do programa.
-3. Abra o `NEXO.exe` da nova pasta.
-4. Não apague nem mova `%LOCALAPPDATA%\NEXO`.
+Use **Gerar backup** e guarde a cópia em outro dispositivo. A restauração preserva uma cópia anterior à troca. A planilha Excel serve para consulta e intercâmbio. Use o backup SQLite para recuperação da base e preserve a política do Guard e sua chave conforme a seção anterior.
 
-A atualização aplica as mudanças de estrutura automaticamente e preserva os registros. Não copie o arquivo SQLite enquanto o NEXO estiver aberto; use o botão de backup.
+## Desempenho e requisitos
 
-## Planilhas Excel
+Em uma base fictícia de 50 mil produtos, 50 mil vendas e 100 mil movimentos, a mediana da consulta de histórico de estoque passou de **109,44 ms para 58,78 ms** no ensaio de otimização. As medições foram feitas com Ryzen 7 7700X e 32 GB de RAM, sem tempo de renderização. A comparação posterior do M2, com uma linha de base diferente, está documentada separadamente. [Auditoria Windows](docs/AUDITORIA-WINDOWS.md) · [Comparação SQLite M2](docs/benchmarks/catalogo-m2.json)
 
-Baixe o modelo dentro do aplicativo. A importação aceita até 1.000 linhas e 5 MB, mostra erros e duplicidades antes da gravação e só altera o cadastro após confirmação explícita. A exportação cria oito abas de consulta e não depende do Microsoft Excel instalado.
+| Ambiente | Estado |
+| --- | --- |
+| Windows 10 22H2 x64 | Homologação pendente. O suporte regular da Microsoft terminou em 14/10/2025. Sem atualizações de segurança, o risco de exploração aumenta. |
+| Windows 11 x64 | Plataforma de referência para homologação. A matriz em Windows cliente está pendente. |
+| Windows 7 | Fora do suporte. A versão moderna do Electron usada pelo NEXO requer Windows 10 ou posterior. |
+| Hardware | Mínimo do NEXO ainda sem medição. Quatro núcleos, 8 GB de RAM e SSD são referência para o próximo ensaio, sem homologação. |
 
-## Prévia visual web
+[Procedimento e matriz Windows](docs/WINDOWS-COMPATIBILITY.md) · [Ciclo de suporte do Windows 10](https://learn.microsoft.com/windows/release-health/release-information) · [Requisitos do Windows 11](https://support.microsoft.com/en-us/windows/experience/compatibility/windows-11-system-requirements)
 
-[Abrir a demonstração do NEXO](https://nexo-gestao-comercial.vercel.app). Compras, caixa, histórico de vendas e financeiro acompanham a interface do aplicativo Windows, com dados fictícios e gravações bloqueadas.
+## Arquitetura e desenvolvimento
 
-`npm.cmd run build:preview` compila uma demonstração navegável com dados fictícios. Ela não acessa a base local e bloqueia alterações com uma mensagem clara. A prévia permite acompanhar a aparência; o produto operacional é o executável Windows.
-
-## Limitações conhecidas da V1
-
-- uma instalação atende um computador, sem sincronização em rede ou nuvem;
-- não há emissão fiscal, integração bancária, e-commerce, delivery, CRM ou BI avançado;
-- o instalador Windows está disponível como candidata de teste. O pacote verificado está sem assinatura digital;
-- qualquer pessoa com acesso ao programa neste computador pode selecionar um usuário, inclusive o responsável.
-
-## Desenvolvimento e validação
-
-O ambiente de desenvolvimento usa Node.js 24. O usuário do programa empacotado não precisa instalá-lo.
+React e TypeScript compõem a interface. O Electron serve o aplicativo local, com acesso ao SQLite pelo processo principal e operações via IPC. O aplicativo instalado inclui o runtime. Node.js 24 é necessário somente para desenvolvimento.
 
 ```powershell
 npm.cmd ci
-npm.cmd run build:local
 npm.cmd test
-npm.cmd run package:local
+npm.cmd run build:local
+npm.cmd run package:installer
 ```
 
-Os testes usam diretórios temporários e nunca devem apontar para a base real. Evidências e pendências ficam em [docs/STATUS.md](docs/STATUS.md); decisões técnicas em [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md).
+Use bancos temporários para testes. [Arquitetura](docs/ARCHITECTURE.md) · [Empacotamento e testes Windows](docs/GITHUB-ACTIONS-WINDOWS.md) · [Status técnico](docs/STATUS.md)
 
+## Roadmap
 
-## Ajuda e tutorial integrado
+| Prioridade | Entrega em avaliação | Benefício |
+| --- | --- | --- |
+| P0 | Homologação do Windows cliente e contingência de atualização | Confirma instalação, atualização e recuperação nas estações de balcão. |
+| P0 | Autenticação individual do responsável | Acrescenta proteção administrativa além da identificação por nome. |
+| P1 | Backup agendado, assinatura do instalador e desempenho com bases grandes | Facilita recuperação, identifica o editor e reduz espera nas rotinas. |
+| P2 | Leitor de código de barras, comprovantes, conciliação e integração fiscal | Reduz digitação e simplifica o atendimento. |
 
-Use **Ajuda e tutorial** em qualquer tela. O guia em português explica os fluxos disponíveis para seu perfil sem criar registros nem executar operações. **Ver esta tela** navega para o módulo; **Ajuda desta tela** escolhe a orientação correspondente.
+[Dependências e riscos do roadmap](docs/ROADMAP.md) · [Relatório M2](docs/EVOLUCAO-M2.md)
 
-Você pode **Pular tutorial**, **Fechar tutorial** (ou Esc), **Desativar tutorial**, **Retomar tutorial**, **Reativar tutorial** e **Reiniciar tutorial**. A escolha e a etapa são guardadas por usuário e empresa. No Windows ficam em `%LOCALAPPDATA%\NEXO\tutorial-preferences`, separadas do banco comercial e preservadas ao abrir outra pasta do programa. A prévia fictícia guarda sua própria preferência no navegador.
+## Limitações e documentação adicional
 
-O procedimento de empacotamento e as validações desta integração estão descritos em [Integração local — 15/10/2026](docs/INTEGRATION-2026-10-15.md). Mantenha todos os arquivos do pacote juntos, faça seu backup habitual e feche a versão anterior antes de abrir outro executável. Os atalhos e a instalação existente não foram substituídos.
+O NEXO atende uma instalação local por computador. Sincronização em rede, emissão fiscal, integração bancária e e-commerce estão fora da entrega atual.
 
-Durante uma operação Excel, aguarde antes de trocar de empresa, sair ou usar backup/restauração. Selecionar outra planilha descarta a prévia anterior mesmo quando o seletor é cancelado. Rascunhos de produto e prévias Excel não atravessam empresas.
-
-Detalhes de uso, persistência, testes e limites em [Tutorial integrado — 13/10/2026](docs/TUTORIAL-2026-10-13.md).
-
-
-## Recuperação e histórico — atualização de 18/10/2026
-
-Pacote da etapa de recuperação/histórico: artifacts/NEXO-Windows-1792340357595/NEXO.exe. A versão atual está indicada na seção seguinte. ZIP portátil: artifacts/NEXO-Windows-recuperacao-historico-2026-10-18.zip. Gere um backup, feche a versão anterior, extraia o ZIP e abra o novo executável. Preserve %LOCALAPPDATA%/NEXO.
-
-Se a base não abrir, a tela de recuperação permite tentar novamente, escolher uma cópia, abrir a pasta e guardar diagnóstico. Para restaurar, selecione o nome do responsável cadastrado no backup e confirme. O programa guarda os arquivos anteriores.
-
-Em Vender, o Histórico de vendas mostra data, identificação e cliente, com busca, período, situação e páginas para todas as vendas. Detalhes permite conferir os itens e valores originais antes de cancelar. Evidências e limites em [Recuperação e histórico](docs/RECOVERY-HISTORY-2026-10-18.md).
-
-
-## Compras, caixa e financeiro — atualização de 18/10/2026
-
-Pacote atual: artifacts/NEXO-Windows-1792341909772/NEXO.exe. ZIP portátil: artifacts/NEXO-Windows-compras-caixa-financeiro-2026-10-18.zip.
-
-- Compras mostra subtotais e total antes de receber; Remover item corrige qualquer linha.
-- Vender informa a situação do caixa e quem o abriu. Ir ao caixa preserva o rascunho; é necessário um caixa do próprio operador para concluir.
-- Financeiro oferece Pagar, Receber e Resumo. As listas começam em aberto; use situação, vencimento e busca para consultar outras contas. Nova conta a receber abre o cadastro quando necessário.
-- Produto salvo e operações corrigidas apresentam retorno visível, sem prefixos internos da ponte.
-
-Para atualizar, gere um backup, feche a versão anterior, extraia a pasta nova e abra NEXO.exe. Preserve %LOCALAPPDATA%/NEXO. Evidências e limites em [Compras, caixa e financeiro](docs/PURCHASES-CASH-FINANCE-2026-10-18.md).
-
-
-## Revisão de manutenção
-
-[Revisão remota de 13/10](docs/REVIEW-2026-10-13.md) e [integração de 15/10](docs/INTEGRATION-2026-10-15.md) preservadas no histórico. As atualizações de 18/10 estão descritas acima e em STATUS.
-
-## Proteção administrativa opcional
-
-O NEXO Guard é opcional e usa um PIN de quatro dígitos para autorizar ações administrativas selecionadas. Escolher um nome identifica o operador, mas não comprova sua identidade; o PIN oferece proteção operacional limitada e não substitui autenticação forte nem protege contra acesso irrestrito aos arquivos do computador. Guarde a chave de recuperação fora do computador e preserve também o arquivo de política ao migrar para outra máquina: o backup SQLite não o inclui. Consulte [configuração, recuperação e limites](docs/NEXO-GUARD.md).
+[Guia do tutorial](docs/TUTORIAL-2026-10-13.md) · [Histórico de desenvolvimento](PROJECT_PROGRESS.md) · [Arquivo do README anterior](docs/history/README-before-docs-m1.md) · [Revisão editorial](docs/README-REVIEW.md)
