@@ -65,7 +65,8 @@
 .nexo-status-chip { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; font-size: 13px; font-weight: 600; padding: 10px 12px; border-radius: 9px; }
 .nexo-status-chip.open { color: #13703f; background: #e5f6ed; }
 .nexo-status-chip.closed { color: #995519; background: #fff3e2; }
-.nexo-status-chip.offline { color: #9c5a22; background: #fff0e2; }
+.nexo-status-chip.local-mode { color: #34514d; background: #edf4f2; }
+.nexo-status-chip.local-mode > span { min-width: 0; overflow: hidden; text-overflow: ellipsis; }
 .nexo-topbar-date { color: #26334d; font-size: 12px; font-weight: 600; white-space: nowrap; display: flex; align-items: center; gap: 7px; }
 .nexo-user-name { display: block; font-size: 11px; color: #697789; max-width: 100px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
 .local-app .nexo-icon-action { border: 1px solid #e0e5e9; border-radius: 8px; background: #fff; color: #45556b; min-height: 38px; min-width: 38px; padding: 7px; display: grid; place-items: center; cursor: pointer; }

@@ -64,6 +64,12 @@ export function NexoTopbar({
             </span>
           </label>
         )}
+        {status.companies.length === 1 && (
+          <span className="nexo-status-chip local-mode" title={status.companies[0]?.name}>
+            <Storefront size={18} aria-hidden="true" />
+            <span>{status.companies[0]?.name}</span>
+          </span>
+        )}
         {cashOpen !== undefined && (
           <span className={`nexo-status-chip ${cashOpen ? "open" : "closed"}`}>
             {cashOpen ? (
