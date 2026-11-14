@@ -266,3 +266,7 @@
 }
 
 .nexo-stock-empty { color: #874617; background: #fff3e2; white-space: nowrap; }
+
+.nexo-catalog-filters { display: flex; flex-wrap: wrap; align-items: end; gap: 12px 20px; margin-block-end: 16px; }
+.nexo-catalog-filters > label:first-child { flex: 1 1 240px; min-width: 0; }
+.nexo-catalog-filters > label:last-child { display: flex; align-items: center; gap: 8px; min-height: 44px; }
