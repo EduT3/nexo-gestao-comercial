@@ -1,7 +1,7 @@
 import {
   CalendarBlank,
   CheckCircle,
-  CloudSlash,
+  HardDrive,
   FloppyDisk,
   SignOut,
   Storefront,
@@ -74,8 +74,8 @@ export function NexoTopbar({
             {cashOpen ? "Caixa aberto" : "Caixa fechado"}
           </span>
         )}
-        <span className="nexo-status-chip offline">
-          <CloudSlash size={18} aria-hidden="true" /> {preview ? "Demonstração" : "Offline"}
+        <span className="nexo-status-chip local-mode">
+          <HardDrive size={18} aria-hidden="true" /> {preview ? "Demonstração" : "Modo local"}
         </span>
       </div>
       <div className="nexo-topbar-actions">
