@@ -762,6 +762,13 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
    const updater=process.mainModule.require('electron-updater').autoUpdater;
    updater.currentVersion=new updater.currentVersion.constructor('1.0.2');
   });
+  const pendingPublicCache=await app.evaluate(async()=>{
+   const updater=process.mainModule.require('electron-updater').autoUpdater;
+   return (await updater.getOrCreateDownloadHelper()).cacheDirForPendingUpdate;
+  });
+  assert(path.resolve(pendingPublicCache).startsWith(path.resolve(d.local)+path.sep));
+  const cachedFiles=fs.existsSync(pendingPublicCache)?fs.readdirSync(pendingPublicCache):[];
+  assert(!cachedFiles.some(name=>name.includes('1.0.4')&&name.endsWith('.exe')));
   const publicUpdate=await call('checkUpdate');
   assert.equal(publicUpdate.phase,'available');
   assert.equal(publicUpdate.version,'1.0.4');
