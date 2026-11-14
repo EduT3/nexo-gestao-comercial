@@ -40,10 +40,12 @@ async function startUpdateQaFeed(directory, filenames) {
   return {
     url: 'http://127.0.0.1:' + server.address().port + '/',
     requests,
-    setManifest(file) {
+    async setManifest(file) {
       const entry = files.get('/latest.yml');
       if (!entry) throw Error('Update manifest is not configured');
-      entry.file = file;
+      const info = await stat(file);
+      if (!info.isFile() || info.size === 0) throw Error('Invalid update manifest');
+      files.set('/latest.yml', { file, size: info.size });
     },
     async close() {
       await new Promise(resolve => {

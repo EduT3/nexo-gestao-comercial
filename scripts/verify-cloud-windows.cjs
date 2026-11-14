@@ -140,16 +140,15 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
    const original=fs.readFileSync(manifest,'utf8');
    const invalid=original.replace(/^(\s*sha512:\s*)[^\r\n]+/gm,(_,key)=>key+Buffer.alloc(64).toString('base64'));
    assert.notEqual(invalid,original);
-   assert.equal(Buffer.byteLength(invalid),Buffer.byteLength(original));
    fs.writeFileSync(invalidManifest,invalid);
-   feed.setManifest(invalidManifest);
+   await feed.setManifest(invalidManifest);
    await updatePanel.getByRole('button',{name:'Verificar atualização',exact:true}).click();
    await download.click();
    await expect.poll(async()=>(await call('updateStatus')).phase,{timeout:120000}).toBe('error');
    assert.equal(buildAt(program).productVersion,'1.0.4');
    await expect(updatePanel.getByRole('button',{name:'Reiniciar e atualizar',exact:true})).toHaveCount(0);
    check('O atualizador rejeitou o instalador com hash divergente e manteve a versão anterior.');
-   feed.setManifest(manifest);
+   await feed.setManifest(manifest);
    await updatePanel.getByRole('button',{name:'Verificar atualização',exact:true}).click();
    const started=performance.now();
    await download.click();
