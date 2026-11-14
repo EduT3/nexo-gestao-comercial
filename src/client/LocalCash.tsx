@@ -36,12 +36,14 @@ export function LocalCash({ company, active = true, refreshToken = 0, administra
     <p>Saldo esperado: <strong>{money(current.balance_cents)}</strong></p>
     {/^\d{1,8}(?:[,.]\d{1,2})?$/.test(counted) && <p>Diferença prevista: <strong>{money(BigInt(cents(counted)) - current.balance_cents)}</strong></p>}<label>Observações do fechamento<input name="notes" maxLength={1000} /></label><button className="button secondary" disabled={busy}>Fechar caixa</button></form></details></>}
     <p role="status">{message}</p>
-    <details className="cash-history" onToggle={event => setHistoryOpen(event.currentTarget.open)}>
-      <summary>Ver histórico de caixas</summary>
+    <div className="cash-history">
+      <button type="button" className="button secondary" aria-expanded={historyOpen} onClick={() => setHistoryOpen(open => !open)}>
+        {historyOpen ? 'Ocultar histórico de caixas' : 'Ver histórico de caixas'}
+      </button>
       <div hidden={!historyOpen}>
         <LocalOperationHistory key={company} kind="cash" company={company} active={active && historyOpen} refreshToken={refreshToken+historyRevision}/>
       </div>
-    </details>
+    </div>
     {current && <table aria-label="Movimentos do caixa"><thead><tr><th>Movimento</th><th>Valor</th></tr></thead><tbody>{current.movements.map(row => <tr key={row.id}><td>{{ PAYMENT: 'Pagamento de conta', PAYMENT_REVERSAL: 'Estorno de pagamento', RECEIPT: 'Recebimento de conta', RECEIPT_REVERSAL: 'Estorno de recebimento', SUPPLY: 'Suprimento', WITHDRAWAL: 'Sangria', SALE: 'Venda', REVERSAL: 'Estorno' }[row.reason] || row.reason}</td><td>{money(row.amount_cents)}</td></tr>)}</tbody></table>}
   </section>;
 }

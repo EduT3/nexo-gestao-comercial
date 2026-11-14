@@ -451,6 +451,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   const absolute=value<0n?-value:value;
   return (value<0n?'-':'')+'R$ '+absolute/100n+','+(absolute%100n).toString().padStart(2,'0');
  };
+ await expect(page.getByRole('button',{name:'Ver histórico de caixas'})).toHaveAttribute('aria-expanded','false');
  await expect(page.getByRole('table',{name:'Histórico de caixas'})).toBeHidden();
  await expect(f.locator('p').filter({hasText:'Saldo esperado:'})).toHaveText('Saldo esperado: '+formatCash(balance));
  const counted=f.getByLabel('Dinheiro contado (R$)',{exact:true});
