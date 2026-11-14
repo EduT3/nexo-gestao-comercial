@@ -1,5 +1,7 @@
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),crypto=require('node:crypto'),{DatabaseSync}=require('node:sqlite');
-const {execFileSync}=require('node:child_process');
+const {execFile,execFileSync}=require('node:child_process');
+const {promisify}=require('node:util');
+const runExecutable=promisify(execFile);
 const O=path.resolve('artifacts/cloud-qa');fs.mkdirSync(O,{recursive:true});const stage=process.cwd(),{_electron,expect}=require('@playwright/test');
 const program=path.resolve(process.env.NEXO_QA_PROGRAM || 'artifacts/installer/win-unpacked');
 const baseline=process.env.NEXO_QA_BASELINE;
@@ -284,6 +286,15 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   assert.equal((await call('updateStatus')).phase,'ready');
   assert.deepEqual(fs.readdirSync(path.dirname(dbfile)).filter(name=>name.startsWith('before-update-')),backupsBefore);
   check('Cancelar a instalação manteve a versão anterior aberta e o download pronto para nova tentativa.');
+  step='segunda abertura com atualização pendente';
+  await runExecutable(path.join(program,'NEXO.exe'),[
+   '--user-data-dir='+d['user-data'],'--disk-cache-dir='+d.cache,
+  ],{cwd:O,env,windowsHide:true,timeout:15000});
+  assert.equal(child.exitCode,null);
+  assert.equal((await call('updateStatus')).phase,'ready');
+  assert.deepEqual(commercialSnapshot(dbfile),previousRecords);
+  check('A segunda abertura encerrou sem interromper o aplicativo ativo ou alterar os dados da atualização pendente.');
+  step='instalação pelo atualizador';
   const exited=new Promise(resolve=>child.once('exit',resolve));
   const installStarted=performance.now();
   await page.getByRole('button',{name:'Reiniciar e atualizar',exact:true}).click();
