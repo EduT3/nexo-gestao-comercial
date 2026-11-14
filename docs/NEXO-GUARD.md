@@ -58,3 +58,10 @@ A execução [43533630029](https://github.com/EduT3/nexo-gestao-comercial/action
 A execução [43534470859](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43534470859), revisão `0ec218d`, aprovou 235 testes em 53 arquivos e o roteiro no executável instalado. O roteiro confirmou a invalidação de uma solicitação após troca de operador e após troca de empresa em uma base fictícia de duas empresas. Operador sem permissão não configurou o Guard nem gerou backup. A instalação sobre 1.0.4, a recuperação com PIN e o retorno ao executável anterior também foram exercitados em dados fictícios.
 
 As capturas da configuração e do teclado foram inspecionadas em 1000 × 650 e 1280 × 900; os controles ficaram visíveis. O instalador `NEXO-Setup-1.0.5.exe` foi baixado do artefato da execução, com SHA-256 `2DD8019454677E1511F4BE1DA0595C6DB6B9DF3414EE0D6858EA8092CB35E62F`. O artefato de Actions tem retenção limitada e é uma candidata, não uma versão estável publicada.
+
+
+## Revisão mais recente validada
+
+A execução [43535721498](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43535721498), revisão `fefab96`, aprovou 236 testes em 53 arquivos, empacotamento, instalação, atualização sobre 1.0.4 e roteiro de aplicativo com dados fictícios. O roteiro verificou a confirmação visível após autorizar backup, as trocas de operador e empresa, o bloqueio de IPC direto e a recuperação com PIN. O instalador baixado `NEXO-Setup-1.0.5.exe` tem SHA-256 `471D5D832150787CEFDE32FFDBB78C3439D6BCE920EA80D6088CF6A38EB31115` e está no artefato `nexo-windows` da execução, com retenção até 28/11/2026. Não é release estável.
+
+O comprimento do PIN é transmitido da política para o diálogo e seus campos; a política e a recuperação na abertura continuam implementadas somente para quatro dígitos. A opção de seis dígitos exige implementação e teste futuros, incluindo migração e recuperação.

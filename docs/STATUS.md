@@ -438,3 +438,8 @@ A revisão `0f29d10` impede que alteração da política dispense o PIN de uma s
 ### Guard — candidata Windows verificada
 
 A execução [43534470859](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43534470859) aprovou 235 testes, o instalador e o roteiro em dados fictícios. Trocas de usuário e de empresa invalidaram pedidos pendentes; as capturas da configuração e do teclado foram inspecionadas em duas dimensões. Candidata vinculada à revisão `0ec218d`; sem merge ou release estável. Detalhes e limites em [NEXO-GUARD.md](NEXO-GUARD.md).
+
+
+### Guard — revisão atual
+
+Candidata `fefab96`: execução [43535721498](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43535721498) aprovada com 236 testes, instalador e verificação do aplicativo em perfil fictício. Confirmação visual, troca de usuário e empresa, recuperação e retorno à versão anterior foram exercitados. PIN permanece em quatro dígitos; seis são trabalho futuro. Sem release estável ou merge.
