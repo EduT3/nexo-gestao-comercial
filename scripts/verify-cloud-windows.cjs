@@ -352,6 +352,9 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  await modal.getByRole('button',{name:'Autorizar',exact:true}).click();
  await expect(page.getByText(/Produto salvo\. O cadastro/).filter({visible:true})).toBeVisible();
  assert.equal((await call('products',A)).filter(item=>item.internal_code==='QA-GUARD-M2').length,1);
+ const emptyProduct=page.getByRole('row').filter({hasText:'QA-GUARD-M2'});
+ await expect(emptyProduct.getByText('Sem estoque',{exact:true})).toBeVisible();
+ check('Produto recém-cadastrado aparece com saldo zero identificado na lista.');
  check('Cadastro protegido mantém rascunho e não grava com PIN incorreto ou ao cancelar. Nova autorização grava um produto.');
 
  await size(1280,900);
