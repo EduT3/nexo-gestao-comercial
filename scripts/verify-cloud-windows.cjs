@@ -197,6 +197,23 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   assert.equal((await call('salesHistory',A,{})).total,5);
   assert.deepEqual(dbCheck(),previous);
  }
+ step='ajuda global e identificação da loja';
+ await size(1000,650);
+ const header=page.getByRole('banner');
+ await expect(header.getByText('Modo local',{exact:true})).toBeVisible();
+ const activeCompany=(await call('status')).companies[0].name;
+ await expect(header.getByText(activeCompany,{exact:true})).toBeVisible();
+ const help=header.getByRole('button',{name:'Ajuda e tutorial',exact:true});
+ await expect(help).toBeInViewport();
+ await help.click();
+ const guide=page.getByRole('region',{name:'Tutorial do NEXO'});
+ await expect(guide).toBeVisible();
+ await expect(help).toHaveAttribute('aria-expanded','true');
+ await page.keyboard.press('Escape');
+ await expect(guide).toHaveCount(0);
+ await expect(help).toBeFocused();
+ check('Ajuda global abre em janela compacta e devolve o foco ao fechar.');
+ await size(1280,900);
  step='Excel e atualizador';
  assert.equal((await call('exportExcel',A)).canceled,false);
  assert.equal(fs.readFileSync(path.join(profile,'relatorio.xlsx')).subarray(0,2).toString(),'PK');
