@@ -19,13 +19,13 @@ export const localTutorialSteps = (administrator: boolean, multipleCompanies = t
   ] : []),
 ];
 
-export function LocalTutorial({ userId, company, companyName, administrator, multipleCompanies = true, currentRoute, busy, onNavigate }: {
+export function LocalTutorial({ userId, company, companyName, administrator, multipleCompanies = true, currentRoute, busy, helpTarget, onNavigate }: {
   userId: string; company: string; companyName: string; administrator: boolean; multipleCompanies?: boolean; currentRoute: string; busy: boolean;
-  onNavigate(step: TutorialStep): void;
+  helpTarget?: HTMLElement; onNavigate(step: TutorialStep): void;
 }) {
   const store = useMemo<TutorialStore>(() => ({
     read: () => window.nexoLocal!.tutorialPreference(company, userId),
     write: value => window.nexoLocal!.saveTutorialPreference(company, userId, value),
   }), [company, userId]);
-  return <Tutorial autoOpen={false} footer={<LocalBuildInfo />} steps={localTutorialSteps(administrator, multipleCompanies)} store={store} companyName={companyName} currentRoute={currentRoute} busy={busy} onNavigate={onNavigate} />;
+  return <Tutorial helpTarget={helpTarget} autoOpen={false} footer={<LocalBuildInfo />} steps={localTutorialSteps(administrator, multipleCompanies)} store={store} companyName={companyName} currentRoute={currentRoute} busy={busy} onNavigate={onNavigate} />;
 }

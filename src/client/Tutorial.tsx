@@ -1,3 +1,4 @@
+import { createPortal } from 'react-dom';
 import { useEffect, useId, useRef, useState, type ReactNode } from 'react';
 import { newTutorialPreference, type TutorialPreference } from '../shared/tutorial';
 import './tutorial.css';
@@ -12,9 +13,9 @@ export type TutorialStore = {
 };
 
 /** Inline help leaves the app operable; only explicit links change the current screen. */
-export function Tutorial({ steps, store, companyName, preview = false, currentRoute, onNavigate, busy = false, footer, autoOpen = true }: {
+export function Tutorial({ steps, store, companyName, preview = false, currentRoute, onNavigate, busy = false, footer, helpTarget, autoOpen = true }: {
   steps: TutorialStep[]; store: TutorialStore; companyName: string; preview?: boolean;
-  currentRoute: string; onNavigate(step: TutorialStep): void; busy?: boolean; footer?: ReactNode; autoOpen?:boolean;
+  currentRoute: string; onNavigate(step: TutorialStep): void; busy?: boolean; footer?: ReactNode; helpTarget?: HTMLElement; autoOpen?:boolean;
 }) {
   const panelId = useId();
   const help = useRef<HTMLButtonElement>(null);
@@ -60,9 +61,10 @@ export function Tutorial({ steps, store, companyName, preview = false, currentRo
   }
   const active = preference.state === 'active';
   const contextual = steps.find(item => item.route === currentRoute) ?? steps[0]!;
+  const helpButton = <button ref={help} type="button" className="button secondary tutorial-help" aria-expanded={open} aria-controls={panelId} disabled={!ready}
+      onClick={() => { setOpen(true); setFocusRevision(value => value + 1); }}>Ajuda e tutorial</button>;
   return <div className="tutorial-shell">
-    <button ref={help} type="button" className="button secondary tutorial-help" aria-expanded={open} aria-controls={panelId} disabled={!ready}
-      onClick={() => { setOpen(true); setFocusRevision(value => value + 1); }}>Ajuda e tutorial</button>
+    {helpTarget ? createPortal(helpButton, helpTarget) : helpButton}
     {open && <section id={panelId} className="tutorial-panel" aria-label="Tutorial do NEXO" onKeyDown={event => {
       if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); close(preference.state === 'disabled' || preference.state === 'completed' ? preference.state : 'paused'); }
     }}>

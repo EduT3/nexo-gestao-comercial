@@ -35,7 +35,7 @@ describe('NEXO Balcão — apresentação e permissões', () => {
         onCompanyChange={() => {}} onBackup={() => {}} onLogout={() => {}}
       />,
     );
-    expect(html.includes('Minha Loja')).toBe(multiple);
+    expect(html).toContain('Minha Loja');
     expect(html.includes('Empresa em operação')).toBe(multiple);
     expect(html).toContain('Caixa aberto');
     expect(html).not.toContain('Adega JG');

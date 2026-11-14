@@ -10,6 +10,7 @@ import {
 import type { Status } from "./LocalApp";
 
 type TopbarProps = {
+  helpTargetRef?(element: HTMLDivElement | null): void;
   status: Status;
   company: string;
   preview: boolean;
@@ -31,6 +32,7 @@ const currentDate = () =>
 
 export function NexoTopbar({
   status,
+  helpTargetRef,
   company,
   preview,
   busy,
@@ -85,6 +87,7 @@ export function NexoTopbar({
         </span>
       </div>
       <div className="nexo-topbar-actions">
+        {!preview && helpTargetRef && <div ref={helpTargetRef} />}
         <span className="nexo-topbar-date">
           <CalendarBlank size={19} />
           {currentDate()}
