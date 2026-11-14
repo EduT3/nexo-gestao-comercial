@@ -51,3 +51,17 @@ Os relatórios baixados do [ZIP Windows](https://github.com/EduT3/nexo-gestao-co
 A execução [43597240803](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43597240803), revisão ac10af6, passou com 242 testes automatizados. Nos dois perfis fictícios, a candidata manteve o aplicativo aberto e tornou a abrir a base após uma falha imediata simulada ao iniciar o instalador. O roteiro comparou os registros da base ativa e da cópia anterior à tentativa.
 
 As origens 1.0.4 e 1.0.5 com Guard recusaram abrir a base fictícia marcada com versão SQLite futura, conservaram seus bytes e voltaram a abrir a cópia compatível com as cinco vendas. O teste simula incompatibilidade de versão do esquema. O [ZIP da candidata 1.0.6](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43597240803/artifacts/14114974245) contém o build NEXO-9726593EFCF75BFE, manifesto de atualização, blockmap e relatórios.
+
+## Situação da homologação
+
+| Cenário | Evidência disponível | Limite |
+|---|---|---|
+| Versão atual, falha na consulta, download interrompido e nova tentativa | Duas origens instaladas na execução 43596780998 | A falha foi induzida no canal local, sem desligar a rede do Windows. |
+| Hash divergente, cancelamento e instalação pelo aplicativo | Execução 43596780998 | Canal local e NSIS silencioso, com reabertura pelo roteiro. |
+| Banco, usuário, permissões e Guard após atualização | Execuções 43596780998 e 43597240803 | Bases e perfis fictícios. |
+| Falha imediata ao iniciar o instalador | Execução 43597240803 | Evento simulado. Falha depois que o NSIS começa continua sem evidência. |
+| Retorno a executável anterior | Execução 43597240803 | Cópia compatível reaberta. Esquema futuro simulado recusado sem alteração dos bytes. |
+| Consulta HTTPS à origem pública configurada | Execução 43598510779 em andamento no fechamento deste registro | A candidata não foi publicada no canal público. |
+| Reabertura automática, reinicialização durante a instalação e assinatura | Pendente | Ainda exige evidência específica. |
+
+O relatório continua aberto até a execução dos cenários pendentes e a revisão da candidata final. O mesmo número 1.0.6 aparece em várias candidatas de teste. Use o identificador do build e a execução do GitHub para identificar o pacote analisado.
