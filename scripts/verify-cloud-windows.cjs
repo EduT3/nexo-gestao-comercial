@@ -342,6 +342,21 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  }
  check('Navegação por teclado e largura da página verificadas em Vender, Estoque, Caixa e Contas nas três resoluções de homologação.');
  await size(1280,900);
+ step='filtros e estados vazios de Contas';
+ await nav('Contas').click();
+ const financeTabs=page.getByRole('group',{name:'Tarefas do financeiro'});
+ for (const [tab,kind] of [['Pagar','pagar'],['Receber','receber']]) {
+  await financeTabs.getByRole('button',{name:tab,exact:true}).click();
+  const filters=page.getByRole('group',{name:'Filtrar contas a '+kind});
+  const accountSearch=filters.getByRole('textbox',{name:'Buscar conta a '+kind});
+  await accountSearch.fill('sem-resultado-qa-'+crypto.randomUUID());
+  await expect(statusText('Nenhuma conta a '+kind+' corresponde aos filtros.')).toBeVisible();
+  await filters.getByRole('button',{name:'Limpar filtros',exact:true}).click();
+  await expect(accountSearch).toHaveValue('');
+  await expect(filters.getByRole('combobox',{name:'Situação das contas a '+kind})).toHaveValue('OPEN');
+  await expect(statusText('Nenhuma conta a '+kind+' corresponde aos filtros.')).toHaveCount(0);
+ }
+ check('Pagar e Receber explicaram a busca vazia e voltaram às pendências ao limpar os filtros.');
  step='Excel e atualizador';
  assert.equal((await call('exportExcel',A)).canceled,false);
  assert.equal(fs.readFileSync(path.join(profile,'relatorio.xlsx')).subarray(0,2).toString(),'PK');
