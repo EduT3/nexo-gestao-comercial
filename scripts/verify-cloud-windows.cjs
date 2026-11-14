@@ -1,4 +1,5 @@
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),crypto=require('node:crypto'),{DatabaseSync}=require('node:sqlite');
+const {execFileSync}=require('node:child_process');
 const O=path.resolve('artifacts/cloud-qa');fs.mkdirSync(O,{recursive:true});const stage=process.cwd(),{_electron,expect}=require('@playwright/test');
 const program=path.resolve(process.env.NEXO_QA_PROGRAM || 'artifacts/installer/win-unpacked');
 const baseline=process.env.NEXO_QA_BASELINE;
@@ -264,17 +265,18 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   const previous=dbCheck();
   const previousRecords=commercialSnapshot(dbfile);
   assert.equal(buildAt(program).id,sourceBuild.id);
-  await app.evaluate(({dialog})=>{
+  const autoRelaunch=process.env.GITHUB_ACTIONS==='true' && process.env.NEXO_QA_REQUIRE_GUARD_SOURCE==='1';
+  await app.evaluate(({dialog},autoRelaunch)=>{
    const updater=process.mainModule.require('electron-updater').autoUpdater;
    const install=updater.quitAndInstall.bind(updater);
    // Keep the real installer launch; reopen under the isolated profile ourselves.
-   updater.quitAndInstall=()=>install(true,false);
+   updater.quitAndInstall=()=>install(true,autoRelaunch);
    let confirmations=0;
    dialog.showMessageBox=async(_window,options)=>{
     if(options.title!=='Atualizar NEXO') throw Error('Diálogo inesperado: '+options.title);
     return {response:confirmations++ === 0 ? 0 : 1};
    };
-  });
+  },autoRelaunch);
   const backupsBefore=fs.readdirSync(path.dirname(dbfile)).filter(name=>name.startsWith('before-update-'));
   await call('installUpdate');
   assert.equal(child.exitCode,null);
@@ -306,6 +308,17 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   for (const {relative} of expectedFiles) {
    const digest=file=>crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
    assert.equal(digest(path.join(installedApp,relative)),digest(path.join(packedApp,relative)),relative);
+  }
+  if (autoRelaunch) {
+   step='reabertura automática pelo instalador';
+   const query=command=>execFileSync('powershell.exe',['-NoProfile','-NonInteractive','-Command',command],{
+    encoding:'utf8',windowsHide:true,timeout:10000,env:{...process.env,NEXO_QA_INSTALLED_EXE:path.join(program,'NEXO.exe')},
+   }).trim();
+   const installedWindow="Get-Process -Name NEXO -ErrorAction SilentlyContinue | Where-Object { $_.Path -eq $env:NEXO_QA_INSTALLED_EXE -and $_.MainWindowHandle -ne 0 }";
+   await expect.poll(()=>query(installedWindow+' | Select-Object -ExpandProperty Id'),{timeout:60000}).toMatch(/^\d+$/);
+   assert.equal(query(installedWindow+' | ForEach-Object { $_.CloseMainWindow() }'),'True');
+   await expect.poll(()=>query(installedWindow+' | Select-Object -ExpandProperty Id'),{timeout:30000}).toBe('');
+   check('O NSIS reabriu o executável instalado e criou uma janela sem lançamento manual no runner descartável.');
   }
   timings.push({operation:'update-install',version:id.productVersion,ms:Math.round(performance.now()-installStarted)});
   const updateBackups=fs.readdirSync(path.dirname(dbfile))
