@@ -10,6 +10,7 @@ export interface GuardBridge {
   guardConfigure(input: Configuration): Promise<{ recoveryKey: string } | undefined>;
   guardRecover(input: {key:string;pin:string;confirmation:string}): Promise<{recoveryKey:string}>;
   guardApprove(id: string, pin: string): Promise<unknown>;
+  onGuardAuthorized(callback: (id: string) => void): () => void;
   guardCancel(id: string): Promise<void>;
   guardInvalidate(): Promise<void>;
   registerGuardPrompt(callback: ((id: string, label: string, pinLength: number) => Promise<unknown>) | null): void;
@@ -25,9 +26,14 @@ export function useGuardPending() {
 
 export function GuardPrompt({ children }: { children: ReactNode }) {
   const [request, setRequest] = useState<Request>();
+  const [authorizedId, setAuthorizedId] = useState<string>();
   const [notice, setNotice] = useState('');
   const current = useRef<Request>(undefined);
   const bridge = window.nexoLocal;
+
+  useEffect(() => bridge?.onGuardAuthorized?.(id => {
+    if (current.current?.id === id) setAuthorizedId(id);
+  }), [bridge]);
 
   useEffect(() => {
     bridge?.registerGuardPrompt?.((id, label, pinLength) => new Promise((resolve, reject) => {
@@ -56,10 +62,10 @@ export function GuardPrompt({ children }: { children: ReactNode }) {
     current.current = undefined;
     setRequest(undefined);
   }
-  return <GuardPendingContext.Provider value={Boolean(request)}>
+  return <GuardPendingContext.Provider value={Boolean(request && authorizedId !== request.id)}>
     {children}
     {!request && notice && <div role="status" className="guard-success">{notice}</div>}
-    {request && <PinDialog key={request.id} label={request.label} pinLength={request.pinLength} onCancel={() => {
+    {request && <PinDialog key={request.id} label={request.label} pinLength={request.pinLength} authorized={authorizedId === request.id} onCancel={() => {
     void bridge?.guardCancel?.(request.id).catch(() => undefined);
     request.reject(Error('Autorização cancelada.'));
     finish();
@@ -78,8 +84,8 @@ export function GuardPrompt({ children }: { children: ReactNode }) {
   </GuardPendingContext.Provider>;
 }
 
-function PinDialog({ label, pinLength, onCancel, onApprove }: {
-  label: string; pinLength: number; onCancel(): void; onApprove(pin: string): Promise<void>;
+function PinDialog({ label, pinLength, authorized, onCancel, onApprove }: {
+  label: string; pinLength: number; authorized: boolean; onCancel(): void; onApprove(pin: string): Promise<void>;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const [digits, setDigits] = useState('');
@@ -127,7 +133,7 @@ function PinDialog({ label, pinLength, onCancel, onApprove }: {
         <button type="button" onClick={() => add('0')}>0</button>
         <button type="button" aria-label="Apagar último dígito" onClick={() => setDigits(value => value.slice(0,-1))}>⌫</button>
       </fieldset>
-      <p role="status">{message}</p>
+      <p role="status">{authorized ? 'PIN aceito. Processando a operação…' : busy ? 'Verificando PIN…' : message}</p>
       <button className="button primary" disabled={busy || digits.length !== pinLength}>Autorizar</button>
     </form>
   </dialog>;

@@ -207,3 +207,5 @@ A revisão `a2c1fbe` adicionou teste integrado de política individual/global co
 ### M2.1 — feedback de autorização em produtos e compras
 
 O cadastro de produto e a entrada de estoque exibiam “Salvando…” durante o pedido de PIN. Agora distinguem a autorização pendente do processamento da operação. O formulário de produto também apresenta erros e cancelamentos enquanto permanece aberto. Alterações em `src/client/Guard.tsx`, `main.tsx`, `LocalApp.tsx` e `LocalPurchases.tsx`. Tipagem do cliente e 17 testes de Guard, catálogo e compras aprovados. A verificação no executável e os demais fluxos de M2.1 seguem pendentes.
+
+O processo principal agora sinaliza o PIN aceito depois das verificações de permissão e da invalidação do pedido, imediatamente antes de executar a ação. O diálogo diferencia a verificação do PIN do processamento. Alterações na ponte Electron, no diálogo e no teste do broker. Tipagem e 15 testes do Guard aprovados. Falta verificar o evento no executável Windows.

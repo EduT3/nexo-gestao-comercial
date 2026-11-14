@@ -51,6 +51,7 @@ declare global {
       guardApprove?: GuardBridge["guardApprove"];
       guardCancel?: GuardBridge["guardCancel"];
       guardInvalidate?: GuardBridge["guardInvalidate"];
+      onGuardAuthorized?: GuardBridge["onGuardAuthorized"];
       registerGuardPrompt?: GuardBridge["registerGuardPrompt"];
       updateStatus?(): Promise<{phase:string;percent?:number;version?:string}>;
       checkUpdate?(): Promise<{phase:string;percent?:number;version?:string}>;

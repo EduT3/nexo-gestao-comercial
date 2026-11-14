@@ -67,7 +67,7 @@ function createGuardBroker(store) {
     cancel(id) {
       pending.delete(id);
     },
-    async approve(id, pin) {
+    async approve(id, pin, onAuthorized = () => {}) {
       const request = pending.get(id);
       const scope = generation;
       if (!request || request.expires <= Date.now()) throw Error('Solicitação expirada.');
@@ -80,6 +80,7 @@ function createGuardBroker(store) {
           throw Error('Solicitação expirada ou cancelada.');
         }
         pending.delete(id);
+        onAuthorized();
         return request.perform();
       } finally {
         request.verifying = false;

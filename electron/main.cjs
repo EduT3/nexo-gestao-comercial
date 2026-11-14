@@ -142,7 +142,10 @@ else app.whenReady().then(async () => {
   });
   handle('nexo:guard-describe', id => { requireActor(); return guard.describe(id); });
   handle('nexo:guard-cancel', id => { requireActor(); guard.cancel(id); });
-  handle('nexo:guard-approve', (id, pin) => { requireActor(); return guard.approve(id, pin); });
+  handle('nexo:guard-approve', (id, pin) => { requireActor(); return guard.approve(id, pin, () => {
+    // Feedback is best effort. A closed window must not change the operation result.
+    try { window.webContents.send('nexo:guard-authorized', id); } catch { /* Window closed. */ }
+  }); });
   handle('nexo:guard-invalidate', () => guard.invalidate());
   handle('nexo:build-info', () => readBuildInfo(root));
   handle('nexo:open-releases', () => {

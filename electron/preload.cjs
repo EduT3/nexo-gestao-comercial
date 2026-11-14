@@ -25,6 +25,11 @@ contextBridge.exposeInMainWorld('nexoLocal', Object.freeze({
   guardConfigure: input => invoke('nexo:guard-configure', input),
   guardRecover: input => invoke('nexo:guard-recover', input),
   guardApprove: (id, pin) => invoke('nexo:guard-approve', id, pin),
+  onGuardAuthorized: callback => {
+    const listener = (_event, id) => callback(id);
+    ipcRenderer.on('nexo:guard-authorized', listener);
+    return () => ipcRenderer.removeListener('nexo:guard-authorized', listener);
+  },
   guardCancel: id => invoke('nexo:guard-cancel', id),
   guardInvalidate: () => invoke('nexo:guard-invalidate'),
   registerGuardPrompt: callback => { promptForGuard = callback; },
