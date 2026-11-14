@@ -58,6 +58,10 @@
 .local-app .nexo-topbar { display: flex; align-items: center; gap: 16px; min-height: var(--nexo-topbar-height); padding: 14px 25px; border-bottom: 1px solid var(--nexo-line); background: #fff; box-shadow: none; }
 .nexo-topbar-context, .nexo-topbar-actions { display: flex; align-items: center; gap: 12px; min-width: 0; }
 .nexo-topbar-actions { margin-left: auto; gap: 12px; }
+.nexo-topbar-actions .tutorial-help { margin-bottom: 0; white-space: nowrap; }
+.nexo-topbar-context .local-mode { min-width: 0; }
+.nexo-topbar-context .local-mode > svg { flex-shrink: 0; }
+
 .local-app .nexo-company-picker { display: flex; align-items: center; gap: 9px; padding: 8px 11px; border: 1px solid #dfe6e9; border-radius: 9px; color: var(--nexo-ink); min-width: 164px; }
 .nexo-company-picker > span { min-width: 0; }
 .nexo-company-picker small { display: block; color: var(--nexo-muted); font-size: 10px; font-weight: 600; }
