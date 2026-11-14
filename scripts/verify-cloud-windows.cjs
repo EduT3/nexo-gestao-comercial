@@ -49,6 +49,21 @@ async function shot(name,{top=true}={}){
  await capture();await page.waitForTimeout(220);
  const png=await capture();assert(png.length>3000);fs.writeFileSync(path.join(profile,name+'.png'),Buffer.from(png,'base64'));result.screenshots.push(name+'.png');persist();
 }
+async function measureInstalledExport(version) {
+ const started=performance.now();
+ assert.equal((await call('exportExcel',A)).canceled,false);
+ const ms=Math.round(performance.now()-started);
+ assert.equal(fs.readFileSync(path.join(profile,'relatorio.xlsx')).subarray(0,2).toString(),'PK');
+ const processes=await app.evaluate(async({app})=>{
+  app.getAppMetrics();
+  await new Promise(resolve=>setTimeout(resolve,1000));
+  return app.getAppMetrics()
+   .filter(entry=>entry.type==='Browser'||entry.type==='Tab')
+   .map(entry=>({type:entry.type,workingSetKiB:entry.memory.workingSetSize,cpuPercent:entry.cpu.percentCPUUsage}));
+ });
+ assert(processes.some(entry=>entry.type==='Browser'));
+ timings.push({operation:'installed-excel-export',version,ms,processes});
+}
 function commercialSnapshot(file){
  const tables=['local_users','local_memberships','local_products','local_stock_movements',
   'local_purchases','local_purchase_items','local_purchase_payables','local_sales','local_sale_items',
@@ -155,6 +170,8 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
    assert.equal(buildAt(program).id,sourceBuild.id);
    check('Aplicativo instalado consultou o GitHub Releases pelo canal público HTTPS configurado.');
   }
+  step='medição da versão instalada antes de atualizar';
+  await measureInstalledExport(sourceBuild.productVersion);
   step='consulta e download pelo atualizador instalado';
   const setup = path.basename(process.env.NEXO_QA_SETUP);
   const {startUpdateQaFeed}=require('./update-qa-feed.cjs');
@@ -289,6 +306,8 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   assert.deepEqual(commercialSnapshot(dbfile),previousRecords);
   assert.equal((await call('status')).userId,owner);
   check('Após atualizar, o Windows reabriu a candidata com os mesmos usuários, vínculos e registros comerciais.');
+  step='medição da candidata após atualizar';
+  await measureInstalledExport(id.productVersion);
   if(originalGuard){
    const updatedGuard=await call('guardStatus');
    assert.equal(updatedGuard.enabled,originalGuard.enabled);
