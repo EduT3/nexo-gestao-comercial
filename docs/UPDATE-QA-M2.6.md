@@ -122,3 +122,9 @@ O [artefato nexo-windows](https://github.com/EduT3/nexo-gestao-comercial/actions
 
 
 A revisão seguinte implementa a confirmação pós-abertura. Um registro local temporário é criado antes de chamar o instalador, limpo se o executável falha ao iniciar e consumido depois que o aplicativo prepara o SQLite e carrega a janela principal. O teste instalado usa um registro preparado no perfil fictício porque os instaladores históricos antecedem esse recurso. A criação do registro pelo atualizador e seu consumo pela versão de destino ainda precisam ser verificados no mesmo ensaio Windows.
+
+#### Confirmação na primeira abertura
+
+O log da [execução 43652065841](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43652065841) registrou a mensagem “Atualização concluída. Você está usando a versão 1.0.6.” na janela do aplicativo instalado em perfil descartável. A execução falhou porque a expectativa de teste consultou `version`, enquanto o manifesto do pacote usa `productVersion`. O commit `6b40a6f` passou a validar o campo correto e a compartilhar a expectativa entre os dois cenários. O workflow manteve a falha e não disponibilizou o instalador dessa execução.
+
+O ensaio com registro preparado verifica a leitura e a remoção na primeira abertura. O ensaio adicional parte de um instalador 1.0.6 aprovado, conferido por SHA-256, e aciona a instalação da 1.0.7 pelo próprio NEXO. Nele, o roteiro verifica que cancelar a confirmação não cria o registro, que a versão anterior grava as versões de origem e destino após o aceite e que a nova versão mostra a conclusão depois de abrir. O roteiro reabre manualmente a versão de destino no perfil descartável para inspecionar a mensagem. A reabertura automática silenciosa tem evidência em um ensaio anterior.
