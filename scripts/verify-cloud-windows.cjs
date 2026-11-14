@@ -1,5 +1,5 @@
 const fs=require('node:fs'),path=require('node:path'),assert=require('node:assert/strict'),crypto=require('node:crypto'),{DatabaseSync}=require('node:sqlite');
-const {execFile,execFileSync}=require('node:child_process');
+const {execFile,execFileSync,spawn}=require('node:child_process');
 const {promisify}=require('node:util');
 const runExecutable=promisify(execFile);
 const O=path.resolve('artifacts/cloud-qa');fs.mkdirSync(O,{recursive:true});const stage=process.cwd(),{_electron,expect}=require('@playwright/test');
@@ -720,6 +720,35 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  assert(!(await call('products',B)).some(item=>item.internal_code==='GUARD-CROSS'));
  await close();
  check('Troca de empresa invalida autorização pendente em base fictícia de duas empresas.');
+ if (process.env.GITHUB_ACTIONS==='true' && process.env.NEXO_QA_REQUIRE_GUARD_SOURCE==='1') {
+  step='interrupcao do instalador e reinstalacao';
+  const records=commercialSnapshot(dbfile);
+  const setup=path.resolve(process.env.NEXO_QA_SETUP);
+  const target=fs.mkdtempSync(path.join(process.env.RUNNER_TEMP,'nexo-interrupted-'));
+  const args=['/S','/D='+target];
+  const installer=spawn(setup,args,{env,windowsHide:true,stdio:'ignore'});
+  const exited=new Promise((resolve,reject)=>{
+   installer.once('error',reject);
+   installer.once('exit',(code,signal)=>resolve({code,signal}));
+  });
+  // Observe a file written by NSIS before terminating only this test installer.
+  try {
+   await expect.poll(()=>fs.existsSync(path.join(target,'NEXO.exe')),{timeout:30000,intervals:[20]}).toBe(true);
+   assert.equal(installer.exitCode,null);
+   assert(installer.kill());
+  } finally {
+   if (installer.exitCode===null && installer.signalCode===null) installer.kill();
+   assert.notEqual((await exited).code,0);
+  }
+  assert.deepEqual(commercialSnapshot(dbfile),records);
+  await runExecutable(setup,args,{env,windowsHide:true,timeout:120000});
+  assert.equal(buildAt(target).id,id.id);
+  await open(target);await login();
+  assert.equal((await call('salesHistory',A,{})).total,5);
+  await close();
+  assert.deepEqual(commercialSnapshot(dbfile),records);
+  check('Instalador interrompido em pasta descartavel. Nova instalacao abriu e preservou os registros.');
+ }
  assert.deepEqual(result.rendererErrors,[]);result.passed=true;
 }catch(e){console.error('Falha na etapa: '+step,e);if(page){try{result.visibleText=(await page.locator('body').innerText()).slice(0,4000);await shot('failure-'+step.replace(/[^a-z0-9-]/gi,'-'));}catch(captureError){result.captureError=String(captureError);}}result.passed=false;result.step=step;result.errors.push(String(e.stack||e));process.exitCode=1;}
 finally{if(app)try{await close();}catch(e){result.errors.push(String(e));result.passed=false;process.exitCode=1;}result.timings=timings;persist();console.log(JSON.stringify({profile,passed:result.passed,step:result.step,errors:result.errors,closed:result.launches.map(x=>x.exitCode)}));}})();
