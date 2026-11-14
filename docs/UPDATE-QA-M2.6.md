@@ -64,7 +64,8 @@ As origens 1.0.4 e 1.0.5 com Guard recusaram abrir a base fictícia marcada com 
 | Consulta HTTPS à origem pública configurada | Execução 43598510779 aprovada com 242 testes automatizados | A candidata foi distribuída pelo canal local de teste. |
 | Segunda instância enquanto a atualização aguarda confirmação | Execução 43623401359 aprovada nas duas origens | A segunda abertura encerrou, o processo original permaneceu ativo e os registros e o download foram preservados. |
 | Reabertura automática após instalar | Execução 43623280591 aprovada | NSIS silencioso no Windows descartável. |
-| Interrupção durante a troca dos binários e assinatura | Ensaio de interrupção em execução. Instalador de teste sem assinatura | Ainda falta comprovar a recuperação da instalação interrompida. |
+| Interrupção durante a troca dos binários | Execução 43624501699 aprovada | NSIS interrompido após escrever arquivo da candidata. Reinstalação e registros verificados no perfil fictício. |
+| Assinatura do instalador | Instalador de teste sem assinatura | A verificação do manifesto não comprova a identidade do publicador por certificado. |
 
 O relatório continua aberto até a execução dos cenários pendentes e a revisão da candidata final. O mesmo número 1.0.6 aparece em várias candidatas de teste. Use o identificador do build e a execução do GitHub para identificar o pacote analisado.
 
@@ -89,7 +90,7 @@ A execução [43598510779](https://github.com/EduT3/nexo-gestao-comercial/action
 3. Se a base não abrir, use a tela de recuperação para escolher uma cópia compatível. Confira a data da cópia antes de confirmar. Registros feitos após essa data precisarão ser reconciliados. Guarde os arquivos preservados pelo programa.
 4. Se precisar voltar para um executável anterior, teste primeiro com uma cópia dos dados em perfil isolado. Se a versão antiga recusar o esquema, preserve a base original e abra-a com uma versão compatível.
 
-O ensaio Windows comprovou a cópia pré-atualização, a recuperação da falha simulada de lançamento e a recusa de esquema futuro. O procedimento acima ainda precisa ser ensaiado após interrupção real do NSIS durante a instalação.
+O ensaio Windows comprovou a cópia pré-atualização, a recuperação da falha simulada de lançamento e a recusa de esquema futuro. A etapa de reinstalação também foi ensaiada após interrupção do processo NSIS, conforme a evidência abaixo.
 
 ### M2.6 — reabertura automática confirmada
 
@@ -100,3 +101,7 @@ A [execução 43623280591](https://github.com/EduT3/nexo-gestao-comercial/action
 ### Segunda instância com atualização pendente
 
 A [execução 43623401359](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43623401359) verificou a tentativa de abrir o mesmo executável com o mesmo perfil fictício antes de confirmar a instalação. O NEXO que já estava aberto continuou operando e manteve a atualização pronta. O cenário passou a partir da 1.0.4 e da 1.0.5 com Guard. [ZIP aprovado](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43623401359/artifacts/14125801543).
+
+### Recuperação durante a substituição dos arquivos
+
+Na [execução 43624501699](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43624501699), o cenário instalou a 1.0.5 com Guard em pasta descartável, iniciou o NSIS da candidata e encerrou o processo após detectar um arquivo novo da interface. A reinstalação na mesma pasta abriu o NEXO 1.0.6 com as cinco vendas fictícias e preservou os registros comparados. A execução passou e publicou o [ZIP com as evidências](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43624501699/artifacts/14126175261). A checagem adicional de integridade SQLite e igualdade do arquivo Guard está na execução 43624707886.
