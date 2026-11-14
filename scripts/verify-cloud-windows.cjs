@@ -203,6 +203,10 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
    try{return fs.statSync(path.join(installedApp,file.relative)).size===file.size;}
    catch{return false;}
   }),{timeout:180000}).toBe(true);
+  for (const {relative} of expectedFiles) {
+   const digest=file=>crypto.createHash('sha256').update(fs.readFileSync(file)).digest('hex');
+   assert.equal(digest(path.join(installedApp,relative)),digest(path.join(packedApp,relative)),relative);
+  }
   timings.push({operation:'update-install',version:id.productVersion,ms:Math.round(performance.now()-installStarted)});
   assert(fs.readdirSync(path.dirname(dbfile)).some(name=>/^before-update-.*\.sqlite$/.test(name)));
   check('Botão de atualização acionou o instalador baixado e gerou backup antes do fechamento.');
