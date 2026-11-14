@@ -11,6 +11,7 @@ function cents(value: FormDataEntryValue | null) {
 export function LocalCash({ company, active = true, refreshToken = 0, administrator = true, onSaved }: { company: string; active?: boolean; refreshToken?: number; administrator?: boolean; onSaved?(): void }) {
   const bridge = window.nexoLocal!; const [current, setCurrent] = useState<CashSession|null>(),[activeError,setActiveError]=useState(''),[historyRevision,setHistoryRevision]=useState(0);
   const [counted, setCounted] = useState('');
+  const [historyOpen, setHistoryOpen] = useState(false);
   const [busy, setBusy] = useState(false); const [message, setMessage] = useState('');
   const [openKey, setOpenKey] = useState(() => crypto.randomUUID()); const [moveKey, setMoveKey] = useState(() => crypto.randomUUID());
   const requests = useLocalQuery(company, active, refreshToken, async () => {setCurrent(undefined);setActiveError('');return bridge.activeCash(company);}, setCurrent, error => {setCurrent(undefined);setActiveError(errorMessage(error));});
@@ -35,7 +36,10 @@ export function LocalCash({ company, active = true, refreshToken = 0, administra
     <p>Saldo esperado: <strong>{money(current.balance_cents)}</strong></p>
     {/^\d{1,8}(?:[,.]\d{1,2})?$/.test(counted) && <p>Diferença prevista: <strong>{money(BigInt(cents(counted)) - current.balance_cents)}</strong></p>}<label>Observações do fechamento<input name="notes" maxLength={1000} /></label><button className="button secondary" disabled={busy}>Fechar caixa</button></form></details></>}
     <p role="status">{message}</p>
-    <LocalOperationHistory key={company} kind="cash" company={company} active={active} refreshToken={refreshToken+historyRevision}/>
+    <details className="cash-history" onToggle={event => setHistoryOpen(event.currentTarget.open)}>
+      <summary>Ver histórico de caixas</summary>
+      <LocalOperationHistory key={company} kind="cash" company={company} active={active && historyOpen} refreshToken={refreshToken+historyRevision}/>
+    </details>
     {current && <table aria-label="Movimentos do caixa"><thead><tr><th>Movimento</th><th>Valor</th></tr></thead><tbody>{current.movements.map(row => <tr key={row.id}><td>{{ PAYMENT: 'Pagamento de conta', PAYMENT_REVERSAL: 'Estorno de pagamento', RECEIPT: 'Recebimento de conta', RECEIPT_REVERSAL: 'Estorno de recebimento', SUPPLY: 'Suprimento', WITHDRAWAL: 'Sangria', SALE: 'Venda', REVERSAL: 'Estorno' }[row.reason] || row.reason}</td><td>{money(row.amount_cents)}</td></tr>)}</tbody></table>}
   </section>;
 }

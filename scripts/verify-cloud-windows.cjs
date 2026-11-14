@@ -413,6 +413,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   const absolute=value<0n?-value:value;
   return (value<0n?'-':'')+'R$ '+absolute/100n+','+(absolute%100n).toString().padStart(2,'0');
  };
+ await expect(page.getByRole('table',{name:'Histórico de caixas'})).toBeHidden();
  await expect(f.locator('p').filter({hasText:'Saldo esperado:'})).toHaveText('Saldo esperado: '+formatCash(balance));
  const counted=f.getByLabel('Dinheiro contado (R$)',{exact:true});
  await counted.fill('11,00');
@@ -422,6 +423,8 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  await f.getByRole('button',{name:'Fechar caixa',exact:true}).click();
  await expect(page.locator('.nexo-status-chip.closed')).toHaveText('Caixa fechado');
  await expect(page.getByRole('region',{name:'Operação do caixa'}).getByRole('status').filter({hasText:'Caixa fechado. Confira a diferença no histórico.'})).toBeVisible();assert.equal(await call('activeCash',A),null);
+ await page.getByText('Ver histórico de caixas',{exact:true}).click();
+ await expect(page.getByRole('table',{name:'Histórico de caixas'})).toContainText('Fechado');
  await close();const before=dbCheck();assert.equal(before.tables,27);assert.equal(before.sales,5);
  await open();await login();assert.equal((await call('status')).userId,owner);assert.equal((await call('salesHistory',A,{})).total,5);assert.equal(await call('activeCash',A),null);await close();assert.deepEqual(dbCheck(),before);assert.deepEqual(result.rendererErrors,[]);check('Backup/restauração, fechamento, login e reabertura com cinco vendas e 27 tabelas íntegras.');
  step='NEXO Guard no Windows';

@@ -210,6 +210,7 @@ try {
   await expect(page.getByRole('table', { name: 'Estoque atual' })).toContainText('0,255');
   await page.getByLabel('Dinheiro contado (R$)').fill('26,99');
   await page.getByRole('button', { name: 'Fechar caixa', exact: true }).click();
+  await page.getByText('Ver histórico de caixas', { exact: true }).click();
   await expect(page.getByRole('table', { name: 'Histórico de caixas' })).toContainText('-R$ 0,01');
   await application.close(); application = undefined;
   page = await launch();
