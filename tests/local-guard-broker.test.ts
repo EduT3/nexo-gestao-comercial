@@ -59,3 +59,45 @@ it('keeps independent requests and refuses one whose permission is revoked', asy
   expect(first).not.toHaveBeenCalled();
   expect(second).toHaveBeenCalledTimes(1);
 });
+
+it('binds each approval to its original operation even with concurrent requests', async () => {
+  let release!: () => void;
+  const verification = new Promise<void>(resolve => { release = resolve; });
+  const guard = createGuardBroker({
+    status: async () => ({enabled:true,all:true}),
+    authorize: async () => verification,
+  });
+  const original = vi.fn(() => ({company:'A',amount:100}));
+  const other = vi.fn(() => ({company:'B',amount:200}));
+  const firstError = await guard.run('update-product', original).catch((e: Error) => e.message);
+  const secondError = await guard.run('update-product', other).catch((e: Error) => e.message);
+  const firstId = firstError.split(':')[1];
+  const secondId = secondError.split(':')[1];
+  const approval = guard.approve(firstId,'0123');
+  await expect(guard.approve(firstId,'0123')).rejects.toThrow('Aguarde');
+  release();
+  await expect(approval).resolves.toEqual({company:'A',amount:100});
+  expect(other).not.toHaveBeenCalled();
+  await expect(guard.approve(firstId,'0123')).rejects.toThrow('expirada');
+  await expect(guard.approve(secondId,'0123')).resolves.toEqual({company:'B',amount:200});
+  expect(original).toHaveBeenCalledTimes(1);
+});
+
+it('rejects expired requests and cancelled approvals', async () => {
+  vi.useFakeTimers();
+  try {
+    const guard = createGuardBroker({status:async()=>({enabled:true,all:true}),authorize:async()=>{}});
+    const action = vi.fn();
+    const first = await guard.run('cancel-sale',action).catch((e:Error)=>e.message);
+    const id = first.split(':')[1];
+    vi.advanceTimersByTime(60001);
+    await expect(guard.approve(id,'0123')).rejects.toThrow('expirada');
+    const second = await guard.run('cancel-sale',action).catch((e:Error)=>e.message);
+    const secondId = second.split(':')[1];
+    guard.cancel(secondId);
+    await expect(guard.approve(secondId,'0123')).rejects.toThrow('expirada');
+    expect(action).not.toHaveBeenCalled();
+  } finally {
+    vi.useRealTimers();
+  }
+});
