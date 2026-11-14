@@ -222,7 +222,15 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
    assert.equal(digest(path.join(installedApp,relative)),digest(path.join(packedApp,relative)),relative);
   }
   timings.push({operation:'update-install',version:id.productVersion,ms:Math.round(performance.now()-installStarted)});
-  assert(fs.readdirSync(path.dirname(dbfile)).some(name=>/^before-update-.*\.sqlite$/.test(name)));
+  const updateBackups=fs.readdirSync(path.dirname(dbfile))
+   .filter(name=>/^before-update-.*\.sqlite$/.test(name)&&!backupsBefore.includes(name));
+  assert.equal(updateBackups.length,1);
+  const updateBackup=path.join(path.dirname(dbfile),updateBackups[0]);
+  const backupDb=new DatabaseSync(updateBackup,{readOnly:true});
+  try {
+   assert.equal(backupDb.prepare('PRAGMA integrity_check').get().integrity_check,'ok');
+  } finally { backupDb.close(); }
+  assert.deepEqual(commercialSnapshot(updateBackup),previousRecords);
   check('Botão de atualização acionou o instalador baixado e gerou backup antes do fechamento.');
   await open();await login();
   assert.equal((await call('salesHistory',A,{})).total,5);
