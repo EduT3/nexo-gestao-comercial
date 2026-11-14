@@ -67,7 +67,7 @@ As origens 1.0.4 e 1.0.5 com Guard recusaram abrir a base fictícia marcada com 
 | Interrupção durante a troca dos binários | Execução 43624707886 aprovada | Reinstalação no mesmo destino, registros, integridade SQLite e arquivo do Guard verificados. |
 | Assinatura do instalador | Instalador de teste sem assinatura | A verificação do manifesto não comprova a identidade do publicador por certificado. |
 
-A candidata 1.0.6 está disponível para testes. Seguem sem evidência o reinício integral do Windows durante a instalação e o download de uma candidata por um canal público HTTPS. A consulta HTTPS ao canal configurado e a instalação pelo canal local foram verificadas. O mesmo número 1.0.6 aparece em várias candidatas de teste. Use o identificador do build e a execução do GitHub para identificar o pacote analisado.
+A candidata 1.0.6 está disponível para testes. Seguem sem evidência o reinício integral do Windows durante a instalação e o download de uma candidata por um canal público HTTPS. A consulta e o download da release pública 1.0.4 por HTTPS foram verificados, assim como a instalação da candidata pelo canal local. O mesmo número 1.0.6 aparece em várias candidatas de teste. Use o identificador do build e a execução do GitHub para identificar o pacote analisado.
 
 ### Integridade da distribuição pública 1.0.4
 
@@ -109,3 +109,7 @@ Na [execução 43624501699](https://github.com/EduT3/nexo-gestao-comercial/actio
 ### M2.6 — recuperação com verificação de integridade
 
 A [execução 43624707886](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43624707886), revisão 85f81d4, aprovou 242 testes e os dois perfis fictícios. Após interromper a substituição dos arquivos da 1.0.5 com Guard, o roteiro reinstalou a 1.0.6, abriu o NEXO, confirmou as cinco vendas e verificou a integridade SQLite, chaves estrangeiras e igualdade byte a byte do arquivo do Guard. O [ZIP verificado](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43624707886/artifacts/14125079915) contém o build NEXO-3E2B6BE692122B3C. O tamanho do instalador baixado, 124.153.357 bytes, e o SHA-512 coincidiram com latest.yml. O ensaio encerrou o processo NSIS em um Windows descartável. Reinicialização integral do computador durante a atualização segue sem evidência.
+
+### Download público pela interface
+
+Na [execução 43626462844](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43626462844), os botões de atualização da candidata instalada consultaram o GitHub Releases, baixaram o NSIS 1.0.4 no cache descartável e exibiram a ação de instalar. O SHA-256 do arquivo baixado coincidiu com o da release. O roteiro simulou a versão de origem 1.0.2 apenas na comparação do atualizador e encerrou sem instalar o arquivo público. Os 242 testes automatizados e os dois perfis Windows passaram. [Artefato da execução](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43626462844/artifacts/14127165952).
