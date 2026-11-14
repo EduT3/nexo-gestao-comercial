@@ -90,7 +90,7 @@ Baixe o modelo dentro do aplicativo. A importação aceita até 1.000 linhas e 5
 
 - uma instalação atende um computador, sem sincronização em rede ou nuvem;
 - não há emissão fiscal, integração bancária, e-commerce, delivery, CRM ou BI avançado;
-- o pacote ainda não possui assinatura digital nem instalador tradicional;
+- o instalador Windows está disponível como candidata de teste. O pacote verificado está sem assinatura digital;
 - qualquer pessoa com acesso ao programa neste computador pode selecionar um usuário, inclusive o responsável.
 
 ## Desenvolvimento e validação

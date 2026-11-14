@@ -69,3 +69,7 @@ O relatório continua aberto até a execução dos cenários pendentes e a revis
 ### Integridade da distribuição pública 1.0.4
 
 O manifesto, o instalador e o blockmap da [release pública 1.0.4](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.4) foram baixados do GitHub. O manifesto informou a versão 1.0.4 e identificou NEXO-Setup-1.0.4.exe. O tamanho de 148.655.544 bytes e o SHA-512 calculado do instalador coincidiram com o manifesto. O blockmap estava presente. Esta conferência cobre os arquivos da release pública. A consulta pelo aplicativo instalado está na execução 43598510779.
+
+### Origem embutida e assinatura da candidata
+
+A execução [43598010478](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43598010478) conferiu o provedor GitHub e o repositório EduT3/nexo-gestao-comercial no app-update.yml empacotado. O ZIP baixado continha o instalador 1.0.6 de 124.153.244 bytes, o blockmap e o manifesto com SHA-512 correspondente ao executável. A inspeção Authenticode classificou o instalador como sem assinatura. O hash comprova a correspondência com o manifesto da execução, enquanto a identidade do publicador continua sem validação por certificado.
