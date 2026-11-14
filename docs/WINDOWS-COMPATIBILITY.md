@@ -2,14 +2,14 @@
 
 ## Estado da homologação
 
-A release pública é a **1.0.4**. A candidata **1.0.6** foi instalada e exercitada em Windows Server 2025 no GitHub Actions. Esse resultado cobre o pacote e os fluxos executados nesse ambiente. A homologação em Windows cliente x64 continua pendente. [Release pública](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.4) · [Execução da candidata](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43650469127)
+A release pública é a **1.0.4**. A candidata **1.0.6** foi instalada e exercitada em Windows Server 2025 no GitHub Actions. A revisão mais recente aprovada é o build `NEXO-D9777AA12793DE3B`. Esse resultado cobre o pacote e os fluxos executados nesse ambiente. A homologação em Windows cliente x64 continua pendente. [Release pública](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.4) · [Execução da candidata](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43652959533)
 
 | Sistema | Prioridade | Evidência | Instalação e atualização |
 | --- | --- | --- | --- |
 | Windows 10 22H2 x64 com 8 GB | P0 | Pendente. Registrar edição, build 19045 com revisão, segurança e hardware do equipamento. | Usar o instalador público e depois a candidata em canal controlado, com perfil fictício. |
 | Windows 11 x64 | P0 | Roteiro comercial aprovado com executável extraído no Windows cliente Pro 26H2, build 26300.9974. Instalação e matriz comparativa pendentes. | Repetir as mesmas operações com os mesmos instaladores, dados e condições. |
 | Windows 10 22H2 x64 com 4 GB | P1 | Pendente. Perfil de teste de memória limitada. | Repetir o ensaio do Windows 10 com memória e paginação medidas. |
-| Windows Server 2025 x64 | CI | Instalador 1.0.6, duas origens fictícias, 242 testes e validação de distribuição. | Consulte o resultado e os relatórios anexados à execução. |
+| Windows Server 2025 x64 | CI | Instalador 1.0.6, duas origens fictícias, 244 testes e validação de distribuição. | Consulte o resultado e os relatórios anexados à execução. |
 | Windows 7 | P3 | Fora do suporte. Análise técnica, sem execução. | Sem procedimento de instalação. |
 
 O suporte regular da Microsoft ao Windows 10 22H2 terminou em **14 de outubro de 2025**. Sem atualizações de segurança, aumenta a exposição a vulnerabilidades. O ESU oferece atualizações de segurança para dispositivos elegíveis conforme as condições da Microsoft. [Ciclo de suporte](https://learn.microsoft.com/windows/release-health/release-information) · [Programa ESU](https://www.microsoft.com/en-us/windows/extended-security-updates)
@@ -46,11 +46,57 @@ A primeira abertura medida no roteiro ficou em 571 ms. Dez reaberturas medidas f
 6. Repita a mesma carga em ambos os sistemas. Registre amostras de inicialização, memória e CPU em repouso e durante operações, busca, finalização de venda, abertura de históricos e importação/exportação Excel. Use 1366 × 768 e 1920 × 1080, com escalas de 100%, 125% e 150%. Registre também cortes, rolagem, foco e controle por teclado.
 7. Guarde resultados por sistema, build, pacote e cenário, com amostras brutas, capturas sem dados sensíveis, logs e hashes. Compare as mesmas cargas antes de recomendar requisitos.
 
+### Repetir o roteiro automatizado em uma VM cliente
+
+Use uma VM descartável sem instalação prévia do NEXO. Clone a branch no commit `6b40a6f`, instale as dependências de teste com Node.js 24 e `npm.cmd ci`. Na pasta do repositório, ajuste os caminhos dos dois instaladores baixados. A [release 1.0.4](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.4) é a origem e o [ZIP da execução 43652959533](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43652959533/artifacts/14136753150) é o destino. Mantenha `latest.yml` e o blockmap junto à candidata.
+
+```powershell
+$origem = (Resolve-Path 'C:\QA\NEXO-Setup-1.0.4.exe').Path
+$destino = (Resolve-Path 'C:\QA\candidata\installer\NEXO-Setup-1.0.6.exe').Path
+if ((Get-FileHash -LiteralPath $origem).Hash -ne '830AC83A9038A521403FFF6A597FF09882B427E9E431429D402353CE495E6119') {
+    throw 'SHA-256 da origem divergente'
+}
+if ((Get-FileHash -LiteralPath $destino).Hash -ne 'D06ECA30CB88CE5B987B537A6485FFAF382F5DC99838197A6ECE4B701A68CEBC') {
+    throw 'SHA-256 do destino divergente'
+}
+
+$raiz = (Get-Location).Path
+$qa = Join-Path $env:TEMP ('nexo-compat-' + [guid]::NewGuid())
+New-Item -ItemType Directory -Path $qa | Out-Null
+$programa = Join-Path $qa 'programa'
+$snapshot = Join-Path $qa 'origem-extraida'
+$instalacao = Start-Process -FilePath $origem -ArgumentList @('/S', "/D=$programa") -PassThru -Wait -WindowStyle Hidden
+if ($instalacao.ExitCode -ne 0 -or !(Test-Path -LiteralPath (Join-Path $programa 'NEXO.exe'))) {
+    throw 'Falha na instalação da origem'
+}
+Copy-Item -LiteralPath $programa -Destination $snapshot -Recurse
+
+$zip = Join-Path $raiz 'node_modules\electron-winstaller\vendor\7z.exe'
+& $zip x $destino ('-o' + $qa) '$PLUGINSDIR\app-64.7z' -y
+if ($LASTEXITCODE -ne 0) { throw 'Falha ao extrair a carga NSIS' }
+& $zip x (Join-Path $qa '$PLUGINSDIR\app-64.7z') ('-o' + (Join-Path $qa 'artifacts\installer\win-unpacked')) -y
+if ($LASTEXITCODE -ne 0) { throw 'Falha ao extrair o aplicativo x64' }
+
+$env:NEXO_QA_PROGRAM = $programa
+$env:NEXO_QA_BASELINE = $snapshot
+$env:NEXO_QA_SETUP = $destino
+$env:NEXO_QA_PUBLIC_RELEASE = '1'
+Push-Location -LiteralPath $qa
+try {
+    node (Join-Path $raiz 'scripts\verify-cloud-windows.cjs')
+    if ($LASTEXITCODE -ne 0) { throw 'Roteiro Windows reprovado' }
+} finally {
+    Pop-Location
+}
+```
+
+O roteiro instala a candidata pelo atualizador e guarda o resultado em `artifacts/cloud-qa` dentro da pasta temporária. Verifique o `result.json` e os metadados do executável antes de registrar a aprovação. Este procedimento é para a origem pública. Use também os passos manuais da bancada para instalação limpa da candidata, Guard já ativo na origem, desconexão da rede e DPI nativo do Windows.
+
 ## Desempenho, falhas e limitações
 
 O ensaio SQLite existente usa bases fictícias de 1.000, 10.000 e 50.000 produtos. O relatório M2 também registra inicialização, memória, CPU e Excel no runner, com as limitações de amostragem. Nenhum desses ensaios compara os dois sistemas cliente nas mesmas condições. O mínimo do NEXO segue sem medição, e o perfil de 8 GB é o ponto de partida da bancada. [Benchmarks SQLite](benchmarks/catalogo-m2.json) · [Relatório M2](EVOLUCAO-M2.md) · [Cenários de atualização](UPDATE-QA-M2.6.md)
 
-Ainda não há defeitos específicos confirmados no Windows 10 ou 11 cliente. Falhas e correções do empacotamento e do atualizador no Windows Server permanecem nos relatórios técnicos. Nenhuma alteração de dependência foi feita para a matriz.
+A altura mínima em escala elevada foi reproduzida no Windows 11 cliente. Ainda não há defeitos específicos confirmados no Windows 10. Falhas e correções do empacotamento e do atualizador no Windows Server permanecem nos relatórios técnicos. Nenhuma alteração de dependência foi feita para a matriz.
 
 ### Altura mínima da janela em escala elevada
 
