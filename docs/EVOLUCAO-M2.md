@@ -43,3 +43,17 @@ Pagar e Receber retornaram zero registros, com 12 amostras por operação e vers
 | P2 | Avaliação de integrações fiscais e de pagamentos | Reduz digitação e conciliação manual | Alta. Depende de requisitos fiscais e provedores. Integrações exigem validação de segurança e contingência offline. |
 
 [Relatório técnico do atualizador](UPDATE-QA-M2.6.md) · [Auditoria Windows](AUDITORIA-WINDOWS.md) · [Histórico das mudanças](../PROJECT_PROGRESS.md)
+
+
+## Contas com dados fictícios na candidata mais recente
+
+A execução [43652959533](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43652959533) comparou as duas páginas de 60 contas a pagar e 60 a receber, antes e depois da atualização no mesmo runner e perfil. Os registros, totais e a ordem das páginas permaneceram iguais. Tempos abaixo são medianas de 12 consultas da primeira página em cada versão.
+
+| Origem | Consulta | Antes | Candidata 1.0.6 |
+| --- | --- | ---: | ---: |
+| 1.0.4 | Pagar | 3,649 ms | 4,035 ms |
+| 1.0.4 | Receber | 3,462 ms | 3,583 ms |
+| 1.0.5 com Guard | Pagar | 3,954 ms | 5,177 ms |
+| 1.0.5 com Guard | Receber | 3,767 ms | 4,045 ms |
+
+As quatro consultas ficaram mais lentas, com diferença mediana entre 0,121 e 1,223 ms no runner. Esse ensaio pequeno não estabelece impacto em estações comerciais nem requisitos de hardware. [Amostras brutas](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43652959533/artifacts/14136753150)
