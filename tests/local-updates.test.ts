@@ -20,6 +20,9 @@ it('consulta, baixa e instala somente quando o download terminou',async()=>{
  expect(await service.check()).toEqual({phase:'available',version:'1.0.5'});
  expect(await service.download()).toEqual({phase:'ready',version:'1.0.5'});
  expect(service.install()).toBe(true);
+ expect(service.status()).toEqual({phase:'installing',version:'1.0.5'});
+ expect(await service.check()).toEqual({phase:'installing',version:'1.0.5'});
+ expect(()=>service.install()).toThrow();
  expect(updater.quitAndInstall).toHaveBeenCalledWith(false,true);
 });
 it('falha de download permite nova consulta e bloqueia instalação',async()=>{

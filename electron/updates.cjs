@@ -11,7 +11,7 @@ function createUpdates(updater) {
  return {
   status: () => ({...state}),
   async check() {
-   if (['checking','downloading','ready'].includes(state.phase)) return {...state};
+   if (['checking','downloading','ready','installing'].includes(state.phase)) return {...state};
    state={phase:'checking'};
    try {
     const result=await updater.checkForUpdates();
@@ -33,6 +33,7 @@ function createUpdates(updater) {
   },
   install() {
    if(state.phase!=='ready') throw Error('A atualização ainda não foi baixada.');
+   state={...state,phase:'installing'};
    try { updater.quitAndInstall(false,true); }
    catch { state={phase:'error'}; }
    return state.phase !== 'error';
