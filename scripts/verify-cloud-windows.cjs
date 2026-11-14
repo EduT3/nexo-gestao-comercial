@@ -5,6 +5,7 @@ const runExecutable=promisify(execFile);
 const O=path.resolve('artifacts/cloud-qa');fs.mkdirSync(O,{recursive:true});const stage=process.cwd(),{_electron,expect}=require('@playwright/test');
 const program=path.resolve(process.env.NEXO_QA_PROGRAM || 'artifacts/installer/win-unpacked');
 const baseline=process.env.NEXO_QA_BASELINE;
+const requireUpdateReceipt=process.env.NEXO_QA_REQUIRE_UPDATE_RECEIPT==='1';
 const buildAt=folder=>JSON.parse(fs.readFileSync(path.join(folder,'resources/app/dist/build-info.json')));
 const id=JSON.parse(fs.readFileSync(path.join('artifacts/installer/win-unpacked','resources/app/dist/build-info.json')));
 const profile=fs.mkdtempSync(path.join(O,'qa-balcao-')),d={};
@@ -267,7 +268,9 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   const previous=dbCheck();
   const previousRecords=commercialSnapshot(dbfile);
   assert.equal(buildAt(program).id,sourceBuild.id);
-  const autoRelaunch=process.env.GITHUB_ACTIONS==='true' && process.env.NEXO_QA_REQUIRE_GUARD_SOURCE==='1';
+  const pendingReceipt=path.join(path.dirname(dbfile),'pending-update.json');
+  const autoRelaunch=process.env.GITHUB_ACTIONS==='true'
+   && process.env.NEXO_QA_REQUIRE_GUARD_SOURCE==='1' && !requireUpdateReceipt;
   await app.evaluate(({dialog},autoRelaunch)=>{
    const updater=process.mainModule.require('electron-updater').autoUpdater;
    const install=updater.quitAndInstall.bind(updater);
@@ -285,6 +288,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   assert.equal(buildAt(program).id,sourceBuild.id);
   assert.equal((await call('updateStatus')).phase,'ready');
   assert.deepEqual(fs.readdirSync(path.dirname(dbfile)).filter(name=>name.startsWith('before-update-')),backupsBefore);
+  assert.equal(fs.existsSync(pendingReceipt),false);
   check('Cancelar a instalação manteve a versão anterior aberta e o download pronto para nova tentativa.');
   step='segunda abertura com atualização pendente';
   await runExecutable(path.join(program,'NEXO.exe'),[
@@ -302,6 +306,10 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   assert.equal(await exited,0);
   result.launches.at(-1).exitCode=0;
   app=undefined;
+  if (requireUpdateReceipt) {
+   assert.deepEqual(JSON.parse(fs.readFileSync(pendingReceipt,'utf8')),
+    {from:sourceBuild.productVersion,target:id.productVersion});
+  }
   await expect.poll(()=>{try{return buildAt(program).id;}catch{return null;}},{timeout:180000}).toBe(id.id);
   // The installer writes build-info before all application dependencies are extracted.
   const packedApp=path.resolve('artifacts/installer/win-unpacked/resources/app');
@@ -350,6 +358,13 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   assert.deepEqual(commercialSnapshot(updateBackup),previousRecords);
   check('Botão de atualização acionou o instalador baixado e gerou backup antes do fechamento.');
   await open();await login();
+  if (requireUpdateReceipt) {
+   await page.getByRole('button',{name:'Configurações',exact:true}).click();
+   const panel=page.getByRole('region',{name:'Atualização do NEXO'});
+   await expect(panel.getByRole('status')).toHaveText('Atualização concluída. Você está usando a versão '+id.productVersion+'.');
+   assert.equal(fs.existsSync(pendingReceipt),false);
+   check('A origem registrou a instalacao pelo atualizador e a versao instalada confirmou a conclusao na interface.');
+  }
   assert.equal((await call('salesHistory',A,{})).total,5);
   assert.deepEqual(dbCheck(),previous);
   assert.deepEqual(commercialSnapshot(dbfile),previousRecords);

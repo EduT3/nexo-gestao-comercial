@@ -3,6 +3,15 @@ on:
   push:
     branches: [feat/nexo-balcao, main]
   workflow_dispatch:
+    inputs:
+      receipt_source_run:
+        description: Successful Windows run containing the 1.0.6 installer with update receipts
+        type: string
+        required: false
+      receipt_source_sha256:
+        description: SHA-256 of the 1.0.6 source installer
+        type: string
+        required: false
 permissions:
   contents: read
   actions: read
@@ -20,7 +29,20 @@ jobs:
       - run: node node_modules/electron/install.js
       - run: npm test
       - name: Set unpublished update test version
-        run: npm version 1.0.6 --no-git-tag-version --ignore-scripts
+        shell: pwsh
+        env:
+          RECEIPT_SOURCE_RUN: ${{ inputs.receipt_source_run }}
+          RECEIPT_SOURCE_SHA256: ${{ inputs.receipt_source_sha256 }}
+        run: |
+          $version = '1.0.6'
+          if ($env:RECEIPT_SOURCE_RUN -or $env:RECEIPT_SOURCE_SHA256) {
+            if ($env:RECEIPT_SOURCE_RUN -notmatch '^\d+$' -or $env:RECEIPT_SOURCE_SHA256 -notmatch '^[0-9a-fA-F]{64}$') {
+              throw 'Provide a source run ID and a valid SHA-256 digest'
+            }
+            $version = '1.0.7'
+          }
+          npm version $version --no-git-tag-version --ignore-scripts
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - run: npm run package:installer
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
@@ -43,16 +65,29 @@ jobs:
       - run: node scripts/verify-cloud-windows.cjs
         env:
           NEXO_QA_PUBLIC_RELEASE: '1'
-      - name: Test update from Guard M1
+      - name: Test update from a Windows installer with Guard
         shell: pwsh
         env:
           GH_TOKEN: ${{ github.token }}
+          RECEIPT_SOURCE_RUN: ${{ inputs.receipt_source_run }}
+          RECEIPT_SOURCE_SHA256: ${{ inputs.receipt_source_sha256 }}
         run: |
           $source = Join-Path $env:RUNNER_TEMP 'nexo-guard-m1'
-          gh run download 43536830745 --repo EduT3/nexo-gestao-comercial --name nexo-windows --dir $source
+          $sourceRun = '43536830745'
+          $sourceVersion = '1.0.5'
+          $sourceHash = '4DC2325400FE5743FE0826B18266735EE570C0970520F24366B5D5779A5CB61A'
+          if ($env:RECEIPT_SOURCE_RUN) {
+            $sourceRun = $env:RECEIPT_SOURCE_RUN
+            $sourceVersion = '1.0.6'
+            $sourceHash = $env:RECEIPT_SOURCE_SHA256
+            $env:NEXO_QA_REQUIRE_UPDATE_RECEIPT = '1'
+            $conclusion = gh run view $sourceRun --repo EduT3/nexo-gestao-comercial --json conclusion --jq .conclusion
+            if ($LASTEXITCODE -ne 0 -or $conclusion -ne 'success') { throw 'Source run must have passed' }
+          }
+          gh run download $sourceRun --repo EduT3/nexo-gestao-comercial --name nexo-windows --dir $source
           if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
-          $setup = Join-Path $source 'installer/NEXO-Setup-1.0.5.exe'
-          if ((Get-FileHash -LiteralPath $setup).Hash -ne '4DC2325400FE5743FE0826B18266735EE570C0970520F24366B5D5779A5CB61A') { throw 'Guard M1 installer digest mismatch' }
+          $setup = Join-Path $source "installer/NEXO-Setup-$sourceVersion.exe"
+          if ((Get-FileHash -LiteralPath $setup -Algorithm SHA256).Hash -ne $sourceHash) { throw 'Source installer digest mismatch' }
           $destination = Join-Path $env:RUNNER_TEMP 'NEXO-Guard-installed'
           $result = Start-Process -FilePath $setup -ArgumentList @('/S', "/D=$destination") -PassThru -Wait -WindowStyle Hidden
           if ($result.ExitCode -ne 0 -or !(Test-Path "$destination/NEXO.exe")) { throw 'Guard M1 installation failed' }
