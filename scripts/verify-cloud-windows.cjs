@@ -813,6 +813,27 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  assert.equal((await importedProduct()).name,'Produto importado QA');
  await close();
  check('Importacao XLSX no aplicativo instalado respeitou a previa e persistiu apos reabrir.');
+ step='cancelamento de venda e estorno no aplicativo instalado';
+ await open();await login();
+ const stockBalance=async()=>(await call('stock',A)).find(row=>row.id===product).balance_milli;
+ const stockBeforeSale=await stockBalance();
+ await call('openCash',A,crypto.randomUUID(),{openingCents:1000});
+ const saleForCancellation=await call('confirmSale',A,crypto.randomUUID(),{
+  items:[{productId:product,quantity:'0.250'}],paymentMethod:'CASH',receivedCents:125,
+ });
+ assert.equal(await stockBalance(),stockBeforeSale-250n);
+ assert.equal((await call('activeCash',A)).balance_cents,1125n);
+ const cancellationKey=crypto.randomUUID();
+ const cancellation={reason:'Cancelamento de teste Windows'};
+ assert.equal((await call('cancelSale',A,saleForCancellation.id,cancellationKey,cancellation)).replayed,false);
+ assert.equal((await call('cancelSale',A,saleForCancellation.id,cancellationKey,cancellation)).replayed,true);
+ assert.equal(await stockBalance(),stockBeforeSale);
+ assert.equal((await call('activeCash',A)).balance_cents,1000n);
+ await close();await open();await login();
+ assert.equal(await stockBalance(),stockBeforeSale);
+ assert.equal((await call('activeCash',A)).balance_cents,1000n);
+ await close();
+ check('Cancelamento instalado devolveu estoque e estornou o caixa uma vez, com persistencia.');
  assert.deepEqual(result.rendererErrors,[]);result.passed=true;
 }catch(e){console.error('Falha na etapa: '+step,e);if(page){try{result.visibleText=(await page.locator('body').innerText()).slice(0,4000);await shot('failure-'+step.replace(/[^a-z0-9-]/gi,'-'));}catch(captureError){result.captureError=String(captureError);}}result.passed=false;result.step=step;result.errors.push(String(e.stack||e));process.exitCode=1;}
 finally{if(app)try{await close();}catch(e){result.errors.push(String(e));result.passed=false;process.exitCode=1;}result.timings=timings;persist();console.log(JSON.stringify({profile,passed:result.passed,step:result.step,errors:result.errors,closed:result.launches.map(x=>x.exitCode)}));}})();
