@@ -720,6 +720,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  assert(!(await call('products',B)).some(item=>item.internal_code==='GUARD-CROSS'));
  await close();
  check('Troca de empresa invalida autorização pendente em base fictícia de duas empresas.');
+ let finalProgram=program;
  if (process.env.GITHUB_ACTIONS==='true' && process.env.NEXO_QA_REQUIRE_GUARD_SOURCE==='1') {
   step='interrupcao do instalador e reinstalacao';
   const records=commercialSnapshot(dbfile);
@@ -754,6 +755,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   assert.deepEqual(fs.readFileSync(guardFile),guardBefore);
   await runExecutable(setup,args,options);
   assert.equal(buildAt(target).id,id.id);
+  finalProgram=target;
   await open(target);await login();
   assert.equal((await call('salesHistory',A,{})).total,5);
   step='download HTTPS pelo atualizador instalado';
@@ -797,7 +799,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  sheet.addRow(['QA-XLSX','Produto importado QA','Unidade','',2,5,0,'','Sim']);
  const importFile=path.join(profile,'qa-import.xlsx');
  await workbook.xlsx.writeFile(importFile);
- await open();await login();
+ await open(finalProgram);await login();
  await call('guardConfigure',{enabled:false,all:true,actions:[],currentPin:'0123'});
  await app.evaluate(({dialog},file)=>{
   dialog.showOpenDialog=async()=>({canceled:false,filePaths:[file]});
@@ -809,12 +811,12 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  assert.equal(await importedProduct(),undefined);
  await call('productImportConfirm',preview.token);
  assert.equal((await importedProduct()).price_cents,500n);
- await close();await open();await login();
+ await close();await open(finalProgram);await login();
  assert.equal((await importedProduct()).name,'Produto importado QA');
  await close();
  check('Importacao XLSX no aplicativo instalado respeitou a previa e persistiu apos reabrir.');
  step='cancelamento de venda e estorno no aplicativo instalado';
- await open();await login();
+ await open(finalProgram);await login();
  const stockBalance=async()=>(await call('stock',A)).find(row=>row.id===product).balance_milli;
  const stockBeforeSale=await stockBalance();
  await call('openCash',A,crypto.randomUUID(),{openingCents:1000});
@@ -825,11 +827,11 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  assert.equal((await call('activeCash',A)).balance_cents,1125n);
  const cancellationKey=crypto.randomUUID();
  const cancellation={reason:'Cancelamento de teste Windows'};
- assert.equal((await call('cancelSale',A,saleForCancellation.id,cancellationKey,cancellation)).replayed,false);
- assert.equal((await call('cancelSale',A,saleForCancellation.id,cancellationKey,cancellation)).replayed,true);
+ assert.equal((await call('cancelSale',A,saleForCancellation.id,cancellationKey,cancellation)).canceled,false);
+ assert.equal((await call('cancelSale',A,saleForCancellation.id,cancellationKey,cancellation)).canceled,false);
  assert.equal(await stockBalance(),stockBeforeSale);
  assert.equal((await call('activeCash',A)).balance_cents,1000n);
- await close();await open();await login();
+ await close();await open(finalProgram);await login();
  assert.equal(await stockBalance(),stockBeforeSale);
  assert.equal((await call('activeCash',A)).balance_cents,1000n);
  await close();
