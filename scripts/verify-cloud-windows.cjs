@@ -123,6 +123,28 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  await page.getByRole('button',{name:'Configurações',exact:true}).click();await page.getByRole('button',{name:'Clientes, fornecedores e categorias',exact:true}).click();await shot('13-cadastros');
  await page.getByRole('button',{name:'Abrir Backup e dados',exact:true}).click();await shot('14-backup');
  if(baseline){
+  step='consulta e download pelo atualizador instalado';
+  const setup = path.basename(process.env.NEXO_QA_SETUP);
+  const {startUpdateQaFeed}=require('./update-qa-feed.cjs');
+  const feed=await startUpdateQaFeed(path.dirname(process.env.NEXO_QA_SETUP),['latest.yml',setup,setup+'.blockmap']);
+  try {
+   await app.evaluate((_electron,url)=>{
+    process.mainModule.require('electron-updater').autoUpdater.setFeedURL({provider:'generic',url});
+   },feed.url);
+   const updatePanel=page.getByRole('region',{name:'Atualização do NEXO'});
+   await updatePanel.getByRole('button',{name:'Verificar atualização',exact:true}).click();
+   const download=updatePanel.getByRole('button',{name:'Baixar versão '+id.productVersion,exact:true});
+   await expect(download).toBeVisible({timeout:30000});
+   const started=performance.now();
+   await download.click();
+   await expect(updatePanel.getByRole('button',{name:'Reiniciar e atualizar',exact:true})).toBeVisible({timeout:120000});
+   timings.push({operation:'update-download',version:id.productVersion,ms:Math.round(performance.now()-started)});
+   assert(feed.requests.some(request=>request.pathname==='/latest.yml'));
+   assert(feed.requests.some(request=>request.method==='GET'&&request.pathname==='/'+setup));
+   assert.equal((await call('updateStatus')).phase,'ready');
+   result.updateFeedRequests=feed.requests;
+   check('Aplicativo instalado consultou o manifesto e baixou o instalador pelo atualizador.');
+  } finally { await feed.close(); }
   step='instalação sobre a versão publicada';
   await close();const previous=dbCheck();
   assert.equal(buildAt(program).productVersion,'1.0.4');
