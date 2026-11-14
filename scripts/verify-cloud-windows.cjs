@@ -723,6 +723,9 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  if (process.env.GITHUB_ACTIONS==='true' && process.env.NEXO_QA_REQUIRE_GUARD_SOURCE==='1') {
   step='interrupcao do instalador e reinstalacao';
   const records=commercialSnapshot(dbfile);
+  const guardFile=path.join(path.dirname(dbfile),'guard.json');
+  const guardBefore=fs.readFileSync(guardFile);
+  const healthBefore=dbCheck();
   const setup=path.resolve(process.env.NEXO_QA_SETUP);
   const target=fs.mkdtempSync(path.join(process.env.RUNNER_TEMP,'nexo-interrupted-'));
   const args=['/S','/D='+target];
@@ -748,13 +751,16 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
    assert.notEqual((await exited).code,0);
   }
   assert.deepEqual(commercialSnapshot(dbfile),records);
+  assert.deepEqual(fs.readFileSync(guardFile),guardBefore);
   await runExecutable(setup,args,options);
   assert.equal(buildAt(target).id,id.id);
   await open(target);await login();
   assert.equal((await call('salesHistory',A,{})).total,5);
   await close();
   assert.deepEqual(commercialSnapshot(dbfile),records);
-  check('Instalador interrompido em pasta descartavel. Nova instalacao abriu e preservou os registros.');
+  assert.deepEqual(dbCheck(),healthBefore);
+  assert.deepEqual(fs.readFileSync(guardFile),guardBefore);
+  check('Instalador interrompido em pasta descartavel. Nova instalacao abriu e preservou os registros e a politica do Guard.');
  }
  assert.deepEqual(result.rendererErrors,[]);result.passed=true;
 }catch(e){console.error('Falha na etapa: '+step,e);if(page){try{result.visibleText=(await page.locator('body').innerText()).slice(0,4000);await shot('failure-'+step.replace(/[^a-z0-9-]/gi,'-'));}catch(captureError){result.captureError=String(captureError);}}result.passed=false;result.step=step;result.errors.push(String(e.stack||e));process.exitCode=1;}
