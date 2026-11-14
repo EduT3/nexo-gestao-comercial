@@ -34,5 +34,7 @@ it('mensagens da ponte não mostram prefixos internos nem erros SQL na interface
  expect(errorMessage(new Error("Error invoking remote method 'nexo:sale': Error: Saldo de caixa insuficiente."))).toBe('Saldo de caixa insuficiente.');
  expect(errorMessage('Error: [{"message":"O produto está repetido na compra."}]')).toBe('O produto está repetido na compra.');
  expect(errorMessage('Error: [{"message":"Invalid input: expected number"}]')).toContain('Confira os campos');
+ expect(errorMessage(new Error("Error invoking remote method 'nexo:create-product': Error: NEXO_GUARD_REQUIRED:request-id"))).toBe('Não foi possível abrir a autorização. Tente a operação novamente.');
+ expect(errorMessage(new Error("Error invoking remote method 'nexo:create-product': Error: No handler registered for 'nexo:create-product'"))).toBe('Não foi possível enviar a solicitação ao NEXO. Tente novamente.');
  expect(errorMessage(new Error('SQLITE_CONSTRAINT: constraint failed'))).not.toContain('SQLITE');
 });

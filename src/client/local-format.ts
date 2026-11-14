@@ -11,5 +11,7 @@ export function errorMessage(error: unknown) {
   for(let i=0;i<3;i++)message=message.replace(/^Error: /,'').replace(/^Error invoking remote method '[^']+': /,'');
   try { const issues=JSON.parse(message);if(Array.isArray(issues))return issues.map(issue=>String(issue.message||'')).filter(value=>value&&!/^(Invalid|Too |Unrecognized)/.test(value)).join(' ')||'Confira os campos informados e tente novamente.'; } catch { /* A business message is plain text. */ }
   if(/SQLITE_|no such table|constraint failed|syntax error|file is not a database/i.test(message))return 'Não foi possível concluir a operação. Peça ao responsável para verificar os dados em Cadastros e configurações > Backup e dados.';
+  if (/^NEXO_GUARD_REQUIRED:/.test(message)) return 'Não foi possível abrir a autorização. Tente a operação novamente.';
+  if (/^(No handler registered for|An object could not be cloned|Unable to deserialize cloned data)/i.test(message)) return 'Não foi possível enviar a solicitação ao NEXO. Tente novamente.';
   return message||'Não foi possível concluir. Tente novamente.';
 }
