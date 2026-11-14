@@ -335,7 +335,23 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  await call('createProduct',A,{name:'Criado depois da cópia',internalCode:'TEMP-QA',unit:'KG',costCents:10,priceCents:20});
  assert.equal((await call('restore')).canceled,false);await page.reload();await login();assert(!(await call('products',A)).some(p=>p.internal_code==='TEMP-QA'));assert.equal((await call('salesHistory',A,{})).total,5);
  const health=await call('checkDataHealth');assert(health.integrityOk&&health.linksOk);
- await nav('Caixa').click();await page.getByText('Encerrar atendimento e fechar caixa',{exact:true}).click();f=page.getByRole('form',{name:'Fechamento de caixa'});await f.getByLabel('Dinheiro contado (R$)',{exact:true}).fill('12,00');await f.getByRole('button',{name:'Fechar caixa',exact:true}).click();await expect(page.locator('.nexo-status-chip.closed')).toHaveText('Caixa fechado');
+ step='conferência e fechamento do caixa';
+ await nav('Caixa').click();
+ await page.getByText('Encerrar atendimento e fechar caixa',{exact:true}).click();
+ f=page.getByRole('form',{name:'Fechamento de caixa'});
+ const balance=(await call('activeCash',A)).balance_cents;
+ const formatCash=value=>{
+  const absolute=value<0n?-value:value;
+  return (value<0n?'-':'')+'R$ '+absolute/100n+','+(absolute%100n).toString().padStart(2,'0');
+ };
+ await expect(f.locator('p').filter({hasText:'Saldo esperado:'})).toHaveText('Saldo esperado: '+formatCash(balance));
+ const counted=f.getByLabel('Dinheiro contado (R$)',{exact:true});
+ await counted.fill('11,00');
+ await expect(f.locator('p').filter({hasText:'Diferença prevista:'})).toHaveText('Diferença prevista: '+formatCash(1100n-balance));
+ await counted.fill('12,00');
+ await expect(f.locator('p').filter({hasText:'Diferença prevista:'})).toHaveText('Diferença prevista: '+formatCash(1200n-balance));
+ await f.getByRole('button',{name:'Fechar caixa',exact:true}).click();
+ await expect(page.locator('.nexo-status-chip.closed')).toHaveText('Caixa fechado');
  await expect(page.getByRole('region',{name:'Operação do caixa'}).getByRole('status').filter({hasText:'Caixa fechado. Confira a diferença no histórico.'})).toBeVisible();assert.equal(await call('activeCash',A),null);
  await close();const before=dbCheck();assert.equal(before.tables,27);assert.equal(before.sales,5);
  await open();await login();assert.equal((await call('status')).userId,owner);assert.equal((await call('salesHistory',A,{})).total,5);assert.equal(await call('activeCash',A),null);await close();assert.deepEqual(dbCheck(),before);assert.deepEqual(result.rendererErrors,[]);check('Backup/restauração, fechamento, login e reabertura com cinco vendas e 27 tabelas íntegras.');
