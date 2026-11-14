@@ -32,7 +32,7 @@ async function startUpdateQaFeed(directory, filenames) {
     }
     if (pathname === interruptedPath) {
       requests.at(-1).interrupted = true;
-      const partial = createReadStream(entry.file, { end: 65535 });
+      const partial = createReadStream(entry.file, { end: Math.min(65536, Math.floor(entry.size / 2)) - 1 });
       partial.on('error', () => response.destroy());
       response.on('close', () => partial.destroy());
       partial.on('data', chunk => response.write(chunk));
