@@ -326,6 +326,22 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  await expect(help).toBeFocused();
  check('Ajuda global abre em janela compacta e devolve o foco ao fechar.');
  await size(1280,900);
+ step='layout nas resoluções de homologação';
+ for (const [width,height] of [[1280,720],[1366,768],[1920,1080]]) {
+  await size(width,height);
+  await expect.poll(()=>page.evaluate(()=>innerHeight)).toBe(height);
+  for (const [name,section] of [['Vender','vendas'],['Estoque','estoque'],['Caixa','caixa'],['Contas','contas']]) {
+   const button=nav(name);
+   await button.focus();
+   await expect(button).toBeFocused();
+   await page.keyboard.press('Enter');
+   await expect(button).toHaveAttribute('aria-current','page');
+   await expect.poll(()=>page.evaluate(()=>document.documentElement.scrollWidth-document.documentElement.clientWidth)).toBeLessThanOrEqual(1);
+   await shot(section+'-'+width+'x'+height);
+  }
+ }
+ check('Navegação por teclado e largura da página verificadas em Vender, Estoque, Caixa e Contas nas três resoluções de homologação.');
+ await size(1280,900);
  step='Excel e atualizador';
  assert.equal((await call('exportExcel',A)).canceled,false);
  assert.equal(fs.readFileSync(path.join(profile,'relatorio.xlsx')).subarray(0,2).toString(),'PK');
