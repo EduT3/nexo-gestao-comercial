@@ -98,6 +98,12 @@ O ensaio SQLite existente usa bases fictícias de 1.000, 10.000 e 50.000 produto
 
 A altura mínima em escala elevada foi reproduzida no Windows 11 cliente. Ainda não há defeitos específicos confirmados no Windows 10. Falhas e correções do empacotamento e do atualizador no Windows Server permanecem nos relatórios técnicos. Nenhuma alteração de dependência foi feita para a matriz.
 
+### Medições no Windows 11 cliente
+
+O executável extraído do build NEXO-D9777AA12793DE3B foi medido no mesmo Windows 11 Pro 26300.9974, com uma base fictícia nova de 1.000 produtos e 11 vendas Pix. A busca pelo código até o resultado aparecer teve mediana de 6,17 ms. A gravação da venda via IPC ficou em 1,55 ms. A primeira página do histórico de estoque ficou em 1,46 ms, e a de vendas, em 1,36 ms. A exportação XLSX ficou em 61,89 ms. O ensaio descartou a primeira execução de cada operação e registrou 10 amostras por operação, ou cinco para Excel.
+
+Os processos principal e de interface somaram cerca de 250 MiB residentes em repouso e 258 MiB durante as leituras de histórico. A CPU observada por processo foi inferior a 0,1% no intervalo de um segundo em repouso e ficou em 2,53% e 1,87% no intervalo curto de 22 leituras via IPC. Esses valores descrevem o roteiro com janela oculta. A medição de venda exclui o tempo do operador, e a de Excel usa um caminho de gravação fornecido pela automação. Importação cronometrada e comparação com Windows 10 seguem pendentes. [Amostras e método](benchmarks/windows11-1.0.6.json)
+
 ### Altura mínima da janela em escala elevada
 
 Com escala de 150%, o build NEXO-D9777AA12793DE3B recebeu um pedido de área de conteúdo de 910 × 512 pixels lógicos. A janela ficou com 921 × 650 pixels externos e 910 × 598 de conteúdo, por causa da altura mínima fixa. A correção limita as dimensões iniciais e mínimas das janelas principal e de recuperação à área útil do monitor principal. Os testes do cálculo e a compilação local passaram. A confirmação no pacote Windows após a correção segue pendente.

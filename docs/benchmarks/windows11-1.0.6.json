@@ -1,0 +1,112 @@
+{
+  "version": "1.0.6",
+  "build": "NEXO-D9777AA12793DE3B",
+  "products": 1000,
+  "sales": 11,
+  "med": {
+    "search": 6.17,
+    "sale": 1.55,
+    "stock": 1.46,
+    "sales": 1.36,
+    "export": 61.89
+  },
+  "raw": {
+    "search": [
+      6.793700000000172,
+      7.322799999999916,
+      8.165199999999459,
+      6.677200000000084,
+      5.772700000000441,
+      5.566600000000108,
+      5.402000000000044,
+      6.570999999999913,
+      5.581100000000333,
+      4.8859999999995125
+    ],
+    "sale": [
+      1.5467999999991662,
+      2.0992999999998574,
+      1.7984999999998763,
+      1.6270000000004075,
+      1.5563999999994849,
+      1.5783000000001266,
+      1.5506999999997788,
+      1.5465999999996711,
+      1.4227000000000771,
+      1.4385000000002037
+    ],
+    "stock": [
+      1.7570999999998094,
+      1.705300000000534,
+      1.679800000000796,
+      1.6785999999992782,
+      1.4059000000006563,
+      1.2930999999998676,
+      1.4945000000006985,
+      1.4216999999998734,
+      1.214100000000144,
+      1.2906000000002678
+    ],
+    "sales": [
+      1.5700999999999112,
+      1.6162999999996828,
+      1.4787999999998647,
+      1.4018999999998414,
+      1.4592000000002372,
+      1.327700000000732,
+      1.1563999999998487,
+      1.158700000000863,
+      1.13799999999992,
+      1.1457000000000335
+    ],
+    "export": [
+      59.264000000000124,
+      67.22620000000006,
+      61.89460000000054,
+      62.751000000000204,
+      61.2474000000002
+    ]
+  },
+  "idle": [
+    {
+      "type": "Browser",
+      "cpuPercent": 0.013518939308204261,
+      "workingSetKiB": 140104
+    },
+    {
+      "type": "Tab",
+      "cpuPercent": 0.06215802629507164,
+      "workingSetKiB": 116128
+    }
+  ],
+  "activity": [
+    {
+      "type": "Browser",
+      "cpuPercent": 2.5260190806591503,
+      "workingSetKiB": 140848
+    },
+    {
+      "type": "Tab",
+      "cpuPercent": 1.8745160291156884,
+      "workingSetKiB": 123084
+    }
+  ],
+  "environment": {
+    "os": "Windows 11 Pro x64",
+    "build": "26300.9974",
+    "cpu": "AMD Ryzen 7 7700X",
+    "visibleRamBytes": 33409609728,
+    "distribution": "NSIS x64 payload extracted; hidden Playwright window",
+    "fixtures": "1000 fictitious products; one opening purchase; 11 PIX sales"
+  },
+  "method": {
+    "wallTime": "ms in the automation process, waiting for operation completion",
+    "search": "exact code from typing to a visible result",
+    "sale": "PIX sale IPC, including transaction; excludes operator input",
+    "stock": "first stock history page via IPC",
+    "sales": "first sales history page via IPC",
+    "export": "XLSX export IPC and file write; test supplied save dialog path",
+    "warmupsDiscarded": 1,
+    "cpu": "Electron process metrics; 1 second idle, short interval with 22 history reads"
+  }
+}
