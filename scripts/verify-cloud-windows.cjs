@@ -682,6 +682,6 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  assert(!(await call('products',B)).some(item=>item.internal_code==='GUARD-CROSS'));
  await close();
  check('Troca de empresa invalida autorização pendente em base fictícia de duas empresas.');
- result.timings=timings;result.passed=true;
+ assert.deepEqual(result.rendererErrors,[]);result.passed=true;
 }catch(e){console.error('Falha na etapa: '+step,e);if(page){try{result.visibleText=(await page.locator('body').innerText()).slice(0,4000);await shot('failure-'+step.replace(/[^a-z0-9-]/gi,'-'));}catch(captureError){result.captureError=String(captureError);}}result.passed=false;result.step=step;result.errors.push(String(e.stack||e));process.exitCode=1;}
-finally{if(app)try{await close();}catch(e){result.errors.push(String(e));}persist();console.log(JSON.stringify({profile,passed:result.passed,step:result.step,errors:result.errors,closed:result.launches.map(x=>x.exitCode)}));}})();
+finally{if(app)try{await close();}catch(e){result.errors.push(String(e));result.passed=false;process.exitCode=1;}result.timings=timings;persist();console.log(JSON.stringify({profile,passed:result.passed,step:result.step,errors:result.errors,closed:result.launches.map(x=>x.exitCode)}));}})();
