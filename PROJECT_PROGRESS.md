@@ -219,3 +219,8 @@ O atualizador libera a instalação apenas após download bem-sucedido e evita c
 ### M2.1 — resultado da primeira candidata Windows
 
 A execução [43539993490](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43539993490), revisão 8e513a9, confirmou no aplicativo instalado que cancelar a autorização no cadastro mantém o rascunho e não grava o produto. Uma nova solicitação com PIN correto gravou um único produto. A suíte local posterior de 1dd18fd passou 237 testes em 53 arquivos. A execução [43540152770](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43540152770), revisão 48ec00a, também passou. No aplicativo instalado, o PIN incorreto manteve o rascunho e não gravou o produto. Após cancelar, uma nova autorização correta gravou exatamente um produto.
+
+
+### M2.6 — download no aplicativo instalado
+
+A execução Windows [43541022951](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43541022951), revisão fef6086, confirmou que o NEXO 1.0.4 instalado consultou o manifesto e baixou o instalador 1.0.5 pelo canal de teste em loopback. A instalação dessa execução foi acionada diretamente pelo roteiro. Os testes de instalação pelo botão, cancelamento, hash divergente e ajuda global ainda aguardam os resultados das execuções seguintes.
