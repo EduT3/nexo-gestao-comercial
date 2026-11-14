@@ -1,5 +1,5 @@
 import { createRequire } from 'node:module';
-import { mkdtemp, readFile, rm } from 'node:fs/promises';
+import { mkdir, mkdtemp, readFile, rm } from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import path from 'node:path';
 import { expect, it } from 'vitest';
@@ -75,5 +75,27 @@ it('keeps the original policy and PIN when a replacement cannot be confirmed', a
     await guard.authorize('backup','0123');
   } finally {
     await rm(folder,{recursive:true,force:true});
+  }
+});
+
+it('keeps the active policy if a write is interrupted before replacing the file', async () => {
+  const folder = await mkdtemp(path.join(tmpdir(), 'nexo-guard-write-failure-'));
+  try {
+    const guard = createGuardStore(folder);
+    const policy = { enabled: true, all: false, actions: ['backup'] };
+    await guard.configure({ ...policy, pin: '0123', confirmation: '0123' });
+    const file = path.join(folder, 'guard.json');
+    const before = await readFile(file);
+    await mkdir(file + '.tmp');
+    await expect(guard.configure({
+      ...policy, all: true, currentPin: '0123',
+    })).rejects.toThrow();
+    expect(await readFile(file)).toEqual(before);
+    await rm(file + '.tmp', { recursive: true });
+    const reopened = createGuardStore(folder);
+    expect(await reopened.status()).toMatchObject(policy);
+    await expect(reopened.authorize('backup', '0123')).resolves.toBeUndefined();
+  } finally {
+    await rm(folder, { recursive: true, force: true });
   }
 });
