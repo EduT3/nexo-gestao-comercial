@@ -145,6 +145,16 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
    originalGuard=await call('guardStatus');
    assert.equal(originalGuard.enabled,true);
   }
+  if (process.env.NEXO_QA_PUBLIC_RELEASE === '1') {
+   step='consulta HTTPS ao GitHub Releases sem substituir a origem';
+   await page.getByRole('region',{name:'Atualização do NEXO'})
+    .getByRole('button',{name:'Verificar atualização',exact:true}).click();
+   await expect.poll(async()=>(await call('updateStatus')).phase,{timeout:45000})
+    .toMatch(/^(current|available)$/);
+   assert.match((await call('updateStatus')).version,/^\d+\.\d+\.\d+$/);
+   assert.equal(buildAt(program).id,sourceBuild.id);
+   check('Aplicativo instalado consultou o GitHub Releases pelo canal público HTTPS configurado.');
+  }
   step='consulta e download pelo atualizador instalado';
   const setup = path.basename(process.env.NEXO_QA_SETUP);
   const {startUpdateQaFeed}=require('./update-qa-feed.cjs');

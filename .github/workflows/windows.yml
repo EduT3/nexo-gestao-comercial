@@ -41,6 +41,8 @@ jobs:
           if (!$candidate) { throw 'Candidate installer missing' }
           "NEXO_QA_SETUP=$($candidate.FullName)" >> $env:GITHUB_ENV
       - run: node scripts/verify-cloud-windows.cjs
+        env:
+          NEXO_QA_PUBLIC_RELEASE: '1'
       - name: Test update from Guard M1
         shell: pwsh
         env:
