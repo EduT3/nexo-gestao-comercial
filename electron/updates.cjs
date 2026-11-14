@@ -35,7 +35,9 @@ function createUpdates(updater) {
  let state = {phase:'idle'};
  updater.on('error', () => { state={phase:'error'}; });
  updater.on('download-progress', progress => {
-  if (state.phase==='downloading') state={...state,percent:Math.round(progress.percent)};
+  if (state.phase === 'downloading' && Number.isFinite(progress.percent)) {
+   state = {...state, percent: Math.max(0, Math.min(100, Math.round(progress.percent)))};
+  }
  });
  return {
   status: () => ({...state}),
@@ -58,7 +60,7 @@ function createUpdates(updater) {
    if(state.phase!=='available') throw Error('Consulte uma atualização disponível.');
    const {version,size} = state;
    const metadata = size === undefined ? {version} : {version,size};
-   state={...metadata,phase:'downloading',percent:0};
+   state={...metadata,phase:'downloading'};
    try { await updater.downloadUpdate(); state={...metadata,phase:'ready'}; }
    catch { state={phase:'error'}; }
    return {...state};

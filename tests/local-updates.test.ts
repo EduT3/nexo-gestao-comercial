@@ -50,6 +50,11 @@ it('does not allow installation on a download event before successful completion
  let rejectDownload!: (error: Error) => void;
  updater.downloadUpdate.mockImplementationOnce(() => new Promise<void>((_, reject) => { rejectDownload = reject; }));
  const download=service.download();
+ expect(service.status()).toEqual({phase:'downloading',version:'1.0.5'});
+ updater.emit('download-progress',{percent:Number.NaN});
+ expect(service.status().percent).toBeUndefined();
+ updater.emit('download-progress',{percent:27.4});
+ expect(service.status().percent).toBe(27);
  updater.emit('update-downloaded');
  expect(service.status().phase).toBe('downloading');
  expect(() => service.install()).toThrow();
