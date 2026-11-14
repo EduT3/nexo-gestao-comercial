@@ -108,5 +108,36 @@
     "export": "XLSX export IPC and file write; test supplied save dialog path",
     "warmupsDiscarded": 1,
     "cpu": "Electron process metrics; 1 second idle, short interval with 22 history reads"
+  },
+  "import": {
+    "build": "NEXO-D9777AA12793DE3B",
+    "rows": 1000,
+    "bytes": 44646,
+    "warmupsDiscarded": 1,
+    "samples": [
+      {
+        "previewMs": 245.6418999999987,
+        "commitMs": 40.20980000000054
+      },
+      {
+        "previewMs": 219.8721999999998,
+        "commitMs": 37.32769999999982
+      },
+      {
+        "previewMs": 210.29590000000098,
+        "commitMs": 37.077000000001135
+      },
+      {
+        "previewMs": 228.76929999999993,
+        "commitMs": 36.757699999998295
+      },
+      {
+        "previewMs": 228.54209999999875,
+        "commitMs": 37.71440000000075
+      }
+    ],
+    "previewMedianMs": 228.54209999999875,
+    "commitMedianMs": 37.32769999999982,
+    "method": "Same XLSX on six empty disposable profiles. Preview includes reading and validation; confirmation measures the SQLite write via IPC. File picker supplied by automation."
   }
 }
