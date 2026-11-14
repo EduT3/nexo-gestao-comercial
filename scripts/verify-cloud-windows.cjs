@@ -136,6 +136,14 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  await page.getByRole('button',{name:'Configurações',exact:true}).click();await page.getByRole('button',{name:'Clientes, fornecedores e categorias',exact:true}).click();await shot('13-cadastros');
  await page.getByRole('button',{name:'Abrir Backup e dados',exact:true}).click();await shot('14-backup');
  if(baseline){
+  const sourceBuild=buildAt(program);
+  const supportsGuard=await page.evaluate(()=>typeof window.nexoLocal.guardConfigure==='function');
+  let originalGuard;
+  if(supportsGuard){
+   await call('guardConfigure',{enabled:true,all:false,actions:['backup'],pin:'0123',confirmation:'0123'});
+   originalGuard=await call('guardStatus');
+   assert.equal(originalGuard.enabled,true);
+  }
   step='consulta e download pelo atualizador instalado';
   const setup = path.basename(process.env.NEXO_QA_SETUP);
   const {startUpdateQaFeed}=require('./update-qa-feed.cjs');
@@ -159,7 +167,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
    await updatePanel.getByRole('button',{name:'Verificar atualização',exact:true}).click();
    await download.click();
    await expect.poll(async()=>(await call('updateStatus')).phase,{timeout:120000}).toBe('error');
-   assert.equal(buildAt(program).productVersion,'1.0.4');
+   assert.equal(buildAt(program).id,sourceBuild.id);
    await expect(updatePanel.getByRole('button',{name:'Reiniciar e atualizar',exact:true})).toHaveCount(0);
    check('O atualizador rejeitou o instalador com hash divergente e manteve a versão anterior.');
    await feed.setManifest(manifest);
@@ -177,7 +185,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   step='instalação pelo atualizador';
   const previous=dbCheck();
   const previousRecords=commercialSnapshot(dbfile);
-  assert.equal(buildAt(program).productVersion,'1.0.4');
+  assert.equal(buildAt(program).id,sourceBuild.id);
   await app.evaluate(({dialog})=>{
    const updater=process.mainModule.require('electron-updater').autoUpdater;
    const install=updater.quitAndInstall.bind(updater);
@@ -192,7 +200,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   const backupsBefore=fs.readdirSync(path.dirname(dbfile)).filter(name=>name.startsWith('before-update-'));
   await call('installUpdate');
   assert.equal(child.exitCode,null);
-  assert.equal(buildAt(program).productVersion,'1.0.4');
+  assert.equal(buildAt(program).id,sourceBuild.id);
   assert.equal((await call('updateStatus')).phase,'ready');
   assert.deepEqual(fs.readdirSync(path.dirname(dbfile)).filter(name=>name.startsWith('before-update-')),backupsBefore);
   check('Cancelar a instalação manteve a versão anterior aberta e o download pronto para nova tentativa.');
@@ -238,6 +246,15 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   assert.deepEqual(commercialSnapshot(dbfile),previousRecords);
   assert.equal((await call('status')).userId,owner);
   check('Após atualizar, o Windows reabriu a candidata com os mesmos usuários, vínculos e registros comerciais.');
+  if(originalGuard){
+   const updatedGuard=await call('guardStatus');
+   assert.equal(updatedGuard.enabled,originalGuard.enabled);
+   assert.equal(updatedGuard.all,originalGuard.all);
+   assert.deepEqual(updatedGuard.actions,originalGuard.actions);
+   await assert.rejects(()=>call('guardConfigure',{enabled:false,all:true,actions:[],currentPin:'9999'}),/PIN incorreto/i);
+   await call('guardConfigure',{enabled:false,all:true,actions:[],currentPin:'0123'});
+   check('A atualização preservou a política do Guard e o PIN de origem.');
+  }
  }
  step='ajuda global e identificação da loja';
  await size(1000,650);
