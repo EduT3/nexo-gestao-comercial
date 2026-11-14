@@ -7,7 +7,7 @@ A release pública é a **1.0.4**. A candidata **1.0.6** foi instalada e exercit
 | Sistema | Prioridade | Evidência | Instalação e atualização |
 | --- | --- | --- | --- |
 | Windows 10 22H2 x64 com 8 GB | P0 | Pendente. Registrar edição, build 19045 com revisão, segurança e hardware do equipamento. | Usar o instalador público e depois a candidata em canal controlado, com perfil fictício. |
-| Windows 11 x64 | P0 | Referência comparativa pendente. O host de trabalho foi identificado como Windows cliente Pro, build 26300.9974 e versão declarada 26H2. A identificação do host não é resultado de teste do pacote. | Repetir as mesmas operações com os mesmos instaladores, dados e condições. |
+| Windows 11 x64 | P0 | Teste parcial de execução no Windows cliente Pro 26H2, build 26300.9974. Instalação e matriz comparativa pendentes. | Repetir as mesmas operações com os mesmos instaladores, dados e condições. |
 | Windows 10 22H2 x64 com 4 GB | P1 | Pendente. Perfil de teste de memória limitada. | Repetir o ensaio do Windows 10 com memória e paginação medidas. |
 | Windows Server 2025 x64 | CI | Instalador 1.0.6, duas origens fictícias, 242 testes e validação de distribuição. | Consulte o resultado e os relatórios anexados à execução. |
 | Windows 7 | P3 | Fora do suporte. Análise técnica, sem execução. | Sem procedimento de instalação. |
@@ -21,6 +21,12 @@ A revisão do código declara Electron 44.4.1, electron-builder 26.18.0 e electr
 O Electron 22 foi a última linha com suporte ao Windows 7, 8 e 8.1. Portar o NEXO atual para Windows 7 exigiria outra matriz de runtime, SQLite, navegador e atualização, com versões antigas sem manutenção. O NEXO mantém o runtime atual e suas proteções. [Política de plataforma do Electron](https://www.electronjs.org/blog/windows-7-to-8-1-deprecation-notice)
 
 No Windows cliente, verifique criação e acesso a `LOCALAPPDATA` por um usuário padrão, instalação e desinstalação, monograma do executável e do instalador, apresentação do aviso de editor, diretórios com espaços e acentos, diálogo de arquivos e cache do atualizador. Preserve IPC, sandbox, proteção de arquivos e política do Guard durante o teste.
+
+## Evidência parcial no Windows 11 x64
+
+Em Windows cliente Pro 26H2, build 26300.9974, com Ryzen 7 7700X e 31,1 GiB de memória visível, a candidata 1.0.6 abriu em perfil fictício com sandbox ativo. O ensaio criou o responsável, cadastrou um produto pelo IPC normal, fechou o aplicativo e confirmou que o produto permaneceu ao reabrir. O banco foi criado na pasta temporária designada para o teste. O executável informou Electron 44.4.1, Chromium 152.0.7977.78, Node 24.21.0 e SQLite 3.53.4.
+
+O executável foi extraído da carga x64 do NSIS da execução 43650469127, build `NEXO-3E2B6BE692122B3C`. SHA-256 do instalador: `67BBBDE17D456964C379456EE63EA2EA32C7381EEB06FBB58BF8E04A7A441AE0`. O teste local não executou o NSIS e não mediu desempenho nem atualização. [Artefato de origem](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43650469127/artifacts/14136755503)
 
 ## Procedimento de bancada
 
