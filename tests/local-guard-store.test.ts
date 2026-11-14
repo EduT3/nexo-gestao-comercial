@@ -135,3 +135,29 @@ it('does not execute a pending operation with an incorrect PIN after its policy 
     await rm(folder,{recursive:true,force:true});
   }
 });
+
+
+it('protects only selected administrative actions until global protection is enabled', async () => {
+  const folder = await mkdtemp(path.join(tmpdir(), 'nexo-guard-selected-actions-'));
+  try {
+    const store = createGuardStore(folder);
+    await store.configure({enabled:true,all:false,actions:['backup'],pin:'0123',confirmation:'0123'});
+    const guard = createGuardBroker(store);
+    let backups = 0;
+    let updates = 0;
+    await expect(guard.run('update-product',()=>++updates)).resolves.toBe(1);
+    const pending = await guard.run('backup',()=>++backups).catch((error: Error)=>error.message);
+    expect(pending).toMatch(/^NEXO_GUARD_REQUIRED:/);
+    expect(backups).toBe(0);
+    await expect(guard.approve(pending.split(':')[1],'9999')).rejects.toThrow('PIN incorreto');
+    expect(backups).toBe(0);
+    await expect(guard.approve(pending.split(':')[1],'0123')).resolves.toBe(1);
+    await store.configure({enabled:true,all:true,actions:['backup'],currentPin:'0123'});
+    const protectedUpdate = await guard.run('update-product',()=>++updates).catch((error: Error)=>error.message);
+    expect(protectedUpdate).toMatch(/^NEXO_GUARD_REQUIRED:/);
+    expect(updates).toBe(1);
+    await expect(guard.approve(protectedUpdate.split(':')[1],'0123')).resolves.toBe(2);
+  } finally {
+    await rm(folder,{recursive:true,force:true});
+  }
+});
