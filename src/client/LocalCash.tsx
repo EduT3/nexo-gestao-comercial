@@ -38,7 +38,9 @@ export function LocalCash({ company, active = true, refreshToken = 0, administra
     <p role="status">{message}</p>
     <details className="cash-history" onToggle={event => setHistoryOpen(event.currentTarget.open)}>
       <summary>Ver histórico de caixas</summary>
-      <LocalOperationHistory key={company} kind="cash" company={company} active={active && historyOpen} refreshToken={refreshToken+historyRevision}/>
+      <div hidden={!historyOpen}>
+        <LocalOperationHistory key={company} kind="cash" company={company} active={active && historyOpen} refreshToken={refreshToken+historyRevision}/>
+      </div>
     </details>
     {current && <table aria-label="Movimentos do caixa"><thead><tr><th>Movimento</th><th>Valor</th></tr></thead><tbody>{current.movements.map(row => <tr key={row.id}><td>{{ PAYMENT: 'Pagamento de conta', PAYMENT_REVERSAL: 'Estorno de pagamento', RECEIPT: 'Recebimento de conta', RECEIPT_REVERSAL: 'Estorno de recebimento', SUPPLY: 'Suprimento', WITHDRAWAL: 'Sangria', SALE: 'Venda', REVERSAL: 'Estorno' }[row.reason] || row.reason}</td><td>{money(row.amount_cents)}</td></tr>)}</tbody></table>}
   </section>;
