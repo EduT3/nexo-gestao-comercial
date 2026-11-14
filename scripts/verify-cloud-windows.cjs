@@ -156,10 +156,12 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  await page.getByRole('button',{name:'Confirmar configuração'}).click();
  await expect(statusText('Configuração salva.')).toBeVisible();
  await page.getByRole('button',{name:'Já guardei a chave'}).click();
- await shot('16-guard-configuracao');
+ await page.getByLabel('Ativar NEXO Guard').scrollIntoViewIfNeeded();
+ await shot('16-guard-configuracao',{top:false});
  await size(1280,900);
  await expect(page.getByLabel('Ativar NEXO Guard')).toBeVisible();
- await shot('16b-guard-configuracao-1280');
+ await page.getByLabel('Ativar NEXO Guard').scrollIntoViewIfNeeded();
+ await shot('16b-guard-configuracao-1280',{top:false});
  await size(1000,650);
  const guardedBackup=path.join(profile,'guard-backup.sqlite');
  await app.evaluate(({dialog},file)=>{dialog.showSaveDialog=async()=>({canceled:false,filePath:file});},guardedBackup);
