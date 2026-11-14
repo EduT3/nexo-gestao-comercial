@@ -140,4 +140,4 @@ Para atualizar, gere um backup, feche a versão anterior, extraia a pasta nova e
 
 ## Proteção administrativa opcional
 
-O NEXO Guard usa PIN para autorizar ações administrativas selecionadas. Consulte [configuração, recuperação e limites](docs/NEXO-GUARD.md).
+O NEXO Guard é opcional e usa um PIN de quatro dígitos para autorizar ações administrativas selecionadas. Escolher um nome identifica o operador, mas não comprova sua identidade; o PIN oferece proteção operacional limitada e não substitui autenticação forte nem protege contra acesso irrestrito aos arquivos do computador. Guarde a chave de recuperação fora do computador e preserve também o arquivo de política ao migrar para outra máquina: o backup SQLite não o inclui. Consulte [configuração, recuperação e limites](docs/NEXO-GUARD.md).

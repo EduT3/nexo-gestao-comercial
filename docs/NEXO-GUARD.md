@@ -48,3 +48,6 @@ A suíte local da revisão `8fc6036` passou 235 testes em 53 arquivos. A valida�
 | Instalador Windows | Candidata de 43531850681 instalada e executada em perfil fictício | A candidata da revisão mais recente ainda precisa terminar e ser verificada. |
 
 Estas evidências não certificam segurança contra acesso administrativo ao computador ou alteração dos arquivos locais. A conclusão do marco depende de resolver ou registrar explicitamente as lacunas de execução e validação acima.
+
+
+A execução [43533630029](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43533630029) aprovou a candidata `8fc6036`, inclusive instalação, regressões e recuperação em perfil fictício. As capturas do teclado em 1000 × 650 e 1280 × 900 foram inspecionadas e mostraram o diálogo e os controles visíveis. Na captura da configuração em 1000 × 650, os controles ficaram abaixo da área capturada; o roteiro foi corrigido na revisão `0ec218d`, ainda aguardando execução e inspeção.
