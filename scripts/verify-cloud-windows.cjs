@@ -756,6 +756,22 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   assert.equal(buildAt(target).id,id.id);
   await open(target);await login();
   assert.equal((await call('salesHistory',A,{})).total,5);
+  step='download HTTPS pelo atualizador instalado';
+  // Earlier public releases lack NSIS. Override only the version comparison in QA.
+  await app.evaluate(()=>{
+   const updater=process.mainModule.require('electron-updater').autoUpdater;
+   updater.currentVersion=new updater.currentVersion.constructor('1.0.2');
+  });
+  const publicUpdate=await call('checkUpdate');
+  assert.equal(publicUpdate.phase,'available');
+  assert.equal(publicUpdate.version,'1.0.4');
+  assert.equal((await call('downloadUpdate')).phase,'ready');
+  const publicInstaller=await app.evaluate(()=>process.mainModule.require('electron-updater').autoUpdater.installerPath);
+  assert(publicInstaller);
+  assert.equal(crypto.createHash('sha256').update(fs.readFileSync(publicInstaller)).digest('hex'),
+   '830ac83a9038a521403fff6a597ff09882b427e9e431429d402353ce495e6119');
+  assert.equal(buildAt(target).id,id.id);
+  check('Atualizador instalado baixou o NSIS da release publica 1.0.4 por HTTPS e conferiu seu hash.');
   await close();
   assert.deepEqual(commercialSnapshot(dbfile),records);
   assert.deepEqual(dbCheck(),healthBefore);
