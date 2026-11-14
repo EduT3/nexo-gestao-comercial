@@ -188,6 +188,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  for(const digit of '0123') await modal.getByRole('button',{name:digit,exact:true}).click();
  await modal.getByRole('button',{name:'Autorizar',exact:true}).click();
  assert.equal((await backupPromise).canceled,false);
+ await expect(page.getByRole('status').filter({hasText:'Autorização confirmada: Gerar backup.'})).toBeVisible();
  assert(fs.existsSync(guardedBackup));
  await size(1280,900);
  const cash=await call('openCash',A,crypto.randomUUID(),{openingCents:0});

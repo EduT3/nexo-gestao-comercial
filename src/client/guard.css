@@ -7,3 +7,5 @@
 .guard-keypad button { min-height: 48px; border: 1px solid #d5dfdc; border-radius: 12px; background: #edf6f4; color: #172c36; }
 .guard-keypad button:focus-visible { outline: 2px solid #08796b; }
 @media (prefers-reduced-motion: reduce) { .guard-dots span { transition: none; } }
+
+.guard-success { position: fixed; right: 24px; bottom: 24px; z-index: 1000; max-width: calc(100vw - 48px); padding: 12px 16px; border: 1px solid #95cabb; border-radius: 10px; color: #124a3c; background: #e7f7f0; box-shadow: 0 4px 16px #12242c26; }

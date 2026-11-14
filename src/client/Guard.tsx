@@ -19,11 +19,13 @@ type Request = { id: string; label: string; resolve(value: unknown): void; rejec
 
 export function GuardPrompt() {
   const [request, setRequest] = useState<Request>();
+  const [notice, setNotice] = useState('');
   const current = useRef<Request>(undefined);
   const bridge = window.nexoLocal;
 
   useEffect(() => {
     bridge?.registerGuardPrompt?.((id, label) => new Promise((resolve, reject) => {
+      setNotice('');
       current.current?.reject(Error('Solicitação substituída.'));
       const next = { id, label, resolve, reject };
       current.current = next;
@@ -36,7 +38,13 @@ export function GuardPrompt() {
     };
   }, [bridge]);
 
-  if (!request) return null;
+  useEffect(() => {
+    if (!notice) return;
+    const timeout = window.setTimeout(() => setNotice(''), 4000);
+    return () => window.clearTimeout(timeout);
+  }, [notice]);
+
+  if (!request) return notice ? <div role="status" className="guard-success">{notice}</div> : null;
   function finish() {
     if (current.current !== request) return;
     current.current = undefined;
@@ -48,7 +56,9 @@ export function GuardPrompt() {
     finish();
   }} onApprove={async pin => {
     try {
-      request.resolve(await bridge!.guardApprove!(request.id, pin));
+      const result = await bridge!.guardApprove!(request.id, pin);
+      setNotice('Autorização confirmada: ' + request.label + '.');
+      request.resolve(result);
       finish();
     } catch (error) {
       if (/PIN incorreto|bloqueio|bloqueado/.test(String(error))) throw error;
