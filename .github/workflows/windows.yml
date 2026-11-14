@@ -64,7 +64,6 @@ jobs:
       - name: Verificar arquivos de distribuicao
         run: node scripts/verify-windows-artifacts.cjs
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
-        if: always()
         with:
           name: nexo-windows
           path: |
@@ -75,4 +74,14 @@ jobs:
             artifacts/cloud-qa/**/result.json
             artifacts/cloud-qa/**/*.png
           if-no-files-found: error
+          retention-days: 14
+      - name: Upload Windows failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        with:
+          name: nexo-windows-diagnostics
+          path: |
+            artifacts/cloud-qa/**/result.json
+            artifacts/cloud-qa/**/*.png
+          if-no-files-found: warn
           retention-days: 14
