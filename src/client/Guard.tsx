@@ -88,6 +88,7 @@ function PinDialog({ label, pinLength, authorized, onCancel, onApprove }: {
   label: string; pinLength: number; authorized: boolean; onCancel(): void; onApprove(pin: string): Promise<void>;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
+  const firstDigit = useRef<HTMLButtonElement>(null);
   const [digits, setDigits] = useState('');
   const [message, setMessage] = useState('');
   const submitting = useRef(false);
@@ -95,6 +96,7 @@ function PinDialog({ label, pinLength, authorized, onCancel, onApprove }: {
   useEffect(() => {
     const element = dialog.current!;
     element.showModal();
+    firstDigit.current?.focus();
     return () => element.close();
   }, []);
 
@@ -133,7 +135,7 @@ function PinDialog({ label, pinLength, authorized, onCancel, onApprove }: {
         {Array.from({length: pinLength}, (_, index) => <span key={index} aria-hidden="true" data-filled={index < digits.length} />)}
       </div>
       <fieldset disabled={busy} className="guard-keypad">
-        {[1,2,3,4,5,6,7,8,9].map(digit => <button key={digit} type="button" onClick={() => add(String(digit))}>{digit}</button>)}
+        {[1,2,3,4,5,6,7,8,9].map(digit => <button key={digit} ref={digit === 1 ? firstDigit : undefined} type="button" onClick={() => add(String(digit))}>{digit}</button>)}
         <button type="button" onClick={onCancel}>Cancelar</button>
         <button type="button" onClick={() => add('0')}>0</button>
         <button type="button" aria-label="Apagar último dígito" onClick={() => setDigits(value => value.slice(0,-1))}>⌫</button>
