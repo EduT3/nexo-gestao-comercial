@@ -65,3 +65,7 @@ As origens 1.0.4 e 1.0.5 com Guard recusaram abrir a base fictícia marcada com 
 | Reabertura automática, reinicialização durante a instalação e assinatura | Pendente | Ainda exige evidência específica. |
 
 O relatório continua aberto até a execução dos cenários pendentes e a revisão da candidata final. O mesmo número 1.0.6 aparece em várias candidatas de teste. Use o identificador do build e a execução do GitHub para identificar o pacote analisado.
+
+### Integridade da distribuição pública 1.0.4
+
+O manifesto, o instalador e o blockmap da [release pública 1.0.4](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.4) foram baixados do GitHub. O manifesto informou a versão 1.0.4 e identificou NEXO-Setup-1.0.4.exe. O tamanho de 148.655.544 bytes e o SHA-512 calculado do instalador coincidiram com o manifesto. O blockmap estava presente. Esta conferência cobre os arquivos da release pública. A consulta pelo aplicativo instalado está na execução 43598510779.
