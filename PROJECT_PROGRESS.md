@@ -269,3 +269,7 @@ As origens 1.0.4 e 1.0.5 com Guard recusaram abrir a base fictícia marcada com 
 ### M2.4 e M2.5 — Contas e resoluções verificadas no Windows
 
 A execução [43597626927](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43597626927), revisão 5f13e18, passou nos dois perfis fictícios. Pagar e Receber explicaram quando a busca não encontrou contas e voltaram às pendências ao limpar os filtros. O roteiro também percorreu Vender, Estoque, Caixa e Contas pelo teclado em 1280 × 720, 1366 × 768 e 1920 × 1080, verificou a área ativa e a largura da página e salvou capturas no [ZIP Windows](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43597626927/artifacts/14115149692). O pacote antecede o ajuste de espaçamento dos filtros de estoque e o histórico de caixa recolhido.
+
+### M2.4–M2.6 — candidata com histórico recolhido e evidência de desempenho
+
+A execução [43599952832](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43599952832), revisão ef068e0, aprovou 242 testes e os perfis Windows de origem 1.0.4 e 1.0.5 com Guard. O histórico começou recolhido e mostrou o caixa fechado quando acionado. As capturas confirmaram o espaçamento dos filtros de estoque nas três resoluções do roteiro. O instalador do build NEXO-17AEB4E230DDCD9F, extraído do [ZIP aprovado](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43599952832/artifacts/14115859392), coincidiu com o manifesto em tamanho e SHA-512. O relatório M2 registra as medições e suas limitações. A reabertura automática está em ensaio próprio.
