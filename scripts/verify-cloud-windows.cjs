@@ -774,8 +774,10 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   await publicPanel.getByRole('button',{name:'Verificar atualização',exact:true}).click();
   const publicDownload=publicPanel.getByRole('button',{name:'Baixar versão 1.0.4',exact:true});
   await expect(publicDownload).toBeVisible({timeout:45000});
+  const publicDownloadStarted=performance.now();
   await publicDownload.click();
   await expect(publicPanel.getByRole('button',{name:'Reiniciar e atualizar',exact:true})).toBeVisible({timeout:120000});
+  timings.push({operation:'update-download-https',version:'1.0.4',ms:Math.round(performance.now()-publicDownloadStarted)});
   const publicInstaller=await app.evaluate(()=>process.mainModule.require('electron-updater').autoUpdater.installerPath);
   assert(publicInstaller);
   assert.equal(crypto.createHash('sha256').update(fs.readFileSync(publicInstaller)).digest('hex'),
