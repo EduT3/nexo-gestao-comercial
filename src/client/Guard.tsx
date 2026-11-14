@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState, type FormEvent } from 'react';
+import { createContext, useContext, useEffect, useRef, useState, type FormEvent, type ReactNode } from 'react';
 import './guard.css';
 
 type Policy = { enabled: boolean; all: boolean; actions: string[] };
@@ -17,7 +17,13 @@ export interface GuardBridge {
 
 type Request = { id: string; label: string; pinLength: number; resolve(value: unknown): void; reject(error: Error): void };
 
-export function GuardPrompt() {
+const GuardPendingContext = createContext(false);
+
+export function useGuardPending() {
+  return useContext(GuardPendingContext);
+}
+
+export function GuardPrompt({ children }: { children: ReactNode }) {
   const [request, setRequest] = useState<Request>();
   const [notice, setNotice] = useState('');
   const current = useRef<Request>(undefined);
@@ -44,13 +50,16 @@ export function GuardPrompt() {
     return () => window.clearTimeout(timeout);
   }, [notice]);
 
-  if (!request) return notice ? <div role="status" className="guard-success">{notice}</div> : null;
+
   function finish() {
     if (current.current !== request) return;
     current.current = undefined;
     setRequest(undefined);
   }
-  return <PinDialog key={request.id} label={request.label} pinLength={request.pinLength} onCancel={() => {
+  return <GuardPendingContext.Provider value={Boolean(request)}>
+    {children}
+    {!request && notice && <div role="status" className="guard-success">{notice}</div>}
+    {request && <PinDialog key={request.id} label={request.label} pinLength={request.pinLength} onCancel={() => {
     void bridge?.guardCancel?.(request.id).catch(() => undefined);
     request.reject(Error('Autorização cancelada.'));
     finish();
@@ -65,7 +74,8 @@ export function GuardPrompt() {
       request.reject(Error(String(error)));
       finish();
     }
-  }} />;
+  }} />}
+  </GuardPendingContext.Provider>;
 }
 
 function PinDialog({ label, pinLength, onCancel, onApprove }: {

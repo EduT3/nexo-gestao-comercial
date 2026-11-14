@@ -202,3 +202,8 @@ A execução [43536830745](https://github.com/EduT3/nexo-gestao-comercial/action
 ### Guard — política individual e global
 
 A revisão `a2c1fbe` adicionou teste integrado de política individual/global com arquivos temporários; a suíte local completa passou 237 testes em 53 arquivos. A candidata Windows validada permanece a da execução 43536830745, sem alteração posterior do código de execução.
+
+
+### M2.1 — feedback de autorização em produtos e compras
+
+O cadastro de produto e a entrada de estoque exibiam “Salvando…” durante o pedido de PIN. Agora distinguem a autorização pendente do processamento da operação. O formulário de produto também apresenta erros e cancelamentos enquanto permanece aberto. Alterações em `src/client/Guard.tsx`, `main.tsx`, `LocalApp.tsx` e `LocalPurchases.tsx`. Tipagem do cliente e 17 testes de Guard, catálogo e compras aprovados. A verificação no executável e os demais fluxos de M2.1 seguem pendentes.

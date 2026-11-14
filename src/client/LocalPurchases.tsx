@@ -1,3 +1,4 @@
+import { useGuardPending } from './Guard';
 import { Trash } from '@phosphor-icons/react';
 import {useEffect} from 'react';
 import {addEntrySelection,stockUnitLabels,type StockEntrySelection} from './stock-entry-selection';
@@ -8,6 +9,7 @@ import { calculatePurchase,type PurchaseLine } from './purchase-draft';
 import { errorMessage,money,shortDate } from './local-format';
 const newLine=():PurchaseLine=>({id:crypto.randomUUID(),productId:'',quantity:'1',cost:''});
 export function LocalPurchases({company,active=true,refreshToken=0,selection,onNewProduct,onSaved}:{company:string;active?:boolean;refreshToken?:number;selection?:StockEntrySelection;onNewProduct?:()=>void;onSaved?:()=>void}) {
+  const guardPending = useGuardPending();
  const bridge=window.nexoLocal!;
  const [suppliers,setSuppliers]=useState<{id:string;name:string}[]>([]),[products,setProducts]=useState<{id:string;name:string;unit:string;cost_cents?:bigint}[]>([]);
  const [message,setMessage]=useState(''),[busy,setBusy]=useState(false),[key,setKey]=useState(()=>crypto.randomUUID());
@@ -37,7 +39,7 @@ export function LocalPurchases({company,active=true,refreshToken=0,selection,onN
  }
  return <details className="panel"><summary>Adicionar produtos ao estoque</summary><p>Registre somente as mercadorias que já chegaram. A quantidade será somada ao saldo atual.</p>{onNewProduct&&<button type="button" className="button secondary" disabled={busy} onClick={onNewProduct}>Produto novo? Cadastrar aqui</button>}<form aria-label="Entrada de mercadorias" onSubmit={save} className="form-stack"><fieldset disabled={busy||!company} className="form-stack">
   <div className="stock-entry-actions">
-   <button type="submit" className="button primary">{busy ? 'Salvando…' : 'Salvar entrada no estoque'}</button>
+   <button type="submit" className="button primary">{busy ? (guardPending ? 'Autorização em andamento…' : 'Processando…') : 'Salvar entrada no estoque'}</button>
    <p role="status">{message}</p>
   </div>
   <p className="optional-hint">Não precisa cadastrar fornecedor para dar entrada. Preencha só os produtos, as quantidades e os custos.</p>

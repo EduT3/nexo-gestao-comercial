@@ -15,6 +15,6 @@ async function start() {
     const { createLocalPreviewBridge } = await import('./preview/local-adapter');
     window.nexoLocal = createLocalPreviewBridge(); preview = true;
   }
-  createRoot(document.getElementById('root')!).render(<StrictMode>{window.nexoLocal ? <><GuardPrompt /><LocalApp preview={preview} /></> : <App />}</StrictMode>);
+  createRoot(document.getElementById('root')!).render(<StrictMode>{window.nexoLocal ? <GuardPrompt><LocalApp preview={preview} /></GuardPrompt> : <App />}</StrictMode>);
 }
 void start();
