@@ -12,10 +12,10 @@ export interface GuardBridge {
   guardApprove(id: string, pin: string): Promise<unknown>;
   guardCancel(id: string): Promise<void>;
   guardInvalidate(): Promise<void>;
-  registerGuardPrompt(callback: ((id: string, label: string) => Promise<unknown>) | null): void;
+  registerGuardPrompt(callback: ((id: string, label: string, pinLength: number) => Promise<unknown>) | null): void;
 }
 
-type Request = { id: string; label: string; resolve(value: unknown): void; reject(error: Error): void };
+type Request = { id: string; label: string; pinLength: number; resolve(value: unknown): void; reject(error: Error): void };
 
 export function GuardPrompt() {
   const [request, setRequest] = useState<Request>();
@@ -24,10 +24,10 @@ export function GuardPrompt() {
   const bridge = window.nexoLocal;
 
   useEffect(() => {
-    bridge?.registerGuardPrompt?.((id, label) => new Promise((resolve, reject) => {
+    bridge?.registerGuardPrompt?.((id, label, pinLength) => new Promise((resolve, reject) => {
       setNotice('');
       current.current?.reject(Error('Solicitação substituída.'));
-      const next = { id, label, resolve, reject };
+      const next = { id, label, pinLength, resolve, reject };
       current.current = next;
       setRequest(next);
     }));
@@ -50,7 +50,7 @@ export function GuardPrompt() {
     current.current = undefined;
     setRequest(undefined);
   }
-  return <PinDialog key={request.id} label={request.label} onCancel={() => {
+  return <PinDialog key={request.id} label={request.label} pinLength={request.pinLength} onCancel={() => {
     void bridge?.guardCancel?.(request.id).catch(() => undefined);
     request.reject(Error('Autorização cancelada.'));
     finish();
@@ -68,8 +68,8 @@ export function GuardPrompt() {
   }} />;
 }
 
-function PinDialog({ label, onCancel, onApprove }: {
-  label: string; onCancel(): void; onApprove(pin: string): Promise<void>;
+function PinDialog({ label, pinLength, onCancel, onApprove }: {
+  label: string; pinLength: number; onCancel(): void; onApprove(pin: string): Promise<void>;
 }) {
   const dialog = useRef<HTMLDialogElement>(null);
   const [digits, setDigits] = useState('');
@@ -82,12 +82,12 @@ function PinDialog({ label, onCancel, onApprove }: {
   }, []);
 
   function add(digit: string) {
-    setDigits(value => value.length < 4 ? value + digit : value);
+    setDigits(value => value.length < pinLength ? value + digit : value);
   }
 
   async function submit(event: FormEvent) {
     event.preventDefault();
-    if (busy || digits.length !== 4) return;
+    if (busy || digits.length !== pinLength) return;
     setBusy(true);
     setMessage('');
     const pin = digits;
@@ -108,8 +108,8 @@ function PinDialog({ label, onCancel, onApprove }: {
     <form onSubmit={submit}>
       <h2 id="guard-title">Autorização administrativa</h2>
       <p>{label}</p>
-      <div className="guard-dots" aria-label={digits.length + ' de 4 dígitos preenchidos'}>
-        {[0,1,2,3].map(index => <span key={index} aria-hidden="true" data-filled={index < digits.length} />)}
+      <div className="guard-dots" aria-label={digits.length + ' de ' + pinLength + ' dígitos preenchidos'}>
+        {Array.from({length: pinLength}, (_, index) => <span key={index} aria-hidden="true" data-filled={index < digits.length} />)}
       </div>
       <fieldset disabled={busy} className="guard-keypad">
         {[1,2,3,4,5,6,7,8,9].map(digit => <button key={digit} type="button" onClick={() => add(String(digit))}>{digit}</button>)}
@@ -118,7 +118,7 @@ function PinDialog({ label, onCancel, onApprove }: {
         <button type="button" aria-label="Apagar último dígito" onClick={() => setDigits(value => value.slice(0,-1))}>⌫</button>
       </fieldset>
       <p role="status">{message}</p>
-      <button className="button primary" disabled={busy || digits.length !== 4}>Autorizar</button>
+      <button className="button primary" disabled={busy || digits.length !== pinLength}>Autorizar</button>
     </form>
   </dialog>;
 }
@@ -184,8 +184,8 @@ export function GuardSettings() {
     {status?.enabled && <button type="button" disabled={busy} onClick={() => setRecovering(value => !value)}>Esqueci meu PIN</button>}
     {recovering && <form className="form-stack" onSubmit={recover}>
       <label>Chave de recuperação<input name="key" type="password" required minLength={48} maxLength={48} autoComplete="off" /></label>
-      <PinField name="pin" label="Novo PIN" required />
-      <PinField name="confirmation" label="Confirmar novo PIN" required />
+      <PinField name="pin" label="Novo PIN" length={status?.pinLength ?? 4} required />
+      <PinField name="confirmation" label="Confirmar novo PIN" length={status?.pinLength ?? 4} required />
       <button className="button primary" disabled={busy}>Redefinir PIN</button>
     </form>}
     {policy && status && !recovering && <form className="form-stack" onSubmit={save}>
@@ -200,8 +200,8 @@ export function GuardSettings() {
       </fieldset>
       {review ? <>
         <p>{policy.enabled ? policy.all ? 'Proteger todas as ações administrativas.' : 'Proteger ' + policy.actions.length + ' ações selecionadas.' : 'Desativar o NEXO Guard.'}</p>
-        {status.enabled && <PinField name="currentPin" label="PIN atual" required />}
-        {policy.enabled && <><PinField name="pin" label={status.enabled ? 'Novo PIN (opcional)' : 'Novo PIN'} required={!status.enabled} /><PinField name="confirmation" label="Confirmar novo PIN" required={!status.enabled} /></>}
+        {status.enabled && <PinField name="currentPin" label="PIN atual" length={status.pinLength} required />}
+        {policy.enabled && <><PinField name="pin" label={status.enabled ? 'Novo PIN (opcional)' : 'Novo PIN'} length={status.pinLength} required={!status.enabled} /><PinField name="confirmation" label="Confirmar novo PIN" length={status?.pinLength ?? 4} required={!status.enabled} /></>}
         <button className="button primary" disabled={busy}>Confirmar configuração</button>
         <button type="button" className="button secondary" disabled={busy} onClick={() => setReview(false)}>Voltar</button>
       </> : <button type="button" className="button secondary" onClick={() => setReview(true)}>Revisar configuração</button>}
@@ -210,6 +210,6 @@ export function GuardSettings() {
   </details>;
 }
 
-function PinField({name,label,required}: {name:string;label:string;required:boolean}) {
-  return <label>{label}<input name={name} type="password" inputMode="numeric" pattern="[0-9]{4}" maxLength={4} required={required} autoComplete="off" /></label>;
+function PinField({name,label,length,required}: {name:string;label:string;length:number;required:boolean}) {
+  return <label>{label}<input name={name} type="password" inputMode="numeric" pattern={`[0-9]{${length}}`} maxLength={length} required={required} autoComplete="off" /></label>;
 }

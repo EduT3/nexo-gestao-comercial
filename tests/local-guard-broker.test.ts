@@ -102,3 +102,10 @@ it('rejects expired requests and cancelled approvals', async () => {
     vi.useRealTimers();
   }
 });
+
+
+it('exposes the policy PIN length to the prompt without changing the active policy', async () => {
+  const guard = createGuardBroker({status:async()=>({enabled:true,all:true,pinLength:6}),authorize:async()=>{}});
+  const error = await guard.run('backup',()=>{}).catch((failure: Error)=>failure.message);
+  expect(guard.describe(error.split(':')[1])).toEqual({label:'Gerar backup',pinLength:6});
+});

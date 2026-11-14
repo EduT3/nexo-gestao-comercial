@@ -10,8 +10,8 @@ async function invoke(channel, ...args) {
     const prompt = promptQueue.then(async () => {
       try {
         if (!promptForGuard) throw error;
-        const { label } = await ipcRenderer.invoke('nexo:guard-describe', id);
-        return await promptForGuard(id, label);
+        const { label, pinLength } = await ipcRenderer.invoke('nexo:guard-describe', id);
+        return await promptForGuard(id, label, pinLength);
       } finally {
         await ipcRenderer.invoke('nexo:guard-cancel', id).catch(() => undefined);
       }
