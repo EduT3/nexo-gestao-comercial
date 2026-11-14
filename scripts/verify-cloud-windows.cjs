@@ -516,7 +516,13 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  await assert.rejects(()=>call('guardApprove',staleId,'0123'),/expirada/i);
  const backupPromise=call('backup').then(value=>({value}),error=>({error}));
  const modal=page.getByRole('dialog',{name:'Autorização administrativa'});
- await expect(modal).toBeVisible();
+ await Promise.race([
+  expect(modal).toBeVisible(),
+  backupPromise.then(outcome=>{
+   if ('error' in outcome) throw outcome.error;
+   throw Error('O backup terminou antes de apresentar a autorizacao administrativa.');
+  }),
+ ]);
  await expect(modal.getByText('Gerar backup',{exact:true})).toBeVisible();
  await expect(modal.getByRole('button',{name:'1',exact:true})).toBeFocused();
  await page.keyboard.press('Tab');
