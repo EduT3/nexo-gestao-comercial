@@ -88,3 +88,7 @@ A execução [43598510779](https://github.com/EduT3/nexo-gestao-comercial/action
 4. Se precisar voltar para um executável anterior, teste primeiro com uma cópia dos dados em perfil isolado. Se a versão antiga recusar o esquema, preserve a base original e abra-a com uma versão compatível.
 
 O ensaio Windows comprovou a cópia pré-atualização, a recuperação da falha simulada de lançamento e a recusa de esquema futuro. O procedimento acima ainda precisa ser ensaiado após interrupção real do NSIS durante a instalação.
+
+### M2.6 — reabertura automática confirmada
+
+Na [execução 43623101334](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43623101334), a atualização de 1.0.5 com Guard para 1.0.6 por canal de teste relançou a janela principal do NEXO em um novo processo, sem abertura manual. O roteiro usou o modo silencioso do NSIS e confirmou o encerramento desse processo antes de reabrir em perfil fictício para conferir os registros e o PIN de origem. O [ZIP aprovado](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43623101334/artifacts/14125407186) está disponível no GitHub Actions. A interrupção durante a instalação e a recuperação correspondente ainda precisam de ensaio próprio.

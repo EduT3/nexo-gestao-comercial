@@ -31,7 +31,7 @@ Pagar e Receber retornaram zero registros, com 12 amostras por operação e vers
 ## Próximos passos da homologação
 
 1. As capturas da candidata aprovada confirmaram o espaçamento dos filtros de estoque em 1280 × 720, 1366 × 768 e 1920 × 1080 e o histórico de caixa recolhido em 1280 × 720. O instalador baixado foi conferido contra o manifesto.
-2. Confirmar reabertura automática e recuperação por falha após o início do NSIS em ambiente isolado. A verificação publicada usa reabertura controlada. O instalador de teste está sem assinatura digital.
+2. A [reabertura automática em modo silencioso](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43623101334) foi comprovada na atualização a partir da versão com Guard. Falta testar a recuperação após uma falha com o NSIS já em execução. O instalador de teste está sem assinatura digital.
 3. Aplicar o [roteiro de primeiro uso](USABILIDADE-M2.md) quando houver participantes. O roteiro preparado ainda não tem resultados de sessões reais.
 
 ## Próximas evoluções propostas

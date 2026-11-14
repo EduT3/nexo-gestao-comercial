@@ -524,3 +524,7 @@ A execução [43597626927](https://github.com/EduT3/nexo-gestao-comercial/action
 ### M2.4–M2.6 — candidata com histórico recolhido e evidência de desempenho
 
 A execução [43599952832](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43599952832), revisão ef068e0, aprovou 242 testes e os perfis Windows de origem 1.0.4 e 1.0.5 com Guard. O histórico começou recolhido e mostrou o caixa fechado quando acionado. As capturas confirmaram o espaçamento dos filtros de estoque nas três resoluções do roteiro. O instalador do build NEXO-17AEB4E230DDCD9F, extraído do [ZIP aprovado](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43599952832/artifacts/14115859392), coincidiu com o manifesto em tamanho e SHA-512. O relatório M2 registra as medições e suas limitações. A reabertura automática está em ensaio próprio.
+
+### M2.6 — reabertura automática confirmada
+
+Na [execução 43623101334](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43623101334), a atualização de 1.0.5 com Guard para 1.0.6 por canal de teste relançou a janela principal do NEXO em um novo processo, sem abertura manual. O roteiro usou o modo silencioso do NSIS e confirmou o encerramento desse processo antes de reabrir em perfil fictício para conferir os registros e o PIN de origem. O [ZIP aprovado](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43623101334/artifacts/14125407186) está disponível no GitHub Actions. A interrupção durante a instalação e a recuperação correspondente ainda precisam de ensaio próprio.
