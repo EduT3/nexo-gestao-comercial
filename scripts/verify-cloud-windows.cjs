@@ -138,6 +138,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  if(baseline){
   const sourceBuild=buildAt(program);
   const supportsGuard=await page.evaluate(()=>typeof window.nexoLocal.guardConfigure==='function');
+  if(process.env.NEXO_QA_REQUIRE_GUARD_SOURCE==='1') assert(supportsGuard,'Versão de origem sem Guard');
   let originalGuard;
   if(supportsGuard){
    await call('guardConfigure',{enabled:true,all:false,actions:['backup'],pin:'0123',confirmation:'0123'});
@@ -446,7 +447,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   await open(baseline);await login();
   assert.equal((await call('salesHistory',A,{})).total,5);
   await close();assert.deepEqual(dbCheck(),before);
-  check('Dados da 1.0.4 preservados na candidata e acessíveis ao voltar ao executável anterior.');
+  check('Dados preservados na candidata e acessíveis ao voltar ao executável anterior.');
  }
  step='troca de empresa em base fictícia legada';
  assert(path.resolve(dbfile).startsWith(path.resolve(profile)+path.sep));

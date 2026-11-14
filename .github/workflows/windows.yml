@@ -5,6 +5,7 @@ on:
   workflow_dispatch:
 permissions:
   contents: read
+  actions: read
 jobs:
   windows:
     runs-on: windows-latest
@@ -18,6 +19,8 @@ jobs:
       - run: npm ci
       - run: node node_modules/electron/install.js
       - run: npm test
+      - name: Set unpublished update test version
+        run: npm version 1.0.6 --no-git-tag-version --ignore-scripts
       - run: npm run package:installer
         env:
           CSC_IDENTITY_AUTO_DISCOVERY: 'false'
@@ -38,6 +41,26 @@ jobs:
           if (!$candidate) { throw 'Candidate installer missing' }
           "NEXO_QA_SETUP=$($candidate.FullName)" >> $env:GITHUB_ENV
       - run: node scripts/verify-cloud-windows.cjs
+      - name: Test update from Guard M1
+        shell: pwsh
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          $source = Join-Path $env:RUNNER_TEMP 'nexo-guard-m1'
+          gh run download 43536830745 --repo EduT3/nexo-gestao-comercial --name nexo-windows --dir $source
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
+          $setup = Join-Path $source 'installer/NEXO-Setup-1.0.5.exe'
+          if ((Get-FileHash -LiteralPath $setup).Hash -ne '4DC2325400FE5743FE0826B18266735EE570C0970520F24366B5D5779A5CB61A') { throw 'Guard M1 installer digest mismatch' }
+          $destination = Join-Path $env:RUNNER_TEMP 'NEXO-Guard-installed'
+          $result = Start-Process -FilePath $setup -ArgumentList @('/S', "/D=$destination") -PassThru -Wait -WindowStyle Hidden
+          if ($result.ExitCode -ne 0 -or !(Test-Path "$destination/NEXO.exe")) { throw 'Guard M1 installation failed' }
+          $snapshot = Join-Path $env:RUNNER_TEMP 'NEXO-Guard-snapshot'
+          Copy-Item -LiteralPath $destination -Destination $snapshot -Recurse
+          $env:NEXO_QA_BASELINE = $snapshot
+          $env:NEXO_QA_PROGRAM = $destination
+          $env:NEXO_QA_REQUIRE_GUARD_SOURCE = '1'
+          node scripts/verify-cloud-windows.cjs
+          if ($LASTEXITCODE -ne 0) { exit $LASTEXITCODE }
       - name: Verificar arquivos de distribuicao
         run: node scripts/verify-windows-artifacts.cjs
       - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
