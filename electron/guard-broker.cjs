@@ -74,7 +74,7 @@ function createGuardBroker(store) {
       if (request.verifying) throw Error('Aguarde a validação do PIN.');
       request.verifying = true;
       try {
-        await store.authorize(request.operation, pin);
+        await store.authorize(request.operation, pin, { required: true });
         await request.checkPermission();
         if (scope !== generation || pending.get(id) !== request || request.expires <= Date.now()) {
           throw Error('Solicitação expirada ou cancelada.');

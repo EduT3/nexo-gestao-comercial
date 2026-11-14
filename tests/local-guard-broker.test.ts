@@ -14,6 +14,7 @@ it('blocks execution until PIN and consumes the original request once', async ()
   expect(perform).not.toHaveBeenCalled();
   await expect(guard.approve(id, '9999')).rejects.toThrow('PIN incorreto');
   await expect(guard.approve(id, '0123')).resolves.toBe('original');
+  expect(authorize).toHaveBeenLastCalledWith('backup', '0123', { required: true });
   await expect(guard.approve(id, '0123')).rejects.toThrow('expirada');
   expect(perform).toHaveBeenCalledTimes(1);
 });

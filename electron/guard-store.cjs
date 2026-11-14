@@ -107,9 +107,13 @@ function createGuardStore(folder) {
         recoveryHash: recovery.recoveryHash, failures: 0, blockedUntil: 0 });
       return { recoveryKey: recovery.key };
     }),
-    authorize: (action, pin) => serialize(async () => {
+    authorize: (action, pin, options = {}) => serialize(async () => {
       const record = await read();
-      if (!record?.enabled || (!record.all && !record.actions.includes(action))) return;
+      if (!record?.enabled) {
+        if (options.required) throw new Error('A proteção mudou. Inicie a operação novamente.');
+        return;
+      }
+      if (!options.required && !record.all && !record.actions.includes(action)) return;
       await verify(record, pin);
     }),
   };

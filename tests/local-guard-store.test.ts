@@ -5,6 +5,7 @@ import path from 'node:path';
 import { expect, it } from 'vitest';
 
 const { createGuardStore } = createRequire(import.meta.url)('../electron/guard-store.cjs');
+const { createGuardBroker } = createRequire(import.meta.url)('../electron/guard-broker.cjs');
 
 it('persiste ativação voluntária, ações e mudanças autorizadas', async () => {
   const folder = await mkdtemp(path.join(tmpdir(), 'nexo-guard-'));
@@ -97,5 +98,40 @@ it('keeps the active policy if a write is interrupted before replacing the file'
     await expect(reopened.authorize('backup', '0123')).resolves.toBeUndefined();
   } finally {
     await rm(folder, { recursive: true, force: true });
+  }
+});
+
+
+it('requires PIN for an already protected request even after its policy changes', async () => {
+  const folder = await mkdtemp(path.join(tmpdir(), 'nexo-guard-policy-race-'));
+  try {
+    const guard = createGuardStore(folder);
+    await guard.configure({enabled:true,all:true,actions:[],pin:'0123',confirmation:'0123'});
+    await guard.configure({enabled:true,all:false,actions:[],currentPin:'0123'});
+    await expect(guard.authorize('backup','9999',{required:true})).rejects.toThrow('PIN incorreto');
+    await expect(guard.authorize('backup','0123',{required:true})).resolves.toBeUndefined();
+    await guard.configure({enabled:false,all:false,actions:[],currentPin:'0123'});
+    await expect(guard.authorize('backup','0123',{required:true})).rejects.toThrow('proteção mudou');
+  } finally {
+    await rm(folder,{recursive:true,force:true});
+  }
+});
+
+
+it('does not execute a pending operation with an incorrect PIN after its policy changes', async () => {
+  const folder = await mkdtemp(path.join(tmpdir(), 'nexo-guard-pending-policy-'));
+  try {
+    const store = createGuardStore(folder);
+    await store.configure({enabled:true,all:true,actions:[],pin:'0123',confirmation:'0123'});
+    const broker = createGuardBroker(store);
+    let executions = 0;
+    const message = await broker.run('backup', () => ++executions).catch((error: Error) => error.message);
+    const id = message.split(':')[1];
+    await store.configure({enabled:true,all:false,actions:[],currentPin:'0123'});
+    await expect(broker.approve(id,'9999')).rejects.toThrow('PIN incorreto');
+    expect(executions).toBe(0);
+    await expect(broker.approve(id,'0123')).resolves.toBe(1);
+  } finally {
+    await rm(folder,{recursive:true,force:true});
   }
 });
