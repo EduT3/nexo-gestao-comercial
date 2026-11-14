@@ -182,3 +182,8 @@ Implementação candidata na branch de trabalho. A integração Windows verifica
 ### Guard — autorização pendente e validação
 
 A revisão `0f29d10` impede que alteração da política dispense o PIN de uma solicitação já protegida. A suíte local passou 235 testes em 53 arquivos na revisão `8fc6036`. A execução Windows [43533630029](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43533630029), incluindo duas dimensões para a interface do Guard, está em andamento; o instalador dessa revisão ainda não foi homologado. Detalhes e limitações: [NEXO-GUARD.md](docs/NEXO-GUARD.md).
+
+
+### Guard — candidata Windows verificada
+
+A execução [43534470859](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43534470859) aprovou 235 testes, o instalador e o roteiro em dados fictícios. Trocas de usuário e de empresa invalidaram pedidos pendentes; as capturas da configuração e do teclado foram inspecionadas em duas dimensões. Candidata vinculada à revisão `0ec218d`; sem merge ou release estável. Detalhes e limites em [NEXO-GUARD.md](docs/NEXO-GUARD.md).

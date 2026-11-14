@@ -51,3 +51,10 @@ Estas evidências não certificam segurança contra acesso administrativo ao com
 
 
 A execução [43533630029](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43533630029) aprovou a candidata `8fc6036`, inclusive instalação, regressões e recuperação em perfil fictício. As capturas do teclado em 1000 × 650 e 1280 × 900 foram inspecionadas e mostraram o diálogo e os controles visíveis. Na captura da configuração em 1000 × 650, os controles ficaram abaixo da área capturada; o roteiro foi corrigido na revisão `0ec218d`, ainda aguardando execução e inspeção.
+
+
+## Candidata Windows validada
+
+A execução [43534470859](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43534470859), revisão `0ec218d`, aprovou 235 testes em 53 arquivos e o roteiro no executável instalado. O roteiro confirmou a invalidação de uma solicitação após troca de operador e após troca de empresa em uma base fictícia de duas empresas. Operador sem permissão não configurou o Guard nem gerou backup. A instalação sobre 1.0.4, a recuperação com PIN e o retorno ao executável anterior também foram exercitados em dados fictícios.
+
+As capturas da configuração e do teclado foram inspecionadas em 1000 × 650 e 1280 × 900; os controles ficaram visíveis. O instalador `NEXO-Setup-1.0.5.exe` foi baixado do artefato da execução, com SHA-256 `2DD8019454677E1511F4BE1DA0595C6DB6B9DF3414EE0D6858EA8092CB35E62F`. O artefato de Actions tem retenção limitada e é uma candidata, não uma versão estável publicada.
