@@ -17,6 +17,7 @@ let booting = true;
 let quitting = false;
 let readyToQuit = false;
 let updates;
+let updateReceipt;
 let installUpdate = false;
 let confirmingUpdate = false;
 const pendingOperations = new Set();
@@ -55,6 +56,7 @@ else app.whenReady().then(async () => {
   if (!process.env.LOCALAPPDATA) throw new Error('A pasta local do Windows não está disponível.');
   const dataFolder = path.join(process.env.LOCALAPPDATA, 'NEXO');
   await mkdir(dataFolder, { recursive: true });
+  if (updates) updateReceipt = require('./updates.cjs').createUpdateReceipt(dataFolder);
   const guardStore = require('./guard-store.cjs').createGuardStore(dataFolder);
   const backupMetadata = path.join(dataFolder, 'backup.json');
   let lastBackup;
@@ -332,6 +334,10 @@ else app.whenReady().then(async () => {
   window.webContents.on('render-process-gone', () => guard.invalidate());
   window.webContents.on('will-navigate', event => event.preventDefault());
   await window.loadFile(path.join(root, 'dist/client/index.html'));
+  if (updateReceipt) {
+    try { updates.reportStartup(await updateReceipt.consume(app.getVersion())); }
+    catch (error) { console.error('Falha ao conferir o resultado da atualização:', error.message); }
+  }
   booting = false;
 }).catch(error => { console.error('Falha ao abrir NEXO:', error.message); dialog.showErrorBox('NEXO — Falha na abertura', 'Não foi possível iniciar o programa. ' + error.message); app.quit(); });
 app.on('window-all-closed', () => { if (!booting) app.quit(); });
@@ -357,6 +363,7 @@ app.on('before-quit', event => {
       return;
     }
     try {
+      await updateReceipt.stage(app.getVersion(), updates.status().version);
       if (updates.install()) {
         readyToQuit = true;
         return;
@@ -365,6 +372,8 @@ app.on('before-quit', event => {
       console.error('Falha ao iniciar atualização:', error.message);
     }
     installUpdate = false;
+    try { await updateReceipt.clear(); }
+    catch (error) { console.error('Falha ao limpar a tentativa de atualização:', error.message); }
     try {
       db = reopenDatabase();
       quitting = false;

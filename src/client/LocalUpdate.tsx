@@ -16,7 +16,7 @@ export function LocalUpdate() {
   }catch{setState({phase:'error'});}
  }
  if(!bridge?.openReleases)return null;
- const messages:Record<string,string>={idle:'Consulte as atualizações do NEXO.',checking:'Consultando atualizações…',current:'Seu NEXO está atualizado.',available:'Nova versão disponível.',downloading:'Baixando atualização…',ready:'Atualização pronta para instalar.',installing:'Iniciando o instalador. Aguarde…',error:'Não foi possível atualizar. Tente novamente.',portable:'Use o instalador Windows para receber atualizações pelo aplicativo.'};
+ const messages:Record<string,string>={idle:'Consulte as atualizações do NEXO.',checking:'Consultando atualizações…',current:'Seu NEXO está atualizado.',available:'Nova versão disponível.',downloading:'Baixando atualização…',ready:'Atualização pronta para instalar.',installing:'Instalação em andamento. Aguarde…',completed:`Atualização concluída. Você está usando a versão ${state.version}.`,error:'Não foi possível atualizar. Tente novamente.',portable:'Use o instalador Windows para receber atualizações pelo aplicativo.'};
  return <section className="panel" aria-label="Atualização do NEXO"><h2>Atualizações</h2><p role="status">{messages[state.phase]} {state.phase==='downloading'?String(state.percent??0)+'%':''}</p>
  {['available','downloading','ready'].includes(state.phase) && state.version && <p>Versão {state.version}{state.size ? ' · Instalador de ' + new Intl.NumberFormat('pt-BR', {maximumFractionDigits:1}).format(state.size / 1_000_000) + ' MB' : ''}</p>}
  <div className="nexo-row-actions"><button className="button secondary" disabled={['checking','downloading','installing'].includes(state.phase)} onClick={()=>void action('check')}>Verificar atualização</button>

@@ -113,3 +113,12 @@ A [execução 43624707886](https://github.com/EduT3/nexo-gestao-comercial/action
 ### Download público pela interface
 
 Na [execução 43626462844](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43626462844), os botões de atualização da candidata instalada consultaram o GitHub Releases, baixaram o NSIS 1.0.4 no cache descartável e exibiram a ação de instalar. O SHA-256 do arquivo baixado coincidiu com o da release. O roteiro simulou a versão de origem 1.0.2 apenas na comparação do atualizador e encerrou sem instalar o arquivo público. Os 242 testes automatizados e os dois perfis Windows passaram. [Artefato da execução](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43626462844/artifacts/14127165952).
+
+### Validação final do pacote Windows da execução 43650469127
+
+A [execução Windows 43650469127](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43650469127) passou nos dois perfis fictícios, com atualização controlada a partir de 1.0.4 e 1.0.5 com Guard. Nos dois perfis, o aplicativo instalado aplicou a prévia do XLSX e manteve os registros após reabrir. O cancelamento da venda devolveu o estoque e estornou o caixa uma vez, com persistência após reabertura. O perfil com Guard também baixou o instalador público 1.0.4 por HTTPS e verificou seu hash.
+
+O [artefato nexo-windows](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43650469127/artifacts/14136755503) foi baixado e conferido após o upload. Contém os dois relatórios de QA, o relatório do pacote, o NSIS, o blockmap e o latest.yml. O NSIS do build NEXO-3E2B6BE692122B3C mede 124.153.354 bytes e seu SHA-512 confere com o manifesto da versão 1.0.6. A candidata segue para testes em ambiente isolado. A interface ainda precisa confirmar a conclusão após a nova versão abrir, e a distribuição HTTPS da própria candidata segue sem evidência.
+
+
+A revisão seguinte implementa a confirmação pós-abertura. Um registro local temporário é criado antes de chamar o instalador, limpo se o executável falha ao iniciar e consumido depois que o aplicativo prepara o SQLite e carrega a janela principal. O teste instalado usa um registro preparado no perfil fictício porque os instaladores históricos antecedem esse recurso. A criação do registro pelo atualizador e seu consumo pela versão de destino ainda precisam ser verificados no mesmo ensaio Windows.

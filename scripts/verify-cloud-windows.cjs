@@ -836,6 +836,19 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  assert.equal((await call('activeCash',A)).balance_cents,1000n);
  await close();
  check('Cancelamento instalado devolveu estoque e estornou o caixa uma vez, com persistencia.');
+ step='resultado da atualizacao na primeira abertura';
+ // These historical source installers predate the receipt. Stage it in the disposable profile.
+ const pendingReceipt=path.join(path.dirname(dbfile),'pending-update.json');
+ fs.writeFileSync(pendingReceipt,JSON.stringify({from:'1.0.5',target:id.productVersion}));
+ await open(finalProgram);await login();
+ await page.getByRole('button',{name:'Configurações',exact:true}).click();
+ const updatePanel=page.getByRole('region',{name:'Atualização do NEXO'});
+ await expect(updatePanel.getByRole('status')).toHaveText('Atualização concluída. Você está usando a versão '+id.version+'.');
+ assert.equal(fs.existsSync(pendingReceipt),false);
+ await close();await open(finalProgram);
+ assert.equal((await call('updateStatus')).phase,'idle');
+ await close();
+ check('A candidata instalada exibiu a conclusao na primeira abertura com recibo preparado no perfil ficticio.');
  assert.deepEqual(result.rendererErrors,[]);result.passed=true;
 }catch(e){console.error('Falha na etapa: '+step,e);if(page){try{result.visibleText=(await page.locator('body').innerText()).slice(0,4000);await shot('failure-'+step.replace(/[^a-z0-9-]/gi,'-'));}catch(captureError){result.captureError=String(captureError);}}result.passed=false;result.step=step;result.errors.push(String(e.stack||e));process.exitCode=1;}
 finally{if(app)try{await close();}catch(e){result.errors.push(String(e));result.passed=false;process.exitCode=1;}result.timings=timings;persist();console.log(JSON.stringify({profile,passed:result.passed,step:result.step,errors:result.errors,closed:result.launches.map(x=>x.exitCode)}));}})();

@@ -1,3 +1,32 @@
+const { readFile, rename, rm, writeFile } = require('node:fs/promises');
+const path = require('node:path');
+
+function createUpdateReceipt(folder) {
+ const file = path.join(folder, 'pending-update.json');
+ return {
+  async stage(from, target) {
+   if (typeof target !== 'string' || !target || from === target) {
+    throw new Error('Não foi possível identificar a versão da atualização.');
+   }
+   await writeFile(file + '.tmp', JSON.stringify({from, target}), {mode:0o600, flush:true});
+   await rename(file + '.tmp', file);
+  },
+  clear: () => rm(file, {force:true}),
+  async consume(version) {
+   let contents;
+   try { contents = await readFile(file, 'utf8'); }
+   catch (error) { if (error.code === 'ENOENT') return undefined; throw error; }
+   await rm(file, {force:true});
+   let record;
+   try { record = JSON.parse(contents); } catch { return {phase:'error'}; }
+   if (typeof record?.from !== 'string' || !record.from || record.from === version || record.target !== version) {
+    return {phase:'error'};
+   }
+   return {phase:'completed', version};
+  },
+ };
+}
+
 function createUpdates(updater) {
  updater.autoDownload = false;
  updater.autoInstallOnAppQuit = false;
@@ -10,6 +39,9 @@ function createUpdates(updater) {
  });
  return {
   status: () => ({...state}),
+  reportStartup(receipt) {
+   if (receipt && state.phase === 'idle') state = receipt;
+  },
   async check() {
    if (['checking','downloading','ready','installing'].includes(state.phase)) return {...state};
    state={phase:'checking'};
@@ -40,4 +72,4 @@ function createUpdates(updater) {
   },
  };
 }
-module.exports={createUpdates};
+module.exports={createUpdates,createUpdateReceipt};

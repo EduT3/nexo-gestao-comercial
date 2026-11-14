@@ -1,7 +1,10 @@
 import {createRequire} from 'node:module';
 import {EventEmitter} from 'node:events';
+import {mkdtemp,rm} from 'node:fs/promises';
+import {tmpdir} from 'node:os';
+import {join} from 'node:path';
 import {expect,it,vi} from 'vitest';
-const {createUpdates}=createRequire(import.meta.url)('../electron/updates.cjs');
+const {createUpdates,createUpdateReceipt}=createRequire(import.meta.url)('../electron/updates.cjs');
 function fixture(){
  const updater=Object.assign(new EventEmitter(),{
   autoDownload:true,autoInstallOnAppQuit:true,allowPrerelease:true,allowDowngrade:true,
@@ -95,4 +98,36 @@ it('reports synchronous installer launch failures and permits a fresh check', as
  updater.quitAndInstall.mockImplementationOnce(() => { throw new Error('Installer unavailable'); });
  expect(service.install()).toBe(false);
  expect(service.status().phase).toBe('error');
+});
+
+it('confirms an update once, when the requested version opens', async () => {
+ const folder = await mkdtemp(join(tmpdir(), 'nexo-update-'));
+ try {
+  const receipt = createUpdateReceipt(folder);
+  const {service} = fixture();
+  expect(await receipt.consume('1.0.4')).toBeUndefined();
+  await expect(receipt.stage('1.0.4', '1.0.4')).rejects.toThrow();
+  await receipt.stage('1.0.4', '1.0.5');
+  expect(service.status()).toEqual({phase:'idle'});
+  service.reportStartup(await createUpdateReceipt(folder).consume('1.0.5'));
+  expect(service.status()).toEqual({phase:'completed',version:'1.0.5'});
+  expect(await receipt.consume('1.0.5')).toBeUndefined();
+ } finally {
+  await rm(folder, {recursive:true,force:true});
+ }
+});
+
+it('never confirms the old version or a failed installer launch', async () => {
+ const folder = await mkdtemp(join(tmpdir(), 'nexo-update-'));
+ try {
+  const receipt = createUpdateReceipt(folder);
+  await receipt.stage('1.0.4', '1.0.5');
+  expect(await receipt.consume('1.0.4')).toEqual({phase:'error'});
+  expect(await receipt.consume('1.0.5')).toBeUndefined();
+  await receipt.stage('1.0.4', '1.0.5');
+  await receipt.clear();
+  expect(await receipt.consume('1.0.5')).toBeUndefined();
+ } finally {
+  await rm(folder, {recursive:true,force:true});
+ }
 });

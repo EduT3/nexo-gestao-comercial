@@ -532,3 +532,6 @@ Na [execução 43623101334](https://github.com/EduT3/nexo-gestao-comercial/actio
 ### M2.6 — recuperação com verificação de integridade
 
 A [execução 43624707886](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43624707886), revisão 85f81d4, aprovou 242 testes e os dois perfis fictícios. Após interromper a substituição dos arquivos da 1.0.5 com Guard, o roteiro reinstalou a 1.0.6, abriu o NEXO, confirmou as cinco vendas e verificou a integridade SQLite, chaves estrangeiras e igualdade byte a byte do arquivo do Guard. O [ZIP verificado](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43624707886/artifacts/14125079915) contém o build NEXO-3E2B6BE692122B3C. O tamanho do instalador baixado, 124.153.357 bytes, e o SHA-512 coincidiram com latest.yml. O ensaio encerrou o processo NSIS em um Windows descartável. Reinicialização integral do computador durante a atualização segue sem evidência.
+
+
+A [execução Windows 43650469127](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43650469127) aprovou a candidata 1.0.6 nos dois perfis fictícios. O instalador, o blockmap e o manifesto da versão foram conferidos depois do download. A confirmação de conclusão após a primeira abertura está em validação em uma revisão posterior.
