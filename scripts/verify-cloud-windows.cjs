@@ -157,6 +157,10 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  await expect(statusText('Configuração salva.')).toBeVisible();
  await page.getByRole('button',{name:'Já guardei a chave'}).click();
  await shot('16-guard-configuracao');
+ await size(1280,900);
+ await expect(page.getByLabel('Ativar NEXO Guard')).toBeVisible();
+ await shot('16b-guard-configuracao-1280');
+ await size(1000,650);
  const guardedBackup=path.join(profile,'guard-backup.sqlite');
  await app.evaluate(({dialog},file)=>{dialog.showSaveDialog=async()=>({canceled:false,filePath:file});},guardedBackup);
  await page.evaluate(()=>{window.nexoLocal.registerGuardPrompt(null);});
@@ -171,6 +175,11 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  await expect(modal).toBeVisible();
  await expect(modal.getByText('Gerar backup',{exact:true})).toBeVisible();
  await shot('17-guard-teclado');
+ await expect(modal.getByRole('button',{name:'Autorizar',exact:true})).toBeInViewport();
+ await size(1280,900);
+ await expect(modal.getByRole('button',{name:'Autorizar',exact:true})).toBeInViewport();
+ await shot('17b-guard-teclado-1280');
+ await size(1000,650);
  await page.keyboard.type('9999');
  await modal.getByRole('button',{name:'Autorizar',exact:true}).click();
  await expect(modal.getByRole('status')).toContainText('PIN incorreto');
