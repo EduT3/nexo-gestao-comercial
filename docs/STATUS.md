@@ -448,3 +448,8 @@ Candidata `fefab96`: execução [43535721498](https://github.com/EduT3/nexo-gest
 ### Guard — teclado e foco
 
 A execução [43536830745](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43536830745), revisão `d450186`, aprovou 236 testes e validou foco, Tab, teclado físico, exclusão de dígitos e Escape no aplicativo Windows instalado. Instalador baixado e identificado no relatório do Guard; candidata sem release estável.
+
+
+### Guard — política individual e global
+
+A revisão `a2c1fbe` adicionou teste integrado de política individual/global com arquivos temporários; a suíte local completa passou 237 testes em 53 arquivos. A candidata Windows validada permanece a da execução 43536830745, sem alteração posterior do código de execução.

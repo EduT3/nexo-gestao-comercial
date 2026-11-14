@@ -77,3 +77,8 @@ A execução [43536830745](https://github.com/EduT3/nexo-gestao-comercial/action
 A DPAPI pode criptografar dados locais vinculados normalmente à conta Windows e à máquina; no escopo de máquina, qualquer usuário daquele computador pode solicitar a descriptografia. Ela funciona como proteção adicional de arquivos, mas não autentica os nomes selecionados no NEXO nem garante proteção contra código executado com acesso à mesma conta. A associação ao perfil ou máquina também pode dificultar troca de computador e recuperação. Fontes: [CryptProtectData, Microsoft](https://learn.microsoft.com/windows/win32/api/dpapi/nf-dpapi-cryptprotectdata) e [exemplo DPAPI e limites de recuperação, Microsoft](https://learn.microsoft.com/windows/win32/SecCrypto/example-c-program-using-cryptprotectdata).
 
 Decisão M1: não vincular silenciosamente a política atual ao perfil Windows. Isso exigiria migração reversível, recuperação testada após troca de conta ou máquina e análise de perfis compartilhados; sem essas garantias, poderia bloquear uma instalação legítima. A proteção atual continua usando scrypt e chave individual de recuperação, com os limites descritos acima. A avaliação de DPAPI não representa uma implementação nem teste dessa tecnologia no NEXO.
+
+
+## Política individual e regressão completa
+
+A revisão `a2c1fbe` acrescenta um teste com armazenamento temporário e autorizador reais: uma ação selecionada exige PIN, outra ação administrativa não selecionada continua disponível conforme as permissões existentes, e ao ativar a proteção global a segunda ação passa a exigir PIN. A suíte local completa passou 237 testes em 53 arquivos. Essa revisão acrescenta apenas teste, sem mudar os bytes do aplicativo da candidata Windows `d450186`.
