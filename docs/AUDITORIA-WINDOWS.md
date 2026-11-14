@@ -49,3 +49,8 @@ A suíte cobre falha de substituição da base, preservação dos arquivos origi
 | Aberturas observadas no mesmo runner | 797 e 637 ms | 652 e 582 ms |
 
 Os tempos de abertura foram duas observações por versão com uma base pequena em estados distintos. Servem como referência operacional. A comparação controlada de desempenho está na seção do benchmark. O instalador confere com o SHA-512 de seu manifesto. A assinatura digital continua pendente.
+
+### M2.6 — comparação de consultas SQLite
+
+Comparação entre 868ad0a e 68ae238 no mesmo computador, com cópias das mesmas bases fictícias. Foram 12 amostras por cenário e 1.000, 10.000 e 50.000 produtos, com o mesmo número de vendas e o dobro de movimentos de estoque. Os resultados das consultas coincidiram. Com 50.000 produtos, as medianas antes e depois foram 110,813 e 111,116 ms no catálogo, 92,348 e 90,861 ms no estoque, 66,983 e 66,544 ms no histórico de vendas e 55,578 e 55,801 ms no histórico de estoque. Esta medição cobre consultas locais e não mede o tempo de renderização do aplicativo.
+[Resultados brutos do M2](benchmarks/catalogo-m2.json).
