@@ -49,6 +49,20 @@ async function shot(name,{top=true}={}){
  await capture();await page.waitForTimeout(220);
  const png=await capture();assert(png.length>3000);fs.writeFileSync(path.join(profile,name+'.png'),Buffer.from(png,'base64'));result.screenshots.push(name+'.png');persist();
 }
+function commercialSnapshot(file){
+ const tables=['local_users','local_memberships','local_products','local_stock_movements',
+  'local_purchases','local_purchase_items','local_purchase_payables','local_sales','local_sale_items',
+  'local_sale_payments','local_sale_revenues','local_cash_sessions','local_cash_movements',
+  'local_receivables','local_receivable_receipts','local_payable_payments'];
+ const db=new DatabaseSync(file,{readOnly:true});
+ try {
+  return Object.fromEntries(tables.map(table=>{
+   const query=db.prepare('SELECT * FROM '+table+' ORDER BY rowid');
+   query.setReadBigInts(true);
+   return [table,query.all()];
+  }));
+ } finally { db.close(); }
+}
 async function addBySearch(key){await search().fill(key);await search().press('Enter');await expect(qty()).toBeVisible();}
 async function login(){const f=page.getByRole('form',{name:'Acesso local'});await expect(f.locator('input[type=password]')).toHaveCount(0);await f.getByLabel('Usuário',{exact:true}).selectOption({label:'Responsável QA Balcão'});await f.getByRole('button',{name:'Entrar',exact:true}).click();await expect(nav('Vender')).toBeVisible({timeout:20000});}
 function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.equal(db.prepare('PRAGMA integrity_check').get().integrity_check,'ok');assert.deepEqual(db.prepare('PRAGMA foreign_key_check').all(),[]);assert.equal(db.prepare('PRAGMA user_version').get().user_version,12);assert.equal(db.prepare('SELECT count(*) n FROM local_credentials').get().n,0);return {sales:db.prepare('SELECT count(*) n FROM local_sales').get().n,tables:db.prepare("SELECT count(*) n FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'").get().n};}finally{db.close();}}
@@ -162,6 +176,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   } finally { await feed.close(); }
   step='instalação pelo atualizador';
   const previous=dbCheck();
+  const previousRecords=commercialSnapshot(dbfile);
   assert.equal(buildAt(program).productVersion,'1.0.4');
   await app.evaluate(({dialog})=>{
    const updater=process.mainModule.require('electron-updater').autoUpdater;
@@ -212,6 +227,9 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   await open();await login();
   assert.equal((await call('salesHistory',A,{})).total,5);
   assert.deepEqual(dbCheck(),previous);
+  assert.deepEqual(commercialSnapshot(dbfile),previousRecords);
+  assert.equal((await call('status')).userId,owner);
+  check('Após atualizar, o Windows reabriu a candidata com os mesmos usuários, vínculos e registros comerciais.');
  }
  step='ajuda global e identificação da loja';
  await size(1000,650);
