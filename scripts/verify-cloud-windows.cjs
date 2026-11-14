@@ -210,6 +210,11 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  await productDraft.getByRole('button',{name:'Salvar produto'}).click();
  await expect(modal.getByText('Cadastrar produto',{exact:true})).toBeVisible();
  await expect(productDraft.getByRole('button',{name:'Autorização em andamento…',includeHidden:true})).toBeDisabled();
+ await page.keyboard.type('9999');
+ await modal.getByRole('button',{name:'Autorizar',exact:true}).click();
+ await expect(modal.getByRole('status')).toContainText('PIN incorreto');
+ await expect(productDraft.getByLabel('Código interno')).toHaveValue('QA-GUARD-M2');
+ assert(!(await call('products',A)).some(item=>item.internal_code==='QA-GUARD-M2'));
  await page.keyboard.press('Escape');
  await expect(modal).toHaveCount(0);
  await expect(page.getByText('Autorização cancelada.',{exact:true}).filter({visible:true})).toBeVisible();
@@ -222,7 +227,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  await modal.getByRole('button',{name:'Autorizar',exact:true}).click();
  await expect(page.getByText(/Produto salvo\. O cadastro/).filter({visible:true})).toBeVisible();
  assert.equal((await call('products',A)).filter(item=>item.internal_code==='QA-GUARD-M2').length,1);
- check('Cadastro protegido mantém rascunho e não grava ao cancelar. Nova autorização grava um produto.');
+ check('Cadastro protegido mantém rascunho e não grava com PIN incorreto ou ao cancelar. Nova autorização grava um produto.');
 
  await size(1280,900);
  const cash=await call('openCash',A,crypto.randomUUID(),{openingCents:0});
