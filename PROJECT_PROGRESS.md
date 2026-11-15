@@ -346,3 +346,5 @@ A tela de caixa identifica a operação em andamento e distingue espera pela aut
 ### M2 — feedback nas baixas do financeiro
 
 Pagar e Receber agora informam quando aguardam autorização do Guard ou registram uma operação. A confirmação nativa de estorno também passa a mostrar o cancelamento ao voltar. No Electron com base fictícia, foram verificados o estado de espera, a preservação do método escolhido e a ausência de alteração no caixa após cancelar pagamento e recebimento. Na nova tentativa autorizada, os saldos passaram de R$ 10,00 para R$ 8,00 no pagamento e para R$ 11,50 depois do recebimento. A tipagem e a compilação passaram. A mensagem da confirmação nativa de estorno não foi exercitada neste roteiro.
+
+O cancelamento de estorno também foi exercitado na interface do Electron. Em um perfil temporário, a automação respondeu Voltar às confirmações nativas de pagamento e recebimento. As duas operações exibiram Estorno cancelado, mantiveram o motivo digitado e deixaram as contas baixadas e o saldo de R$ 11,50 intactos.
