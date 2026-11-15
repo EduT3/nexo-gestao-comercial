@@ -342,3 +342,7 @@ O [ZIP 1.0.9](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/437430
 ### M2 — feedback nas operações de caixa
 
 A tela de caixa identifica a operação em andamento e distingue espera pela autorização de registro do movimento. No Electron com base temporária, o Guard exibiu a espera durante um suprimento, cancelar preservou os campos e o saldo de R$ 20,00, e uma nova tentativa com PIN válido registrou R$ 5,00 uma única vez. A tipagem e a compilação passaram. O ajuste é posterior ao pacote 1.0.9.
+
+### M2 — feedback nas baixas do financeiro
+
+Pagar e Receber agora informam quando aguardam autorização do Guard ou registram uma operação. A confirmação nativa de estorno também passa a mostrar o cancelamento ao voltar. No Electron com base fictícia, foram verificados o estado de espera, a preservação do método escolhido e a ausência de alteração no caixa após cancelar pagamento e recebimento. Na nova tentativa autorizada, os saldos passaram de R$ 10,00 para R$ 8,00 no pagamento e para R$ 11,50 depois do recebimento. A tipagem e a compilação passaram. A mensagem da confirmação nativa de estorno não foi exercitada neste roteiro.
