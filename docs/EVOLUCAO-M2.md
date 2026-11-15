@@ -57,3 +57,15 @@ A execução [43652959533](https://github.com/EduT3/nexo-gestao-comercial/action
 | 1.0.5 com Guard | Receber | 3,767 ms | 4,045 ms |
 
 As quatro consultas ficaram mais lentas, com diferença mediana entre 0,121 e 1,223 ms no runner. Esse ensaio pequeno não estabelece impacto em estações comerciais nem requisitos de hardware. [Amostras brutas](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43652959533/artifacts/14136753150)
+
+## Inicialização pareada da candidata 1.0.7
+
+No mesmo Windows 11 Pro x64 26300.9974, os executáveis extraídos 1.0.6 e 1.0.7 abriram cópias idênticas do SQLite fictício com 1.000 produtos e 11 vendas. Após descartar o primeiro par, oito pares foram medidos alternando a ordem. O cronômetro parou após a abertura da janela e a primeira leitura por IPC.
+
+| Mediana | 1.0.6 | 1.0.7 |
+| --- | ---: | ---: |
+| Abertura | 407,11 ms | 407,51 ms |
+| Memória residente, processos principal e de interface | 214,14 MiB | 215,53 MiB |
+| CPU em repouso, soma dos dois processos | 0,029% | 0,040% |
+
+A diferença observada de abertura foi de 0,39 ms e a de memória residente, de 1,39 MiB. O ensaio usou janelas ocultas, perfis novos e cache do sistema sem limpeza forçada. Ele não reproduz o primeiro lançamento imediatamente após instalação, nem comprova desempenho em outro hardware. [Método e amostras](benchmarks/windows11-startup-1.0.6-1.0.7.json)

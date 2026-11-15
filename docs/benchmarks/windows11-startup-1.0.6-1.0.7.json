@@ -1,0 +1,321 @@
+{
+  "databaseSha256": "a0d159133c783e58b5c55935ed48da87a800e39050631489e71913b08da67df8",
+  "summary": [
+    {
+      "version": "1.0.6",
+      "build": "NEXO-D9777AA12793DE3B",
+      "startupMedianMs": 407.1143000000002,
+      "workingSetMedianMiB": 214.138671875,
+      "idleCpuMedianPercent": 0.029418229423230243
+    },
+    {
+      "version": "1.0.7",
+      "build": "NEXO-B23F2A16EC2CCFEA",
+      "startupMedianMs": 407.5062999999991,
+      "workingSetMedianMiB": 215.53125,
+      "idleCpuMedianPercent": 0.040159700939991355
+    }
+  ],
+  "rows": [
+    {
+      "version": "1.0.7",
+      "build": "NEXO-B23F2A16EC2CCFEA",
+      "round": 1,
+      "startupMs": 409.2518,
+      "processes": [
+        {
+          "type": "Browser",
+          "workingSetKiB": 126256,
+          "cpuPercent": 0.02871398095396928
+        },
+        {
+          "type": "Tab",
+          "workingSetKiB": 94524,
+          "cpuPercent": 0.00812145175075916
+        }
+      ]
+    },
+    {
+      "version": "1.0.6",
+      "build": "NEXO-D9777AA12793DE3B",
+      "round": 1,
+      "startupMs": 411.21540000000005,
+      "processes": [
+        {
+          "type": "Browser",
+          "workingSetKiB": 125964,
+          "cpuPercent": -0.7103991837036548
+        },
+        {
+          "type": "Tab",
+          "workingSetKiB": 91876,
+          "cpuPercent": 0.03127988703263802
+        }
+      ]
+    },
+    {
+      "version": "1.0.6",
+      "build": "NEXO-D9777AA12793DE3B",
+      "round": 2,
+      "startupMs": 414.0621000000001,
+      "processes": [
+        {
+          "type": "Browser",
+          "workingSetKiB": 126632,
+          "cpuPercent": 0.22048513775547032
+        },
+        {
+          "type": "Tab",
+          "workingSetKiB": 92056,
+          "cpuPercent": 0.09422327932360453
+        }
+      ]
+    },
+    {
+      "version": "1.0.7",
+      "build": "NEXO-B23F2A16EC2CCFEA",
+      "round": 2,
+      "startupMs": 394.1260000000002,
+      "processes": [
+        {
+          "type": "Browser",
+          "workingSetKiB": 126044,
+          "cpuPercent": -0.018391103302224772
+        },
+        {
+          "type": "Tab",
+          "workingSetKiB": 91772,
+          "cpuPercent": 0.08273469051101853
+        }
+      ]
+    },
+    {
+      "version": "1.0.7",
+      "build": "NEXO-B23F2A16EC2CCFEA",
+      "round": 3,
+      "startupMs": 425.47860000000037,
+      "processes": [
+        {
+          "type": "Browser",
+          "workingSetKiB": 126796,
+          "cpuPercent": 0.022236136171180473
+        },
+        {
+          "type": "Tab",
+          "workingSetKiB": 94512,
+          "cpuPercent": 0.007287382965502315
+        }
+      ]
+    },
+    {
+      "version": "1.0.6",
+      "build": "NEXO-D9777AA12793DE3B",
+      "round": 3,
+      "startupMs": 410.312100000001,
+      "processes": [
+        {
+          "type": "Browser",
+          "workingSetKiB": 127848,
+          "cpuPercent": 0.026686661909063235
+        },
+        {
+          "type": "Tab",
+          "workingSetKiB": 91808,
+          "cpuPercent": 0.00787891400492872
+        }
+      ]
+    },
+    {
+      "version": "1.0.6",
+      "build": "NEXO-D9777AA12793DE3B",
+      "round": 4,
+      "startupMs": 418.4501,
+      "processes": [
+        {
+          "type": "Browser",
+          "workingSetKiB": 127636,
+          "cpuPercent": 0.5777801542968847
+        },
+        {
+          "type": "Tab",
+          "workingSetKiB": 92116,
+          "cpuPercent": -0.10125862619538152
+        }
+      ]
+    },
+    {
+      "version": "1.0.7",
+      "build": "NEXO-B23F2A16EC2CCFEA",
+      "round": 4,
+      "startupMs": 453.0753000000004,
+      "processes": [
+        {
+          "type": "Browser",
+          "workingSetKiB": 128944,
+          "cpuPercent": 0.03507367942657004
+        },
+        {
+          "type": "Tab",
+          "workingSetKiB": 91684,
+          "cpuPercent": 0.008410289748684241
+        }
+      ]
+    },
+    {
+      "version": "1.0.7",
+      "build": "NEXO-B23F2A16EC2CCFEA",
+      "round": 5,
+      "startupMs": 408.6741000000002,
+      "processes": [
+        {
+          "type": "Browser",
+          "workingSetKiB": 126184,
+          "cpuPercent": 0.03882629894095232
+        },
+        {
+          "type": "Tab",
+          "workingSetKiB": 94436,
+          "cpuPercent": 0.008000499350052313
+        }
+      ]
+    },
+    {
+      "version": "1.0.6",
+      "build": "NEXO-D9777AA12793DE3B",
+      "round": 5,
+      "startupMs": 393.2631999999976,
+      "processes": [
+        {
+          "type": "Browser",
+          "workingSetKiB": 126340,
+          "cpuPercent": -0.37504283563405233
+        },
+        {
+          "type": "Tab",
+          "workingSetKiB": 91928,
+          "cpuPercent": 0.05890058894344844
+        }
+      ]
+    },
+    {
+      "version": "1.0.6",
+      "build": "NEXO-D9777AA12793DE3B",
+      "round": 6,
+      "startupMs": 403.91649999999936,
+      "processes": [
+        {
+          "type": "Browser",
+          "workingSetKiB": 127180,
+          "cpuPercent": 0.020866307250964486
+        },
+        {
+          "type": "Tab",
+          "workingSetKiB": 91720,
+          "cpuPercent": 0.00825366128705183
+        }
+      ]
+    },
+    {
+      "version": "1.0.7",
+      "build": "NEXO-B23F2A16EC2CCFEA",
+      "round": 6,
+      "startupMs": 401.1144999999997,
+      "processes": [
+        {
+          "type": "Browser",
+          "workingSetKiB": 127184,
+          "cpuPercent": 0.023705024821574817
+        },
+        {
+          "type": "Tab",
+          "workingSetKiB": 94496,
+          "cpuPercent": 0.00768722667638484
+        }
+      ]
+    },
+    {
+      "version": "1.0.7",
+      "build": "NEXO-B23F2A16EC2CCFEA",
+      "round": 7,
+      "startupMs": 390.8365999999987,
+      "processes": [
+        {
+          "type": "Browser",
+          "workingSetKiB": 126984,
+          "cpuPercent": 0.33933232399847113
+        },
+        {
+          "type": "Tab",
+          "workingSetKiB": 91736,
+          "cpuPercent": -0.020473357898061987
+        }
+      ]
+    },
+    {
+      "version": "1.0.6",
+      "build": "NEXO-D9777AA12793DE3B",
+      "round": 7,
+      "startupMs": 394.34430000000066,
+      "processes": [
+        {
+          "type": "Browser",
+          "workingSetKiB": 126032,
+          "cpuPercent": 0.021800889451338668
+        },
+        {
+          "type": "Tab",
+          "workingSetKiB": 94456,
+          "cpuPercent": 0.007915600857105503
+        }
+      ]
+    },
+    {
+      "version": "1.0.6",
+      "build": "NEXO-D9777AA12793DE3B",
+      "round": 8,
+      "startupMs": 396.4161000000022,
+      "processes": [
+        {
+          "type": "Browser",
+          "workingSetKiB": 126732,
+          "cpuPercent": 0.020547420110236723
+        },
+        {
+          "type": "Tab",
+          "workingSetKiB": 94848,
+          "cpuPercent": 0.00830117406230336
+        }
+      ]
+    },
+    {
+      "version": "1.0.7",
+      "build": "NEXO-B23F2A16EC2CCFEA",
+      "round": 8,
+      "startupMs": 406.338499999998,
+      "processes": [
+        {
+          "type": "Browser",
+          "workingSetKiB": 126788,
+          "cpuPercent": 0.0456148432195405
+        },
+        {
+          "type": "Tab",
+          "workingSetKiB": 95040,
+          "cpuPercent": -0.05777776448407298
+        }
+      ]
+    }
+  ],
+  "method": "Alternating order on the same Windows 11 host. One warmup pair, eight measured pairs, new app profile each run, copied bytes of the same fictional SQLite database, hidden window. Startup until status and build IPC returned. Idle CPU sample over one second. Browser and Tab resident memory, no forced OS cache flush.",
+  "environment": {
+    "os": "Windows 11 Pro x64",
+    "build": "26300.9974",
+    "cpu": "AMD Ryzen 7 7700X",
+    "visibleRamBytes": 33409609728,
+    "distribution": "Extracted NSIS x64 payloads"
+  },
+  "fixture": {
+    "products": 1000,
+    "sales": 11
+  }
+}
