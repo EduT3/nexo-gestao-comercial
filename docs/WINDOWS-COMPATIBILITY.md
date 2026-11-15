@@ -2,14 +2,14 @@
 
 ## Estado da homologação
 
-A release pública é a **1.0.4**. A candidata **1.0.6** foi instalada e exercitada em Windows Server 2025 no GitHub Actions. A revisão mais recente aprovada é o build `NEXO-D9777AA12793DE3B`. Esse resultado cobre o pacote e os fluxos executados nesse ambiente. A homologação em Windows cliente x64 continua pendente. [Release pública](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.4) · [Execução da candidata](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43652959533)
+A release pública é a **1.0.4**. A candidata **1.0.7** foi instalada e exercitada em Windows Server 2025 no GitHub Actions. A revisão aprovada é o build `NEXO-B23F2A16EC2CCFEA`. Esse resultado cobre o pacote e os fluxos executados nesse ambiente. A homologação em Windows cliente x64 continua pendente. [Release pública](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.4) · [Execução da candidata](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43655162737)
 
 | Sistema | Prioridade | Evidência | Instalação e atualização |
 | --- | --- | --- | --- |
 | Windows 10 22H2 x64 com 8 GB | P0 | Pendente. Registrar edição, build 19045 com revisão, segurança e hardware do equipamento. | Usar o instalador público e depois a candidata em canal controlado, com perfil fictício. |
 | Windows 11 x64 | P0 | Roteiro comercial aprovado com executável extraído no Windows cliente Pro 26H2, build 26300.9974. Instalação e matriz comparativa pendentes. | Repetir as mesmas operações com os mesmos instaladores, dados e condições. |
 | Windows 10 22H2 x64 com 4 GB | P1 | Pendente. Perfil de teste de memória limitada. | Repetir o ensaio do Windows 10 com memória e paginação medidas. |
-| Windows Server 2025 x64 | CI | Instalador 1.0.6, duas origens fictícias, 244 testes e validação de distribuição. | Consulte o resultado e os relatórios anexados à execução. |
+| Windows Server 2025 x64 | CI | Instalador 1.0.7, duas origens fictícias, 246 testes e validação de distribuição. | Consulte o resultado e os relatórios anexados à execução. |
 | Windows 7 | P3 | Fora do suporte. Análise técnica, sem execução. | Sem procedimento de instalação. |
 
 O suporte regular da Microsoft ao Windows 10 22H2 terminou em **14 de outubro de 2025**. Sem atualizações de segurança, aumenta a exposição a vulnerabilidades. O ESU oferece atualizações de segurança para dispositivos elegíveis conforme as condições da Microsoft. [Ciclo de suporte](https://learn.microsoft.com/windows/release-health/release-information) · [Programa ESU](https://www.microsoft.com/en-us/windows/extended-security-updates)

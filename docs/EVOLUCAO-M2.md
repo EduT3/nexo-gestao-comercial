@@ -1,6 +1,6 @@
 # NEXO Balcão — relatório de evolução M2
 
-O M2 reorganiza as rotinas de venda, estoque, caixa e contas e melhora a autorização de operações administrativas. A candidata Windows aprovada é a **1.0.6**, build **NEXO-3E2B6BE692122B3C**. [Execução Windows e 242 testes aprovados](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43624707886) · [ZIP conferido](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43624707886/artifacts/14125079915).
+O M2 reorganiza as rotinas de venda, estoque, caixa e contas e melhora a autorização de operações administrativas. A candidata Windows aprovada é a **1.0.7**, build **NEXO-B23F2A16EC2CCFEA**. [Execução Windows e 246 testes aprovados](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43655162737) · [ZIP conferido](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43655162737/artifacts/14137868927).
 
 | Marco | Alteração e evidência |
 |---|---|
