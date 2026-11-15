@@ -106,6 +106,12 @@ Os processos principal e de interface somaram cerca de 250 MiB residentes em rep
 
 ### Altura mínima da janela em escala elevada
 
-Com escala de 150%, o build NEXO-D9777AA12793DE3B recebeu um pedido de área de conteúdo de 910 × 512 pixels lógicos. A janela ficou com 921 × 650 pixels externos e 910 × 598 de conteúdo, por causa da altura mínima fixa. A correção limita as dimensões iniciais e mínimas das janelas principal e de recuperação à área útil do monitor principal. Os testes do cálculo e a compilação local passaram. A confirmação no pacote Windows após a correção segue pendente.
+Com escala de 150%, o build NEXO-D9777AA12793DE3B recebeu um pedido de área de conteúdo de 910 × 512 pixels lógicos. A janela ficou com 921 × 650 pixels externos e 910 × 598 de conteúdo, por causa da altura mínima fixa. A correção limita as dimensões iniciais e mínimas das janelas principal e de recuperação à área útil do monitor principal. Os testes do cálculo e a compilação local passaram. A correção também foi exercitada no executável extraído da candidata 1.0.7.
 
 A integração local com o Electron confirmou as duas janelas na compilação corrigida, com sandbox ativo e área útil de 910 × 480 pixels lógicos simulada antes da inicialização. A janela principal abriu com 910 × 480 e a recuperação, acionada por SQLite fictício inválido, com 901 × 480. O teste não mudou configurações do sistema.
+
+O executável extraído do [ZIP 1.0.7](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43655162737/artifacts/14137868927), build NEXO-B23F2A16EC2CCFEA, foi executado no Windows 11 Pro x64 26300.9974. Em escala de 150%, a área útil informada pelo Electron foi 2294 × 928 e a janela principal abriu com 1201 × 800. Em 250%, usado para reduzir a área útil do ensaio a 1376 × 557, as duas janelas adotaram mínimo de altura de 557 e abriram com altura de 558 por arredondamento. O sandbox permaneceu ativo. A escala foi aplicada ao processo do teste. Ainda falta o ensaio com DPI nativo, barras de tarefas e diálogos nas resoluções da matriz.
+
+### Operação local com a resolução de endereços indisponível
+
+Na mesma 1.0.7, um perfil fictício foi aberto com resolução de endereços bloqueada no processo Electron. Uma tentativa HTTPS ao GitHub retornou ERR_NAME_NOT_RESOLVED. No mesmo processo, primeiro acesso, cadastro de produto, entrada de estoque, abertura de caixa e venda em dinheiro funcionaram. O histórico mostrou uma venda e o caixa, R$ 15,00. A rede do Windows permaneceu disponível para outros programas. O ensaio com a VM integralmente desconectada continua pendente.
