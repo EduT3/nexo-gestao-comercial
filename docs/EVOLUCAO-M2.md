@@ -117,3 +117,7 @@ O [ZIP 1.0.10](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43745
 A carga x64 extraída do instalador conferido da 1.0.10, build `NEXO-576BB6253FF853C7`, passou nos testes de feedback de suprimento, pagamento e recebimento no Windows 11 Pro x64 26300.9974, em três perfis temporários. A interface informou a espera pelo PIN. O cancelamento preservou os campos e o caixa. As novas tentativas autorizadas registraram os valores previstos.
 
 Os dois cancelamentos de estorno exibiram a mensagem correspondente, preservaram os motivos, mantiveram as contas baixadas e conservaram o caixa em R$ 11,50. Os diálogos nativos foram respondidos por automação. O ensaio usou o executável extraído, sem executar o NSIS nem acessar a instalação pessoal. [Artefato de origem](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43745162436/artifacts/14174511359)
+
+### Contraste dos controles da ajuda
+
+No Windows 11, o executável extraído da candidata 1.0.10 exibiu relações de contraste de 7,75:1 em Modo local, 5,23:1 em Caixa fechado, 12,73:1 em Ajuda e tutorial, 16,84:1 no título da ajuda e na abertura da prática, 6,64:1 na nota da ajuda e 4,92:1 nos botões principais de início e cadastro fictício. Os cálculos usaram cores efetivas da interface, fundos sólidos e luminância relativa. Os oito alvos medidos superaram 4,5:1 no estado normal. A medição não abrange todos os módulos, estados de interação ou tecnologia assistiva. [Critério de contraste WCAG 2.2](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html)
