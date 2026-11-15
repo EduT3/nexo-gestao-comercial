@@ -904,7 +904,15 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  const practiceForm=practiceGuide.getByRole('form',{name:'Prática de balcão'});
  const practiceAction=name=>practiceForm.getByRole('button',{name,exact:true}).click();
  await practiceAction('Cadastrar produto fictício');
- await practiceForm.getByLabel('Vencimento da conta').fill('2026-11-16');
+ const dueDate=practiceForm.getByLabel('Vencimento da conta');
+ await dueDate.fill('2026-11-16');
+ await dueDate.press('Escape');
+ await expect(practiceGuide).toHaveCount(0);
+ await expect(practiceHelp).toBeFocused();
+ await nav('Vender').click();
+ await practiceHelp.click();
+ await expect(practiceGuide.getByRole('heading',{name:'Receber a mercadoria',exact:true})).toBeVisible();
+ await expect(dueDate).toHaveValue('2026-11-16');
  await practiceAction('Registrar entrada fictícia');
  await practiceAction('Abrir caixa de treino');
  await practiceAction('Simular venda');
@@ -920,7 +928,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  await expect(practiceHelp).toBeFocused();
  assert.deepEqual(commercialSnapshot(dbfile),beforePractice);
  await close();
- check('Prática de balcão completou seis tarefas na candidata instalada, com registros comerciais intactos.');
+ check('Prática de balcão retomou após navegar e completou seis tarefas na candidata instalada, com registros comerciais intactos.');
  assert.deepEqual(result.rendererErrors,[]);result.passed=true;
 }catch(e){console.error('Falha na etapa: '+step,e);if(page){try{result.visibleText=(await page.locator('body').innerText()).slice(0,4000);await shot('failure-'+step.replace(/[^a-z0-9-]/gi,'-'));}catch(captureError){result.captureError=String(captureError);}}result.passed=false;result.step=step;result.errors.push(String(e.stack||e));process.exitCode=1;}
 finally{if(app)try{await close();}catch(e){result.errors.push(String(e));result.passed=false;process.exitCode=1;}result.timings=timings;persist();console.log(JSON.stringify({profile,passed:result.passed,step:result.step,errors:result.errors,closed:result.launches.map(x=>x.exitCode)}));}})();
