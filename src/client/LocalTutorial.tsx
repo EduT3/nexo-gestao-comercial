@@ -28,5 +28,5 @@ export function LocalTutorial({ userId, company, companyName, administrator, mul
     read: () => window.nexoLocal!.tutorialPreference(company, userId),
     write: value => window.nexoLocal!.saveTutorialPreference(company, userId, value),
   }), [company, userId]);
-  return <Tutorial helpTarget={helpTarget} autoOpen={false} practice={<SalePractice />} footer={<LocalBuildInfo />} steps={localTutorialSteps(administrator, multipleCompanies)} store={store} companyName={companyName} currentRoute={currentRoute} busy={busy} onNavigate={onNavigate} />;
+  return <Tutorial helpTarget={helpTarget} autoOpen={false} practice={<SalePractice administrator={administrator} />} footer={<LocalBuildInfo />} steps={localTutorialSteps(administrator, multipleCompanies)} store={store} companyName={companyName} currentRoute={currentRoute} busy={busy} onNavigate={onNavigate} />;
 }

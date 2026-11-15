@@ -565,3 +565,9 @@ A tipagem e a compilação local passaram. No Electron com perfil temporário, f
 A prática de venda evoluiu para um exercício contínuo de abertura, venda em dinheiro e fechamento. O participante informa o fundo inicial e o valor contado, acompanha o troco e o estoque fictício e confere a diferença no caixa. O exercício mostra que, após devolver o troco, o caixa aumenta pelo total da venda.
 
 A tipagem e a compilação passaram. No Electron, com perfil temporário, o roteiro recusou abertura negativa e pagamento insuficiente. A venda de R$ 10,00 com R$ 20,00 recebidos gerou R$ 10,00 de troco, restaram oito garrafas e o caixa esperado foi de R$ 30,00. A contagem de R$ 29,00 apresentou diferença de −R$ 1,00. O reinício e o foco por teclado passaram. Nenhum registro comercial foi criado. Os exercícios de cadastro, entrada e consulta de contas continuam pendentes.
+
+### M2 — rotina completa de balcão em dados fictícios
+
+O tutorial agora encadeia cadastro, recebimento, abertura de caixa, venda em dinheiro, consulta da conta a pagar e fechamento para o responsável. Operadores praticam caixa e venda com catálogo de treino já preparado. O exercício fica em memória e reinicia quando a ajuda é fechada.
+
+No Electron, um perfil fictício completou as seis tarefas com conta de R$ 20,00, oito unidades restantes e fechamento de R$ 30,00 sem diferença. A troca de perfil pela interface confirmou as três tarefas do operador. A base temporária permaneceu sem produtos, vendas, contas ou caixa gerados pela prática. A tipagem e a compilação passaram. O teste automatizado não é uma sessão com participantes.
