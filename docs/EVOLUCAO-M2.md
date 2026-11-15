@@ -89,7 +89,7 @@ O [ZIP 1.0.9](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/437430
 
 | Critério | Evidência | Limite |
 | --- | --- | --- |
-| M2.1 · Autorização, cancelamento e persistência | A execução Windows verificou operações protegidas, PIN incorreto, cancelamento, preservação do rascunho e isolamento da autorização por operador e empresa. Os testes direcionados em Electron verificaram também suprimento, pagamento, recebimento e cancelamento de estorno no código posterior à 1.0.9. | Os ajustes de mensagens de caixa e contas aguardam confirmação no instalador 1.0.10. |
+| M2.1 · Autorização, cancelamento e persistência | A execução Windows verificou operações protegidas, PIN incorreto, cancelamento, preservação do rascunho e isolamento da autorização por operador e empresa. Os testes direcionados em Electron verificaram também suprimento, pagamento, recebimento e cancelamento de estorno no código posterior à 1.0.9. | As mensagens de caixa e contas também passaram no executável 1.0.10 extraído. O ensaio cliente não executou o NSIS. |
 | M2.2 · Navegação, ajuda e rascunho | Roteiro Windows com ajuda global, foco por teclado, modo local e preservação da venda ao alternar o caixa. A candidata 1.0.9 retomou o tutorial após navegar e concluiu as seis tarefas em ambos os perfis. | A prática mantém o rascunho durante a sessão do operador e da empresa. |
 | M2.3 · Produtos, compras e estoque | Cadastro, entrada e movimentações no roteiro instalado. Edição no executável 1.0.7 extraído conservou preço e nome de venda anterior e saldo. | Testes com base fictícia. A edição dirigida em Windows cliente usou o executável extraído. |
 | M2.4 · Caixa, financeiro e estornos | Roteiro instalado conferiu fechamento, histórico, venda e cancelamento. Em Windows 11, a baixa de duas contas e os estornos foram verificados em perfil fictício com valores exatos. | Confirmações nativas dos estornos foram respondidas pela automação. |
@@ -107,6 +107,13 @@ No executável extraído 1.0.9, build NEXO-2EE2C72849C11E4A, o Electron expôs a
 
 ### M2 — candidata Windows 1.0.10
 
-A [execução 43745162436](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43745162436) passou com 246 testes e duas verificações de aplicativo instalado no Windows Server. A candidata inclui as mensagens de autorização, processamento e cancelamento de caixa e contas, exercitadas em testes direcionados na compilação local. Os dois perfis instalados passaram no roteiro de atualização, operações comerciais e retomada da prática. O teste dirigido das novas mensagens no executável extraído permanece pendente.
+A [execução 43745162436](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43745162436) passou com 246 testes e duas verificações de aplicativo instalado no Windows Server. A candidata inclui as mensagens de autorização, processamento e cancelamento de caixa e contas, exercitadas em testes direcionados na compilação local. Os dois perfis instalados passaram no roteiro de atualização, operações comerciais e retomada da prática. O teste dirigido no executável extraído está registrado abaixo.
 
 O [ZIP 1.0.10](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43745162436/artifacts/14174511359) foi baixado e conferido. O build `NEXO-576BB6253FF853C7` inclui o instalador de 124.155.887 bytes, o blockmap e o manifesto com SHA-512 correspondente. SHA-256 do instalador: `4CD4A2445912F8740AC1857F6EB0BBB7F0051D0A592727030A4F2E048877087C`. Artefato disponível até 29/11/2026, 15h21 no horário de Brasília. A release pública permanece 1.0.4.
+
+
+### Verificação dirigida da 1.0.10 no Windows 11 cliente
+
+A carga x64 extraída do instalador conferido da 1.0.10, build `NEXO-576BB6253FF853C7`, passou nos testes de feedback de suprimento, pagamento e recebimento no Windows 11 Pro x64 26300.9974, em três perfis temporários. A interface informou a espera pelo PIN. O cancelamento preservou os campos e o caixa. As novas tentativas autorizadas registraram os valores previstos.
+
+Os dois cancelamentos de estorno exibiram a mensagem correspondente, preservaram os motivos, mantiveram as contas baixadas e conservaram o caixa em R$ 11,50. Os diálogos nativos foram respondidos por automação. O ensaio usou o executável extraído, sem executar o NSIS nem acessar a instalação pessoal. [Artefato de origem](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43745162436/artifacts/14174511359)

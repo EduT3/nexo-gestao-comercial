@@ -131,3 +131,10 @@ Não há VM ou computador de teste Windows 10 22H2 x64 disponível para esta eta
 O roteiro comercial foi repetido com a carga x64 extraída da 1.0.7, build NEXO-B23F2A16EC2CCFEA, no Windows 11 Pro x64 26300.9974. Foram aprovadas 23 verificações, com 34 capturas, 12 encerramentos normais e nenhum erro registrado na interface. Passaram primeiro acesso, navegação, estoque, caixa, vendas, cancelamento e estorno, Excel, Guard, isolamento entre empresas, backup, recuperação e persistência. A verificação de conclusão da atualização usou registro preparado no perfil fictício. O ensaio local usou o executável extraído, sem instalação NSIS nem troca de versão no Windows cliente.
 
 O mesmo executável também passou na edição de produto pela interface. Em um perfil fictício, a compra de dez unidades e a venda de uma deixaram saldo de nove. Após editar nome e preço de R$ 5,00 para R$ 7,00 e reabrir o programa, o cadastro manteve a alteração, o saldo permaneceu nove e a venda anterior preservou nome e preço originais.
+
+
+### Verificação dirigida da 1.0.10 no Windows 11 cliente
+
+A carga x64 extraída do instalador conferido da 1.0.10, build `NEXO-576BB6253FF853C7`, passou nos testes de feedback de suprimento, pagamento e recebimento no Windows 11 Pro x64 26300.9974, em três perfis temporários. A interface informou a espera pelo PIN. O cancelamento preservou os campos e o caixa. As novas tentativas autorizadas registraram os valores previstos.
+
+Os dois cancelamentos de estorno exibiram a mensagem correspondente, preservaram os motivos, mantiveram as contas baixadas e conservaram o caixa em R$ 11,50. Os diálogos nativos foram respondidos por automação. O ensaio usou o executável extraído, sem executar o NSIS nem acessar a instalação pessoal. [Artefato de origem](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43745162436/artifacts/14174511359)
