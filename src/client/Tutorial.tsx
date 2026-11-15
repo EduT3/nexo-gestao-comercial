@@ -65,7 +65,7 @@ export function Tutorial({ steps, store, companyName, preview = false, currentRo
       onClick={() => { setOpen(true); setFocusRevision(value => value + 1); }}>Ajuda e tutorial</button>;
   return <div className="tutorial-shell">
     {helpTarget ? createPortal(helpButton, helpTarget) : helpButton}
-    {open && <section id={panelId} className="tutorial-panel" aria-label="Tutorial do NEXO" onKeyDown={event => {
+    {(open || (practice && focusRevision > 0)) && <section hidden={!open} id={panelId} className="tutorial-panel" aria-label="Tutorial do NEXO" onKeyDown={event => {
       if (event.key === 'Escape') { event.preventDefault(); event.stopPropagation(); close(preference.state === 'disabled' || preference.state === 'completed' ? preference.state : 'paused'); }
     }}>
       <div className="tutorial-heading"><div><p className="tutorial-context">{preview ? 'DEMONSTRAÇÃO · ' : ''}{companyName}</p>
@@ -84,7 +84,7 @@ export function Tutorial({ steps, store, companyName, preview = false, currentRo
         <p>{preference.state === 'disabled' ? 'O tutorial está desativado para você nesta empresa. Reative quando quiser.' : preference.state === 'completed' ? 'Tutorial concluído. Volte a qualquer etapa quando precisar.' : 'Conheça as telas no seu ritmo. Você pode pular agora e voltar pela Ajuda e tutorial.'}</p>
         <div className="tutorial-actions"><button type="button" className="button primary" onClick={() => show()}>{preference.state === 'disabled' ? 'Reativar tutorial' : preference.state === 'welcome' ? 'Começar tutorial' : 'Retomar tutorial'}</button></div>
       </>}
-      <p className="tutorial-note">{preview ? 'Esta prévia usa dados fictícios e não grava operações. O guia apresenta apenas as telas disponíveis aqui.' : 'O guia apenas explica e abre telas. Nenhum cadastro, venda ou movimento é feito pelo tutorial.'}</p>
+      <p className="tutorial-note">{preview ? 'Esta prévia usa dados fictícios e não grava operações. O guia apresenta apenas as telas disponíveis aqui.' : practice ? 'A ajuda abre as telas. A prática usa dados fictícios e não grava operações comerciais.' : 'O guia explica as operações e abre as telas correspondentes.'}</p>
       <div className="tutorial-actions tutorial-secondary">
         <button type="button" className="text-button" onClick={() => show(contextual.id)}>Ajuda desta tela</button>
         <button type="button" className="text-button" onClick={() => show(steps[0]!.id)}>Reiniciar tutorial</button>

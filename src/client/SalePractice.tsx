@@ -99,13 +99,18 @@ export function SalePractice({ administrator }: { administrator: boolean }) {
     }
   }
 
+  function restart() {
+    setError('');
+    setPractice(firstStep(administrator));
+  }
+
   return <details ref={panel} className="tutorial-secondary">
     <summary>{administrator ? 'Praticar a primeira rotina de balcão' : 'Praticar caixa e venda em dinheiro'}</summary>
-    <p>Exercício com dados fictícios. Ao fechar a ajuda, a prática recomeça.</p>
+    <p>Exercício com dados fictícios. Você pode fechar a ajuda e retomar a prática nesta sessão.</p>
     <h3 ref={heading} tabIndex={-1}>{titles[practice.step]}</h3>
     {practice.step === 'done' ? <>
       <p role="status">Valor esperado {money(practice.expected)}. Valor contado {money(practice.counted)}. Diferença {money(practice.counted - practice.expected)}.</p>
-      <button type="button" className="button secondary" onClick={() => setPractice(firstStep(administrator))}>Praticar novamente</button>
+      <button type="button" className="button secondary" onClick={restart}>Praticar novamente</button>
     </> : <form key={practice.step} aria-label="Prática de balcão" className="form-stack" noValidate onSubmit={simulate} onChange={() => setError('')}>
       {practice.step === 'product' && <div className="form-grid">
         <label>Nome do produto<input name="name" maxLength={160} defaultValue="Água de treino" /></label>
@@ -140,7 +145,9 @@ export function SalePractice({ administrator }: { administrator: boolean }) {
       {error && <p role="alert">{error}</p>}
       <div className="tutorial-actions"><button type="submit" className="button primary">
         {{ product: 'Cadastrar produto fictício', receive: 'Registrar entrada fictícia', open: 'Abrir caixa de treino', sell: 'Simular venda', account: 'Ir ao fechamento', close: 'Fechar caixa de treino' }[practice.step]}
-      </button></div>
+      </button>{practice.step !== firstStep(administrator).step &&
+        <button type="button" className="button secondary" onClick={restart}>Reiniciar prática</button>}
+      </div>
     </form>}
   </details>;
 }

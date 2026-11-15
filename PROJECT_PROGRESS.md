@@ -325,3 +325,9 @@ No Electron, um perfil fictício completou as seis tarefas com conta de R$ 20,00
 A [execução 43731330072](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43731330072) aprovou 246 testes automatizados, empacotamento e os dois perfis Windows Server 2025. No aplicativo instalado, o roteiro completou as seis tarefas da prática de balcão em ambos os perfis e verificou a igualdade dos registros comerciais antes e depois. A captura mostra o fechamento simulado de R$ 30,00, sem diferença. O ensaio não representa uma sessão com participantes.
 
 O [ZIP 1.0.8](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43731330072/artifacts/14168893349) foi baixado e conferido. Os relatórios do build `NEXO-6B0A9FA4933420C2` passaram sem erros de interface. O NSIS tem 124.155.663 bytes e corresponde à versão, ao tamanho e ao SHA-512 de `latest.yml`. O blockmap está presente. SHA-256 do instalador: `896A66CCBEEE5D29056D18246B4872D62C25C3B4476DD83430E6A444337B9F41`. A candidata é para testes, com artefato disponível até 29/11/2026, 12h56 no horário de Brasília. A versão pública permanece 1.0.4.
+
+### M2 — retomada da prática durante a sessão
+
+Ao fechar a ajuda ou ir a outra área, a prática mantém a etapa e os campos de treino na sessão atual. Reiniciar prática descarta o exercício. Sair do usuário ou trocar o contexto remonta o guia. As preferências persistidas do guia e os dados da prática continuam separados.
+
+A tipagem e a compilação passaram. No Electron em perfil temporário, foram verificadas a retomada após Esc e navegação, a preservação do produto e da quantidade digitada, o foco no reinício, o descarte na nova sessão e a ausência de produtos gravados. A revisão ainda não integra o ZIP 1.0.8 já publicado como artefato de teste.

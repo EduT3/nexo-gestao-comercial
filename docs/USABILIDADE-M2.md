@@ -25,6 +25,6 @@ Use uma conta fictícia de responsável e abra **Ajuda e tutorial → Praticar a
 
 Anote onde ele recorre à ajuda, abandona uma etapa ou confunde os valores fictícios com o caixa em uso. Verifique se ele reconhece o troco, o saldo de oito unidades e a diferença zero no fechamento. Em outra sessão, use um operador fictício para conferir a prática de abertura, venda e fechamento com estoque de treino já preparado. Registre o perfil na planilha de observação.
 
-Ao fechar a ajuda, a prática recomeça da primeira etapa. O observador deve conferir que os registros comerciais do perfil ficaram iguais antes e depois. Se o participante também executar as tarefas da tabela nas telas comerciais, use o perfil descartável preparado para a sessão e registre as duas rodadas em linhas diferentes.
+Feche a ajuda no meio de uma etapa e peça ao participante que retome. A etapa e os campos de treino devem continuar disponíveis durante a sessão. Reiniciar prática volta à primeira etapa. O observador deve conferir que os registros comerciais do perfil ficaram iguais antes e depois. Se o participante também executar as tarefas da tabela nas telas comerciais, use o perfil descartável preparado para a sessão e registre as duas rodadas em linhas diferentes.
 
 Este roteiro está preparado para sessões futuras. Nenhuma sessão com participante foi registrada.
