@@ -83,3 +83,19 @@ O [ZIP 1.0.8](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/437313
 A [execução 43743070192](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43743070192) aprovou 246 testes em Windows Server 2025. Nos dois perfis fictícios, o roteiro fechou a ajuda durante o recebimento, navegou para Vender e reabriu a prática com a etapa e o vencimento preservados. As seis tarefas foram concluídas e os registros comerciais permaneceram iguais.
 
 O [ZIP 1.0.9](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43743070192/artifacts/14173905565) foi baixado. O instalador de 124.155.777 bytes e seu SHA-512 correspondem ao manifesto. O blockmap está presente, e os dois relatórios do build `NEXO-2EE2C72849C11E4A` passaram sem erros de interface. SHA-256: `96BFD60D5A32B176E98D44AF8B926E77F3007A09935F48909A84D1A40F64445E`. Artefato disponível até 29/11/2026, 15h02 no horário de Brasília. A versão pública permanece 1.0.4.
+
+
+## Evidências de aceite e limites
+
+| Critério | Evidência | Limite |
+| --- | --- | --- |
+| M2.1 · Autorização, cancelamento e persistência | A execução Windows verificou operações protegidas, PIN incorreto, cancelamento, preservação do rascunho e isolamento da autorização por operador e empresa. Os testes direcionados em Electron verificaram também suprimento, pagamento, recebimento e cancelamento de estorno no código posterior à 1.0.9. | Os ajustes de mensagens de caixa e contas aguardam confirmação no instalador 1.0.10. |
+| M2.2 · Navegação, ajuda e rascunho | Roteiro Windows com ajuda global, foco por teclado, modo local e preservação da venda ao alternar o caixa. A candidata 1.0.9 retomou o tutorial após navegar e concluiu as seis tarefas em ambos os perfis. | A prática mantém o rascunho durante a sessão do operador e da empresa. |
+| M2.3 · Produtos, compras e estoque | Cadastro, entrada e movimentações no roteiro instalado. Edição no executável 1.0.7 extraído conservou preço e nome de venda anterior e saldo. | Testes com base fictícia. A edição dirigida em Windows cliente usou o executável extraído. |
+| M2.4 · Caixa, financeiro e estornos | Roteiro instalado conferiu fechamento, histórico, venda e cancelamento. Em Windows 11, a baixa de duas contas e os estornos foram verificados em perfil fictício com valores exatos. | Confirmações nativas dos estornos foram respondidas pela automação. |
+| M2.5 · Layout e acessibilidade | Navegação e dimensões verificadas em 1280 × 720, 1366 × 768 e 1920 × 1080, além de janela compacta. A altura foi corrigida e exercitada em pacote extraído. | Escala forçada no Electron fornece evidência para o conteúdo. DPI nativo e sessões com tecnologia assistiva seguem pendentes. |
+| M2.6 · Instalação e atualização | NSIS, bloqueio de pacote inválido, retomada, dados, Guard e recuperação no Windows Server. Download HTTPS da 1.0.7 via canal isolado e conferência de hash no Windows 11. | Instalação controlada em Windows cliente e distribuição da própria candidata por canal público seguem pendentes. Windows 10 aguarda ambiente e não impede o desenvolvimento. |
+| M2.6 · Desempenho | Benchmarks SQLite antes/depois com bases idênticas, consultas financeiras com registros, abertura e recursos no Windows 11 e leitura/gravação de planilhas. | Amostras de laboratório. As medições não homologam hardware mínimo. |
+| M2.6 · Primeiro uso | Roteiro disponível para observar as seis rotinas, medir tempo e cliques e registrar dúvidas. As seis tarefas fictícias rodaram por automação na 1.0.9. | Sessões com participantes não executadas. |
+
+[Ações e artefatos da 1.0.9](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43743070192) · [Status e histórico](STATUS.md) · [Compatibilidade](WINDOWS-COMPATIBILITY.md) · [Usabilidade](USABILIDADE-M2.md)
