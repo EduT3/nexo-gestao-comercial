@@ -19,4 +19,12 @@ Leia apenas a tarefa ao participante. Inicie a contagem quando terminar de ler e
 
 Ao concluir, reabra o NEXO no mesmo perfil fictício e confira o produto, o saldo, a venda, a conta e o fechamento. Registre divergências com a tarefa, o estado inicial e os passos para reproduzir.
 
-Este roteiro está preparado para sessões futuras. Resultados com participantes devem ser preenchidos após a execução.
+## Sessão com o tutorial interativo
+
+Use uma conta fictícia de responsável e abra **Ajuda e tutorial → Praticar a primeira rotina de balcão**. Peça ao participante que percorra o exercício antes de mostrar as telas comerciais. O exemplo usa compra de dez unidades a R$ 2,00, duas unidades vendidas por R$ 10,00, recebimento de R$ 20,00 e contagem final de R$ 30,00. Informe um vencimento conhecido e peça que o participante localize o valor e a data da conta de treino.
+
+Anote onde ele recorre à ajuda, abandona uma etapa ou confunde os valores fictícios com o caixa em uso. Verifique se ele reconhece o troco, o saldo de oito unidades e a diferença zero no fechamento. Em outra sessão, use um operador fictício para conferir a prática de abertura, venda e fechamento com estoque de treino já preparado. Registre o perfil na planilha de observação.
+
+Ao fechar a ajuda, a prática recomeça da primeira etapa. O observador deve conferir que os registros comerciais do perfil ficaram iguais antes e depois. Se o participante também executar as tarefas da tabela nas telas comerciais, use o perfil descartável preparado para a sessão e registre as duas rodadas em linhas diferentes.
+
+Este roteiro está preparado para sessões futuras. Nenhuma sessão com participante foi registrada.
