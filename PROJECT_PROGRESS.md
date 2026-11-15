@@ -306,3 +306,9 @@ Um teste direcionado no Electron, com perfil e base temporários, confirmou os c
 Em Ajuda e tutorial, Praticar uma venda em dinheiro calcula total, troco, estoque e caixa de treino a partir de um exercício com garrafas fictícias. O formulário usa estado local na interface, sem acesso à ponte comercial. Fechar a ajuda encerra o exercício e descarta seu estado. O guia principal continua usando suas preferências por operador e empresa.
 
 A tipagem e a compilação local passaram. No Electron com perfil temporário, foram conferidos quantidade fora do estoque, pagamento insuficiente, pagamento válido, limpeza do resultado ao editar, retorno de foco com Escape e ausência de produtos, vendas e caixa gravados. A prática cobre venda em dinheiro. As outras rotinas do roteiro e sessões com participantes ainda precisam de evidência própria.
+
+### M2 — abertura e fechamento no caixa de treino
+
+A prática de venda evoluiu para um exercício contínuo de abertura, venda em dinheiro e fechamento. O participante informa o fundo inicial e o valor contado, acompanha o troco e o estoque fictício e confere a diferença no caixa. O exercício mostra que, após devolver o troco, o caixa aumenta pelo total da venda.
+
+A tipagem e a compilação passaram. No Electron, com perfil temporário, o roteiro recusou abertura negativa e pagamento insuficiente. A venda de R$ 10,00 com R$ 20,00 recebidos gerou R$ 10,00 de troco, restaram oito garrafas e o caixa esperado foi de R$ 30,00. A contagem de R$ 29,00 apresentou diferença de −R$ 1,00. O reinício e o foco por teclado passaram. Nenhum registro comercial foi criado. Os exercícios de cadastro, entrada e consulta de contas continuam pendentes.
