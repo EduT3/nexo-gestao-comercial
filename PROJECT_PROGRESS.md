@@ -338,3 +338,7 @@ A tipagem e a compilação passaram. No Electron em perfil temporário, foram ve
 A [execução 43743070192](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43743070192) aprovou 246 testes em Windows Server 2025. Nos dois perfis fictícios, o roteiro fechou a ajuda durante o recebimento, navegou para Vender e reabriu a prática com a etapa e o vencimento preservados. As seis tarefas foram concluídas e os registros comerciais permaneceram iguais.
 
 O [ZIP 1.0.9](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43743070192/artifacts/14173905565) foi baixado. O instalador de 124.155.777 bytes e seu SHA-512 correspondem ao manifesto. O blockmap está presente, e os dois relatórios do build `NEXO-2EE2C72849C11E4A` passaram sem erros de interface. SHA-256: `96BFD60D5A32B176E98D44AF8B926E77F3007A09935F48909A84D1A40F64445E`. Artefato disponível até 29/11/2026, 15h02 no horário de Brasília. A versão pública permanece 1.0.4.
+
+### M2 — feedback nas operações de caixa
+
+A tela de caixa identifica a operação em andamento e distingue espera pela autorização de registro do movimento. No Electron com base temporária, o Guard exibiu a espera durante um suprimento, cancelar preservou os campos e o saldo de R$ 20,00, e uma nova tentativa com PIN válido registrou R$ 5,00 uma única vez. A tipagem e a compilação passaram. O ajuste é posterior ao pacote 1.0.9.
