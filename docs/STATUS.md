@@ -535,3 +535,8 @@ A [execução 43624707886](https://github.com/EduT3/nexo-gestao-comercial/action
 
 
 A [execução Windows 43650469127](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43650469127) aprovou a candidata 1.0.6 nos dois perfis fictícios. O instalador, o blockmap e o manifesto da versão foram conferidos depois do download. A confirmação de conclusão após a primeira abertura está em validação em uma revisão posterior.
+
+
+### M2.6 — confirmação pós-abertura e recuperação aprovadas
+
+A [execução 43655162737](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43655162737) passou com 246 testes automatizados e aprovou os dois perfis Windows Server 2025. A origem 1.0.6 registrou a instalação solicitada, a 1.0.7 confirmou a conclusão após abrir, e a interrupção deliberada do NSIS em pasta descartável foi seguida de reinstalação com registros, integridade SQLite e política do Guard preservados. O ensaio usou canal local para a candidata e consultou a release pública em HTTPS em cenário separado. A reabertura da 1.0.7 para inspecionar a mensagem foi controlada pela automação. [ZIP conferido](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43655162737/artifacts/14137868927).

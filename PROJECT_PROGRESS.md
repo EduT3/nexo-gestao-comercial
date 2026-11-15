@@ -284,3 +284,6 @@ A [execução 43624707886](https://github.com/EduT3/nexo-gestao-comercial/action
 
 
 M2.6: a execução Windows 43650469127 comprovou importação XLSX e cancelamento com estorno no aplicativo instalado. O ZIP foi baixado e conferido. A revisão seguinte passa a registrar a versão solicitada antes do NSIS e só mostra a conclusão depois de abrir a versão correspondente com o banco preparado.
+
+
+M2.6: a execução 43655162737 aprovou 246 testes, confirmou a mensagem de conclusão na atualização 1.0.6 → 1.0.7 e recuperou o aplicativo após interromper o NSIS em ambiente descartável. Artefato conferido com manifesto e hash. A homologação Windows cliente segue pendente.
