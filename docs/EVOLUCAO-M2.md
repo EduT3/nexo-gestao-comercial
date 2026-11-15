@@ -1,6 +1,6 @@
 # NEXO Balcão — relatório de evolução M2
 
-O M2 reorganiza as rotinas de venda, estoque, caixa e contas e melhora a autorização de operações administrativas. A candidata Windows aprovada é a **1.0.7**, build **NEXO-B23F2A16EC2CCFEA**. [Execução Windows e 246 testes aprovados](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43655162737) · [ZIP conferido](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43655162737/artifacts/14137868927).
+O M2 reorganiza as rotinas de venda, estoque, caixa e contas e melhora a autorização de operações administrativas. A candidata Windows aprovada é a **1.0.9**, build **NEXO-2EE2C72849C11E4A**. [Execução Windows e 246 testes aprovados](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43743070192) · [ZIP conferido](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43743070192/artifacts/14173905565).
 
 | Marco | Alteração e evidência |
 |---|---|
@@ -76,3 +76,10 @@ A diferença observada de abertura foi de 0,39 ms e a de memória residente, de 
 A [execução 43731330072](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43731330072) aprovou 246 testes automatizados, empacotamento e os dois perfis Windows Server 2025. No aplicativo instalado, o roteiro completou as seis tarefas da prática de balcão em ambos os perfis e verificou a igualdade dos registros comerciais antes e depois. A captura mostra o fechamento simulado de R$ 30,00, sem diferença. O ensaio não representa uma sessão com participantes.
 
 O [ZIP 1.0.8](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43731330072/artifacts/14168893349) foi baixado e conferido. Os relatórios do build `NEXO-6B0A9FA4933420C2` passaram sem erros de interface. O NSIS tem 124.155.663 bytes e corresponde à versão, ao tamanho e ao SHA-512 de `latest.yml`. O blockmap está presente. SHA-256 do instalador: `896A66CCBEEE5D29056D18246B4872D62C25C3B4476DD83430E6A444337B9F41`. A candidata é para testes, com artefato disponível até 29/11/2026, 12h56 no horário de Brasília. A versão pública permanece 1.0.4.
+
+
+### M2 — retomada do tutorial na candidata Windows 1.0.9
+
+A [execução 43743070192](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43743070192) aprovou 246 testes em Windows Server 2025. Nos dois perfis fictícios, o roteiro fechou a ajuda durante o recebimento, navegou para Vender e reabriu a prática com a etapa e o vencimento preservados. As seis tarefas foram concluídas e os registros comerciais permaneceram iguais.
+
+O [ZIP 1.0.9](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43743070192/artifacts/14173905565) foi baixado. O instalador de 124.155.777 bytes e seu SHA-512 correspondem ao manifesto. O blockmap está presente, e os dois relatórios do build `NEXO-2EE2C72849C11E4A` passaram sem erros de interface. SHA-256: `96BFD60D5A32B176E98D44AF8B926E77F3007A09935F48909A84D1A40F64445E`. Artefato disponível até 29/11/2026, 15h02 no horário de Brasília. A versão pública permanece 1.0.4.

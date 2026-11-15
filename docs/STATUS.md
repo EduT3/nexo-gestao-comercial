@@ -584,3 +584,10 @@ O [ZIP 1.0.8](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/437313
 Ao fechar a ajuda ou ir a outra área, a prática mantém a etapa e os campos de treino na sessão atual. Reiniciar prática descarta o exercício. Sair do usuário ou trocar o contexto remonta o guia. As preferências persistidas do guia e os dados da prática continuam separados.
 
 A tipagem e a compilação passaram. No Electron em perfil temporário, foram verificadas a retomada após Esc e navegação, a preservação do produto e da quantidade digitada, o foco no reinício, o descarte na nova sessão e a ausência de produtos gravados. A revisão ainda não integra o ZIP 1.0.8 já publicado como artefato de teste.
+
+
+### M2 — retomada do tutorial na candidata Windows 1.0.9
+
+A [execução 43743070192](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43743070192) aprovou 246 testes em Windows Server 2025. Nos dois perfis fictícios, o roteiro fechou a ajuda durante o recebimento, navegou para Vender e reabriu a prática com a etapa e o vencimento preservados. As seis tarefas foram concluídas e os registros comerciais permaneceram iguais.
+
+O [ZIP 1.0.9](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43743070192/artifacts/14173905565) foi baixado. O instalador de 124.155.777 bytes e seu SHA-512 correspondem ao manifesto. O blockmap está presente, e os dois relatórios do build `NEXO-2EE2C72849C11E4A` passaram sem erros de interface. SHA-256: `96BFD60D5A32B176E98D44AF8B926E77F3007A09935F48909A84D1A40F64445E`. Artefato disponível até 29/11/2026, 15h02 no horário de Brasília. A versão pública permanece 1.0.4.
