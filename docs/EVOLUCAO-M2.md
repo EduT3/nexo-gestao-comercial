@@ -69,3 +69,10 @@ No mesmo Windows 11 Pro x64 26300.9974, os executáveis extraídos 1.0.6 e 1.0.7
 | CPU em repouso, soma dos dois processos | 0,029% | 0,040% |
 
 A diferença observada de abertura foi de 0,39 ms e a de memória residente, de 1,39 MiB. O ensaio usou janelas ocultas, perfis novos e cache do sistema sem limpeza forçada. Ele não reproduz o primeiro lançamento imediatamente após instalação, nem comprova desempenho em outro hardware. [Método e amostras](benchmarks/windows11-startup-1.0.6-1.0.7.json)
+
+
+### M2 — tutorial interativo aprovado na candidata Windows 1.0.8
+
+A [execução 43731330072](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43731330072) aprovou 246 testes automatizados, empacotamento e os dois perfis Windows Server 2025. No aplicativo instalado, o roteiro completou as seis tarefas da prática de balcão em ambos os perfis e verificou a igualdade dos registros comerciais antes e depois. A captura mostra o fechamento simulado de R$ 30,00, sem diferença. O ensaio não representa uma sessão com participantes.
+
+O [ZIP 1.0.8](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43731330072/artifacts/14168893349) foi baixado e conferido. Os relatórios do build `NEXO-6B0A9FA4933420C2` passaram sem erros de interface. O NSIS tem 124.155.663 bytes e corresponde à versão, ao tamanho e ao SHA-512 de `latest.yml`. O blockmap está presente. SHA-256 do instalador: `896A66CCBEEE5D29056D18246B4872D62C25C3B4476DD83430E6A444337B9F41`. A candidata é para testes, com artefato disponível até 29/11/2026, 12h56 no horário de Brasília. A versão pública permanece 1.0.4.

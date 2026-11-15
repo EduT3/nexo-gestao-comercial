@@ -39,7 +39,7 @@ Capturas do aplicativo Windows em testes com dados fictícios. A tela inicial mo
 - **Produtos e estoque.** Catálogo, compras, entradas, quantidades fracionárias, saldos e histórico de movimentações.
 - **Contas.** Pagar, receber e resumo financeiro. Cadastros de clientes e fornecedores disponíveis conforme a operação.
 - **Planilhas e recuperação.** Importação de produtos com prévia, exportação Excel e backup restaurável.
-- **Operação guiada.** Perfis de responsável e operador, permissões verificadas no aplicativo e tutorial integrado.
+- **Operação guiada.** Perfis de responsável e operador, permissões verificadas no aplicativo e tutorial integrado. A candidata M2 inclui uma prática com dados fictícios.
 
 A galeria mostra etapas do desenvolvimento. Consulte as notas de cada versão para confirmar os recursos da sua instalação. [Versão pública](docs/WINDOWS-1.0.4.md) · [Evolução M2](docs/EVOLUCAO-M2.md)
 
@@ -54,7 +54,7 @@ Preserve `guard.json` ao migrar de computador e guarde a **chave de recuperaçã
 | Opção | Uso |
 | --- | --- |
 | **Instalador público 1.0.4** | Baixe `NEXO-Setup-1.0.4.exe` na [release pública](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.4). Abra o NEXO e cadastre o responsável no primeiro acesso. O instalador está sem assinatura digital. |
-| **Candidata M2 1.0.7** | [Artefato temporário do GitHub Actions](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43655162737/artifacts/14137868927), para perfil isolado e dados fictícios. O ZIP contém o instalador de teste em `installer/`, o manifesto e os relatórios. |
+| **Candidata M2 1.0.8** | [Artefato temporário do GitHub Actions](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43731330072/artifacts/14168893349), para perfil isolado e dados fictícios. O ZIP contém o instalador de teste em `installer/`, o manifesto e os relatórios. |
 | **ZIP portátil** | Extraia a pasta completa e execute `NEXO.exe` diretamente. A cópia portátil usa atualização manual. Para migrar de um perfil portátil separado, gere o backup nele e restaure pelo programa instalado. |
 
 O banco da instalação padrão fica em `%LOCALAPPDATA%\NEXO\nexo.sqlite`. Veja as evidências do ambiente e da versão antes de adotar o NEXO em uma estação comercial. [Compatibilidade e instalação por sistema](docs/WINDOWS-COMPATIBILITY.md)
