@@ -121,3 +121,7 @@ Na mesma 1.0.7, um perfil fictício foi aberto com resolução de endereços blo
 ## Disponibilidade da bancada
 
 Não há VM ou computador de teste Windows 10 22H2 x64 disponível para esta etapa. Os ensaios de instalação, atualização, rede desconectada, DPI nativo e medição comparativa aguardam ambiente descartável autorizado. O procedimento de bancada acima documenta como retomar a homologação.
+
+### Regressão da 1.0.7 no Windows 11 cliente
+
+O roteiro comercial foi repetido com a carga x64 extraída da 1.0.7, build NEXO-B23F2A16EC2CCFEA, no Windows 11 Pro x64 26300.9974. Foram aprovadas 23 verificações, com 34 capturas, 12 encerramentos normais e nenhum erro registrado na interface. Passaram primeiro acesso, navegação, estoque, caixa, vendas, cancelamento e estorno, Excel, Guard, isolamento entre empresas, backup, recuperação e persistência. A verificação de conclusão da atualização usou registro preparado no perfil fictício. O ensaio local usou o executável extraído, sem instalação NSIS nem troca de versão no Windows cliente.
