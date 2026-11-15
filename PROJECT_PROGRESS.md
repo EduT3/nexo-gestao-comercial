@@ -287,3 +287,10 @@ M2.6: a execução Windows 43650469127 comprovou importação XLSX e cancelament
 
 
 M2.6: a execução 43655162737 aprovou 246 testes, confirmou a mensagem de conclusão na atualização 1.0.6 → 1.0.7 e recuperou o aplicativo após interromper o NSIS em ambiente descartável. Artefato conferido com manifesto e hash. A homologação Windows cliente segue pendente.
+
+
+### Windows 11 confirmado em uso prático e continuidade do M2
+
+Em 14/11/2026, o usuário informou que o NEXO já está instalado no computador pessoal com Windows 11 e funciona normalmente nos testes práticos que realizou. O registro é manual e foi informado pelo usuário. Versão, método de instalação e cenários individuais não foram especificados. Os ensaios automatizados da candidata no Windows Server e no executável extraído em Windows 11 permanecem documentados separadamente.
+
+A homologação do Windows 10 22H2 x64 fica pendente por indisponibilidade de ambiente. O NEXO Experience M2 segue com melhorias de interface e usabilidade em perfis fictícios. Para o futuro tutorial interativo, o ponto de partida é o guia contextual existente e o roteiro de primeiro uso. A orientação deve levar à tela certa e permitir sair ou retomar, com exercícios que não gerem vendas, movimentos ou cadastros reais. As validações existentes serão reutilizadas. [Matriz e pendências](docs/WINDOWS-COMPATIBILITY.md) · [Roteiro de primeiro uso](docs/USABILIDADE-M2.md)

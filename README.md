@@ -72,7 +72,7 @@ Em uma base fictícia de 50 mil produtos, 50 mil vendas e 100 mil movimentos, a 
 | Ambiente | Estado |
 | --- | --- |
 | Windows 10 22H2 x64 | Homologação pendente. O suporte regular da Microsoft terminou em 14/10/2025. Sem atualizações de segurança, o risco de exploração aumenta. |
-| Windows 11 x64 | Roteiro comercial em perfil fictício aprovado no executável extraído, build 26300.9974. Instalação NSIS e comparação com Windows 10 pendentes. |
+| Windows 11 x64 | Usuário confirmou o funcionamento prático do NEXO instalado. O roteiro automatizado em perfil fictício passou com o executável extraído, no build 26300.9974. Instalação NSIS e atualização em bancada cliente controlada seguem pendentes. |
 | Windows 7 | Fora do suporte. A versão moderna do Electron usada pelo NEXO requer Windows 10 ou posterior. |
 | Hardware | Mínimo do NEXO ainda sem medição. Quatro núcleos, 8 GB de RAM e SSD são referência para o próximo ensaio, sem homologação. |
 

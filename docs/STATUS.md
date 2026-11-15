@@ -540,3 +540,10 @@ A [execução Windows 43650469127](https://github.com/EduT3/nexo-gestao-comercia
 ### M2.6 — confirmação pós-abertura e recuperação aprovadas
 
 A [execução 43655162737](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43655162737) passou com 246 testes automatizados e aprovou os dois perfis Windows Server 2025. A origem 1.0.6 registrou a instalação solicitada, a 1.0.7 confirmou a conclusão após abrir, e a interrupção deliberada do NSIS em pasta descartável foi seguida de reinstalação com registros, integridade SQLite e política do Guard preservados. O ensaio usou canal local para a candidata e consultou a release pública em HTTPS em cenário separado. A reabertura da 1.0.7 para inspecionar a mensagem foi controlada pela automação. [ZIP conferido](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43655162737/artifacts/14137868927).
+
+
+### Windows 11 confirmado em uso prático e continuidade do M2
+
+Em 14/11/2026, o usuário informou que o NEXO já está instalado no computador pessoal com Windows 11 e funciona normalmente nos testes práticos que realizou. O registro é manual e foi informado pelo usuário. Versão, método de instalação e cenários individuais não foram especificados. Os ensaios automatizados da candidata no Windows Server e no executável extraído em Windows 11 permanecem documentados separadamente.
+
+A homologação do Windows 10 22H2 x64 fica pendente por indisponibilidade de ambiente. O NEXO Experience M2 segue com melhorias de interface e usabilidade em perfis fictícios. Para o futuro tutorial interativo, o ponto de partida é o guia contextual existente e o roteiro de primeiro uso. A orientação deve levar à tela certa e permitir sair ou retomar, com exercícios que não gerem vendas, movimentos ou cadastros reais. As validações existentes serão reutilizadas. [Matriz e pendências](WINDOWS-COMPATIBILITY.md) · [Roteiro de primeiro uso](USABILIDADE-M2.md)

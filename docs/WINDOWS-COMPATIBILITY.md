@@ -2,12 +2,12 @@
 
 ## Estado da homologação
 
-A release pública é a **1.0.4**. A candidata **1.0.7** foi instalada e exercitada em Windows Server 2025 no GitHub Actions. A revisão aprovada é o build `NEXO-B23F2A16EC2CCFEA`. Esse resultado cobre o pacote e os fluxos executados nesse ambiente. A homologação em Windows cliente x64 continua pendente. [Release pública](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.4) · [Execução da candidata](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43655162737)
+A release pública é a **1.0.4**. A candidata **1.0.7** foi instalada e exercitada em Windows Server 2025 no GitHub Actions. A revisão aprovada é o build `NEXO-B23F2A16EC2CCFEA`. Esse resultado cobre o pacote e os fluxos executados nesse ambiente. No Windows 11 cliente, há confirmação manual informada pelo usuário e evidência automatizada separada. A homologação em Windows 10 22H2 x64 está pendente por falta de ambiente. [Release pública](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.4) · [Execução da candidata](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43655162737)
 
 | Sistema | Prioridade | Evidência | Instalação e atualização |
 | --- | --- | --- | --- |
 | Windows 10 22H2 x64 com 8 GB | P0 | Pendente. Registrar edição, build 19045 com revisão, segurança e hardware do equipamento. | Usar o instalador público e depois a candidata em canal controlado, com perfil fictício. |
-| Windows 11 x64 | P0 | Roteiro comercial aprovado com executável extraído no Windows cliente Pro 26H2, build 26300.9974. Instalação e matriz comparativa pendentes. | Repetir as mesmas operações com os mesmos instaladores, dados e condições. |
+| Windows 11 x64 | P0 | **Manual, informada pelo usuário:** aplicativo instalado e funcionando nos testes práticos realizados. **Automatizada:** roteiro comercial com executável extraído, build do Windows 26300.9974. | A verificação controlada do instalador NSIS e da atualização entre versões no Windows cliente permanece pendente. |
 | Windows 10 22H2 x64 com 4 GB | P1 | Pendente. Perfil de teste de memória limitada. | Repetir o ensaio do Windows 10 com memória e paginação medidas. |
 | Windows Server 2025 x64 | CI | Instalador 1.0.7, duas origens fictícias, 246 testes e validação de distribuição. | Consulte o resultado e os relatórios anexados à execução. |
 | Windows 7 | P3 | Fora do suporte. Análise técnica, sem execução. | Sem procedimento de instalação. |
@@ -24,7 +24,11 @@ O Electron 22 foi a última linha com suporte ao Windows 7, 8 e 8.1. Portar o NE
 
 No Windows cliente, verifique criação e acesso a `LOCALAPPDATA` por um usuário padrão, instalação e desinstalação, monograma do executável e do instalador, apresentação do aviso de editor, diretórios com espaços e acentos, diálogo de arquivos e cache do atualizador. Preserve IPC, sandbox, proteção de arquivos e política do Guard durante o teste.
 
-## Evidência parcial no Windows 11 x64
+## Validação manual informada pelo usuário no Windows 11
+
+Em 14/11/2026, o usuário confirmou que o NEXO está instalado no seu computador pessoal com Windows 11 e funcionou normalmente nos testes práticos que realizou. O relato não especifica a versão do NEXO, o build do Windows, o método de instalação ou os cenários executados. A evidência abrange o funcionamento prático relatado. A certificação do caminho NSIS, atualização, recuperação, operação sem rede e DPI nativo exige evidência própria. A instalação pessoal e os dados reais ficam fora dos ensaios de engenharia.
+
+## Evidência automatizada no Windows 11 x64
 
 Em Windows cliente Pro 26H2, build 26300.9974, com Ryzen 7 7700X e 31,1 GiB de memória visível, a candidata 1.0.6 abriu em perfil fictício com sandbox ativo. O ensaio criou o responsável, cadastrou um produto pelo IPC normal, fechou o aplicativo e confirmou que o produto permaneceu ao reabrir. O banco foi criado na pasta temporária designada para o teste. O executável informou Electron 44.4.1, Chromium 152.0.7977.78, Node 24.21.0 e SQLite 3.53.4.
 
@@ -120,7 +124,7 @@ Na mesma 1.0.7, um perfil fictício foi aberto com resolução de endereços blo
 
 ## Disponibilidade da bancada
 
-Não há VM ou computador de teste Windows 10 22H2 x64 disponível para esta etapa. Os ensaios de instalação, atualização, rede desconectada, DPI nativo e medição comparativa aguardam ambiente descartável autorizado. O procedimento de bancada acima documenta como retomar a homologação.
+Não há VM ou computador de teste Windows 10 22H2 x64 disponível para esta etapa. Os ensaios de instalação, atualização, rede desconectada, DPI nativo e medição comparativa no Windows 10 aguardam ambiente descartável autorizado. Essa pendência pertence à matriz de compatibilidade. O trabalho de interface, usabilidade e preparação do tutorial interativo pode continuar em perfis fictícios. O procedimento acima permite retomar a homologação quando houver ambiente.
 
 ### Regressão da 1.0.7 no Windows 11 cliente
 
