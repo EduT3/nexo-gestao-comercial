@@ -13,6 +13,7 @@ import {
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import type { CashAvailability } from "../shared/cash-status";
 import { itemTotalCents, quantityToMilli } from "../shared/scaled";
+import { useGuardPending } from "./Guard";
 import { errorMessage } from "./local-format";
 import { LocalSalesHistory } from "./LocalSalesHistory";
 import { useLocalQuery } from "./useLocalQuery";
@@ -114,6 +115,8 @@ export function LocalSalesBalcao({
   const [received, setReceived] = useState("");
   const [operationKey, setOperationKey] = useState(() => crypto.randomUUID());
   const [busy, setBusy] = useState(false);
+  const guardPending = useGuardPending();
+  const pendingMessage = guardPending ? "Aguardando autorização…" : "Registrando venda…";
   const [message, setMessage] = useState("");
   const [saleFeedback, setSaleFeedback] = useState<{ text: string; error: boolean }>();
   const [historyRevision, setHistoryRevision] = useState(0);
@@ -680,12 +683,12 @@ export function LocalSalesBalcao({
               aria-label="Concluir venda"
               disabled={!canSell || !lines.length || !!calculationError}
             >
-              <Check size={25} weight="bold" /> Finalizar venda
+              <Check size={25} weight="bold" aria-hidden="true" /> {busy ? pendingMessage : "Finalizar venda"}
             </button>
-            {saleFeedback && (
-              <p className={saleFeedback.error ? "nexo-sale-error" : "nexo-sale-feedback"}
-                role={saleFeedback.error ? "alert" : "status"}>
-                {saleFeedback.text}
+            {(saleFeedback || busy) && (
+              <p className={saleFeedback?.error ? "nexo-sale-error" : "nexo-sale-feedback"}
+                role={saleFeedback?.error ? "alert" : "status"}>
+                {saleFeedback?.text ?? pendingMessage}
               </p>
             )}
             {!canSell && (

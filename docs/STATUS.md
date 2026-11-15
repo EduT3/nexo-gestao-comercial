@@ -615,3 +615,7 @@ O [ZIP 1.0.10](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43745
 A carga x64 extraída do instalador conferido da 1.0.10, build `NEXO-576BB6253FF853C7`, passou nos testes de feedback de suprimento, pagamento e recebimento no Windows 11 Pro x64 26300.9974, em três perfis temporários. A interface informou a espera pelo PIN. O cancelamento preservou os campos e o caixa. As novas tentativas autorizadas registraram os valores previstos.
 
 Os dois cancelamentos de estorno exibiram a mensagem correspondente, preservaram os motivos, mantiveram as contas baixadas e conservaram o caixa em R$ 11,50. Os diálogos nativos foram respondidos por automação. O ensaio usou o executável extraído, sem executar o NSIS nem acessar a instalação pessoal. [Artefato de origem](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43745162436/artifacts/14174511359)
+
+### M2 — feedback na venda com desconto
+
+A finalização indica espera pelo PIN ou registro da venda e anuncia o estado na região de retorno. No Electron com base fictícia, cancelar o Guard manteve o desconto de R$ 1,00, duas unidades em estoque, caixa de R$ 10,00 e zero vendas. A nova tentativa com PIN válido gravou uma venda de R$ 4,00, baixou uma unidade e elevou o caixa a R$ 14,00. Tipagem e compilação passaram. O ajuste é posterior ao ZIP 1.0.10.
