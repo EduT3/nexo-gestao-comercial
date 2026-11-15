@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from 'react';
+import { useGuardPending } from './Guard';
 import { errorMessage } from './local-format';
 type PreviewRow = {
   line: number;
@@ -28,6 +29,7 @@ export function LocalProductExcel({
   useEffect(() => { active.current = true; return () => { active.current = false; }; }, []);
   const bridge = window.nexoLocal!;
   const [busy, setBusy] = useState(false);
+  const guardPending = useGuardPending();
   const [preview, setPreview] = useState<Preview>();
   const [message, setMessage] = useState('');
   async function exportReport() {
@@ -112,8 +114,9 @@ export function LocalProductExcel({
       );
     } catch (error) {
       if (!active.current) return;
-      setPreview(undefined);
-      setMessage(errorMessage(error));
+      const text = errorMessage(error);
+      if (text !== 'Autorização cancelada.') setPreview(undefined);
+      setMessage(text);
     } finally {
       running.current = false;
       if (active.current) { onBusyChange(false); setBusy(false); }
@@ -198,7 +201,9 @@ export function LocalProductExcel({
       )}
       <p role="status">
         {busy
-          ? 'Processando planilha… Aguarde antes de trocar de empresa.'
+          ? guardPending
+            ? 'Aguardando autorização…'
+            : 'Processando planilha… Aguarde antes de trocar de empresa.'
           : message}
       </p>
     </details>

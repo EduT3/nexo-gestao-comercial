@@ -366,3 +366,7 @@ Os dois cancelamentos de estorno exibiram a mensagem correspondente, preservaram
 ### M2 — feedback na venda com desconto
 
 A finalização indica espera pelo PIN ou registro da venda e anuncia o estado na região de retorno. No Electron com base fictícia, cancelar o Guard manteve o desconto de R$ 1,00, duas unidades em estoque, caixa de R$ 10,00 e zero vendas. A nova tentativa com PIN válido gravou uma venda de R$ 4,00, baixou uma unidade e elevou o caixa a R$ 14,00. Tipagem e compilação passaram. O ajuste é posterior ao ZIP 1.0.10.
+
+### M2 — prévia do Excel durante a autorização
+
+A importação distingue espera pelo PIN de processamento da planilha. Cancelar a autorização da confirmação mantém a prévia disponível. Erros de confirmação que podem ter invalidado a prévia continuam exigindo selecionar a planilha outra vez. No Electron com arquivo e perfil fictícios, o teste confirmou zero produtos após cancelar e uma importação após autorizar a nova tentativa com a mesma prévia. Compilação e tipagem passaram. O ajuste é posterior ao ZIP 1.0.10.
