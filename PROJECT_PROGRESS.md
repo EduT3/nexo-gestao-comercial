@@ -294,3 +294,9 @@ M2.6: a execução 43655162737 aprovou 246 testes, confirmou a mensagem de concl
 Em 14/11/2026, o usuário informou que o NEXO já está instalado no computador pessoal com Windows 11 e funciona normalmente nos testes práticos que realizou. O registro é manual e foi informado pelo usuário. Versão, método de instalação e cenários individuais não foram especificados. Os ensaios automatizados da candidata no Windows Server e no executável extraído em Windows 11 permanecem documentados separadamente.
 
 A homologação do Windows 10 22H2 x64 fica pendente por indisponibilidade de ambiente. O NEXO Experience M2 segue com melhorias de interface e usabilidade em perfis fictícios. Para o futuro tutorial interativo, o ponto de partida é o guia contextual existente e o roteiro de primeiro uso. A orientação deve levar à tela certa e permitir sair ou retomar, com exercícios que não gerem vendas, movimentos ou cadastros reais. As validações existentes serão reutilizadas. [Matriz e pendências](docs/WINDOWS-COMPATIBILITY.md) · [Roteiro de primeiro uso](docs/USABILIDADE-M2.md)
+
+### M2 — ajuda contextual com foco na tarefa
+
+Na compilação local, o botão Ver esta tela passou a levar o foco à busca do catálogo, ao primeiro produto da entrada de mercadorias, ao controle de movimentações, ao valor inicial do caixa e à busca de venda. Se o controle estiver indisponível, o foco vai para o título da tela. A orientação de backup cita a guarda separada da política e da chave do NEXO Guard.
+
+Um teste direcionado no Electron, com perfil e base temporários, confirmou os cinco destinos e o retorno do foco ao fechar com Escape. O teste não gravou produtos, vendas ou abertura de caixa. A tipagem e a compilação local passaram. Isto estende o guia existente. Os exercícios de prática com dados fictícios ficam para uma etapa posterior do tutorial interativo.
