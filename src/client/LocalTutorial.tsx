@@ -1,5 +1,6 @@
 import { useMemo } from 'react';
 import { LocalBuildInfo } from './LocalBuildInfo';
+import { SalePractice } from './SalePractice';
 import { Tutorial, type TutorialStep, type TutorialStore } from './Tutorial';
 
 export const localTutorialSteps = (administrator: boolean, multipleCompanies = true): TutorialStep[] => [
@@ -27,5 +28,5 @@ export function LocalTutorial({ userId, company, companyName, administrator, mul
     read: () => window.nexoLocal!.tutorialPreference(company, userId),
     write: value => window.nexoLocal!.saveTutorialPreference(company, userId, value),
   }), [company, userId]);
-  return <Tutorial helpTarget={helpTarget} autoOpen={false} footer={<LocalBuildInfo />} steps={localTutorialSteps(administrator, multipleCompanies)} store={store} companyName={companyName} currentRoute={currentRoute} busy={busy} onNavigate={onNavigate} />;
+  return <Tutorial helpTarget={helpTarget} autoOpen={false} practice={<SalePractice />} footer={<LocalBuildInfo />} steps={localTutorialSteps(administrator, multipleCompanies)} store={store} companyName={companyName} currentRoute={currentRoute} busy={busy} onNavigate={onNavigate} />;
 }

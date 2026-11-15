@@ -553,3 +553,9 @@ A homologação do Windows 10 22H2 x64 fica pendente por indisponibilidade de am
 Na compilação local, o botão Ver esta tela passou a levar o foco à busca do catálogo, ao primeiro produto da entrada de mercadorias, ao controle de movimentações, ao valor inicial do caixa e à busca de venda. Se o controle estiver indisponível, o foco vai para o título da tela. A orientação de backup cita a guarda separada da política e da chave do NEXO Guard.
 
 Um teste direcionado no Electron, com perfil e base temporários, confirmou os cinco destinos e o retorno do foco ao fechar com Escape. O teste não gravou produtos, vendas ou abertura de caixa. A tipagem e a compilação local passaram. Isto estende o guia existente. Os exercícios de prática com dados fictícios ficam para uma etapa posterior do tutorial interativo.
+
+### M2 — prática de venda em dinheiro no tutorial
+
+Em Ajuda e tutorial, Praticar uma venda em dinheiro calcula total, troco, estoque e caixa de treino a partir de um exercício com garrafas fictícias. O formulário usa estado local na interface, sem acesso à ponte comercial. Fechar a ajuda encerra o exercício e descarta seu estado. O guia principal continua usando suas preferências por operador e empresa.
+
+A tipagem e a compilação local passaram. No Electron com perfil temporário, foram conferidos quantidade fora do estoque, pagamento insuficiente, pagamento válido, limpeza do resultado ao editar, retorno de foco com Escape e ausência de produtos, vendas e caixa gravados. A prática cobre venda em dinheiro. As outras rotinas do roteiro e sessões com participantes ainda precisam de evidência própria.

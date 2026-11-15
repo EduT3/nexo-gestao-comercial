@@ -13,9 +13,9 @@ export type TutorialStore = {
 };
 
 /** Inline help leaves the app operable; only explicit links change the current screen. */
-export function Tutorial({ steps, store, companyName, preview = false, currentRoute, onNavigate, busy = false, footer, helpTarget, autoOpen = true }: {
+export function Tutorial({ steps, store, companyName, preview = false, currentRoute, onNavigate, busy = false, footer, practice, helpTarget, autoOpen = true }: {
   steps: TutorialStep[]; store: TutorialStore; companyName: string; preview?: boolean;
-  currentRoute: string; onNavigate(step: TutorialStep): void; busy?: boolean; footer?: ReactNode; helpTarget?: HTMLElement; autoOpen?:boolean;
+  currentRoute: string; onNavigate(step: TutorialStep): void; busy?: boolean; footer?: ReactNode; practice?: ReactNode; helpTarget?: HTMLElement; autoOpen?:boolean;
 }) {
   const panelId = useId();
   const help = useRef<HTMLButtonElement>(null);
@@ -92,6 +92,7 @@ export function Tutorial({ steps, store, companyName, preview = false, currentRo
         <button type="button" className="text-button" onClick={() => close('disabled')}>Desativar tutorial</button>
       </div>
       <p className="tutorial-note">Sua escolha vale para seu usuário nesta empresa. Fechar ou pular guarda a etapa; use Ajuda e tutorial para voltar. Tecla Esc fecha a ajuda.</p>
+      {practice}
       {footer}
     </section>}
     <p className="tutorial-status" role="status">{saving ? 'Salvando preferência…' : error}</p>
