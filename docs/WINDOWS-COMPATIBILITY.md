@@ -18,6 +18,8 @@ O suporte regular da Microsoft ao Windows 10 22H2 terminou em **14 de outubro de
 
 A revisão do código declara Electron 44.4.1, electron-builder 26.18.0 e electron-updater 6.8.11. O alvo publicado pelo workflow é NSIS x64. O SQLite é fornecido pelo `node:sqlite` do runtime embarcado no Electron. O processo principal acessa o banco em `%LOCALAPPDATA%\NEXO` e a interface usa IPC com isolamento de contexto. Os números de Chromium, Electron, Node, SQLite e a edição exata do Windows de cada bancada devem ser coletados do executável instalado e registrados no resultado. [Arquitetura e limites da instalação](ARCHITECTURE.md) · [Auditoria do empacotamento](GITHUB-ACTIONS-WINDOWS.md)
 
+A inspeção da carga x64 do pacote 1.0.7 não encontrou extensões nativas Node com sufixo `.node`. O pacote contém as bibliotecas de vídeo e renderização do Electron, incluindo D3D, Vulkan e FFmpeg, além de `elevate.exe` e `app-update.yml`. Isso evita uma dependência adicional de extensão SQLite recompilada por plataforma. A bancada cliente ainda precisa exercitar o instalador, a elevação, o driver gráfico e o armazenamento local no Windows 10 22H2 real.
+
 O Electron 22 foi a última linha com suporte ao Windows 7, 8 e 8.1. Portar o NEXO atual para Windows 7 exigiria outra matriz de runtime, SQLite, navegador e atualização, com versões antigas sem manutenção. O NEXO mantém o runtime atual e suas proteções. [Política de plataforma do Electron](https://www.electronjs.org/blog/windows-7-to-8-1-deprecation-notice)
 
 No Windows cliente, verifique criação e acesso a `LOCALAPPDATA` por um usuário padrão, instalação e desinstalação, monograma do executável e do instalador, apresentação do aviso de editor, diretórios com espaços e acentos, diálogo de arquivos e cache do atualizador. Preserve IPC, sandbox, proteção de arquivos e política do Guard durante o teste.
@@ -115,3 +117,7 @@ O executável extraído do [ZIP 1.0.7](https://github.com/EduT3/nexo-gestao-come
 ### Operação local com a resolução de endereços indisponível
 
 Na mesma 1.0.7, um perfil fictício foi aberto com resolução de endereços bloqueada no processo Electron. Uma tentativa HTTPS ao GitHub retornou ERR_NAME_NOT_RESOLVED. No mesmo processo, primeiro acesso, cadastro de produto, entrada de estoque, abertura de caixa e venda em dinheiro funcionaram. O histórico mostrou uma venda e o caixa, R$ 15,00. A rede do Windows permaneceu disponível para outros programas. O ensaio com a VM integralmente desconectada continua pendente.
+
+## Disponibilidade da bancada
+
+Não há VM ou computador de teste Windows 10 22H2 x64 disponível para esta etapa. Os ensaios de instalação, atualização, rede desconectada, DPI nativo e medição comparativa aguardam ambiente descartável autorizado. O procedimento de bancada acima documenta como retomar a homologação.
