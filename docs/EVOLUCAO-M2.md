@@ -99,3 +99,7 @@ O [ZIP 1.0.9](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/437430
 | M2.6 · Primeiro uso | Roteiro disponível para observar as seis rotinas, medir tempo e cliques e registrar dúvidas. As seis tarefas fictícias rodaram por automação na 1.0.9. | Sessões com participantes não executadas. |
 
 [Ações e artefatos da 1.0.9](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43743070192) · [Status e histórico](STATUS.md) · [Compatibilidade](WINDOWS-COMPATIBILITY.md) · [Usabilidade](USABILIDADE-M2.md)
+
+### Acessibilidade do tutorial no Windows 11
+
+No executável extraído 1.0.9, build NEXO-2EE2C72849C11E4A, o Electron expôs a navegação principal, a região Tutorial do NEXO, o estado expandido do botão de ajuda e o formulário de prática com nome próprio na árvore de acessibilidade do Chromium. O campo Nome do produto e o botão Cadastrar produto fictício também tinham nomes acessíveis. Enter abriu a ajuda e a prática. Escape devolveu o foco ao botão de ajuda e retirou a região e o formulário ocultos da árvore. O teste usou perfil fictício no Windows 11 e não substitui uma sessão com leitor de tela.
