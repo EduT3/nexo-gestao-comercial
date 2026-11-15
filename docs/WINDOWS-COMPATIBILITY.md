@@ -125,3 +125,5 @@ Não há VM ou computador de teste Windows 10 22H2 x64 disponível para esta eta
 ### Regressão da 1.0.7 no Windows 11 cliente
 
 O roteiro comercial foi repetido com a carga x64 extraída da 1.0.7, build NEXO-B23F2A16EC2CCFEA, no Windows 11 Pro x64 26300.9974. Foram aprovadas 23 verificações, com 34 capturas, 12 encerramentos normais e nenhum erro registrado na interface. Passaram primeiro acesso, navegação, estoque, caixa, vendas, cancelamento e estorno, Excel, Guard, isolamento entre empresas, backup, recuperação e persistência. A verificação de conclusão da atualização usou registro preparado no perfil fictício. O ensaio local usou o executável extraído, sem instalação NSIS nem troca de versão no Windows cliente.
+
+O mesmo executável também passou na edição de produto pela interface. Em um perfil fictício, a compra de dez unidades e a venda de uma deixaram saldo de nove. Após editar nome e preço de R$ 5,00 para R$ 7,00 e reabrir o programa, o cadastro manteve a alteração, o saldo permaneceu nove e a venda anterior preservou nome e preço originais.
