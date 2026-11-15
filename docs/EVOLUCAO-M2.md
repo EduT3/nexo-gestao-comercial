@@ -1,6 +1,6 @@
 # NEXO Balcão — relatório de evolução M2
 
-O M2 reorganiza as rotinas de venda, estoque, caixa e contas e melhora a autorização de operações administrativas. A candidata Windows aprovada é a **1.0.9**, build **NEXO-2EE2C72849C11E4A**. [Execução Windows e 246 testes aprovados](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43743070192) · [ZIP conferido](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43743070192/artifacts/14173905565).
+O M2 reorganiza as rotinas de venda, estoque, caixa e contas e melhora a autorização de operações administrativas. A candidata Windows aprovada é a **1.0.10**, build **NEXO-576BB6253FF853C7**. [Execução Windows e 246 testes aprovados](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43745162436) · [ZIP conferido](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43745162436/artifacts/14174511359).
 
 | Marco | Alteração e evidência |
 |---|---|
@@ -103,3 +103,10 @@ O [ZIP 1.0.9](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/437430
 ### Acessibilidade do tutorial no Windows 11
 
 No executável extraído 1.0.9, build NEXO-2EE2C72849C11E4A, o Electron expôs a navegação principal, a região Tutorial do NEXO, o estado expandido do botão de ajuda e o formulário de prática com nome próprio na árvore de acessibilidade do Chromium. O campo Nome do produto e o botão Cadastrar produto fictício também tinham nomes acessíveis. Enter abriu a ajuda e a prática. Escape devolveu o foco ao botão de ajuda e retirou a região e o formulário ocultos da árvore. O teste usou perfil fictício no Windows 11 e não substitui uma sessão com leitor de tela.
+
+
+### M2 — candidata Windows 1.0.10
+
+A [execução 43745162436](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43745162436) passou com 246 testes e duas verificações de aplicativo instalado no Windows Server. A candidata inclui as mensagens de autorização, processamento e cancelamento de caixa e contas, exercitadas em testes direcionados na compilação local. Os dois perfis instalados passaram no roteiro de atualização, operações comerciais e retomada da prática. O teste dirigido das novas mensagens no executável extraído permanece pendente.
+
+O [ZIP 1.0.10](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43745162436/artifacts/14174511359) foi baixado e conferido. O build `NEXO-576BB6253FF853C7` inclui o instalador de 124.155.887 bytes, o blockmap e o manifesto com SHA-512 correspondente. SHA-256 do instalador: `4CD4A2445912F8740AC1857F6EB0BBB7F0051D0A592727030A4F2E048877087C`. Artefato disponível até 29/11/2026, 15h21 no horário de Brasília. A release pública permanece 1.0.4.

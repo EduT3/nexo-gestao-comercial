@@ -348,3 +348,10 @@ A tela de caixa identifica a operação em andamento e distingue espera pela aut
 Pagar e Receber agora informam quando aguardam autorização do Guard ou registram uma operação. A confirmação nativa de estorno também passa a mostrar o cancelamento ao voltar. No Electron com base fictícia, foram verificados o estado de espera, a preservação do método escolhido e a ausência de alteração no caixa após cancelar pagamento e recebimento. Na nova tentativa autorizada, os saldos passaram de R$ 10,00 para R$ 8,00 no pagamento e para R$ 11,50 depois do recebimento. A tipagem e a compilação passaram. A mensagem da confirmação nativa de estorno não foi exercitada neste roteiro.
 
 O cancelamento de estorno também foi exercitado na interface do Electron. Em um perfil temporário, a automação respondeu Voltar às confirmações nativas de pagamento e recebimento. As duas operações exibiram Estorno cancelado, mantiveram o motivo digitado e deixaram as contas baixadas e o saldo de R$ 11,50 intactos.
+
+
+### M2 — candidata Windows 1.0.10
+
+A [execução 43745162436](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43745162436) passou com 246 testes e duas verificações de aplicativo instalado no Windows Server. A candidata inclui as mensagens de autorização, processamento e cancelamento de caixa e contas, exercitadas em testes direcionados na compilação local. Os dois perfis instalados passaram no roteiro de atualização, operações comerciais e retomada da prática. O teste dirigido das novas mensagens no executável extraído permanece pendente.
+
+O [ZIP 1.0.10](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43745162436/artifacts/14174511359) foi baixado e conferido. O build `NEXO-576BB6253FF853C7` inclui o instalador de 124.155.887 bytes, o blockmap e o manifesto com SHA-512 correspondente. SHA-256 do instalador: `4CD4A2445912F8740AC1857F6EB0BBB7F0051D0A592727030A4F2E048877087C`. Artefato disponível até 29/11/2026, 15h21 no horário de Brasília. A release pública permanece 1.0.4.
