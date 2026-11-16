@@ -146,3 +146,7 @@ No Windows 11, a carga x64 extraída do instalador 1.0.11 conferido, build NEXO-
 ### Teste de acessibilidade da venda no pacote 1.0.13
 
 A carga x64 extraída do instalador conferido foi executada em Windows 11 build 26300.9974 com banco fictício. Enter abriu o Guard. A árvore de acessibilidade expôs a operação, os botões e a contagem de dígitos, sem revelar o PIN. Tab manteve o foco visível. Escape devolveu o foco a Concluir venda, preservou quantidade e desconto e manteve idênticos os históricos e o caixa. O teste foi automatizado e não executou o instalador NSIS.
+
+### Janela do Guard com escala nativa de 100% no Windows 11
+
+No build NEXO-2BC1CFAE0D6D5B7A extraído, o Electron informou escala nativa de 100% para a tela de teste, com área de trabalho de 3440 × 1392. A janela foi redimensionada pelo Electron, sem emulação de DPI, para áreas de conteúdo de 1184 × 735, 1000 × 650 e 900 × 600. O diálogo de autorização da venda e todos os seus botões ficaram inteiros dentro da área visível, sem rolagem interna. Escape devolveu o foco a Concluir venda e preservou o rascunho. O ensaio usou um banco fictício e manteve a configuração de tela do Windows. Escalas nativas de 125% e 150% continuam pendentes.
