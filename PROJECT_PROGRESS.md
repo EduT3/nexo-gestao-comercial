@@ -411,3 +411,7 @@ A **1.0.15** foi publicada como versão principal no GitHub Releases. O reposit�
 ### Atualização 1.0.15 confirmada pelo usuário
 
 Em 16/11/2026, o usuário informou que a atualização da versão pública 1.0.15 pelo aplicativo funcionou no computador pessoal com Windows 11. O relato confirma o resultado prático da atualização. A versão de origem, a conferência de persistência e os cenários de recuperação não foram detalhados.
+
+### Ajuste de espaçamento em Caixa, Contas e NEXO Guard
+
+A compilação desktop separa o valor inicial, Abrir caixa e Ver histórico de caixas. As abas Pagar, Receber e Resumo têm espaço antes do conteúdo, e Autorizar tem espaço abaixo do teclado do Guard. O ensaio com Electron no Windows 11 usou perfil fictício e mediu 12 px nos quatro intervalos, em 900 × 600 e 1366 × 768. O diálogo coube nas duas dimensões.

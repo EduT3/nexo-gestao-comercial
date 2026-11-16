@@ -660,3 +660,7 @@ A candidata **1.0.15**, build NEXO-FD5CDB9C5524DE58, passou em 246 testes e dois
 ### Versão pública 1.0.15
 
 A **1.0.15** foi publicada como versão principal no GitHub Releases. O repositório oferece o instalador, o blockmap, o manifesto e as somas SHA-256. No Windows 11, o executável extraído da 1.0.4 consultou o canal público em perfil descartável, detectou a 1.0.15 e concluiu o download. O instalador baixado pelo atualizador corresponde ao SHA-256 e aos 124.156.857 bytes da release. O NSIS não foi executado nesse perfil do Windows cliente. [Release pública](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.15)
+
+### Ajuste de espaçamento em Caixa, Contas e NEXO Guard
+
+A compilação desktop separa o valor inicial, Abrir caixa e Ver histórico de caixas. As abas Pagar, Receber e Resumo têm espaço antes do conteúdo, e Autorizar tem espaço abaixo do teclado do Guard. O ensaio com Electron no Windows 11 usou perfil fictício e mediu 12 px nos quatro intervalos, em 900 × 600 e 1366 × 768. O diálogo coube nas duas dimensões.

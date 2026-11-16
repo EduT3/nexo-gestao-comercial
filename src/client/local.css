@@ -22,6 +22,10 @@
 @media(max-width:760px){.local-app .sidebar{overflow:visible}.local-app .sidebar nav{overflow-x:auto;overflow-y:hidden}.local-app .local-edition{display:none}.local-page-heading{align-items:center}}
 .local-app [hidden]{display:none!important}
 .local-tabs{display:flex;flex-wrap:wrap;gap:8px}
+.finance-tabs{margin-block-end:var(--nexo-control-gap,12px)}
+.cash-opening-form{display:grid;gap:var(--nexo-control-gap,12px)}
+.cash-opening-form > button{justify-self:start}
+.cash-history{margin-block-start:var(--nexo-control-gap,12px)}
 .local-app .table-panel>.button{margin:16px 22px 0}
 .local-app .topbar{position:sticky;top:0;z-index:5}
 .local-app .local-anchor>details{margin:0}

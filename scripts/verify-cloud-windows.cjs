@@ -21,6 +21,12 @@ const persist=()=>fs.writeFileSync(report,JSON.stringify(result,null,2));
 const check=message=>{result.checks.push(message);persist();console.log(message);};
 let app,page,child,owner,product,step='abrir';
 const timings=[];
+async function expectVerticalGap(above, below) {
+ await expect(above).toBeVisible();
+ await expect(below).toBeVisible();
+ const upper=await above.boundingBox(),lower=await below.boundingBox();
+ assert(lower.y-upper.y-upper.height>=11,'Expected at least 11 CSS pixels of separation');
+}
 const call=(method,...args)=>page.evaluate(async ({method,args})=>window.nexoLocal[method](...args),{method,args});
 const nav=(name)=>page.getByRole('navigation',{name:'Navegação principal',exact:true}).getByRole('button',{name,exact:true});
 const picker=()=>page.locator('[data-tutorial-company]');
@@ -112,7 +118,7 @@ async function login(){const f=page.getByRole('form',{name:'Acesso local'});awai
 function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.equal(db.prepare('PRAGMA integrity_check').get().integrity_check,'ok');assert.deepEqual(db.prepare('PRAGMA foreign_key_check').all(),[]);assert.equal(db.prepare('PRAGMA user_version').get().user_version,12);assert.equal(db.prepare('SELECT count(*) n FROM local_credentials').get().n,0);return {sales:db.prepare('SELECT count(*) n FROM local_sales').get().n,tables:db.prepare("SELECT count(*) n FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'").get().n};}finally{db.close();}}
 (async()=>{try{
  await open();await size(1487,1058);
- step='primeiro acesso';await page.getByLabel('Nome do responsável',{exact:true}).fill('Responsável QA Balcão');if(buildAt(program).id===id.id)await page.getByLabel('Nome da loja',{exact:true}).fill('Minha loja');await page.getByRole('button',{name:'Começar',exact:true}).click();
+ step='primeiro acesso';await page.getByLabel('Nome do responsável',{exact:true}).fill('Responsável QA Balcão');if((await call('status')).legacyStoreSetup===false)await page.getByLabel('Nome da loja',{exact:true}).fill('Minha loja');await page.getByRole('button',{name:'Começar',exact:true}).click();
  let f=page.getByRole('form',{name:'Acesso local'});await expect(f.getByLabel('Usuário',{exact:true})).toBeVisible();await shot('01-login');
  await login();
  owner=(await call('status')).userId;const companies=await call('status');assert.deepEqual(companies.companies,[{id:A,name:'Minha loja',role:'ADMIN'}]);await expect(picker()).toHaveCount(0);
@@ -463,6 +469,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  const financeTabs=page.getByRole('group',{name:'Tarefas do financeiro'});
  for (const [tab,kind] of [['Pagar','pagar'],['Receber','receber']]) {
   await financeTabs.getByRole('button',{name:tab,exact:true}).click();
+  await expectVerticalGap(financeTabs,page.locator('#contas-'+kind));
   const filters=page.getByRole('group',{name:'Filtrar contas a '+kind});
   const accountSearch=filters.getByRole('textbox',{name:'Buscar conta a '+kind});
   await accountSearch.fill('sem-resultado-qa-'+crypto.randomUUID());
@@ -529,7 +536,12 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  await f.getByRole('button',{name:'Fechar caixa',exact:true}).click();
  await expect(page.locator('.nexo-status-chip.closed')).toHaveText('Caixa fechado');
  await expect(page.getByRole('region',{name:'Operação do caixa'}).getByRole('status').filter({hasText:'Caixa fechado. Confira a diferença no histórico.'})).toBeVisible();assert.equal(await call('activeCash',A),null);
- await page.getByText('Ver histórico de caixas',{exact:true}).click();
+ const opening=page.getByRole('form',{name:'Abertura de caixa'});
+ const openCashButton=opening.getByRole('button',{name:'Abrir caixa',exact:true});
+ const showHistory=page.getByRole('button',{name:'Ver histórico de caixas',exact:true});
+ await expectVerticalGap(opening.getByLabel('Valor inicial (R$)'),openCashButton);
+ await expectVerticalGap(openCashButton,showHistory);
+ await showHistory.click();
  await expect(page.getByRole('table',{name:'Histórico de caixas'})).toContainText('Fechado');
  await close();const before=dbCheck();assert.equal(before.tables,27);assert.equal(before.sales,5);
  await open();await login();assert.equal((await call('status')).userId,owner);assert.equal((await call('salesHistory',A,{})).total,5);assert.equal(await call('activeCash',A),null);await close();assert.deepEqual(dbCheck(),before);assert.deepEqual(result.rendererErrors,[]);check('Backup/restauração, fechamento, login e reabertura com cinco vendas e 27 tabelas íntegras.');
@@ -581,6 +593,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  assert.match(await modal.ariaSnapshot(), /1 de 4 dígitos preenchidos/);
  await modal.getByRole('button',{name:'Apagar último dígito'}).click();
  assert.match(await modal.ariaSnapshot(), /0 de 4 dígitos preenchidos/);
+ await expectVerticalGap(modal.locator('.guard-keypad'),modal.getByRole('button',{name:'Autorizar',exact:true}));
  await shot('17-guard-teclado');
  await expect(modal.getByRole('button',{name:'Autorizar',exact:true})).toBeInViewport();
  await size(1280,900);
@@ -819,6 +832,11 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   await open(target);await login();
   assert.equal((await call('salesHistory',A,{})).total,5);
   step='download HTTPS pelo atualizador instalado';
+  const publicVersion=process.env.NEXO_QA_PUBLIC_VERSION;
+  const publicSha256=process.env.NEXO_QA_PUBLIC_SHA256;
+  assert.match(publicVersion,/^\d+\.\d+\.\d+$/);
+  assert.match(publicSha256,/^[a-f0-9]{64}$/);
+  const publicName='NEXO-Setup-'+publicVersion+'.exe';
   // Earlier public releases lack NSIS. Override only the version comparison in QA.
   await app.evaluate(()=>{
    const updater=process.mainModule.require('electron-updater').autoUpdater;
@@ -830,22 +848,22 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
   });
   assert(path.resolve(pendingPublicCache).startsWith(path.resolve(d.local)+path.sep));
   const cachedFiles=fs.existsSync(pendingPublicCache)?fs.readdirSync(pendingPublicCache):[];
-  assert(!cachedFiles.some(name=>name.includes('1.0.4')&&name.endsWith('.exe')));
+  assert(!cachedFiles.some(name=>name===publicName));
   await page.getByRole('button',{name:'Configurações',exact:true}).click();
   const publicPanel=page.getByRole('region',{name:'Atualização do NEXO'});
   await publicPanel.getByRole('button',{name:'Verificar atualização',exact:true}).click();
-  const publicDownload=publicPanel.getByRole('button',{name:'Baixar versão 1.0.4',exact:true});
+  const publicDownload=publicPanel.getByRole('button',{name:'Baixar versão '+publicVersion,exact:true});
   await expect(publicDownload).toBeVisible({timeout:45000});
   const publicDownloadStarted=performance.now();
   await publicDownload.click();
   await expect(publicPanel.getByRole('button',{name:'Reiniciar e atualizar',exact:true})).toBeVisible({timeout:120000});
-  timings.push({operation:'update-download-https',version:'1.0.4',ms:Math.round(performance.now()-publicDownloadStarted)});
+  timings.push({operation:'update-download-https',version:publicVersion,ms:Math.round(performance.now()-publicDownloadStarted)});
   const publicInstaller=await app.evaluate(()=>process.mainModule.require('electron-updater').autoUpdater.installerPath);
   assert(publicInstaller);
   assert.equal(crypto.createHash('sha256').update(fs.readFileSync(publicInstaller)).digest('hex'),
-   '830ac83a9038a521403fff6a597ff09882b427e9e431429d402353ce495e6119');
+   publicSha256);
   assert.equal(buildAt(target).id,id.id);
-  check('Atualizador instalado baixou o NSIS da release publica 1.0.4 por HTTPS e conferiu seu hash.');
+  check('Atualizador instalado baixou o NSIS da release pública '+publicVersion+' por HTTPS e conferiu seu hash.');
   await close();
   assert.deepEqual(commercialSnapshot(dbfile),records);
   assert.deepEqual(dbCheck(),healthBefore);
