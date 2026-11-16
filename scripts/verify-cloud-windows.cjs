@@ -603,7 +603,9 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  await page.keyboard.type('9999');
  await modal.getByRole('button',{name:'Autorizar',exact:true}).click();
  await expect(modal.getByRole('status')).toContainText('PIN incorreto');
- for(const digit of '0123') await modal.getByRole('button',{name:digit,exact:true}).click();
+ await expect(modal.getByRole('button',{name:'1',exact:true})).toBeFocused();
+ await page.keyboard.type('0123');
+ assert.match(await modal.ariaSnapshot(), /4 de 4 dígitos preenchidos/);
  await modal.getByRole('button',{name:'Autorizar',exact:true}).click();
  const backupPromiseResult=await backupPromise; if ('error' in backupPromiseResult) throw backupPromiseResult.error;
  assert.equal(backupPromiseResult.value.canceled,false);

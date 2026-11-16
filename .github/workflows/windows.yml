@@ -73,6 +73,7 @@ jobs:
       - run: node scripts/verify-cloud-windows.cjs
         env:
           NEXO_QA_PUBLIC_RELEASE: '1'
+          NEXO_QA_REQUIRE_UPDATE_RECEIPT: '1'
       - name: Test update from a Windows installer with Guard
         shell: pwsh
         env:

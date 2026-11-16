@@ -101,6 +101,10 @@ function PinDialog({ label, pinLength, authorized, onCancel, onApprove }: {
     return () => element.close();
   }, []);
 
+  useLayoutEffect(() => {
+    if (!busy && message) firstDigit.current?.focus();
+  }, [busy, message]);
+
   function add(digit: string) {
     setDigits(value => value.length < pinLength ? value + digit : value);
   }
