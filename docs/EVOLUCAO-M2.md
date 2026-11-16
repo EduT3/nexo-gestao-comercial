@@ -132,3 +132,7 @@ O [ZIP 1.0.11](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43747
 ### Teste dirigido da venda com desconto no pacote 1.0.11
 
 No Windows 11, a carga x64 extraída do instalador 1.0.11 conferido, build NEXO-B4FBEDEBFCC6D0E8, exibiu Aguardando autorização ao concluir a venda com desconto. Cancelar preservou o desconto de R$ 1,00, duas unidades no estoque, caixa de R$ 10,00 e zero vendas. A nova tentativa com PIN válido gravou uma venda de R$ 4,00, baixou uma unidade e deixou o caixa em R$ 14,00. O teste usou perfil fictício, sem executar o NSIS no Windows cliente.
+
+### Atualização para a candidata 1.0.11
+
+Os dois relatórios da execução 43747340730 confirmam a atualização instalada para a 1.0.11 no Windows Server 2025, a partir da 1.0.4 pública e da 1.0.5 de teste com Guard. Em ambos os perfis fictícios, o atualizador rejeitou o instalador com hash divergente, gerou backup antes de fechar e reabriu a candidata com os mesmos usuários, vínculos e registros comerciais. O perfil com Guard manteve a política e o PIN de origem. O perfil de origem pública também repetiu a instalação após interromper o NSIS, preservando registros e política do Guard. O canal da candidata foi isolado. O ensaio HTTPS público baixou e verificou separadamente o instalador 1.0.4. [Relatórios e pacote](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43747340730/artifacts/14175212566)
