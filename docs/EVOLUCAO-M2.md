@@ -1,6 +1,6 @@
 # NEXO Balcão — relatório de evolução M2
 
-O M2 reorganiza as rotinas de venda, estoque, caixa e contas e melhora a autorização de operações administrativas. A candidata Windows aprovada é a **1.0.13**, build **NEXO-2BC1CFAE0D6D5B7A**. [Execução Windows e 246 testes aprovados](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43797179333) · [ZIP conferido](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43797179333/artifacts/14195233556).
+O M2 reorganiza as rotinas de venda, estoque, caixa e contas e melhora a autorização de operações administrativas. A candidata Windows aprovada é a **1.0.14**, build **NEXO-CB3B8787C105EA55**. [Execução Windows e 246 testes aprovados](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43799796173) · [ZIP conferido](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43799796173/artifacts/14196268479).
 
 | Marco | Alteração e evidência |
 |---|---|
@@ -231,3 +231,7 @@ No Windows 11, o executável extraído do build NEXO-2BC1CFAE0D6D5B7A foi aberto
 | Contorno de foco do teclado numérico, sobre o fundo do diálogo | 5,31:1 |
 
 A amostra cobre esses controles no estado medido. Estados desabilitados, outras áreas e uma sessão com leitor de tela exigem evidências próprias.
+
+### Candidata Windows 1.0.14 · padronização visual
+
+O CSS compartilha valores de tipografia, espaçamento, bordas e estados dos controles. Em comparação local no Windows 11, os controles de venda e do Guard mantiveram geometria, contraste e foco nos estados ensaiados. No Windows Server 2025, os 246 testes e dois roteiros com aplicativo instalado passaram. O ZIP baixado confere com o SHA-256 do GitHub. O instalador de 124.156.279 bytes confere com a versão, o tamanho e o SHA-512 do manifesto. O blockmap está presente. Build NEXO-CB3B8787C105EA55. SHA-256 do ZIP: `0FE55A553E0DE4A369C2D4AD628FB0F1C6A1BC26C795816250F648403DFC1769`. Artefato disponível até 30/11/2026 às 00h58 de Brasília. [Execução](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43799796173) · [ZIP](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43799796173/artifacts/14196268479)
