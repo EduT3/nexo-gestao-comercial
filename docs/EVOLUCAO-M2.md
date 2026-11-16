@@ -140,3 +140,14 @@ Os dois relatórios da execução 43747340730 confirmam a atualização instalad
 ### Monograma na candidata 1.0.11
 
 No build NEXO-B4FBEDEBFCC6D0E8, o Windows extraiu o mesmo ícone de 32 × 32 do instalador e do NEXO.exe da carga x64. Os PNGs extraídos têm SHA-256 EC8C7BB6FA16E08E106B4EEA772FEDFF6A02C42BA5A8FD5D2DD30975AACBE2EE e a inspeção visual confirmou o monograma. O PNG empacotado que o Electron usa na janela é idêntico ao arquivo oficial do repositório. A conferência cobre os recursos do pacote, sem renderizar o ícone na barra de tarefas do Windows cliente.
+
+### Inicialização pareada da candidata 1.0.11
+
+Os executáveis extraídos 1.0.6 e 1.0.11 abriram cópias do mesmo banco fictício de 1.000 produtos e 11 vendas no mesmo Windows 11. Após descartar o primeiro par, foram medidos oito pares, com ordem alternada, cache do sistema sem limpeza forçada, janela oculta e perfil novo a cada abertura. O cronômetro parou após a primeira resposta IPC de identificação do build. Os processos principal e de interface foram amostrados um segundo depois.
+
+| Mediana | 1.0.6 | 1.0.11 |
+| --- | ---: | ---: |
+| Abertura | 387,71 ms | 385,90 ms |
+| Memória residente dos dois processos | 212,96 MiB | 212,26 MiB |
+
+A coleta de CPU retornou leituras negativas e ficou inconclusiva. Os valores brutos foram preservados para diagnóstico. As diferenças observadas de abertura e memória são pequenas neste ambiente e não estabelecem requisitos de hardware. [Amostras e identificação dos builds](benchmarks/windows11-startup-1.0.6-1.0.11.json)

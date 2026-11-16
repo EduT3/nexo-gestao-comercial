@@ -1,0 +1,297 @@
+{
+  "data": {
+    "products": 1000,
+    "sales": 11
+  },
+  "databaseSha256": "a0d159133c783e58b5c55935ed48da87a800e39050631489e71913b08da67df8",
+  "summary": [
+    {
+      "id": "NEXO-D9777AA12793DE3B",
+      "version": "1.0.6",
+      "startupMedianMs": 387.7110499999999,
+      "workingSetMedianMiB": 212.96484375,
+      "idleCpuMedianPercent": -0.06976251957163632
+    },
+    {
+      "id": "NEXO-B4FBEDEBFCC6D0E8",
+      "version": "1.0.11",
+      "startupMedianMs": 385.8965500000013,
+      "workingSetMedianMiB": 212.259765625,
+      "idleCpuMedianPercent": 0.025045930871244005
+    }
+  ],
+  "samples": [
+    {
+      "round": 1,
+      "version": "1.0.11",
+      "startupMs": 391.0776999999998,
+      "metrics": [
+        {
+          "type": "Browser",
+          "kib": 128556,
+          "cpu": 0.2521793259879513
+        },
+        {
+          "type": "Tab",
+          "kib": 94476,
+          "cpu": -0.012538181101586363
+        }
+      ]
+    },
+    {
+      "round": 1,
+      "version": "1.0.6",
+      "startupMs": 389.9898000000003,
+      "metrics": [
+        {
+          "type": "Browser",
+          "kib": 125732,
+          "cpu": 0.5471675279939585
+        },
+        {
+          "type": "Tab",
+          "kib": 93508,
+          "cpu": -0.11137036255658785
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "version": "1.0.6",
+      "startupMs": 387.65409999999974,
+      "metrics": [
+        {
+          "type": "Browser",
+          "kib": 125516,
+          "cpu": 0.018700951662422024
+        },
+        {
+          "type": "Tab",
+          "kib": 91312,
+          "cpu": 0.007375465117197683
+        }
+      ]
+    },
+    {
+      "round": 2,
+      "version": "1.0.11",
+      "startupMs": 383.6248999999989,
+      "metrics": [
+        {
+          "type": "Browser",
+          "kib": 128052,
+          "cpu": 0.01803318555567429
+        },
+        {
+          "type": "Tab",
+          "kib": 91248,
+          "cpu": 0.006360652888872466
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "version": "1.0.11",
+      "startupMs": 387.41359999999986,
+      "metrics": [
+        {
+          "type": "Browser",
+          "kib": 125324,
+          "cpu": 0.5850174492620427
+        },
+        {
+          "type": "Tab",
+          "kib": 91188,
+          "cpu": 0.07567611142008543
+        }
+      ]
+    },
+    {
+      "round": 3,
+      "version": "1.0.6",
+      "startupMs": 388.27400000000125,
+      "metrics": [
+        {
+          "type": "Browser",
+          "kib": 125568,
+          "cpu": -0.4549008453906224
+        },
+        {
+          "type": "Tab",
+          "kib": 91132,
+          "cpu": 0.07480579134571323
+        }
+      ]
+    },
+    {
+      "round": 4,
+      "version": "1.0.6",
+      "startupMs": 383.3967999999986,
+      "metrics": [
+        {
+          "type": "Browser",
+          "kib": 125348,
+          "cpu": 0.09007452340900618
+        },
+        {
+          "type": "Tab",
+          "kib": 91200,
+          "cpu": -0.12642201339706033
+        }
+      ]
+    },
+    {
+      "round": 4,
+      "version": "1.0.11",
+      "startupMs": 386.51880000000165,
+      "metrics": [
+        {
+          "type": "Browser",
+          "kib": 125928,
+          "cpu": 0.018664582745652324
+        },
+        {
+          "type": "Tab",
+          "kib": 91232,
+          "cpu": 0.0070334405522889274
+        }
+      ]
+    },
+    {
+      "round": 5,
+      "version": "1.0.11",
+      "startupMs": 381.8150000000005,
+      "metrics": [
+        {
+          "type": "Browser",
+          "kib": 125396,
+          "cpu": 0.017731609965389094
+        },
+        {
+          "type": "Tab",
+          "kib": 91144,
+          "cpu": 0.006635302350479536
+        }
+      ]
+    },
+    {
+      "round": 5,
+      "version": "1.0.6",
+      "startupMs": 387.67559999999867,
+      "metrics": [
+        {
+          "type": "Browser",
+          "kib": 126424,
+          "cpu": -0.08331132131892668
+        },
+        {
+          "type": "Tab",
+          "kib": 94100,
+          "cpu": -0.019866227836291817
+        }
+      ]
+    },
+    {
+      "round": 6,
+      "version": "1.0.6",
+      "startupMs": 384.6483999999982,
+      "metrics": [
+        {
+          "type": "Browser",
+          "kib": 128440,
+          "cpu": -0.37434485603021356
+        },
+        {
+          "type": "Tab",
+          "kib": 91196,
+          "cpu": -0.13146811940131978
+        }
+      ]
+    },
+    {
+      "round": 6,
+      "version": "1.0.11",
+      "startupMs": 381.2388000000028,
+      "metrics": [
+        {
+          "type": "Browser",
+          "kib": 125472,
+          "cpu": 0.10132862052447142
+        },
+        {
+          "type": "Tab",
+          "kib": 91268,
+          "cpu": 0.05865949270098019
+        }
+      ]
+    },
+    {
+      "round": 7,
+      "version": "1.0.11",
+      "startupMs": 385.27430000000095,
+      "metrics": [
+        {
+          "type": "Browser",
+          "kib": 126264,
+          "cpu": -0.3554844174285643
+        },
+        {
+          "type": "Tab",
+          "kib": 91284,
+          "cpu": -0.11997397242392265
+        }
+      ]
+    },
+    {
+      "round": 7,
+      "version": "1.0.6",
+      "startupMs": 387.7465000000011,
+      "metrics": [
+        {
+          "type": "Browser",
+          "kib": 126292,
+          "cpu": -0.17627712212484956
+        },
+        {
+          "type": "Tab",
+          "kib": 93820,
+          "cpu": -0.1189687945352608
+        }
+      ]
+    },
+    {
+      "round": 8,
+      "version": "1.0.6",
+      "startupMs": 391.2340000000004,
+      "metrics": [
+        {
+          "type": "Browser",
+          "kib": 125620,
+          "cpu": 0.4048550856943265
+        },
+        {
+          "type": "Tab",
+          "kib": 91292,
+          "cpu": 0.07987139211265817
+        }
+      ]
+    },
+    {
+      "round": 8,
+      "version": "1.0.11",
+      "startupMs": 386.79409999999916,
+      "metrics": [
+        {
+          "type": "Browser",
+          "kib": 129260,
+          "cpu": -0.17661795365900104
+        },
+        {
+          "type": "Tab",
+          "kib": 91212,
+          "cpu": -0.010477337377417002
+        }
+      ]
+    }
+  ]
+}
