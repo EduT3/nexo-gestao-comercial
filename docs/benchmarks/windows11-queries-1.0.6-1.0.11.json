@@ -1,0 +1,912 @@
+{
+  "data": {
+    "local_products": 1000,
+    "local_sales": 11,
+    "local_stock_movements": 12
+  },
+  "databaseSha256": "a0d159133c783e58b5c55935ed48da87a800e39050631489e71913b08da67df8",
+  "summary": [
+    {
+      "version": "1.0.6",
+      "id": "NEXO-D9777AA12793DE3B",
+      "operation": "search",
+      "medianMs": 5.683199999999488
+    },
+    {
+      "version": "1.0.6",
+      "id": "NEXO-D9777AA12793DE3B",
+      "operation": "stockHistory",
+      "medianMs": 1.3246499999986554
+    },
+    {
+      "version": "1.0.6",
+      "id": "NEXO-D9777AA12793DE3B",
+      "operation": "salesHistory",
+      "medianMs": 1.2452500000017608
+    },
+    {
+      "version": "1.0.11",
+      "id": "NEXO-B4FBEDEBFCC6D0E8",
+      "operation": "search",
+      "medianMs": 5.322000000001935
+    },
+    {
+      "version": "1.0.11",
+      "id": "NEXO-B4FBEDEBFCC6D0E8",
+      "operation": "stockHistory",
+      "medianMs": 1.3514500000001135
+    },
+    {
+      "version": "1.0.11",
+      "id": "NEXO-B4FBEDEBFCC6D0E8",
+      "operation": "salesHistory",
+      "medianMs": 1.2713999999978114
+    }
+  ],
+  "samples": [
+    {
+      "version": "1.0.11",
+      "round": 1,
+      "operation": "search",
+      "ms": 6.354999999999563
+    },
+    {
+      "version": "1.0.11",
+      "round": 1,
+      "operation": "search",
+      "ms": 5.225000000000364
+    },
+    {
+      "version": "1.0.11",
+      "round": 1,
+      "operation": "search",
+      "ms": 5.335199999999531
+    },
+    {
+      "version": "1.0.11",
+      "round": 1,
+      "operation": "search",
+      "ms": 5.297400000001289
+    },
+    {
+      "version": "1.0.11",
+      "round": 1,
+      "operation": "search",
+      "ms": 4.837299999999232
+    },
+    {
+      "version": "1.0.11",
+      "round": 1,
+      "operation": "search",
+      "ms": 4.947599999999511
+    },
+    {
+      "version": "1.0.11",
+      "round": 1,
+      "operation": "stockHistory",
+      "ms": 1.5064999999995052
+    },
+    {
+      "version": "1.0.11",
+      "round": 1,
+      "operation": "stockHistory",
+      "ms": 1.5252999999993335
+    },
+    {
+      "version": "1.0.11",
+      "round": 1,
+      "operation": "stockHistory",
+      "ms": 1.40099999999984
+    },
+    {
+      "version": "1.0.11",
+      "round": 1,
+      "operation": "stockHistory",
+      "ms": 1.4834000000009837
+    },
+    {
+      "version": "1.0.11",
+      "round": 1,
+      "operation": "stockHistory",
+      "ms": 1.2428999999992811
+    },
+    {
+      "version": "1.0.11",
+      "round": 1,
+      "operation": "stockHistory",
+      "ms": 1.1982000000007247
+    },
+    {
+      "version": "1.0.11",
+      "round": 1,
+      "operation": "salesHistory",
+      "ms": 1.2080000000005384
+    },
+    {
+      "version": "1.0.11",
+      "round": 1,
+      "operation": "salesHistory",
+      "ms": 1.2160000000003492
+    },
+    {
+      "version": "1.0.11",
+      "round": 1,
+      "operation": "salesHistory",
+      "ms": 1.1218000000008033
+    },
+    {
+      "version": "1.0.11",
+      "round": 1,
+      "operation": "salesHistory",
+      "ms": 1.332700000000841
+    },
+    {
+      "version": "1.0.11",
+      "round": 1,
+      "operation": "salesHistory",
+      "ms": 1.5077000000001135
+    },
+    {
+      "version": "1.0.11",
+      "round": 1,
+      "operation": "salesHistory",
+      "ms": 1.1512999999995372
+    },
+    {
+      "version": "1.0.6",
+      "round": 1,
+      "operation": "search",
+      "ms": 7.107299999999668
+    },
+    {
+      "version": "1.0.6",
+      "round": 1,
+      "operation": "search",
+      "ms": 6.032299999998941
+    },
+    {
+      "version": "1.0.6",
+      "round": 1,
+      "operation": "search",
+      "ms": 5.10479999999734
+    },
+    {
+      "version": "1.0.6",
+      "round": 1,
+      "operation": "search",
+      "ms": 5.447599999999511
+    },
+    {
+      "version": "1.0.6",
+      "round": 1,
+      "operation": "search",
+      "ms": 4.5865000000012515
+    },
+    {
+      "version": "1.0.6",
+      "round": 1,
+      "operation": "search",
+      "ms": 4.706300000001647
+    },
+    {
+      "version": "1.0.6",
+      "round": 1,
+      "operation": "stockHistory",
+      "ms": 1.320899999998801
+    },
+    {
+      "version": "1.0.6",
+      "round": 1,
+      "operation": "stockHistory",
+      "ms": 1.3211000000010245
+    },
+    {
+      "version": "1.0.6",
+      "round": 1,
+      "operation": "stockHistory",
+      "ms": 1.2481000000007043
+    },
+    {
+      "version": "1.0.6",
+      "round": 1,
+      "operation": "stockHistory",
+      "ms": 1.2593999999990046
+    },
+    {
+      "version": "1.0.6",
+      "round": 1,
+      "operation": "stockHistory",
+      "ms": 1.6561000000001513
+    },
+    {
+      "version": "1.0.6",
+      "round": 1,
+      "operation": "stockHistory",
+      "ms": 1.2688000000016473
+    },
+    {
+      "version": "1.0.6",
+      "round": 1,
+      "operation": "salesHistory",
+      "ms": 1.2397000000019034
+    },
+    {
+      "version": "1.0.6",
+      "round": 1,
+      "operation": "salesHistory",
+      "ms": 1.1294999999990978
+    },
+    {
+      "version": "1.0.6",
+      "round": 1,
+      "operation": "salesHistory",
+      "ms": 1.1204999999972642
+    },
+    {
+      "version": "1.0.6",
+      "round": 1,
+      "operation": "salesHistory",
+      "ms": 1.136399999999412
+    },
+    {
+      "version": "1.0.6",
+      "round": 1,
+      "operation": "salesHistory",
+      "ms": 1.0977999999995518
+    },
+    {
+      "version": "1.0.6",
+      "round": 1,
+      "operation": "salesHistory",
+      "ms": 1.1165000000000873
+    },
+    {
+      "version": "1.0.6",
+      "round": 2,
+      "operation": "search",
+      "ms": 6.381699999998091
+    },
+    {
+      "version": "1.0.6",
+      "round": 2,
+      "operation": "search",
+      "ms": 4.612700000001496
+    },
+    {
+      "version": "1.0.6",
+      "round": 2,
+      "operation": "search",
+      "ms": 4.859999999996944
+    },
+    {
+      "version": "1.0.6",
+      "round": 2,
+      "operation": "search",
+      "ms": 5.257499999999709
+    },
+    {
+      "version": "1.0.6",
+      "round": 2,
+      "operation": "search",
+      "ms": 5.058600000000297
+    },
+    {
+      "version": "1.0.6",
+      "round": 2,
+      "operation": "search",
+      "ms": 4.784299999999348
+    },
+    {
+      "version": "1.0.6",
+      "round": 2,
+      "operation": "stockHistory",
+      "ms": 1.619699999999284
+    },
+    {
+      "version": "1.0.6",
+      "round": 2,
+      "operation": "stockHistory",
+      "ms": 1.2158999999992375
+    },
+    {
+      "version": "1.0.6",
+      "round": 2,
+      "operation": "stockHistory",
+      "ms": 1.2387999999991735
+    },
+    {
+      "version": "1.0.6",
+      "round": 2,
+      "operation": "stockHistory",
+      "ms": 1.2497999999977765
+    },
+    {
+      "version": "1.0.6",
+      "round": 2,
+      "operation": "stockHistory",
+      "ms": 1.296199999997043
+    },
+    {
+      "version": "1.0.6",
+      "round": 2,
+      "operation": "stockHistory",
+      "ms": 1.22269999999844
+    },
+    {
+      "version": "1.0.6",
+      "round": 2,
+      "operation": "salesHistory",
+      "ms": 1.1484999999993306
+    },
+    {
+      "version": "1.0.6",
+      "round": 2,
+      "operation": "salesHistory",
+      "ms": 1.4212999999981548
+    },
+    {
+      "version": "1.0.6",
+      "round": 2,
+      "operation": "salesHistory",
+      "ms": 1.1088000000017928
+    },
+    {
+      "version": "1.0.6",
+      "round": 2,
+      "operation": "salesHistory",
+      "ms": 1.1358000000000175
+    },
+    {
+      "version": "1.0.6",
+      "round": 2,
+      "operation": "salesHistory",
+      "ms": 1.2056000000011409
+    },
+    {
+      "version": "1.0.6",
+      "round": 2,
+      "operation": "salesHistory",
+      "ms": 1.5280000000020664
+    },
+    {
+      "version": "1.0.11",
+      "round": 2,
+      "operation": "search",
+      "ms": 6.048800000000483
+    },
+    {
+      "version": "1.0.11",
+      "round": 2,
+      "operation": "search",
+      "ms": 4.76249999999709
+    },
+    {
+      "version": "1.0.11",
+      "round": 2,
+      "operation": "search",
+      "ms": 4.946900000002643
+    },
+    {
+      "version": "1.0.11",
+      "round": 2,
+      "operation": "search",
+      "ms": 4.9681000000018685
+    },
+    {
+      "version": "1.0.11",
+      "round": 2,
+      "operation": "search",
+      "ms": 4.570700000000215
+    },
+    {
+      "version": "1.0.11",
+      "round": 2,
+      "operation": "search",
+      "ms": 4.947299999999814
+    },
+    {
+      "version": "1.0.11",
+      "round": 2,
+      "operation": "stockHistory",
+      "ms": 1.4616000000023632
+    },
+    {
+      "version": "1.0.11",
+      "round": 2,
+      "operation": "stockHistory",
+      "ms": 1.3575999999993655
+    },
+    {
+      "version": "1.0.11",
+      "round": 2,
+      "operation": "stockHistory",
+      "ms": 1.2589999999981956
+    },
+    {
+      "version": "1.0.11",
+      "round": 2,
+      "operation": "stockHistory",
+      "ms": 1.2498000000014144
+    },
+    {
+      "version": "1.0.11",
+      "round": 2,
+      "operation": "stockHistory",
+      "ms": 1.46480000000156
+    },
+    {
+      "version": "1.0.11",
+      "round": 2,
+      "operation": "stockHistory",
+      "ms": 1.2383999999983644
+    },
+    {
+      "version": "1.0.11",
+      "round": 2,
+      "operation": "salesHistory",
+      "ms": 1.287400000001071
+    },
+    {
+      "version": "1.0.11",
+      "round": 2,
+      "operation": "salesHistory",
+      "ms": 1.1578000000008615
+    },
+    {
+      "version": "1.0.11",
+      "round": 2,
+      "operation": "salesHistory",
+      "ms": 1.1564999999973224
+    },
+    {
+      "version": "1.0.11",
+      "round": 2,
+      "operation": "salesHistory",
+      "ms": 1.2947999999996682
+    },
+    {
+      "version": "1.0.11",
+      "round": 2,
+      "operation": "salesHistory",
+      "ms": 1.155799999996816
+    },
+    {
+      "version": "1.0.11",
+      "round": 2,
+      "operation": "salesHistory",
+      "ms": 1.345499999999447
+    },
+    {
+      "version": "1.0.11",
+      "round": 3,
+      "operation": "search",
+      "ms": 6.622400000000198
+    },
+    {
+      "version": "1.0.11",
+      "round": 3,
+      "operation": "search",
+      "ms": 6.2237999999997555
+    },
+    {
+      "version": "1.0.11",
+      "round": 3,
+      "operation": "search",
+      "ms": 5.431899999999587
+    },
+    {
+      "version": "1.0.11",
+      "round": 3,
+      "operation": "search",
+      "ms": 5.193400000000111
+    },
+    {
+      "version": "1.0.11",
+      "round": 3,
+      "operation": "search",
+      "ms": 5.32470000000103
+    },
+    {
+      "version": "1.0.11",
+      "round": 3,
+      "operation": "search",
+      "ms": 5.042099999998754
+    },
+    {
+      "version": "1.0.11",
+      "round": 3,
+      "operation": "stockHistory",
+      "ms": 1.6061999999983527
+    },
+    {
+      "version": "1.0.11",
+      "round": 3,
+      "operation": "stockHistory",
+      "ms": 1.3453000000008615
+    },
+    {
+      "version": "1.0.11",
+      "round": 3,
+      "operation": "stockHistory",
+      "ms": 1.3883999999998196
+    },
+    {
+      "version": "1.0.11",
+      "round": 3,
+      "operation": "stockHistory",
+      "ms": 1.2947000000021944
+    },
+    {
+      "version": "1.0.11",
+      "round": 3,
+      "operation": "stockHistory",
+      "ms": 1.2152999999998428
+    },
+    {
+      "version": "1.0.11",
+      "round": 3,
+      "operation": "stockHistory",
+      "ms": 1.313399999999092
+    },
+    {
+      "version": "1.0.11",
+      "round": 3,
+      "operation": "salesHistory",
+      "ms": 1.435300000001007
+    },
+    {
+      "version": "1.0.11",
+      "round": 3,
+      "operation": "salesHistory",
+      "ms": 1.3726000000024214
+    },
+    {
+      "version": "1.0.11",
+      "round": 3,
+      "operation": "salesHistory",
+      "ms": 1.1970000000001164
+    },
+    {
+      "version": "1.0.11",
+      "round": 3,
+      "operation": "salesHistory",
+      "ms": 1.2034999999996217
+    },
+    {
+      "version": "1.0.11",
+      "round": 3,
+      "operation": "salesHistory",
+      "ms": 1.3008999999983644
+    },
+    {
+      "version": "1.0.11",
+      "round": 3,
+      "operation": "salesHistory",
+      "ms": 1.3908999999985099
+    },
+    {
+      "version": "1.0.6",
+      "round": 3,
+      "operation": "search",
+      "ms": 7.611000000004424
+    },
+    {
+      "version": "1.0.6",
+      "round": 3,
+      "operation": "search",
+      "ms": 6.597799999995914
+    },
+    {
+      "version": "1.0.6",
+      "round": 3,
+      "operation": "search",
+      "ms": 5.789499999998952
+    },
+    {
+      "version": "1.0.6",
+      "round": 3,
+      "operation": "search",
+      "ms": 6.412899999995716
+    },
+    {
+      "version": "1.0.6",
+      "round": 3,
+      "operation": "search",
+      "ms": 7.326199999995879
+    },
+    {
+      "version": "1.0.6",
+      "round": 3,
+      "operation": "search",
+      "ms": 5.916900000003807
+    },
+    {
+      "version": "1.0.6",
+      "round": 3,
+      "operation": "stockHistory",
+      "ms": 1.6537000000025728
+    },
+    {
+      "version": "1.0.6",
+      "round": 3,
+      "operation": "stockHistory",
+      "ms": 1.581400000002759
+    },
+    {
+      "version": "1.0.6",
+      "round": 3,
+      "operation": "stockHistory",
+      "ms": 1.657600000005914
+    },
+    {
+      "version": "1.0.6",
+      "round": 3,
+      "operation": "stockHistory",
+      "ms": 1.752200000002631
+    },
+    {
+      "version": "1.0.6",
+      "round": 3,
+      "operation": "stockHistory",
+      "ms": 1.7699999999967986
+    },
+    {
+      "version": "1.0.6",
+      "round": 3,
+      "operation": "stockHistory",
+      "ms": 1.3962000000028638
+    },
+    {
+      "version": "1.0.6",
+      "round": 3,
+      "operation": "salesHistory",
+      "ms": 1.385599999994156
+    },
+    {
+      "version": "1.0.6",
+      "round": 3,
+      "operation": "salesHistory",
+      "ms": 1.341100000005099
+    },
+    {
+      "version": "1.0.6",
+      "round": 3,
+      "operation": "salesHistory",
+      "ms": 1.5305000000007567
+    },
+    {
+      "version": "1.0.6",
+      "round": 3,
+      "operation": "salesHistory",
+      "ms": 1.7464000000036322
+    },
+    {
+      "version": "1.0.6",
+      "round": 3,
+      "operation": "salesHistory",
+      "ms": 1.3888000000006286
+    },
+    {
+      "version": "1.0.6",
+      "round": 3,
+      "operation": "salesHistory",
+      "ms": 1.3404000000009546
+    },
+    {
+      "version": "1.0.6",
+      "round": 4,
+      "operation": "search",
+      "ms": 6.455900000000838
+    },
+    {
+      "version": "1.0.6",
+      "round": 4,
+      "operation": "search",
+      "ms": 5.741699999998673
+    },
+    {
+      "version": "1.0.6",
+      "round": 4,
+      "operation": "search",
+      "ms": 5.624700000000303
+    },
+    {
+      "version": "1.0.6",
+      "round": 4,
+      "operation": "search",
+      "ms": 5.895699999993667
+    },
+    {
+      "version": "1.0.6",
+      "round": 4,
+      "operation": "search",
+      "ms": 5.1797999999980675
+    },
+    {
+      "version": "1.0.6",
+      "round": 4,
+      "operation": "search",
+      "ms": 5.392500000001746
+    },
+    {
+      "version": "1.0.6",
+      "round": 4,
+      "operation": "stockHistory",
+      "ms": 1.5423000000009779
+    },
+    {
+      "version": "1.0.6",
+      "round": 4,
+      "operation": "stockHistory",
+      "ms": 1.3130000000019209
+    },
+    {
+      "version": "1.0.6",
+      "round": 4,
+      "operation": "stockHistory",
+      "ms": 1.3711999999941327
+    },
+    {
+      "version": "1.0.6",
+      "round": 4,
+      "operation": "stockHistory",
+      "ms": 1.3245999999999185
+    },
+    {
+      "version": "1.0.6",
+      "round": 4,
+      "operation": "stockHistory",
+      "ms": 1.4404999999969732
+    },
+    {
+      "version": "1.0.6",
+      "round": 4,
+      "operation": "stockHistory",
+      "ms": 1.3246999999973923
+    },
+    {
+      "version": "1.0.6",
+      "round": 4,
+      "operation": "salesHistory",
+      "ms": 1.2508000000016182
+    },
+    {
+      "version": "1.0.6",
+      "round": 4,
+      "operation": "salesHistory",
+      "ms": 1.1678000000028987
+    },
+    {
+      "version": "1.0.6",
+      "round": 4,
+      "operation": "salesHistory",
+      "ms": 1.1322000000000116
+    },
+    {
+      "version": "1.0.6",
+      "round": 4,
+      "operation": "salesHistory",
+      "ms": 1.2715000000025611
+    },
+    {
+      "version": "1.0.6",
+      "round": 4,
+      "operation": "salesHistory",
+      "ms": 1.3317999999999302
+    },
+    {
+      "version": "1.0.6",
+      "round": 4,
+      "operation": "salesHistory",
+      "ms": 1.366200000004028
+    },
+    {
+      "version": "1.0.11",
+      "round": 4,
+      "operation": "search",
+      "ms": 6.381499999995867
+    },
+    {
+      "version": "1.0.11",
+      "round": 4,
+      "operation": "search",
+      "ms": 5.779300000001967
+    },
+    {
+      "version": "1.0.11",
+      "round": 4,
+      "operation": "search",
+      "ms": 5.659200000001874
+    },
+    {
+      "version": "1.0.11",
+      "round": 4,
+      "operation": "search",
+      "ms": 5.3193000000028405
+    },
+    {
+      "version": "1.0.11",
+      "round": 4,
+      "operation": "search",
+      "ms": 5.420899999997346
+    },
+    {
+      "version": "1.0.11",
+      "round": 4,
+      "operation": "search",
+      "ms": 5.471499999999651
+    },
+    {
+      "version": "1.0.11",
+      "round": 4,
+      "operation": "stockHistory",
+      "ms": 1.5781999999962864
+    },
+    {
+      "version": "1.0.11",
+      "round": 4,
+      "operation": "stockHistory",
+      "ms": 1.3870999999999185
+    },
+    {
+      "version": "1.0.11",
+      "round": 4,
+      "operation": "stockHistory",
+      "ms": 1.3761999999987893
+    },
+    {
+      "version": "1.0.11",
+      "round": 4,
+      "operation": "stockHistory",
+      "ms": 1.343300000000454
+    },
+    {
+      "version": "1.0.11",
+      "round": 4,
+      "operation": "stockHistory",
+      "ms": 1.2519000000029337
+    },
+    {
+      "version": "1.0.11",
+      "round": 4,
+      "operation": "stockHistory",
+      "ms": 1.3416999999972177
+    },
+    {
+      "version": "1.0.11",
+      "round": 4,
+      "operation": "salesHistory",
+      "ms": 1.3008999999947264
+    },
+    {
+      "version": "1.0.11",
+      "round": 4,
+      "operation": "salesHistory",
+      "ms": 1.3187999999936437
+    },
+    {
+      "version": "1.0.11",
+      "round": 4,
+      "operation": "salesHistory",
+      "ms": 1.220099999998638
+    },
+    {
+      "version": "1.0.11",
+      "round": 4,
+      "operation": "salesHistory",
+      "ms": 1.1851999999998952
+    },
+    {
+      "version": "1.0.11",
+      "round": 4,
+      "operation": "salesHistory",
+      "ms": 1.5882000000055996
+    },
+    {
+      "version": "1.0.11",
+      "round": 4,
+      "operation": "salesHistory",
+      "ms": 1.2553999999945518
+    }
+  ]
+}

@@ -172,3 +172,15 @@ A execução 43747340730 comparou cada origem com a 1.0.11 após atualização n
 | 1.0.5 com Guard | Exportar Excel | 101 ms | 106 ms |
 
 As medianas das consultas aumentaram entre 0,034 e 0,678 ms neste ensaio. Os dois pares de exportação variaram em direções diferentes, com a origem sempre medida primeiro. A amostragem de Excel e o ambiente de CI limitam qualquer inferência sobre ganho de desempenho em uso comercial. [Amostras de contas e Excel](benchmarks/windows-server-finance-excel-1.0.11.json)
+
+### Busca e históricos no Windows 11
+
+Os executáveis extraídos 1.0.6 e 1.0.11 abriram cópias do mesmo banco fictício com 1.000 produtos, 11 vendas e 12 movimentos. Em quatro pares com ordem alternada após aquecimento, cada versão contribuiu com 24 observações por operação. A busca cronometrou o preenchimento do código até o resultado na tela de venda. Os históricos usaram a primeira página via IPC, e cada resposta foi comparada integralmente com a da versão de referência.
+
+| Mediana | 1.0.6 | 1.0.11 |
+| --- | ---: | ---: |
+| Busca por código na venda | 5,683 ms | 5,322 ms |
+| Histórico de estoque | 1,325 ms | 1,351 ms |
+| Histórico de vendas | 1,245 ms | 1,271 ms |
+
+As diferenças ficaram abaixo de 0,4 ms nesta base. Os históricos retornaram o mesmo conteúdo e a mesma ordem. O ensaio usou automação em janela oculta e não mede grandes históricos no Windows cliente. [Amostras de busca e históricos](benchmarks/windows11-queries-1.0.6-1.0.11.json)
