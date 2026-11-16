@@ -216,3 +216,18 @@ Na venda com desconto, Enter abre o Guard e Escape cancela a autorização, pres
 ### Monograma na candidata 1.0.13
 
 Com o SHA-256 do instalador conferido, o Windows extraiu o mesmo ícone de 32 × 32 do instalador e do NEXO.exe da carga x64 do build NEXO-2BC1CFAE0D6D5B7A. O SHA-256 dos dois PNGs é EC8C7BB6FA16E08E106B4EEA772FEDFF6A02C42BA5A8FD5D2DD30975AACBE2EE, igual ao monograma inspecionado na 1.0.11. O PNG para a janela coincide com o arquivo oficial do repositório, com SHA-256 43E3A0E5686F0B58B92ABED5C0C4FE279E2A4FD553460D72F2F6D2BAE87752EA. A exibição na barra de tarefas ainda aguarda ensaio cliente.
+
+### Contraste da venda e do Guard na candidata 1.0.13
+
+No Windows 11, o executável extraído do build NEXO-2BC1CFAE0D6D5B7A foi aberto com banco fictício. A automação coletou as cores efetivas e calculou as relações de luminância sobre fundos sólidos.
+
+| Controle | Relação medida |
+| --- | ---: |
+| Concluir venda | 4,92:1 |
+| Texto dos campos de quantidade e desconto | 11,47:1 |
+| Título e nome da operação no Guard | 14,48:1 |
+| Dígito e Cancelar no Guard | 13,17:1 |
+| Autorizar habilitado | 12,03:1 |
+| Contorno de foco do teclado numérico, sobre o fundo do diálogo | 5,31:1 |
+
+A amostra cobre esses controles no estado medido. Estados desabilitados, outras áreas e uma sessão com leitor de tela exigem evidências próprias.
