@@ -131,9 +131,12 @@ function PinDialog({ label, pinLength, authorized, onCancel, onApprove }: {
     <form onSubmit={submit}>
       <h2 id="guard-title">Autorização administrativa</h2>
       <p>{label}</p>
-      <div className="guard-dots" aria-label={digits.length + ' de ' + pinLength + ' dígitos preenchidos'}>
+      <div className="guard-dots" aria-hidden="true">
         {Array.from({length: pinLength}, (_, index) => <span key={index} aria-hidden="true" data-filled={index < digits.length} />)}
       </div>
+      <span className="sr-only" aria-live="polite" aria-atomic="true">
+        {digits.length} de {pinLength} dígitos preenchidos
+      </span>
       <fieldset disabled={busy} className="guard-keypad">
         {[1,2,3,4,5,6,7,8,9].map(digit => <button key={digit} ref={digit === 1 ? firstDigit : undefined} type="button" onClick={() => add(String(digit))}>{digit}</button>)}
         <button type="button" onClick={onCancel}>Cancelar</button>

@@ -575,12 +575,12 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  await page.keyboard.press('Tab');
  await expect(modal.getByRole('button',{name:'2',exact:true})).toBeFocused();
  await page.keyboard.type('01');
- await expect(modal.getByLabel('2 de 4 dígitos preenchidos')).toBeVisible();
+ assert.match(await modal.ariaSnapshot(), /2 de 4 dígitos preenchidos/);
  assert(!(await modal.innerText()).includes('01'));
  await page.keyboard.press('Backspace');
- await expect(modal.getByLabel('1 de 4 dígitos preenchidos')).toBeVisible();
+ assert.match(await modal.ariaSnapshot(), /1 de 4 dígitos preenchidos/);
  await modal.getByRole('button',{name:'Apagar último dígito'}).click();
- await expect(modal.getByLabel('0 de 4 dígitos preenchidos')).toBeVisible();
+ assert.match(await modal.ariaSnapshot(), /0 de 4 dígitos preenchidos/);
  await shot('17-guard-teclado');
  await expect(modal.getByRole('button',{name:'Autorizar',exact:true})).toBeInViewport();
  await size(1280,900);
