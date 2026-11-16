@@ -192,3 +192,7 @@ No Windows 11, o executável extraído da 1.0.11 (NEXO-B4FBEDEBFCC6D0E8) foi abe
 ### Repetição da venda após perda da resposta
 
 Na mesma candidata 1.0.11 extraída, no Windows 11 e com banco fictício, a automação deixou o handler original concluir uma venda por PIX e simulou um erro de comunicação somente na resposta ao formulário. A primeira tentativa registrou a venda e a baixa de estoque, passando de 11 para 12 vendas e de 12 para 13 movimentos. A interface preservou o rascunho. Repetir a ação no mesmo formulário exibiu a confirmação, limpou o rascunho e preservou os totais e o conteúdo dos históricos após a primeira gravação. O caixa permaneceu com o mesmo saldo, como esperado para PIX. O ensaio cobre a repetição do mesmo rascunho na mesma sessão e não modificou os arquivos do pacote.
+
+### PIN incorreto em venda com desconto
+
+No Windows 11, o executável extraído da 1.0.11 foi aberto com banco fictício e Guard ativado. Ao informar um PIN incorreto durante uma venda por PIX com desconto, o diálogo informou o erro e preservou a quantidade e o desconto. Os históricos de vendas e estoque e o saldo do caixa permaneceram idênticos. Informar o PIN correto na mesma autorização registrou uma única venda e uma única baixa. O saldo de dinheiro permaneceu igual, como esperado para PIX.
