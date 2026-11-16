@@ -646,3 +646,11 @@ Na venda com desconto, Enter abre o Guard e Escape cancela a autorização, pres
 ### Candidata Windows 1.0.14 · padronização visual
 
 O CSS compartilha valores de tipografia, espaçamento, bordas e estados dos controles. Em comparação local no Windows 11, os controles de venda e do Guard mantiveram geometria, contraste e foco nos estados ensaiados. No Windows Server 2025, os 246 testes e dois roteiros com aplicativo instalado passaram. O ZIP baixado confere com o SHA-256 do GitHub. O instalador de 124.156.279 bytes confere com a versão, o tamanho e o SHA-512 do manifesto. O blockmap está presente. Build NEXO-CB3B8787C105EA55. SHA-256 do ZIP: `0FE55A553E0DE4A369C2D4AD628FB0F1C6A1BC26C795816250F648403DFC1769`. Artefato disponível até 30/11/2026 às 00h58 de Brasília. [Execução](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43799796173) · [ZIP](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43799796173/artifacts/14196268479)
+
+### Cabeçalho sem seletor de empresa
+
+O cabeçalho do Balcão mostra apenas o nome da loja ativa. A troca de loja fica em Configurações → Lojas vinculadas e aparece somente para perfis legados com acesso a mais de uma loja. A validação local usou bancos fictícios com uma e duas lojas. Nenhuma migração ou operação sobre dados reais foi necessária.
+
+### Primeiro acesso e dados da loja
+
+A instalação de loja única pede o nome da loja e do responsável. O responsável pode renomear a loja em Configurações, com auditoria e permissão verificadas na camada local. Bases legadas mantêm todos os dados e vínculos e exibem Lojas vinculadas apenas para quem tem acesso a mais de uma loja. O esquema comercial permanece o mesmo. [Compatibilidade e impacto](WINDOWS-COMPATIBILITY.md#uma-loja-por-instalação-e-compatibilidade-com-bases-antigas)

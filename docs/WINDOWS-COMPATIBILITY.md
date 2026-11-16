@@ -154,3 +154,18 @@ No build NEXO-2BC1CFAE0D6D5B7A extraído, o Electron informou escala nativa de 1
 ### Equivalência visual dos pacotes 1.0.13 e 1.0.14
 
 Os executáveis x64 extraídos dos instaladores 1.0.13 e 1.0.14 foram executados no mesmo Windows 11, em cópias do mesmo banco fictício. Em Início, Vender, Estoque, Caixa e Contas, a navegação por Enter selecionou o módulo esperado em 1000 × 650, 1280 × 720, 1366 × 768 e 1920 × 1080. Nas 20 combinações, as 133 amostras de controles visíveis mantiveram posição, dimensões, fonte, tamanho, cor, fundo, raio e espaçamento. O cabeçalho permaneceu na área visível, sem rolagem horizontal. As dimensões do conteúdo foram aplicadas pelo Chromium. A comparação não inclui instalação, alteração de DPI nativo ou inspeção pixel a pixel.
+## Uma loja por instalação e compatibilidade com bases antigas
+
+Instalações novas pedem o nome da loja e o nome do responsável no primeiro acesso. O cabeçalho identifica a loja ativa. Em **Configurações → Dados da loja**, um responsável pode editar o nome da loja para a qual tem permissão de administrador. Essa é a informação de cadastro disponível no esquema atual. O NEXO registra a edição na auditoria. A alteração exige o PIN quando o Guard estiver configurado para proteger essa operação.
+
+A troca em **Configurações → Lojas vinculadas** aparece somente a usuários com acesso a mais de uma loja existente. Cada operador mantém seus vínculos e permissões. A troca invalida pedidos de autorização pendentes. Bases antigas com múltiplas lojas e sem responsável configurado mantêm os nomes existentes durante o primeiro acesso.
+
+| Área | Impacto verificado nesta etapa |
+| --- | --- |
+| Produtos, compras e estoque | O nome é alterado na linha da loja com o mesmo identificador. Os cadastros, saldos e movimentos continuam consultados por loja. |
+| Vendas, caixa e contas | A operação usa os mesmos identificadores de loja, operador e transação. A edição do nome não recalcula lançamentos e não reescreve históricos. |
+| Operadores | Cada usuário mantém seus vínculos e papéis. O IPC aplica a permissão de administrador da loja antes de permitir a edição. |
+| Backup e restauração | A base continua incluindo todas as lojas, vínculos e registros. A edição do nome acompanha o estado da base no momento do backup. |
+| NEXO Guard | A alteração do nome é uma operação própria. Políticas que protegem todas as operações a incluem. Políticas com ações selecionadas podem incluí-la em Configurações. |
+
+A etapa usa as tabelas existentes. Qualquer futura mudança dos identificadores, vínculos ou fronteiras entre lojas exige auditoria específica dessas áreas, com backup validado, comparação dos registros e ensaio de retorno em cópias temporárias.

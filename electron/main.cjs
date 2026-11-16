@@ -31,7 +31,7 @@ else app.whenReady().then(async () => {
   const runtime = relative => import(pathToFileURL(path.join(root, 'dist/local-runtime', relative)).href);
   const { checkLocalHealth } = await runtime('local/health.js');
   const { openLocalDatabase } = await runtime('local/sqlite.js');
-  const { authorizeLocalCatalog, listLocalProducts, createLocalProduct, updateLocalProduct } = await runtime('local/catalog.js');
+  const { authorizeLocalCatalog, listLocalProducts, createLocalProduct, updateLocalProduct, renameLocalStore } = await runtime('local/catalog.js');
   const { prepareLocalDatabase } = await runtime('local/migrations.js');
   const { listNamedUsers, selectNamedUser, createNamedOperator } = await runtime('local/access.js');
   const { createTutorialPreferences } = await runtime('local/tutorial-preferences.js');
@@ -180,10 +180,12 @@ else app.whenReady().then(async () => {
     const users = await listNamedUsers(db);
     const configured = (await db.query('SELECT id FROM local_users LIMIT 1')).length > 0;
     return { configured, authenticated: !!actor,
+      legacyStoreSetup: !configured && (await db.query('SELECT id FROM local_companies LIMIT 2')).length > 1,
       users, userId: actor?.id, owner: actor?.name, dataFolder, lastBackup, startupNotice,
       companies: actor ? await db.query('SELECT c.id,c.name,m.role FROM local_companies c JOIN local_memberships m ON m.company_id=c.id WHERE m.user_id=? AND m.active=1', [actor.id]) : [] };
   });
-  handle('nexo:configure', name => changeSession(async () => { await initializeLocalOwner(db, name); return { configured: true }; }));
+  handle('nexo:configure', (name, storeName) => changeSession(async () => { await initializeLocalOwner(db, name, storeName); return { configured: true }; }));
+  handle('nexo:rename-store', (companyId, name) => renameLocalStore(db, requireActor(), companyId, name));
   handle('nexo:login', id => changeSession(async () => {
     if (actor) throw new Error('Saia do acesso atual antes de entrar com outro usuário.');
     actor = await selectNamedUser(db, id); startupNotice = undefined;

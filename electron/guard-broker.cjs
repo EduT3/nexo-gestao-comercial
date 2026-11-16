@@ -1,6 +1,7 @@
 const { randomUUID } = require('node:crypto');
 
 const operations = {
+  'rename-store': 'Alterar nome da loja',
   'create-operator': 'Cadastrar operador',
   'excel-export': 'Exportar relatório Excel',
   'product-import-template': 'Gerar modelo de produtos',

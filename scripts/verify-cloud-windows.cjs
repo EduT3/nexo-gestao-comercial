@@ -112,7 +112,7 @@ async function login(){const f=page.getByRole('form',{name:'Acesso local'});awai
 function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.equal(db.prepare('PRAGMA integrity_check').get().integrity_check,'ok');assert.deepEqual(db.prepare('PRAGMA foreign_key_check').all(),[]);assert.equal(db.prepare('PRAGMA user_version').get().user_version,12);assert.equal(db.prepare('SELECT count(*) n FROM local_credentials').get().n,0);return {sales:db.prepare('SELECT count(*) n FROM local_sales').get().n,tables:db.prepare("SELECT count(*) n FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'").get().n};}finally{db.close();}}
 (async()=>{try{
  await open();await size(1487,1058);
- step='primeiro acesso';await page.getByLabel('Nome do responsável',{exact:true}).fill('Responsável QA Balcão');await page.getByRole('button',{name:'Começar',exact:true}).click();
+ step='primeiro acesso';await page.getByLabel('Nome do responsável',{exact:true}).fill('Responsável QA Balcão');if(buildAt(program).id===id.id)await page.getByLabel('Nome da loja',{exact:true}).fill('Minha loja');await page.getByRole('button',{name:'Começar',exact:true}).click();
  let f=page.getByRole('form',{name:'Acesso local'});await expect(f.getByLabel('Usuário',{exact:true})).toBeVisible();await shot('01-login');
  await login();
  owner=(await call('status')).userId;const companies=await call('status');assert.deepEqual(companies.companies,[{id:A,name:'Minha loja',role:'ADMIN'}]);await expect(picker()).toHaveCount(0);
@@ -762,7 +762,10 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  const crossCompany=await call('createProduct',A,{name:'Não gravar QA',internalCode:'GUARD-CROSS',unit:'UNIT',costCents:1,priceCents:2}).then(()=>{throw Error('Produto criado sem PIN');},error=>String(error));
  const companyRequest=/NEXO_GUARD_REQUIRED:([0-9a-f-]{36})/.exec(crossCompany)?.[1];
  assert(companyRequest,'Cadastro deve aguardar autorização');
+ await expect(picker()).toHaveCount(0);
+ await page.getByRole('button',{name:'Configurações',exact:true}).click();
  await picker().selectOption(B);
+ await expect(page.locator('.nexo-topbar').getByText('Outra loja QA',{exact:true})).toBeVisible();
  await assert.rejects(()=>call('guardApprove',companyRequest,'0123'),/expirada/i);
  assert(!(await call('products',A)).some(item=>item.internal_code==='GUARD-CROSS'));
  assert(!(await call('products',B)).some(item=>item.internal_code==='GUARD-CROSS'));

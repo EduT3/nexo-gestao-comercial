@@ -57,6 +57,11 @@ const areas = [
   { method: 'cashHistory', area: 'Caixa', table: 'Histórico de caixas' },
   { method: 'payablesPage', area: 'Financeiro', table: 'Contas a pagar' },
 ];
+async function switchStore(page: Page) {
+  await page.getByRole('button', { name: 'Configurações', exact: true }).click();
+  await page.getByRole('combobox', { name: 'Loja ativa' }).selectOption('b');
+}
+
 async function visit(page: Page, name: string, financialView = 'Pagar') {
   if (name === 'Mais opções') {
     await page.getByRole('button', { name: 'Configurações', exact: true }).click();
@@ -193,7 +198,7 @@ for (const scenario of areas) {
   test(scenario.method + ': resposta de outra empresa é ignorada', async ({ page }) => {
     await configure(page); await defer(page, scenario.method); await visit(page, scenario.area, scenario.method === 'receivablesPage' ? 'Receber' : 'Pagar'); await waitPending(page, 1);
     await updateValue(page, scenario.method);
-    await page.getByRole('combobox', { name: 'Empresa em operação' }).selectOption('b'); await waitPending(page, 2);
+    await switchStore(page); await visit(page, scenario.area, scenario.method === 'receivablesPage' ? 'Receber' : 'Pagar'); await waitPending(page, 2);
     await page.evaluate(() => (window as any).nexoTest.pending[1].resolve());
     const table = page.getByRole('table', { name: scenario.table, exact: true });
     if (scenario.method === 'salesHistory' || scenario.method === 'purchaseHistory') {
@@ -251,7 +256,7 @@ test('financeiro mostra uma tarefa por vez, adia consultas e preserva rascunho d
  await visit(page,'Financeiro','Receber');await expect(page.getByRole('form',{name:'Nova conta a receber',exact:true})).toHaveCount(0);await page.getByRole('button',{name:'Nova conta a receber',exact:true}).click();await page.getByLabel('Descrição da conta').fill('Rascunho financeiro');
  await visit(page,'Financeiro','Resumo');await expect(page.getByRole('table',{name:'Contas a pagar',exact:true})).toHaveCount(0);await expect(page.getByLabel('Descrição da conta')).toBeHidden();
  await visit(page,'Financeiro','Receber');await expect(page.getByLabel('Descrição da conta')).toHaveValue('Rascunho financeiro');
- await page.getByRole('combobox', { name: 'Empresa em operação' }).selectOption('b');await expect(page.getByRole('form',{name:'Nova conta a receber',exact:true})).toHaveCount(0);await page.getByRole('button',{name:'Nova conta a receber',exact:true}).click();await expect(page.getByLabel('Descrição da conta')).toHaveValue('');
+ await switchStore(page);await visit(page,'Financeiro','Receber');await expect(page.getByRole('form',{name:'Nova conta a receber',exact:true})).toHaveCount(0);await page.getByRole('button',{name:'Nova conta a receber',exact:true}).click();await expect(page.getByLabel('Descrição da conta')).toHaveValue('');
  methods=await page.evaluate(()=>(window as any).nexoTest.calls.map((call:any)=>call.method));expect(methods).toContain('dailyReport');
 });
 test('compra remove a linha do meio mantendo os demais valores, foco, total e rascunho',async({page})=>{
@@ -363,14 +368,14 @@ test('resumo financeiro: falha retira totais anteriores e permite tentar novamen
 test('resumo financeiro: erro na empresa atual não aceita resposta atrasada de outra empresa e recupera sem gravar', async ({ page }) => {
  await configure(page); await visit(page, 'Financeiro', 'Resumo'); await expect(page.getByLabel('Saldo financeiro', { exact: true })).toContainText('R$ 1,00');
  await defer(page, 'financeTotals'); await visit(page, 'Financeiro', 'Resumo'); await waitPending(page, 1);
- await page.getByRole('combobox', { name: 'Empresa em operação' }).selectOption('b'); await waitPending(page, 2);
+ await switchStore(page); await visit(page, 'Financeiro', 'Resumo'); await waitPending(page, 2);
  await page.evaluate(() => (window as any).nexoTest.pending[1].reject(new Error('Falha da Empresa B')));
  await expect(page.getByText('Falha da Empresa B', { exact: false })).toBeVisible(); await expect(page.getByLabel('Saldo financeiro', { exact: true })).toHaveCount(0);
  await page.evaluate(() => (window as any).nexoTest.pending[0].resolve());
  const error = page.getByRole('alert'); await expect(error).toContainText('Falha da Empresa B'); await expect(page.getByLabel('Saldo financeiro', { exact: true })).toHaveCount(0);
  await page.evaluate(() => { const t = (window as any).nexoTest; t.values.financeTotals = { ...t.values.financeTotals, revenueCents: 300n, netRevenueCents: 300n, totalIncomeCents: 300n, financialBalanceCents: 300n }; });
  await error.getByRole('button', { name: 'Tentar novamente', exact: true }).click(); await waitPending(page, 3); await page.evaluate(() => (window as any).nexoTest.pending[2].resolve());
- await expect(page.getByLabel('Saldo financeiro', { exact: true })).toContainText('R$ 3,00'); await expect(page.getByRole('combobox', { name: 'Empresa em operação' })).toHaveValue('b');
+ await expect(page.getByLabel('Saldo financeiro', { exact: true })).toContainText('R$ 3,00'); await expect(page.locator('.nexo-topbar')).toContainText('Empresa B');
  const calls = await page.evaluate(() => (window as any).nexoTest.calls); expect(calls.filter((c: any) => c.method === 'financeTotals').at(-1).company).toBe('b'); expect(calls.filter((c: any) => /^(create|update|confirm|reverse|payPayable|receiveReceivable|openCash|closeCash|moveCash|backup|restore)/.test(c.method))).toEqual([]);
 });
 // Retrying a failed account read must preserve its context and never invoke a write.
@@ -412,14 +417,14 @@ for (const task of [
  });
  test(`${task.method}: tentar novamente ignora resposta de outra empresa e lê somente a atual sem gravar`, async ({ page }) => {
   await configure(page); await defer(page, task.method); await visit(page, 'Financeiro', task.view); await waitPending(page, 1);
-  await page.getByRole('combobox', { name: 'Empresa em operação' }).selectOption('b'); await waitPending(page, 2);
+  await switchStore(page); await visit(page, 'Financeiro', task.view); await waitPending(page, 2);
   await page.evaluate(() => (window as any).nexoTest.pending[1].reject(new Error('Falha da empresa atual')));
   await expect(page.getByText('Falha da empresa atual', { exact: false })).toBeVisible();
   const retry = page.getByRole('button', { name: 'Tentar novamente', exact: true }); await expect(retry).toBeVisible();
   await page.evaluate(() => (window as any).nexoTest.pending[0].resolve()); await expect(page.locator(task.panel)).toContainText('Total da consulta: Indisponível'); await expect(page.getByRole('table', { name: task.table, exact: true }).locator('tbody tr')).toHaveCount(0);
   await page.evaluate(method => { const t = (window as any).nexoTest; t.values[method] = { ...t.values[method], totalCents: 300n, rows: t.values[method].rows.map((r: any) => ({ ...r, id: 'company-b-account', amount_cents: 300n, supplier_name: 'Fornecedor Empresa B', description: 'Conta Empresa B' })) }; }, task.method);
   await retry.click(); await waitPending(page, 3); await page.evaluate(() => (window as any).nexoTest.pending[2].resolve());
-  await expect(page.getByRole('table', { name: task.table, exact: true })).toContainText('Empresa B'); await expect(page.locator(task.panel)).toContainText('Total da consulta: R$ 3,00'); await expect(page.getByRole('combobox', { name: 'Empresa em operação' })).toHaveValue('b');
+  await expect(page.getByRole('table', { name: task.table, exact: true })).toContainText('Empresa B'); await expect(page.locator(task.panel)).toContainText('Total da consulta: R$ 3,00'); await expect(page.locator('.nexo-topbar')).toContainText('Empresa B');
   const calls = await page.evaluate(() => (window as any).nexoTest.calls); expect(calls.filter((c: any) => c.method === task.method).at(-1)).toMatchObject({ company: 'b', input: { page: 0, search: '', status: 'OPEN' } }); expect(calls.filter((c: any) => /^(create|update|confirm|reverse|payPayable|receiveReceivable|openCash|closeCash|moveCash|backup|restore)/.test(c.method))).toEqual([]);
  });
 }
@@ -429,7 +434,7 @@ for (const task of [
  { view: 'Receber', method: 'receivablesPage', panel: '#contas-receber', action: 'Receber conta', cancel: 'Voltar às contas', form: 'Baixa de recebível', kind: 'receber' },
 ]) {
  test(`${task.method}: cancelamento explícito devolve foco ao botão de origem da empresa atual`, async ({ page }) => {
-  await configure(page); await page.getByRole('combobox', { name: 'Empresa em operação' }).selectOption('b'); await visit(page, 'Financeiro', task.view);
+  await configure(page); await switchStore(page); await visit(page, 'Financeiro', task.view);
   const panel = page.locator(task.panel), trigger = panel.getByRole('button', { name: task.action, exact: true });
   await panel.getByRole('button', { name: 'Limpar filtros', exact: true }).focus();
   for (let step = 0; step < 6 && !(await trigger.evaluate(element => element === document.activeElement)); step++) await page.keyboard.press('Tab');
@@ -438,7 +443,7 @@ for (const task of [
   for (let step = 0; step < 6 && !(await cancel.evaluate(element => element === document.activeElement)); step++) await page.keyboard.press('Tab');
   await expect(cancel).toBeFocused(); await page.keyboard.press('Enter'); await expect(form).toHaveCount(0);
   await test.info().attach('focus-after-cancel', { body: await page.evaluate(() => JSON.stringify({ tag: document.activeElement?.tagName, text: document.activeElement?.textContent })), contentType: 'application/json' });
-  await expect(trigger).toBeFocused(); await expect(page.getByRole('combobox', { name: 'Empresa em operação' })).toHaveValue('b');
+  await expect(trigger).toBeFocused(); await expect(page.locator('.nexo-topbar')).toContainText('Empresa B');
   const calls = await page.evaluate(() => (window as any).nexoTest.calls); expect(calls.filter((c: any) => c.method === task.method).at(-1).company).toBe('b'); expect(calls.filter((c: any) => /^(create|update|confirm|reverse|payPayable|receiveReceivable|openCash|closeCash|moveCash|backup|restore)/.test(c.method))).toEqual([]);
   await page.screenshot({ path: test.info().outputPath('cancel-focus-origin.png'), fullPage: true });
  });
@@ -448,7 +453,7 @@ for (const task of [
   await page.evaluate(method => { const t = (window as any).nexoTest; t.values[method] = { ...t.values[method], rows: [], total: 0, totalCents: 0n, page: 0 }; }, task.method);
   await page.getByLabel('Buscar conta a ' + task.kind, { exact: true }).fill('sem resultado'); await expect(trigger).toHaveCount(0); await expect(form).toBeVisible();
   const cancel = form.getByRole('button', { name: task.cancel, exact: true }); await cancel.focus(); await page.keyboard.press('Enter'); await expect(form).toHaveCount(0);
-  await expect(panel.locator('details.panel > summary').first()).toBeFocused(); await expect(page.getByRole('combobox', { name: 'Empresa em operação' })).toHaveValue('a');
+  await expect(panel.locator('details.panel > summary').first()).toBeFocused(); await expect(page.locator('.nexo-topbar')).toContainText('Empresa A');
   const calls = await page.evaluate(() => (window as any).nexoTest.calls); expect(calls.filter((c: any) => /^(create|update|confirm|reverse|payPayable|receiveReceivable|openCash|closeCash|moveCash|backup|restore)/.test(c.method))).toEqual([]);
   await page.screenshot({ path: test.info().outputPath('cancel-focus-list.png'), fullPage: true });
  });
@@ -533,7 +538,7 @@ for(const scenario of [{area:'Compras',noun:'compras',method:'purchaseHistory',t
   await page.getByLabel('Buscar '+scenario.noun,{exact:true}).fill('a-history-000');await page.getByRole('button',{name:'Consultar '+scenario.noun,exact:true}).click();await waitPending(page,1);
   await page.getByLabel('Buscar '+scenario.noun,{exact:true}).fill('a-history-001');await page.getByRole('button',{name:'Consultar '+scenario.noun,exact:true}).click();await waitPending(page,2);
   await page.evaluate(()=>{const p=(window as any).nexoTest.pending;p[1].resolve();p[0].reject(new Error('FILTRO ANTIGO'));});await expect(table.locator('[data-history-id="a-history-001"]')).toBeVisible();await expect(page.getByText('FILTRO ANTIGO',{exact:false})).toHaveCount(0);
-  await page.getByLabel('Buscar '+scenario.noun,{exact:true}).fill('a-history-002');await page.getByRole('button',{name:'Consultar '+scenario.noun,exact:true}).click();await waitPending(page,3);await page.getByRole('combobox', { name: 'Empresa em operação' }).selectOption('b');await waitPending(page,4);
+  await page.getByLabel('Buscar '+scenario.noun,{exact:true}).fill('a-history-002');await page.getByRole('button',{name:'Consultar '+scenario.noun,exact:true}).click();await waitPending(page,3);await switchStore(page);await visit(page,scenario.area);await waitPending(page,4);
   await page.evaluate(()=>{const c=(window as any).nexoTest;c.deferred=[];c.pending[3].resolve();c.pending[2].resolve();});if(scenario.area==='Compras')await page.locator('#compras .purchase-history > summary').click();await expect(table.locator('[data-history-id="b-history-000"]')).toBeVisible();await expect(table.locator('[data-history-id^="a-"]')).toHaveCount(0);
  });
 }

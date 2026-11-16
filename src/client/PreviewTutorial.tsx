@@ -11,8 +11,8 @@ const previewSteps: TutorialStep[] = [
   { id: 'sales', title: 'Conheça a tela de venda', location: 'PDV / Vendas', route: 'pos', text: 'Veja a escolha de produtos e as informações de pagamento. A demonstração não conclui vendas reais. No Windows, confira itens, total, pagamento e troco antes da confirmação.' },
   { id: 'finance', title: 'Acompanhe as contas', location: 'Financeiro', route: 'finance', text: 'Explore as contas fictícias. Pagamentos, recebimentos e estornos reais devem ser conferidos e executados no aplicativo Windows. Você pode reiniciar este guia pela Ajuda e tutorial.' },
 ];
-export function PreviewTutorial({ userId, companyId, companyName, routes, currentRoute, onNavigate }: {
-  userId: string; companyId: string; companyName: string; routes: string[]; currentRoute: string; onNavigate(step: TutorialStep): void;
+export function PreviewTutorial({ userId, companyId, companyName, routes, currentRoute, onNavigate, showCompanyStep = true }: {
+  userId: string; companyId: string; companyName: string; showCompanyStep?: boolean; routes: string[]; currentRoute: string; onNavigate(step: TutorialStep): void;
 }) {
   const store = useMemo<TutorialStore>(() => {
     const key = `nexo.preview.tutorial.v1:${JSON.stringify([userId, companyId])}`;
@@ -21,5 +21,5 @@ export function PreviewTutorial({ userId, companyId, companyName, routes, curren
       async write(value) { localStorage.setItem(key, JSON.stringify(value)); },
     };
   }, [userId, companyId]);
-  return <Tutorial preview steps={previewSteps.filter(step => !step.route || routes.includes(step.route))} store={store} companyName={companyName} currentRoute={currentRoute} onNavigate={onNavigate} />;
+  return <Tutorial preview steps={previewSteps.filter(step => (showCompanyStep || step.id !== 'company') && (!step.route || routes.includes(step.route)))} store={store} companyName={companyName} currentRoute={currentRoute} onNavigate={onNavigate} />;
 }

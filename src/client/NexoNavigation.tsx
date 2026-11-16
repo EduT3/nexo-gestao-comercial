@@ -11,6 +11,7 @@ type NavigationProps = {
   area: string;
   productArea: boolean;
   administrator: boolean;
+  canSwitchCompany: boolean;
   preview: boolean;
   navigate(area: string): void;
 };
@@ -27,6 +28,7 @@ export function NexoNavigation({
   area,
   productArea,
   administrator,
+  canSwitchCompany,
   preview,
   navigate,
 }: NavigationProps) {
@@ -59,7 +61,7 @@ export function NexoNavigation({
             );
           })}
       </nav>
-      {administrator && (
+      {(administrator || canSwitchCompany) && (
         <button
           type="button"
           className={`nexo-settings ${area === "mais" ? "active" : ""}`}

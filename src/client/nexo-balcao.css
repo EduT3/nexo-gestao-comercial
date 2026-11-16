@@ -75,10 +75,6 @@
 .nexo-topbar-context .local-mode { min-width: 0; }
 .nexo-topbar-context .local-mode > svg { flex-shrink: 0; }
 
-.local-app .nexo-company-picker { display: flex; align-items: center; gap: 9px; padding: 8px 11px; border: 1px solid #dfe6e9; border-radius: var(--nexo-control-radius); color: var(--nexo-ink); min-width: 164px; }
-.nexo-company-picker > span { min-width: 0; }
-.nexo-company-picker small { display: block; color: var(--nexo-muted); font-size: 10px; font-weight: 600; }
-.local-app .nexo-company-picker select { border: 0; box-shadow: none; outline-offset: 2px; padding: 0 20px 0 0; margin: 3px 0 0; min-height: 22px; height: auto; max-width: 240px; font-size: var(--nexo-text-control); font-weight: 700; color: var(--nexo-ink); background: transparent; }
 .nexo-status-chip { display: inline-flex; align-items: center; gap: 8px; white-space: nowrap; font-size: var(--nexo-text-control); font-weight: 600; padding: 10px 12px; border-radius: var(--nexo-control-radius); }
 .nexo-status-chip.open { color: #13703f; background: #e5f6ed; }
 .nexo-status-chip.closed { color: #995519; background: #fff3e2; }
@@ -219,7 +215,6 @@
   .local-app .nexo-topbar { position: static; min-height: 60px; padding: 10px 14px; flex-wrap: wrap; }
   .nexo-topbar-context { flex-wrap: wrap; }
   .nexo-status-chip { padding: 7px; font-size: 11px; }
-  .local-app .nexo-company-picker { min-width: 140px; }
   .local-app .main-content { padding: 22px 14px 40px; }
   .local-app .local-page-heading h1 { font-size: 31px; }
   .nexo-cart-heading h2 { font-size: 19px; }

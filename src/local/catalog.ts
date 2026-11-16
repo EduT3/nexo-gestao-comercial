@@ -1,4 +1,5 @@
 import { randomUUID } from 'node:crypto';
+import { z } from 'zod';
 import { productSchema, productPatchSchema } from '../server/modules/commerce/schemas.js';
 import type { LocalDatabase } from './sqlite.js';
 import { quantityToMilli } from '../shared/scaled.js';
@@ -25,6 +26,21 @@ export async function authorizeLocalCatalog(db:LocalDatabase,userId:string,compa
   if(manage&&actor.role!=='ADMIN')throw new Error('Seu perfil permite consultar, mas esta operação exige acesso de administrador. Peça ao responsável.');
   return actor.role;
 }
+export const localStoreNameSchema = z.string().trim().min(2, 'Informe pelo menos dois caracteres para o nome da loja.').max(100, 'Use até 100 caracteres no nome da loja.');
+
+export async function renameLocalStore(db:LocalDatabase, actorId:string, companyId:string, input:unknown) {
+  const name = localStoreNameSchema.parse(input);
+  await db.transaction(async tx => {
+    await authorizeLocalCatalog(tx, actorId, companyId, true);
+    const [current] = await tx.query('SELECT name FROM local_companies WHERE id=?', [companyId]);
+    if (!current) throw new Error('Loja não encontrada.');
+    if (current.name === name) return;
+    await tx.query('UPDATE local_companies SET name=? WHERE id=?', [name, companyId]);
+    await tx.query('INSERT INTO local_audit(id,company_id,actor_id,action,entity_id,details) VALUES(?,?,?,?,?,?)',
+      [randomUUID(), companyId, actorId, 'store.renamed', companyId, JSON.stringify({ before: current.name, after: name })]);
+  });
+}
+
 export async function createLocalProduct(db:LocalDatabase,userId:string,companyId:string,input:unknown){
   const body=productSchema.parse(input);
   if(body.supplierId)throw new Error('Vínculo de fornecedor ainda não está disponível na versão local.');

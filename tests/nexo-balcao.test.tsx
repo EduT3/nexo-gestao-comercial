@@ -20,23 +20,25 @@ describe('NEXO Balcão — quantidades exatas', () => {
 describe('NEXO Balcão — apresentação e permissões', () => {
   it('não mostra Contas nem Configurações ao operador', () => {
     const html = renderToStaticMarkup(
-      <NexoNavigation area="vendas" productArea={false} administrator={false} preview={false} navigate={() => {}} />,
+      <NexoNavigation area="vendas" productArea={false} administrator={false} canSwitchCompany={false} preview={false} navigate={() => {}} />,
     );
     expect(html).toContain('Vender');
     expect(html).toContain('aria-current="page"');
     expect(html).not.toContain('>Contas<');
     expect(html).not.toContain('>Configurações<');
   });
-  it.each([true, false])('mostra seletor somente com mais de uma empresa (%s)', (multiple) => {
+  it.each([true, false])('mostra apenas o nome da loja ativa no cabeçalho (múltiplas lojas: %s)', (multiple) => {
     const html = renderToStaticMarkup(
       <NexoTopbar
         status={{ configured: true, authenticated: true, users: [], owner: 'Teste', dataFolder: '', companies: [{ id: 'empresa-1', name: 'Minha Loja', role: 'ADMIN' }, ...(multiple ? [{ id: 'empresa-2', name: 'Outra loja', role: 'ADMIN' as const }] : [])] }}
         company="empresa-1" preview={false} busy={false} excelBusy={false} cashOpen={true}
-        onCompanyChange={() => {}} onBackup={() => {}} onLogout={() => {}}
+        onBackup={() => {}} onLogout={() => {}}
       />,
     );
     expect(html).toContain('Minha Loja');
-    expect(html.includes('Empresa em operação')).toBe(multiple);
+    expect(html).not.toContain('Empresa em operação');
+    expect(html).not.toContain('<select');
+    expect(html).not.toContain('Outra loja');
     expect(html).toContain('Caixa aberto');
     expect(html).not.toContain('Adega JG');
   });

@@ -81,7 +81,7 @@ export function createLocalPreviewBridge():Bridge {
   async finance(company){return copy(example(company).finance);},
   async receivables(company){return copy(example(company).receivables);},
   async dailyReport(company,input):Promise<DailyReport>{const data=example(company),period=input as {from:string;to:string};const rows=data.sales.filter(row=>row.created_at>=period.from&&row.created_at<period.to),grossSalesCents=rows.reduce((sum,row)=>sum+row.total_cents,0n),cancelledSalesCents=rows.filter(row=>row.status==='CANCELLED').reduce((sum,row)=>sum+row.total_cents,0n);const includesToday=period.from<new Date(exampleTime(1)).toISOString()&&period.to>new Date(exampleTime(1)).toISOString();return {period,saleCount:rows.length,grossSalesCents,cancelledSalesCents,netSalesCents:grossSalesCents-cancelledSalesCents,receivedCents:includesToday?1500n:0n,paidCents:includesToday?3200n:0n,financialBalanceCents:grossSalesCents-cancelledSalesCents+(includesToday?-1700n:0n),byPayment:(['CASH','PIX'] as const).map(method=>({method,amountCents:rows.filter(row=>row.method===method).reduce((sum,row)=>sum+row.total_cents,0n)})),products:rows.length?[{productId:data.products[0]!.id,name:data.products[0]!.name,quantityMilli:BigInt(rows.length)*1000n}]:[]};},
-  configure:blocked,login:blocked,logout:blocked,createOperator:blocked,
+  renameStore:blocked,configure:blocked,login:blocked,logout:blocked,createOperator:blocked,
   createProduct:blocked,updateProduct:blocked,createPerson:blocked,createCategory:blocked,
   receivePurchase:blocked,confirmSale:blocked,cancelSale:blocked,openCash:blocked,moveCash:blocked,closeCash:blocked,
   createReceivable:blocked,receiveReceivable:blocked,reverseReceivable:blocked,payPayable:blocked,reversePayable:blocked,

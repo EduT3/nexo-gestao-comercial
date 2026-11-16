@@ -17,7 +17,6 @@ type TopbarProps = {
   busy: boolean;
   excelBusy: boolean;
   cashOpen?: boolean;
-  onCompanyChange(value: string): void;
   onBackup(): void;
   onLogout(): void;
 };
@@ -38,38 +37,17 @@ export function NexoTopbar({
   busy,
   excelBusy,
   cashOpen,
-  onCompanyChange,
   onBackup,
   onLogout,
 }: TopbarProps) {
+  const companyName = status.companies.find(item => item.id === company)?.name;
   return (
     <header className="topbar nexo-topbar">
       <div className="nexo-topbar-context">
-        {status.companies.length > 1 && (
-          <label className="nexo-company-picker">
-            <Storefront size={22} aria-hidden="true" />
-            <span>
-              <small>Empresa em operação</small>
-              <select
-                id={preview ? "active-company" : undefined}
-                data-tutorial-company
-                value={company}
-                disabled={busy || excelBusy}
-                onChange={(event) => onCompanyChange(event.target.value)}
-              >
-                {status.companies.map((item) => (
-                  <option key={item.id} value={item.id}>
-                    {item.name}
-                  </option>
-                ))}
-              </select>
-            </span>
-          </label>
-        )}
-        {status.companies.length === 1 && (
-          <span className="nexo-status-chip local-mode" title={status.companies[0]?.name}>
+        {companyName && (
+          <span className="nexo-status-chip local-mode" title={companyName}>
             <Storefront size={18} aria-hidden="true" />
-            <span>{status.companies[0]?.name}</span>
+            <span>{companyName}</span>
           </span>
         )}
         {cashOpen !== undefined && (

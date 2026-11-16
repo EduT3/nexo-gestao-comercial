@@ -89,7 +89,8 @@ test.beforeEach(async ({ page }) => {
     });
   });
   await page.goto('/');
-  await expect(page.getByRole('combobox', { name: 'Empresa em operação' })).toHaveValue('a');
+  await expect(page.locator('.nexo-topbar')).toContainText('Empresa A de teste');
+  await expect(page.getByRole('combobox', { name: 'Loja ativa' })).toHaveCount(0);
 });
 
 test('rascunho permanece ao navegar, mas não atravessa empresas', async ({
@@ -104,7 +105,10 @@ test('rascunho permanece ao navegar, mas não atravessa empresas', async ({
   await expect(form.getByLabel('Nome', { exact: true })).toHaveValue(
     'Rascunho da empresa A',
   );
-  await page.getByRole('combobox', { name: 'Empresa em operação' }).selectOption('b');
+  await page.getByRole('button', { name: 'Configurações', exact: true }).click();
+  await page.getByRole('combobox', { name: 'Loja ativa' }).selectOption('b');
+  await expect(page.locator('.nexo-topbar')).toContainText('Empresa B de teste');
+  await page.getByRole('button', { name: 'Estoque', exact: true }).click();
   await expect(form).not.toBeVisible();
   await page.getByRole('button', { name: 'Cadastrar produto', exact: true }).click();
   await expect(form.getByLabel('Nome', { exact: true })).toHaveValue('');
@@ -121,7 +125,7 @@ test('Excel bloqueia troca durante leitura e descarta prévia ao trocar empresa'
   await page
     .getByRole('button', { name: 'Selecionar planilha', exact: true })
     .click();
-  await expect(page.getByRole('combobox', { name: 'Empresa em operação' })).toBeDisabled();
+  await expect(page.getByRole('combobox', { name: 'Loja ativa' })).toBeDisabled();
   await expect(
     page.getByRole('button', { name: 'Sair', exact: true }),
   ).toBeDisabled();
@@ -136,8 +140,8 @@ test('Excel bloqueia troca durante leitura e descarta prévia ao trocar empresa'
   await expect(
     page.getByRole('table', { name: 'Prévia de produtos do Excel' }),
   ).toContainText('Importação a');
-  await expect(page.getByRole('combobox', { name: 'Empresa em operação' })).toBeEnabled();
-  await page.getByRole('combobox', { name: 'Empresa em operação' }).selectOption('b');
+  await expect(page.getByRole('combobox', { name: 'Loja ativa' })).toBeEnabled();
+  await page.getByRole('combobox', { name: 'Loja ativa' }).selectOption('b');
   await expect(
     page.getByRole('table', { name: 'Prévia de produtos do Excel' }),
   ).toHaveCount(0);
