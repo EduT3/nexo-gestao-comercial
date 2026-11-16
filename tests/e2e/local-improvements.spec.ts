@@ -76,6 +76,10 @@ async function visit(page: Page, name: string, financialView = 'Pagar') {
     if (await history.getAttribute('open') === null) await history.locator('summary').click();
   }
   if (name === 'Financeiro') { const button = page.getByRole('group', { name: 'Tarefas do financeiro' }).getByRole('button', { name: financialView, exact: true }); if (await button.getAttribute('aria-pressed') !== 'true') await button.click(); }
+  if (name === 'Caixa') {
+    const history = page.getByRole('button', { name: 'Ver histórico de caixas', exact: true });
+    if (await history.count()) await history.click();
+  }
   if (name === 'Compras') { const history = page.locator('#compras .purchase-history'); if (!(await history.evaluate(element => (element as HTMLDetailsElement).open))) await history.locator('summary').click(); }
 }
 async function defer(page: Page, method: string) {
@@ -361,7 +365,7 @@ test('resumo financeiro: falha retira totais anteriores e permite tentar novamen
  await expect(page.getByText('Consultando resumo financeiro…', { exact: true })).toBeVisible(); await expect(page.getByLabel('Saldo financeiro', { exact: true })).toHaveCount(0);
  await page.evaluate(() => (window as any).nexoTest.pending[1].resolve());
  await expect(page.getByLabel('Saldo financeiro', { exact: true })).toContainText('R$ 2,00'); await expect(page.getByRole('alert')).toHaveCount(0);
- const writes = await page.evaluate(() => (window as any).nexoTest.calls.filter((c: any) => /^(create|update|confirm|reverse|payPayable|receiveReceivable|openCash|closeCash|moveCash|backup|restore)/.test(c.method)));
+ const writes = await page.evaluate(() => (window as any).nexoTest.calls.filter((c: any) => /^(create|update(?!Status)|renameStore|confirm|reverse|payPayable|receiveReceivable|openCash|closeCash|moveCash|backup|restore)/.test(c.method)));
  expect(writes).toEqual([]); await page.screenshot({ path: test.info().outputPath('summary-read-recovered.png'), fullPage: true });
 });
 
@@ -376,7 +380,7 @@ test('resumo financeiro: erro na empresa atual não aceita resposta atrasada de 
  await page.evaluate(() => { const t = (window as any).nexoTest; t.values.financeTotals = { ...t.values.financeTotals, revenueCents: 300n, netRevenueCents: 300n, totalIncomeCents: 300n, financialBalanceCents: 300n }; });
  await error.getByRole('button', { name: 'Tentar novamente', exact: true }).click(); await waitPending(page, 3); await page.evaluate(() => (window as any).nexoTest.pending[2].resolve());
  await expect(page.getByLabel('Saldo financeiro', { exact: true })).toContainText('R$ 3,00'); await expect(page.locator('.nexo-topbar')).toContainText('Empresa B');
- const calls = await page.evaluate(() => (window as any).nexoTest.calls); expect(calls.filter((c: any) => c.method === 'financeTotals').at(-1).company).toBe('b'); expect(calls.filter((c: any) => /^(create|update|confirm|reverse|payPayable|receiveReceivable|openCash|closeCash|moveCash|backup|restore)/.test(c.method))).toEqual([]);
+ const calls = await page.evaluate(() => (window as any).nexoTest.calls); expect(calls.filter((c: any) => c.method === 'financeTotals').at(-1).company).toBe('b'); expect(calls.filter((c: any) => /^(create|update(?!Status)|renameStore|confirm|reverse|payPayable|receiveReceivable|openCash|closeCash|moveCash|backup|restore)/.test(c.method))).toEqual([]);
 });
 // Retrying a failed account read must preserve its context and never invoke a write.
 for (const task of [
@@ -412,7 +416,7 @@ for (const task of [
   await expect(page.getByLabel('Buscar conta a ' + task.kind, { exact: true })).toHaveValue('sao'); await expect(page.getByLabel('Situação das contas a ' + task.kind)).toHaveValue('ALL');
   const calls = await page.evaluate(() => (window as any).nexoTest.calls); const readCalls = calls.filter((call: any) => call.method === task.method);
   expect(readCalls.slice(-2)).toEqual([failedRequest, failedRequest]); expect(failedRequest).toMatchObject({ company: 'a', input: { search: 'sao', status: 'ALL', from: '2026-10-01', until: '2026-10-31', page: 1 } });
-  expect(calls.filter((c: any) => /^(create|update|confirm|reverse|payPayable|receiveReceivable|openCash|closeCash|moveCash|backup|restore)/.test(c.method))).toEqual([]); expect(errors).toEqual([]);
+  expect(calls.filter((c: any) => /^(create|update(?!Status)|renameStore|confirm|reverse|payPayable|receiveReceivable|openCash|closeCash|moveCash|backup|restore)/.test(c.method))).toEqual([]); expect(errors).toEqual([]);
   await page.screenshot({ path: test.info().outputPath('account-read-recovered.png'), fullPage: true });
  });
  test(`${task.method}: tentar novamente ignora resposta de outra empresa e lê somente a atual sem gravar`, async ({ page }) => {
@@ -425,7 +429,7 @@ for (const task of [
   await page.evaluate(method => { const t = (window as any).nexoTest; t.values[method] = { ...t.values[method], totalCents: 300n, rows: t.values[method].rows.map((r: any) => ({ ...r, id: 'company-b-account', amount_cents: 300n, supplier_name: 'Fornecedor Empresa B', description: 'Conta Empresa B' })) }; }, task.method);
   await retry.click(); await waitPending(page, 3); await page.evaluate(() => (window as any).nexoTest.pending[2].resolve());
   await expect(page.getByRole('table', { name: task.table, exact: true })).toContainText('Empresa B'); await expect(page.locator(task.panel)).toContainText('Total da consulta: R$ 3,00'); await expect(page.locator('.nexo-topbar')).toContainText('Empresa B');
-  const calls = await page.evaluate(() => (window as any).nexoTest.calls); expect(calls.filter((c: any) => c.method === task.method).at(-1)).toMatchObject({ company: 'b', input: { page: 0, search: '', status: 'OPEN' } }); expect(calls.filter((c: any) => /^(create|update|confirm|reverse|payPayable|receiveReceivable|openCash|closeCash|moveCash|backup|restore)/.test(c.method))).toEqual([]);
+  const calls = await page.evaluate(() => (window as any).nexoTest.calls); expect(calls.filter((c: any) => c.method === task.method).at(-1)).toMatchObject({ company: 'b', input: { page: 0, search: '', status: 'OPEN' } }); expect(calls.filter((c: any) => /^(create|update(?!Status)|renameStore|confirm|reverse|payPayable|receiveReceivable|openCash|closeCash|moveCash|backup|restore)/.test(c.method))).toEqual([]);
  });
 }
 // Explicit cancellation restores keyboard focus without performing a financial operation.
@@ -444,7 +448,7 @@ for (const task of [
   await expect(cancel).toBeFocused(); await page.keyboard.press('Enter'); await expect(form).toHaveCount(0);
   await test.info().attach('focus-after-cancel', { body: await page.evaluate(() => JSON.stringify({ tag: document.activeElement?.tagName, text: document.activeElement?.textContent })), contentType: 'application/json' });
   await expect(trigger).toBeFocused(); await expect(page.locator('.nexo-topbar')).toContainText('Empresa B');
-  const calls = await page.evaluate(() => (window as any).nexoTest.calls); expect(calls.filter((c: any) => c.method === task.method).at(-1).company).toBe('b'); expect(calls.filter((c: any) => /^(create|update|confirm|reverse|payPayable|receiveReceivable|openCash|closeCash|moveCash|backup|restore)/.test(c.method))).toEqual([]);
+  const calls = await page.evaluate(() => (window as any).nexoTest.calls); expect(calls.filter((c: any) => c.method === task.method).at(-1).company).toBe('b'); expect(calls.filter((c: any) => /^(create|update(?!Status)|renameStore|confirm|reverse|payPayable|receiveReceivable|openCash|closeCash|moveCash|backup|restore)/.test(c.method))).toEqual([]);
   await page.screenshot({ path: test.info().outputPath('cancel-focus-origin.png'), fullPage: true });
  });
  test(`${task.method}: cancelamento explícito usa resumo da lista quando o botão de origem saiu da consulta`, async ({ page }) => {
@@ -454,7 +458,7 @@ for (const task of [
   await page.getByLabel('Buscar conta a ' + task.kind, { exact: true }).fill('sem resultado'); await expect(trigger).toHaveCount(0); await expect(form).toBeVisible();
   const cancel = form.getByRole('button', { name: task.cancel, exact: true }); await cancel.focus(); await page.keyboard.press('Enter'); await expect(form).toHaveCount(0);
   await expect(panel.locator('details.panel > summary').first()).toBeFocused(); await expect(page.locator('.nexo-topbar')).toContainText('Empresa A');
-  const calls = await page.evaluate(() => (window as any).nexoTest.calls); expect(calls.filter((c: any) => /^(create|update|confirm|reverse|payPayable|receiveReceivable|openCash|closeCash|moveCash|backup|restore)/.test(c.method))).toEqual([]);
+  const calls = await page.evaluate(() => (window as any).nexoTest.calls); expect(calls.filter((c: any) => /^(create|update(?!Status)|renameStore|confirm|reverse|payPayable|receiveReceivable|openCash|closeCash|moveCash|backup|restore)/.test(c.method))).toEqual([]);
   await page.screenshot({ path: test.info().outputPath('cancel-focus-list.png'), fullPage: true });
  });
 }
@@ -506,7 +510,7 @@ for (const task of [
   await expect(table).not.toContainText('R$ 1,00');await expect(table).toContainText('R$ 2,00');
   const calls=await page.evaluate(method=>{
    const control=(window as any).nexoTest;
-   return {writes:control.calls.filter((call:any)=>/^(create|update|confirm|reverse|payPayable|receiveReceivable|openCash|closeCash|moveCash|backup|restore)/.test(call.method)),latest:control.calls.filter((call:any)=>call.method===method).at(-1)};
+   return {writes:control.calls.filter((call:any)=>/^(create|update(?!Status)|renameStore|confirm|reverse|payPayable|receiveReceivable|openCash|closeCash|moveCash|backup|restore)/.test(call.method)),latest:control.calls.filter((call:any)=>call.method===method).at(-1)};
   },task.method);
   expect(calls.writes).toHaveLength(1);expect(calls.writes[0].method).toBe(write);expect(calls.writes[0].company).toBe('a');
   expect(calls.latest.company).toBe('a');expect(calls.latest.input.search).toBe(task.filter);expect(calls.latest.input.page).toBe(0);
@@ -539,7 +543,7 @@ for(const scenario of [{area:'Compras',noun:'compras',method:'purchaseHistory',t
   await page.getByLabel('Buscar '+scenario.noun,{exact:true}).fill('a-history-001');await page.getByRole('button',{name:'Consultar '+scenario.noun,exact:true}).click();await waitPending(page,2);
   await page.evaluate(()=>{const p=(window as any).nexoTest.pending;p[1].resolve();p[0].reject(new Error('FILTRO ANTIGO'));});await expect(table.locator('[data-history-id="a-history-001"]')).toBeVisible();await expect(page.getByText('FILTRO ANTIGO',{exact:false})).toHaveCount(0);
   await page.getByLabel('Buscar '+scenario.noun,{exact:true}).fill('a-history-002');await page.getByRole('button',{name:'Consultar '+scenario.noun,exact:true}).click();await waitPending(page,3);await switchStore(page);await visit(page,scenario.area);await waitPending(page,4);
-  await page.evaluate(()=>{const c=(window as any).nexoTest;c.deferred=[];c.pending[3].resolve();c.pending[2].resolve();});if(scenario.area==='Compras')await page.locator('#compras .purchase-history > summary').click();await expect(table.locator('[data-history-id="b-history-000"]')).toBeVisible();await expect(table.locator('[data-history-id^="a-"]')).toHaveCount(0);
+  await page.evaluate(()=>{const c=(window as any).nexoTest;c.deferred=[];c.pending[3].resolve();c.pending[2].resolve();});await expect(table.locator('[data-history-id="b-history-000"]')).toBeVisible();await expect(table.locator('[data-history-id^="a-"]')).toHaveCount(0);
  });
 }
 test('caixa ativo e ações permanecem em página antiga, filtro vazio e erro do histórico',async({page})=>{

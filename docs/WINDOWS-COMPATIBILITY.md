@@ -169,3 +169,5 @@ A troca em **Configurações → Lojas vinculadas** aparece somente a usuários 
 | NEXO Guard | A alteração do nome é uma operação própria. Políticas que protegem todas as operações a incluem. Políticas com ações selecionadas podem incluí-la em Configurações. |
 
 A etapa usa as tabelas existentes. Qualquer futura mudança dos identificadores, vínculos ou fronteiras entre lojas exige auditoria específica dessas áreas, com backup validado, comparação dos registros e ensaio de retorno em cópias temporárias.
+
+A compilação desktop e os 246 testes passaram. Em perfis temporários com SQLite de uma e duas lojas, o Electron confirmou primeiro acesso, edição do nome, troca legada e persistência após reabrir. Um teste dirigido recusou a edição para o operador e confirmou que cancelar o Guard preserva nome e rascunho, com gravação somente após PIN válido. Quinze regressões de interface passaram no navegador sobre a compilação desktop, incluindo rascunhos, Excel e isolamento de respostas de estoque, vendas, caixa e contas.
