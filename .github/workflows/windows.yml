@@ -34,7 +34,7 @@ jobs:
           RECEIPT_SOURCE_RUN: ${{ inputs.receipt_source_run }}
           RECEIPT_SOURCE_SHA256: ${{ inputs.receipt_source_sha256 }}
         run: |
-          $version = '1.0.13'
+          $version = '1.0.14'
           if ($env:RECEIPT_SOURCE_RUN -or $env:RECEIPT_SOURCE_SHA256) {
             if ($env:RECEIPT_SOURCE_RUN -notmatch '^\d+$' -or $env:RECEIPT_SOURCE_SHA256 -notmatch '^[0-9a-fA-F]{64}$') {
               throw 'Provide a source run ID and a valid SHA-256 digest'
