@@ -1,0 +1,106 @@
+{
+  "method": "Windows TotalProcessorTime delta, browser and renderer, one logical CPU",
+  "databaseSha256": "a0d159133c783e58b5c55935ed48da87a800e39050631489e71913b08da67df8",
+  "summary": [
+    {
+      "id": "NEXO-D9777AA12793DE3B",
+      "version": "1.0.6",
+      "min": 0,
+      "median": 0,
+      "max": 0.2989989076445672
+    },
+    {
+      "id": "NEXO-B4FBEDEBFCC6D0E8",
+      "version": "1.0.11",
+      "min": 0,
+      "median": 0,
+      "max": 0
+    }
+  ],
+  "samples": [
+    {
+      "round": 1,
+      "version": "1.0.11",
+      "elapsedMs": 5214.14745,
+      "cpuMs": 0,
+      "percentOfOneLogicalCpu": 0
+    },
+    {
+      "round": 1,
+      "version": "1.0.6",
+      "elapsedMs": 5211.609700000001,
+      "cpuMs": 0,
+      "percentOfOneLogicalCpu": 0
+    },
+    {
+      "round": 2,
+      "version": "1.0.6",
+      "elapsedMs": 5219.054400000008,
+      "cpuMs": 0,
+      "percentOfOneLogicalCpu": 0
+    },
+    {
+      "round": 2,
+      "version": "1.0.11",
+      "elapsedMs": 5220.753450000004,
+      "cpuMs": 0,
+      "percentOfOneLogicalCpu": 0
+    },
+    {
+      "round": 3,
+      "version": "1.0.11",
+      "elapsedMs": 5212.3424499999965,
+      "cpuMs": 0,
+      "percentOfOneLogicalCpu": 0
+    },
+    {
+      "round": 3,
+      "version": "1.0.6",
+      "elapsedMs": 5214.171749999994,
+      "cpuMs": 0,
+      "percentOfOneLogicalCpu": 0
+    },
+    {
+      "round": 4,
+      "version": "1.0.6",
+      "elapsedMs": 5215.917249999999,
+      "cpuMs": 0,
+      "percentOfOneLogicalCpu": 0
+    },
+    {
+      "round": 4,
+      "version": "1.0.11",
+      "elapsedMs": 5213.938849999977,
+      "cpuMs": 0,
+      "percentOfOneLogicalCpu": 0
+    },
+    {
+      "round": 5,
+      "version": "1.0.11",
+      "elapsedMs": 5223.935400000017,
+      "cpuMs": 0,
+      "percentOfOneLogicalCpu": 0
+    },
+    {
+      "round": 5,
+      "version": "1.0.6",
+      "elapsedMs": 5222.506099999999,
+      "cpuMs": 0,
+      "percentOfOneLogicalCpu": 0
+    },
+    {
+      "round": 6,
+      "version": "1.0.6",
+      "elapsedMs": 5225.771599999993,
+      "cpuMs": 15.625,
+      "percentOfOneLogicalCpu": 0.2989989076445672
+    },
+    {
+      "round": 6,
+      "version": "1.0.11",
+      "elapsedMs": 5223.633450000008,
+      "cpuMs": 0,
+      "percentOfOneLogicalCpu": 0
+    }
+  ]
+}

@@ -151,3 +151,9 @@ Os executáveis extraídos 1.0.6 e 1.0.11 abriram cópias do mesmo banco fictíc
 | Memória residente dos dois processos | 212,96 MiB | 212,26 MiB |
 
 A coleta de CPU retornou leituras negativas e ficou inconclusiva. Os valores brutos foram preservados para diagnóstico. As diferenças observadas de abertura e memória são pequenas neste ambiente e não estabelecem requisitos de hardware. [Amostras e identificação dos builds](benchmarks/windows11-startup-1.0.6-1.0.11.json)
+
+#### Nova coleta de CPU em repouso
+
+O ensaio repetiu somente a medição de CPU, com os mesmos executáveis extraídos e o mesmo banco fictício. Foram seis pares em ordem alternada após um par de aquecimento. O Windows forneceu o tempo acumulado de CPU dos processos principal e de interface. Após 1,5 s de estabilização, foram coletados dois pontos separados por cerca de cinco segundos, com confirmação de que os processos eram os mesmos.
+
+A mediana foi de 0% de um processador lógico nas duas versões, dentro da resolução da coleta. O maior valor na 1.0.6 foi 0,30%, e as seis amostras da 1.0.11 ficaram em 0% registrado. O ensaio descreve repouso com janela oculta, sem medir CPU durante operações ou uso interativo. [Amostras de CPU em repouso](benchmarks/windows11-idle-cpu-1.0.6-1.0.11.json)
