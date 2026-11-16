@@ -2,14 +2,14 @@
 
 ## Estado da homologação
 
-A versão pública é a **1.0.4**. A candidata **1.0.14**, build `NEXO-CB3B8787C105EA55`, passou em 246 testes e dois roteiros com o aplicativo instalado em Windows Server 2025. Em Windows 11, o executável extraído da 1.0.13 confirmou a contagem acessível do PIN e o retorno do foco na venda após cancelar a autorização. A validação manual informada pelo usuário é independente e não identifica a versão testada. O Windows 10 22H2 x64 segue pendente por falta de ambiente, sem bloquear o desenvolvimento. [Release pública](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.4) · [Execução da 1.0.14](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43799796173)
+A versão pública **1.0.15**, build `NEXO-FD5CDB9C5524DE58`, passou em 246 testes e dois roteiros com o aplicativo instalado em Windows Server 2025. Em Windows 11, o executável extraído da 1.0.13 confirmou a contagem acessível do PIN e o retorno do foco na venda após cancelar a autorização. A validação manual informada pelo usuário é independente e não identifica a versão testada. O Windows 10 22H2 x64 segue pendente por falta de ambiente, sem bloquear o desenvolvimento. [Release pública](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.15) · [Execução da 1.0.15](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43864949498)
 
 | Sistema | Prioridade | Evidência | Instalação e atualização |
 | --- | --- | --- | --- |
 | Windows 10 22H2 x64 com 8 GB | P0 | Pendente. Registrar edição, build 19045 com revisão, segurança e hardware do equipamento. | Usar o instalador público e depois a candidata em canal controlado, com perfil fictício. |
 | Windows 11 x64 | P0 | **Manual, informada pelo usuário:** aplicativo instalado e funcionando nos testes práticos realizados. **Automatizada:** no Windows build 26300.9974, roteiro comercial amplo com 1.0.6 extraída e testes dirigidos de venda com desconto na 1.0.11 e de teclado e foco na 1.0.13, ambas extraídas. | A verificação controlada do instalador NSIS e da atualização entre versões no Windows cliente permanece pendente. |
 | Windows 10 22H2 x64 com 4 GB | P1 | Pendente. Perfil de teste de memória limitada. | Repetir o ensaio do Windows 10 com memória e paginação medidas. |
-| Windows Server 2025 x64 | CI | Instalação e dois perfis fictícios aprovados na 1.0.14. O ensaio de atualização e recuperação 1.0.6 → 1.0.7 tem resultado próprio. | Consulte o resultado e os relatórios anexados à execução. |
+| Windows Server 2025 x64 | CI | Instalação e dois perfis fictícios aprovados na 1.0.15. O ensaio de atualização e recuperação 1.0.6 → 1.0.7 tem resultado próprio. | Consulte o resultado e os relatórios anexados à execução. |
 | Windows 7 | P3 | Fora do suporte. Análise técnica, sem execução. | Sem procedimento de instalação. |
 
 O suporte regular da Microsoft ao Windows 10 22H2 terminou em **14 de outubro de 2025**. Sem atualizações de segurança, aumenta a exposição a vulnerabilidades. O ESU oferece atualizações de segurança para dispositivos elegíveis conforme as condições da Microsoft. [Ciclo de suporte](https://learn.microsoft.com/windows/release-health/release-information) · [Programa ESU](https://www.microsoft.com/en-us/windows/extended-security-updates)

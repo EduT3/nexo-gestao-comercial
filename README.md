@@ -4,7 +4,7 @@
 
 Gestão comercial para lojas que precisam vender, controlar estoque, operar o caixa e acompanhar contas em um computador Windows. As rotinas de balcão funcionam offline, com os dados no próprio computador.
 
-[Baixar versão pública 1.0.4](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.4) · [Ver demonstração](https://nexo-gestao-comercial.vercel.app) · [Compatibilidade Windows](docs/WINDOWS-COMPATIBILITY.md)
+[Baixar versão pública 1.0.15](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.15) · [Ver demonstração](https://nexo-gestao-comercial.vercel.app) · [Compatibilidade Windows](docs/WINDOWS-COMPATIBILITY.md)
 
 ## Capturas e demonstração
 
@@ -53,15 +53,15 @@ Preserve `guard.json` ao migrar de computador e guarde a **chave de recuperaçã
 
 | Opção | Uso |
 | --- | --- |
-| **Instalador público 1.0.4** | Baixe `NEXO-Setup-1.0.4.exe` na [release pública](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.4). Abra o NEXO e cadastre o responsável no primeiro acesso. O instalador está sem assinatura digital. |
-| **Candidata 1.0.15** | [Artefato temporário do GitHub Actions](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43864949498/artifacts/14226196510), para perfil isolado e dados fictícios. O ZIP contém o instalador de teste em `installer/`, o manifesto e os relatórios. |
+| **Instalador público 1.0.15** | Baixe `NEXO-Setup-1.0.15.exe` na [release pública](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.15). Abra o NEXO e cadastre o responsável no primeiro acesso. O instalador está sem assinatura digital. |
+| **Relatórios e ZIP da validação 1.0.15** | [Artefato temporário do GitHub Actions](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43864949498/artifacts/14226196510), para perfil isolado e dados fictícios. O ZIP contém o instalador de teste em `installer/`, o manifesto e os relatórios. |
 | **ZIP portátil** | Extraia a pasta completa e execute `NEXO.exe` diretamente. A cópia portátil usa atualização manual. Para migrar de um perfil portátil separado, gere o backup nele e restaure pelo programa instalado. |
 
 O banco da instalação padrão fica em `%LOCALAPPDATA%\NEXO\nexo.sqlite`. Veja as evidências do ambiente e da versão antes de adotar o NEXO em uma estação comercial. [Compatibilidade e instalação por sistema](docs/WINDOWS-COMPATIBILITY.md)
 
 ## Atualizações e backup
 
-No programa instalado, abra **Configurações → Verificar atualização**. O aplicativo consulta o GitHub Releases, oferece download quando há uma versão disponível e pede confirmação para reiniciar. O fluxo cria uma cópia SQLite antes de instalar. A versão pública 1.0.4 foi consultada e baixada por HTTPS em teste. No Windows Server 2025, a candidata 1.0.15 foi instalada por atualização em canal isolado a partir da 1.0.4 e da 1.0.5 de teste com Guard, preservando os dados fictícios. A atualização em Windows cliente ainda aguarda bancada. [Evidências do atualizador](docs/UPDATE-QA-M2.6.md)
+No programa instalado, abra **Configurações → Verificar atualização**. O aplicativo consulta o GitHub Releases, oferece download quando há uma versão disponível e pede confirmação para reiniciar. O fluxo cria uma cópia SQLite antes de instalar. O atualizador da 1.0.4 detectou e baixou a versão pública 1.0.15 por HTTPS no Windows 11. No Windows Server 2025, a candidata 1.0.15 foi instalada por atualização em canal isolado a partir da 1.0.4 e da 1.0.5 de teste com Guard, preservando os dados fictícios. A atualização em Windows cliente ainda aguarda bancada. [Evidências do atualizador](docs/UPDATE-QA-M2.6.md)
 
 Use **Gerar backup** e guarde a cópia em outro dispositivo. A restauração preserva uma cópia anterior à troca. A planilha Excel serve para consulta e intercâmbio. Use o backup SQLite para recuperação da base e preserve a política do Guard e sua chave conforme a seção anterior.
 
