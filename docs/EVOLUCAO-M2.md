@@ -188,3 +188,7 @@ As diferenças ficaram abaixo de 0,4 ms nesta base. Os históricos retornaram o 
 ### Tratamento de falha de comunicação ao concluir venda
 
 No Windows 11, o executável extraído da 1.0.11 (NEXO-B4FBEDEBFCC6D0E8) foi aberto com uma cópia fictícia do banco. O teste retirou em memória apenas o handler IPC de conclusão de venda daquele processo. Ao tentar confirmar uma venda por PIX, a interface exibiu “Não foi possível enviar a solicitação ao NEXO. Tente novamente.” A quantidade e o pagamento permaneceram selecionados, e o botão voltou a ficar disponível. As respostas dos históricos e do caixa permaneceram idênticas antes e depois, com 11 vendas e 12 movimentos. A injeção cobre indisponibilidade antes da gravação. Os arquivos do aplicativo não foram modificados.
+
+### Repetição da venda após perda da resposta
+
+Na mesma candidata 1.0.11 extraída, no Windows 11 e com banco fictício, a automação deixou o handler original concluir uma venda por PIX e simulou um erro de comunicação somente na resposta ao formulário. A primeira tentativa registrou a venda e a baixa de estoque, passando de 11 para 12 vendas e de 12 para 13 movimentos. A interface preservou o rascunho. Repetir a ação no mesmo formulário exibiu a confirmação, limpou o rascunho e preservou os totais e o conteúdo dos históricos após a primeira gravação. O caixa permaneceu com o mesmo saldo, como esperado para PIX. O ensaio cobre a repetição do mesmo rascunho na mesma sessão e não modificou os arquivos do pacote.
