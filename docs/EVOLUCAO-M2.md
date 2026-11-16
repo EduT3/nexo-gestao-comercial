@@ -128,3 +128,7 @@ No Windows 11, o executável extraído da candidata 1.0.10 exibiu relações de 
 A [execução 43747340730](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43747340730) aprovou 246 testes e dois perfis no Windows Server 2025. Em ambos, cancelar a confirmação protegida do Excel manteve a prévia e o catálogo sem o produto fictício. Autorizar a nova tentativa importou um produto, preservado ao reabrir. A mensagem da venda com desconto foi verificada em perfil temporário na compilação local.
 
 O [ZIP 1.0.11](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43747340730/artifacts/14175212566) foi baixado. O build `NEXO-B4FBEDEBFCC6D0E8` inclui o instalador de 124.155.850 bytes, o blockmap e o manifesto com versão e SHA-512 correspondentes. SHA-256 do instalador: `8A4CC5AD3C8FDFBB7B8AB7048BC7E91C3779BB92DC68D8C59A119F1186EF6962`. Artefato disponível até 29/11/2026, 15h47 no horário de Brasília. A versão pública permanece 1.0.4.
+
+### Teste dirigido da venda com desconto no pacote 1.0.11
+
+No Windows 11, a carga x64 extraída do instalador 1.0.11 conferido, build NEXO-B4FBEDEBFCC6D0E8, exibiu Aguardando autorização ao concluir a venda com desconto. Cancelar preservou o desconto de R$ 1,00, duas unidades no estoque, caixa de R$ 10,00 e zero vendas. A nova tentativa com PIN válido gravou uma venda de R$ 4,00, baixou uma unidade e deixou o caixa em R$ 14,00. O teste usou perfil fictício, sem executar o NSIS no Windows cliente.

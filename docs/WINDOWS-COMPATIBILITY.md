@@ -138,3 +138,7 @@ O mesmo executável também passou na edição de produto pela interface. Em um 
 A carga x64 extraída do instalador conferido da 1.0.10, build `NEXO-576BB6253FF853C7`, passou nos testes de feedback de suprimento, pagamento e recebimento no Windows 11 Pro x64 26300.9974, em três perfis temporários. A interface informou a espera pelo PIN. O cancelamento preservou os campos e o caixa. As novas tentativas autorizadas registraram os valores previstos.
 
 Os dois cancelamentos de estorno exibiram a mensagem correspondente, preservaram os motivos, mantiveram as contas baixadas e conservaram o caixa em R$ 11,50. Os diálogos nativos foram respondidos por automação. O ensaio usou o executável extraído, sem executar o NSIS nem acessar a instalação pessoal. [Artefato de origem](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43745162436/artifacts/14174511359)
+
+### Teste dirigido da venda com desconto no pacote 1.0.11
+
+No Windows 11, a carga x64 extraída do instalador 1.0.11 conferido, build NEXO-B4FBEDEBFCC6D0E8, exibiu Aguardando autorização ao concluir a venda com desconto. Cancelar preservou o desconto de R$ 1,00, duas unidades no estoque, caixa de R$ 10,00 e zero vendas. A nova tentativa com PIN válido gravou uma venda de R$ 4,00, baixou uma unidade e deixou o caixa em R$ 14,00. O teste usou perfil fictício, sem executar o NSIS no Windows cliente.
