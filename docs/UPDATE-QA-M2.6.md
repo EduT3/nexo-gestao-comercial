@@ -152,3 +152,7 @@ A primeira conexão com o certificado desconhecido foi recusada. O teste positiv
 ### Versão pública 1.0.15
 
 A **1.0.15** foi publicada como versão principal no GitHub Releases. O repositório oferece o instalador, o blockmap, o manifesto e as somas SHA-256. No Windows 11, o executável extraído da 1.0.4 consultou o canal público em perfil descartável, detectou a 1.0.15 e concluiu o download. O instalador baixado pelo atualizador corresponde ao SHA-256 e aos 124.156.857 bytes da release. O NSIS não foi executado nesse perfil do Windows cliente. [Release pública](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.15)
+
+### Atualização 1.0.15 confirmada pelo usuário
+
+Em 16/11/2026, o usuário informou que a atualização da versão pública 1.0.15 pelo aplicativo funcionou no computador pessoal com Windows 11. O relato confirma o resultado prático da atualização. A versão de origem, a conferência de persistência e os cenários de recuperação não foram detalhados.

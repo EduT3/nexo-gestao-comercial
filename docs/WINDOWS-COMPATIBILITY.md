@@ -2,12 +2,12 @@
 
 ## Estado da homologação
 
-A versão pública **1.0.15**, build `NEXO-FD5CDB9C5524DE58`, passou em 246 testes e dois roteiros com o aplicativo instalado em Windows Server 2025. Em Windows 11, o executável extraído da 1.0.13 confirmou a contagem acessível do PIN e o retorno do foco na venda após cancelar a autorização. A validação manual informada pelo usuário é independente e não identifica a versão testada. O Windows 10 22H2 x64 segue pendente por falta de ambiente, sem bloquear o desenvolvimento. [Release pública](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.15) · [Execução da 1.0.15](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43864949498)
+A versão pública **1.0.15**, build `NEXO-FD5CDB9C5524DE58`, passou em 246 testes e dois roteiros com o aplicativo instalado em Windows Server 2025. Em Windows 11, o executável extraído da 1.0.13 confirmou a contagem acessível do PIN e o retorno do foco na venda após cancelar a autorização. O usuário também informou que atualizou para a 1.0.15 pelo aplicativo no Windows 11. O Windows 10 22H2 x64 segue pendente por falta de ambiente, sem bloquear o desenvolvimento. [Release pública](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.15) · [Execução da 1.0.15](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43864949498)
 
 | Sistema | Prioridade | Evidência | Instalação e atualização |
 | --- | --- | --- | --- |
 | Windows 10 22H2 x64 com 8 GB | P0 | Pendente. Registrar edição, build 19045 com revisão, segurança e hardware do equipamento. | Usar o instalador público e depois a candidata em canal controlado, com perfil fictício. |
-| Windows 11 x64 | P0 | **Manual, informada pelo usuário:** aplicativo instalado e funcionando nos testes práticos realizados. **Automatizada:** no Windows build 26300.9974, roteiro comercial amplo com 1.0.6 extraída e testes dirigidos de venda com desconto na 1.0.11 e de teclado e foco na 1.0.13, ambas extraídas. | A verificação controlada do instalador NSIS e da atualização entre versões no Windows cliente permanece pendente. |
+| Windows 11 x64 | P0 | **Manual, informada pelo usuário:** aplicativo instalado e funcionando nos testes práticos realizados, com atualização pelo app para a 1.0.15 posteriormente confirmada. **Automatizada:** no Windows build 26300.9974, roteiro comercial amplo com 1.0.6 extraída e testes dirigidos de venda com desconto na 1.0.11 e de teclado e foco na 1.0.13, ambas extraídas. | A verificação controlada do instalador NSIS e da atualização entre versões no Windows cliente permanece pendente. |
 | Windows 10 22H2 x64 com 4 GB | P1 | Pendente. Perfil de teste de memória limitada. | Repetir o ensaio do Windows 10 com memória e paginação medidas. |
 | Windows Server 2025 x64 | CI | Instalação e dois perfis fictícios aprovados na 1.0.15. O ensaio de atualização e recuperação 1.0.6 → 1.0.7 tem resultado próprio. | Consulte o resultado e os relatórios anexados à execução. |
 | Windows 7 | P3 | Fora do suporte. Análise técnica, sem execução. | Sem procedimento de instalação. |
@@ -27,6 +27,8 @@ No Windows cliente, verifique criação e acesso a `LOCALAPPDATA` por um usuári
 ## Validação manual informada pelo usuário no Windows 11
 
 Em 14/11/2026, o usuário confirmou que o NEXO está instalado no seu computador pessoal com Windows 11 e funcionou normalmente nos testes práticos que realizou. O relato não especifica a versão do NEXO, o build do Windows, o método de instalação ou os cenários executados. A evidência abrange o funcionamento prático relatado. A certificação do caminho NSIS, atualização, recuperação, operação sem rede e DPI nativo exige evidência própria. A instalação pessoal e os dados reais ficam fora dos ensaios de engenharia.
+
+Em 16/11/2026, o usuário informou que a atualização da versão pública 1.0.15 pelo aplicativo funcionou no computador pessoal com Windows 11. O relato confirma o resultado prático da atualização. A versão de origem, a conferência de persistência e os cenários de recuperação não foram detalhados.
 
 ## Evidência automatizada no Windows 11 x64
 
