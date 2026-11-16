@@ -2,14 +2,14 @@
 
 ## Estado da homologação
 
-A versão pública é a **1.0.4**. A candidata **1.0.13**, build `NEXO-2BC1CFAE0D6D5B7A`, passou em 246 testes e dois roteiros com o aplicativo instalado em Windows Server 2025. Em Windows 11, o executável extraído da 1.0.13 confirmou a contagem acessível do PIN e o retorno do foco na venda após cancelar a autorização. A validação manual informada pelo usuário é independente e não identifica a versão testada. O Windows 10 22H2 x64 segue pendente por falta de ambiente, sem bloquear o desenvolvimento. [Release pública](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.4) · [Execução da 1.0.13](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43797179333)
+A versão pública é a **1.0.4**. A candidata **1.0.14**, build `NEXO-CB3B8787C105EA55`, passou em 246 testes e dois roteiros com o aplicativo instalado em Windows Server 2025. Em Windows 11, o executável extraído da 1.0.13 confirmou a contagem acessível do PIN e o retorno do foco na venda após cancelar a autorização. A validação manual informada pelo usuário é independente e não identifica a versão testada. O Windows 10 22H2 x64 segue pendente por falta de ambiente, sem bloquear o desenvolvimento. [Release pública](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.4) · [Execução da 1.0.14](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43799796173)
 
 | Sistema | Prioridade | Evidência | Instalação e atualização |
 | --- | --- | --- | --- |
 | Windows 10 22H2 x64 com 8 GB | P0 | Pendente. Registrar edição, build 19045 com revisão, segurança e hardware do equipamento. | Usar o instalador público e depois a candidata em canal controlado, com perfil fictício. |
 | Windows 11 x64 | P0 | **Manual, informada pelo usuário:** aplicativo instalado e funcionando nos testes práticos realizados. **Automatizada:** no Windows build 26300.9974, roteiro comercial amplo com 1.0.6 extraída e testes dirigidos de venda com desconto na 1.0.11 e de teclado e foco na 1.0.13, ambas extraídas. | A verificação controlada do instalador NSIS e da atualização entre versões no Windows cliente permanece pendente. |
 | Windows 10 22H2 x64 com 4 GB | P1 | Pendente. Perfil de teste de memória limitada. | Repetir o ensaio do Windows 10 com memória e paginação medidas. |
-| Windows Server 2025 x64 | CI | Instalação e dois perfis fictícios aprovados na 1.0.13. O ensaio de atualização e recuperação 1.0.6 → 1.0.7 tem resultado próprio. | Consulte o resultado e os relatórios anexados à execução. |
+| Windows Server 2025 x64 | CI | Instalação e dois perfis fictícios aprovados na 1.0.14. O ensaio de atualização e recuperação 1.0.6 → 1.0.7 tem resultado próprio. | Consulte o resultado e os relatórios anexados à execução. |
 | Windows 7 | P3 | Fora do suporte. Análise técnica, sem execução. | Sem procedimento de instalação. |
 
 O suporte regular da Microsoft ao Windows 10 22H2 terminou em **14 de outubro de 2025**. Sem atualizações de segurança, aumenta a exposição a vulnerabilidades. O ESU oferece atualizações de segurança para dispositivos elegíveis conforme as condições da Microsoft. [Ciclo de suporte](https://learn.microsoft.com/windows/release-health/release-information) · [Programa ESU](https://www.microsoft.com/en-us/windows/extended-security-updates)
@@ -150,3 +150,7 @@ A carga x64 extraída do instalador conferido foi executada em Windows 11 build 
 ### Janela do Guard com escala nativa de 100% no Windows 11
 
 No build NEXO-2BC1CFAE0D6D5B7A extraído, o Electron informou escala nativa de 100% para a tela de teste, com área de trabalho de 3440 × 1392. A janela foi redimensionada pelo Electron, sem emulação de DPI, para áreas de conteúdo de 1184 × 735, 1000 × 650 e 900 × 600. O diálogo de autorização da venda e todos os seus botões ficaram inteiros dentro da área visível, sem rolagem interna. Escape devolveu o foco a Concluir venda e preservou o rascunho. O ensaio usou um banco fictício e manteve a configuração de tela do Windows. Escalas nativas de 125% e 150% continuam pendentes.
+
+### Equivalência visual dos pacotes 1.0.13 e 1.0.14
+
+Os executáveis x64 extraídos dos instaladores 1.0.13 e 1.0.14 foram executados no mesmo Windows 11, em cópias do mesmo banco fictício. Em Início, Vender, Estoque, Caixa e Contas, a navegação por Enter selecionou o módulo esperado em 1000 × 650, 1280 × 720, 1366 × 768 e 1920 × 1080. Nas 20 combinações, as 133 amostras de controles visíveis mantiveram posição, dimensões, fonte, tamanho, cor, fundo, raio e espaçamento. O cabeçalho permaneceu na área visível, sem rolagem horizontal. As dimensões do conteúdo foram aplicadas pelo Chromium. A comparação não inclui instalação, alteração de DPI nativo ou inspeção pixel a pixel.
