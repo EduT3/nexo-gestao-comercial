@@ -61,18 +61,21 @@ O banco da instalação padrão fica em `%LOCALAPPDATA%\NEXO\nexo.sqlite`. Veja 
 
 ## Atualizações e backup
 
-No programa instalado, abra **Configurações → Verificar atualização**. O aplicativo consulta o GitHub Releases, oferece download quando há uma versão disponível e pede confirmação para reiniciar. O fluxo cria uma cópia SQLite antes de instalar. A versão pública 1.0.4 foi consultada e baixada por HTTPS em teste. A instalação da candidata M2 foi exercitada em canal isolado. [Evidências do atualizador](docs/UPDATE-QA-M2.6.md)
+No programa instalado, abra **Configurações → Verificar atualização**. O aplicativo consulta o GitHub Releases, oferece download quando há uma versão disponível e pede confirmação para reiniciar. O fluxo cria uma cópia SQLite antes de instalar. A versão pública 1.0.4 foi consultada e baixada por HTTPS em teste. No Windows Server 2025, a candidata 1.0.11 foi instalada por atualização em canal isolado a partir da 1.0.4 e da 1.0.5 de teste com Guard, preservando os dados fictícios. A atualização em Windows cliente ainda aguarda bancada. [Evidências do atualizador](docs/UPDATE-QA-M2.6.md)
 
 Use **Gerar backup** e guarde a cópia em outro dispositivo. A restauração preserva uma cópia anterior à troca. A planilha Excel serve para consulta e intercâmbio. Use o backup SQLite para recuperação da base e preserve a política do Guard e sua chave conforme a seção anterior.
 
 ## Desempenho e requisitos
 
-Em uma base fictícia de 50 mil produtos, 50 mil vendas e 100 mil movimentos, a mediana da consulta de histórico de estoque passou de **109,44 ms para 58,78 ms** no ensaio de otimização. As medições foram feitas com Ryzen 7 7700X e 32 GB de RAM, sem tempo de renderização. A comparação posterior do M2, com uma linha de base diferente, está documentada separadamente. [Auditoria Windows](docs/AUDITORIA-WINDOWS.md) · [Comparação SQLite M2](docs/benchmarks/catalogo-m2.json)
+Em uma base fictícia de 50 mil produtos, 50 mil vendas e 100 mil movimentos, a mediana da consulta de histórico de estoque passou de **109,44 ms para 58,78 ms** no ensaio de otimização. As medições foram feitas com Ryzen 7 7700X e 32 GB de RAM, sem tempo de renderização. [Auditoria Windows](docs/AUDITORIA-WINDOWS.md) · [Comparação SQLite M2](docs/benchmarks/catalogo-m2.json)
+
+No Windows 11, com o mesmo banco fictício de 1.000 produtos e 11 vendas, a mediana até a primeira resposta foi de **387,71 ms na 1.0.6** e **385,90 ms na 1.0.11**. A memória residente dos processos principal e de interface ficou em 212,96 e 212,26 MiB. O ensaio usou executáveis extraídos e janela oculta. [Resultados e limites do M2](docs/EVOLUCAO-M2.md)
 
 | Ambiente | Estado |
 | --- | --- |
 | Windows 10 22H2 x64 | Homologação pendente. O suporte regular da Microsoft terminou em 14/10/2025. Sem atualizações de segurança, o risco de exploração aumenta. |
-| Windows 11 x64 | Usuário confirmou o funcionamento prático do NEXO instalado. O roteiro automatizado em perfil fictício passou com o executável extraído, no build 26300.9974. Instalação NSIS e atualização em bancada cliente controlada seguem pendentes. |
+| Windows 11 x64 | **Validação manual informada pelo usuário** nos testes práticos que realizou. Em perfil fictício no Windows build 26300.9974, a 1.0.6 extraída passou no roteiro comercial e a 1.0.11 extraída passou em testes dirigidos de venda e navegação. Instalação NSIS e atualização em bancada cliente seguem pendentes. |
+| Windows Server 2025 x64 | Na integração contínua, a candidata 1.0.11 passou em 246 testes automatizados e em dois roteiros no aplicativo instalado. |
 | Windows 7 | Fora do suporte. A versão moderna do Electron usada pelo NEXO requer Windows 10 ou posterior. |
 | Hardware | Mínimo do NEXO ainda sem medição. Quatro núcleos, 8 GB de RAM e SSD são referência para o próximo ensaio, sem homologação. |
 
