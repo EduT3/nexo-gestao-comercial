@@ -54,14 +54,14 @@ Preserve `guard.json` ao migrar de computador e guarde a **chave de recuperaçã
 | Opção | Uso |
 | --- | --- |
 | **Instalador público 1.0.4** | Baixe `NEXO-Setup-1.0.4.exe` na [release pública](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.4). Abra o NEXO e cadastre o responsável no primeiro acesso. O instalador está sem assinatura digital. |
-| **Candidata M2 1.0.12** | [Artefato temporário do GitHub Actions](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43795531364/artifacts/14193569832), para perfil isolado e dados fictícios. O ZIP contém o instalador de teste em `installer/`, o manifesto e os relatórios. |
+| **Candidata M2 1.0.13** | [Artefato temporário do GitHub Actions](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43797179333/artifacts/14195233556), para perfil isolado e dados fictícios. O ZIP contém o instalador de teste em `installer/`, o manifesto e os relatórios. |
 | **ZIP portátil** | Extraia a pasta completa e execute `NEXO.exe` diretamente. A cópia portátil usa atualização manual. Para migrar de um perfil portátil separado, gere o backup nele e restaure pelo programa instalado. |
 
 O banco da instalação padrão fica em `%LOCALAPPDATA%\NEXO\nexo.sqlite`. Veja as evidências do ambiente e da versão antes de adotar o NEXO em uma estação comercial. [Compatibilidade e instalação por sistema](docs/WINDOWS-COMPATIBILITY.md)
 
 ## Atualizações e backup
 
-No programa instalado, abra **Configurações → Verificar atualização**. O aplicativo consulta o GitHub Releases, oferece download quando há uma versão disponível e pede confirmação para reiniciar. O fluxo cria uma cópia SQLite antes de instalar. A versão pública 1.0.4 foi consultada e baixada por HTTPS em teste. No Windows Server 2025, a candidata 1.0.12 foi instalada por atualização em canal isolado a partir da 1.0.4 e da 1.0.5 de teste com Guard, preservando os dados fictícios. A atualização em Windows cliente ainda aguarda bancada. [Evidências do atualizador](docs/UPDATE-QA-M2.6.md)
+No programa instalado, abra **Configurações → Verificar atualização**. O aplicativo consulta o GitHub Releases, oferece download quando há uma versão disponível e pede confirmação para reiniciar. O fluxo cria uma cópia SQLite antes de instalar. A versão pública 1.0.4 foi consultada e baixada por HTTPS em teste. No Windows Server 2025, a candidata 1.0.13 foi instalada por atualização em canal isolado a partir da 1.0.4 e da 1.0.5 de teste com Guard, preservando os dados fictícios. A atualização em Windows cliente ainda aguarda bancada. [Evidências do atualizador](docs/UPDATE-QA-M2.6.md)
 
 Use **Gerar backup** e guarde a cópia em outro dispositivo. A restauração preserva uma cópia anterior à troca. A planilha Excel serve para consulta e intercâmbio. Use o backup SQLite para recuperação da base e preserve a política do Guard e sua chave conforme a seção anterior.
 
@@ -75,7 +75,7 @@ No Windows 11, com o mesmo banco fictício de 1.000 produtos e 11 vendas, a medi
 | --- | --- |
 | Windows 10 22H2 x64 | Homologação pendente. O suporte regular da Microsoft terminou em 14/10/2025. Sem atualizações de segurança, o risco de exploração aumenta. |
 | Windows 11 x64 | **Validação manual informada pelo usuário** nos testes práticos que realizou. Em perfil fictício no Windows build 26300.9974, a 1.0.6 extraída passou no roteiro comercial e a 1.0.11 extraída passou em testes dirigidos de venda e navegação. Instalação NSIS e atualização em bancada cliente seguem pendentes. |
-| Windows Server 2025 x64 | Na integração contínua, a candidata 1.0.12 passou em 246 testes automatizados e em dois roteiros no aplicativo instalado. |
+| Windows Server 2025 x64 | Na integração contínua, a candidata 1.0.13 passou em 246 testes automatizados e em dois roteiros no aplicativo instalado. |
 | Windows 7 | Fora do suporte. A versão moderna do Electron usada pelo NEXO requer Windows 10 ou posterior. |
 | Hardware | Mínimo do NEXO ainda sem medição. Quatro núcleos, 8 GB de RAM e SSD são referência para o próximo ensaio, sem homologação. |
 
