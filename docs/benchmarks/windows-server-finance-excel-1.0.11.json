@@ -1,0 +1,197 @@
+{
+  "workflowRun": "43747340730",
+  "system": "Windows Server 2025",
+  "candidateBuild": "NEXO-B4FBEDEBFCC6D0E8",
+  "profiles": [
+    {
+      "origin": "1.0.4",
+      "timings": [
+        {
+          "operation": "payablesPage",
+          "version": "1.0.4",
+          "records": 60,
+          "medianMs": 4.664,
+          "samplesMs": [
+            4.343,
+            4.819,
+            4.455,
+            5.214,
+            4.801,
+            4.538,
+            4.636,
+            4.786,
+            4.692,
+            4.552,
+            5.079,
+            4.543
+          ]
+        },
+        {
+          "operation": "receivablesPage",
+          "version": "1.0.4",
+          "records": 60,
+          "medianMs": 4.4405,
+          "samplesMs": [
+            4.703,
+            4.238,
+            4.281,
+            4.457,
+            4.369,
+            19.249,
+            5.266,
+            5.106,
+            4.226,
+            4.424,
+            4.48,
+            4.007
+          ]
+        },
+        {
+          "operation": "installed-excel-export",
+          "version": "1.0.4",
+          "milliseconds": 218
+        },
+        {
+          "operation": "payablesPage",
+          "version": "1.0.11",
+          "records": 60,
+          "medianMs": 4.843,
+          "samplesMs": [
+            5.705,
+            5.713,
+            4.709,
+            4.904,
+            4.902,
+            4.626,
+            4.801,
+            5.051,
+            4.885,
+            4.774,
+            4.674,
+            4.633
+          ]
+        },
+        {
+          "operation": "receivablesPage",
+          "version": "1.0.11",
+          "records": 60,
+          "medianMs": 4.4745,
+          "samplesMs": [
+            4.464,
+            4.485,
+            4.565,
+            4.766,
+            4.328,
+            4.557,
+            4.541,
+            4.324,
+            4.445,
+            4.392,
+            4.574,
+            4.289
+          ]
+        },
+        {
+          "operation": "installed-excel-export",
+          "version": "1.0.11",
+          "milliseconds": 94
+        }
+      ]
+    },
+    {
+      "origin": "1.0.5",
+      "timings": [
+        {
+          "operation": "payablesPage",
+          "version": "1.0.5",
+          "records": 60,
+          "medianMs": 4.9905,
+          "samplesMs": [
+            4.918,
+            5.671,
+            4.857,
+            4.834,
+            5.303,
+            4.957,
+            5.104,
+            5.19,
+            5.024,
+            4.805,
+            5.077,
+            4.773
+          ]
+        },
+        {
+          "operation": "receivablesPage",
+          "version": "1.0.5",
+          "records": 60,
+          "medianMs": 4.657,
+          "samplesMs": [
+            5.628,
+            5.507,
+            5.002,
+            4.518,
+            4.664,
+            4.65,
+            4.726,
+            4.448,
+            4.614,
+            4.698,
+            4.461,
+            4.61
+          ]
+        },
+        {
+          "operation": "installed-excel-export",
+          "version": "1.0.5",
+          "milliseconds": 101
+        },
+        {
+          "operation": "payablesPage",
+          "version": "1.0.11",
+          "records": 60,
+          "medianMs": 5.668,
+          "samplesMs": [
+            7.138,
+            5.771,
+            6.008,
+            5.338,
+            5.299,
+            5.576,
+            5.356,
+            5.171,
+            5.783,
+            6.755,
+            5.76,
+            5.399
+          ]
+        },
+        {
+          "operation": "receivablesPage",
+          "version": "1.0.11",
+          "records": 60,
+          "medianMs": 4.964,
+          "samplesMs": [
+            4.632,
+            5.065,
+            5.027,
+            4.663,
+            4.594,
+            5.416,
+            4.955,
+            5.332,
+            5.417,
+            4.958,
+            4.705,
+            4.97
+          ]
+        },
+        {
+          "operation": "installed-excel-export",
+          "version": "1.0.11",
+          "milliseconds": 106
+        }
+      ]
+    }
+  ]
+}

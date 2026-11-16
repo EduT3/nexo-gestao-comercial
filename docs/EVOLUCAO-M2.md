@@ -157,3 +157,18 @@ A coleta de CPU retornou leituras negativas e ficou inconclusiva. Os valores bru
 O ensaio repetiu somente a medição de CPU, com os mesmos executáveis extraídos e o mesmo banco fictício. Foram seis pares em ordem alternada após um par de aquecimento. O Windows forneceu o tempo acumulado de CPU dos processos principal e de interface. Após 1,5 s de estabilização, foram coletados dois pontos separados por cerca de cinco segundos, com confirmação de que os processos eram os mesmos.
 
 A mediana foi de 0% de um processador lógico nas duas versões, dentro da resolução da coleta. O maior valor na 1.0.6 foi 0,30%, e as seis amostras da 1.0.11 ficaram em 0% registrado. O ensaio descreve repouso com janela oculta, sem medir CPU durante operações ou uso interativo. [Amostras de CPU em repouso](benchmarks/windows11-idle-cpu-1.0.6-1.0.11.json)
+
+### Contas e Excel na atualização para a candidata 1.0.11
+
+A execução 43747340730 comparou cada origem com a 1.0.11 após atualização no mesmo runner Windows Server 2025 e no mesmo perfil fictício. O roteiro comparou o conteúdo e a ordem das duas páginas antes e depois. Havia 60 contas a pagar e 60 a receber por perfil. Os tempos de consulta são medianas de 12 leituras da primeira página. A exportação XLSX teve uma observação por versão e perfil.
+
+| Origem | Operação | Antes | Candidata 1.0.11 |
+| --- | --- | ---: | ---: |
+| 1.0.4 | Pagar | 4,664 ms | 4,843 ms |
+| 1.0.4 | Receber | 4,441 ms | 4,475 ms |
+| 1.0.4 | Exportar Excel | 218 ms | 94 ms |
+| 1.0.5 com Guard | Pagar | 4,991 ms | 5,668 ms |
+| 1.0.5 com Guard | Receber | 4,657 ms | 4,964 ms |
+| 1.0.5 com Guard | Exportar Excel | 101 ms | 106 ms |
+
+As medianas das consultas aumentaram entre 0,034 e 0,678 ms neste ensaio. Os dois pares de exportação variaram em direções diferentes, com a origem sempre medida primeiro. A amostragem de Excel e o ambiente de CI limitam qualquer inferência sobre ganho de desempenho em uso comercial. [Amostras de contas e Excel](benchmarks/windows-server-finance-excel-1.0.11.json)
