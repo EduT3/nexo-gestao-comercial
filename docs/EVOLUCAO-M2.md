@@ -196,3 +196,7 @@ Na mesma candidata 1.0.11 extraída, no Windows 11 e com banco fictício, a auto
 ### PIN incorreto em venda com desconto
 
 No Windows 11, o executável extraído da 1.0.11 foi aberto com banco fictício e Guard ativado. Ao informar um PIN incorreto durante uma venda por PIX com desconto, o diálogo informou o erro e preservou a quantidade e o desconto. Os históricos de vendas e estoque e o saldo do caixa permaneceram idênticos. Informar o PIN correto na mesma autorização registrou uma única venda e uma única baixa. O saldo de dinheiro permaneceu igual, como esperado para PIX.
+
+### Navegação e cabeçalho na candidata 1.0.11
+
+O executável extraído da 1.0.11, em Windows 11 e com perfil fictício, passou em 20 combinações de módulo e tamanho de conteúdo. Em 1000 × 650, 1280 × 720, 1366 × 768 e 1920 × 1080, Enter selecionou Início, Vender, Estoque, Caixa e Contas, e o módulo ativo expôs aria-current. Loja, nome do operador, Modo local e Ajuda e tutorial permaneceram visíveis. Os controles do cabeçalho ficaram dentro da área visível, sem rolagem horizontal no documento. As dimensões foram aplicadas ao Chromium pelo protocolo de automação. O ensaio não altera a resolução física nem o DPI do Windows.
