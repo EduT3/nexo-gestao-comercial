@@ -136,3 +136,7 @@ No Windows 11, a carga x64 extraída do instalador 1.0.11 conferido, build NEXO-
 ### Atualização para a candidata 1.0.11
 
 Os dois relatórios da execução 43747340730 confirmam a atualização instalada para a 1.0.11 no Windows Server 2025, a partir da 1.0.4 pública e da 1.0.5 de teste com Guard. Em ambos os perfis fictícios, o atualizador rejeitou o instalador com hash divergente, gerou backup antes de fechar e reabriu a candidata com os mesmos usuários, vínculos e registros comerciais. O perfil com Guard manteve a política e o PIN de origem. O perfil de origem pública também repetiu a instalação após interromper o NSIS, preservando registros e política do Guard. O canal da candidata foi isolado. O ensaio HTTPS público baixou e verificou separadamente o instalador 1.0.4. [Relatórios e pacote](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43747340730/artifacts/14175212566)
+
+### Monograma na candidata 1.0.11
+
+No build NEXO-B4FBEDEBFCC6D0E8, o Windows extraiu o mesmo ícone de 32 × 32 do instalador e do NEXO.exe da carga x64. Os PNGs extraídos têm SHA-256 EC8C7BB6FA16E08E106B4EEA772FEDFF6A02C42BA5A8FD5D2DD30975AACBE2EE e a inspeção visual confirmou o monograma. O PNG empacotado que o Electron usa na janela é idêntico ao arquivo oficial do repositório. A conferência cobre os recursos do pacote, sem renderizar o ícone na barra de tarefas do Windows cliente.
