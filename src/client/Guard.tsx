@@ -18,6 +18,7 @@ export interface GuardBridge {
 
 type Request = { id: string; label: string; pinLength: number; resolve(value: unknown): void; reject(error: Error): void };
 
+export const guardCanceledMessage = 'Autorização cancelada.';
 const GuardPendingContext = createContext(false);
 
 export function useGuardPending() {
@@ -45,7 +46,7 @@ export function GuardPrompt({ children }: { children: ReactNode }) {
     }));
     return () => {
       bridge?.registerGuardPrompt?.(null);
-      current.current?.reject(Error('Autorização cancelada.'));
+      current.current?.reject(Error(guardCanceledMessage));
       current.current = undefined;
     };
   }, [bridge]);
@@ -67,7 +68,7 @@ export function GuardPrompt({ children }: { children: ReactNode }) {
     {!request && notice && <div role="status" className="guard-success">{notice}</div>}
     {request && <PinDialog key={request.id} label={request.label} pinLength={request.pinLength} authorized={authorizedId === request.id} onCancel={() => {
     void bridge?.guardCancel?.(request.id).catch(() => undefined);
-    request.reject(Error('Autorização cancelada.'));
+    request.reject(Error(guardCanceledMessage));
     finish();
   }} onApprove={async pin => {
     try {

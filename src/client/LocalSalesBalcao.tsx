@@ -13,7 +13,7 @@ import {
 import { useEffect, useRef, useState, type FormEvent } from "react";
 import type { CashAvailability } from "../shared/cash-status";
 import { itemTotalCents, quantityToMilli } from "../shared/scaled";
-import { useGuardPending } from "./Guard";
+import { guardCanceledMessage, useGuardPending } from "./Guard";
 import { errorMessage } from "./local-format";
 import { LocalSalesHistory } from "./LocalSalesHistory";
 import { useLocalQuery } from "./useLocalQuery";
@@ -80,6 +80,7 @@ export function LocalSalesBalcao({
 }) {
   const bridge = window.nexoLocal!;
   const searchRef = useRef<HTMLInputElement>(null);
+  const finalizeRef = useRef<HTMLButtonElement>(null);
   const [cashAvailability, setCashAvailability] = useState<CashAvailability>();
   const [cashError, setCashError] = useState("");
   const cashRequests = useLocalQuery(
@@ -123,6 +124,13 @@ export function LocalSalesBalcao({
   const [identifyCustomer, setIdentifyCustomer] = useState(false);
   const [customer, setCustomer] = useState("");
   const [customerError, setCustomerError] = useState("");
+
+  useEffect(() => {
+    if (active && !busy && !guardPending && saleFeedback?.text === guardCanceledMessage &&
+        document.activeElement === document.body) {
+      finalizeRef.current?.focus();
+    }
+  }, [active, busy, guardPending, saleFeedback]);
 
   const requests = useLocalQuery(
     company,
@@ -681,6 +689,7 @@ export function LocalSalesBalcao({
               type="submit"
               className="button primary nexo-finalize"
               aria-label="Concluir venda"
+              ref={finalizeRef}
               disabled={!canSell || !lines.length || !!calculationError}
             >
               <Check size={25} weight="bold" aria-hidden="true" /> {busy ? pendingMessage : "Finalizar venda"}

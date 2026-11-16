@@ -650,6 +650,18 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
  await expect(modal.getByText('Aplicar desconto na venda',{exact:true})).toBeVisible();
  await page.keyboard.press('Escape');
  await canceledDiscount;
+ await nav('Vender').click();
+ await addBySearch('QA-KG');
+ await sale().getByRole('radio',{name:'PIX',exact:true}).check();
+ await sale().locator('.nexo-sale-extras summary').click();
+ const guardedDiscount=sale().getByLabel('Desconto da venda (R$)',{exact:true});
+ await guardedDiscount.fill('0,10');
+ await submit().focus();
+ await page.keyboard.press('Enter');
+ await expect(modal.getByText('Aplicar desconto na venda',{exact:true})).toBeVisible();
+ await page.keyboard.press('Escape');
+ await expect(submit()).toBeFocused();
+ await expect(guardedDiscount).toHaveValue('0,10');
  assert.equal((await call('salesHistory',A,{})).total,6);
  const restoreRequest=call('restore');
  await expect(modal.getByText('Restaurar backup',{exact:true})).toBeVisible();
