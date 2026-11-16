@@ -2,14 +2,14 @@
 
 ## Estado da homologação
 
-A versão pública é a **1.0.4**. A candidata **1.0.11**, build `NEXO-B4FBEDEBFCC6D0E8`, passou em 246 testes automatizados e em dois roteiros no aplicativo instalado em Windows Server 2025. No Windows 11 cliente, a mesma candidata passou no teste dirigido da venda com desconto, usando o executável extraído. A validação manual informada pelo usuário é independente e não identifica a versão testada. O Windows 10 22H2 x64 segue pendente por falta de ambiente, sem bloquear o desenvolvimento. [Release pública](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.4) · [Execução da 1.0.11](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43747340730)
+A versão pública é a **1.0.4**. A candidata **1.0.13**, build `NEXO-2BC1CFAE0D6D5B7A`, passou em 246 testes e dois roteiros com o aplicativo instalado em Windows Server 2025. Em Windows 11, o executável extraído da 1.0.13 confirmou a contagem acessível do PIN e o retorno do foco na venda após cancelar a autorização. A validação manual informada pelo usuário é independente e não identifica a versão testada. O Windows 10 22H2 x64 segue pendente por falta de ambiente, sem bloquear o desenvolvimento. [Release pública](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.4) · [Execução da 1.0.13](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43797179333)
 
 | Sistema | Prioridade | Evidência | Instalação e atualização |
 | --- | --- | --- | --- |
 | Windows 10 22H2 x64 com 8 GB | P0 | Pendente. Registrar edição, build 19045 com revisão, segurança e hardware do equipamento. | Usar o instalador público e depois a candidata em canal controlado, com perfil fictício. |
-| Windows 11 x64 | P0 | **Manual, informada pelo usuário:** aplicativo instalado e funcionando nos testes práticos realizados. **Automatizada:** no Windows build 26300.9974, roteiro comercial amplo com 1.0.6 extraída e teste dirigido de venda com desconto na 1.0.11 extraída. | A verificação controlada do instalador NSIS e da atualização entre versões no Windows cliente permanece pendente. |
+| Windows 11 x64 | P0 | **Manual, informada pelo usuário:** aplicativo instalado e funcionando nos testes práticos realizados. **Automatizada:** no Windows build 26300.9974, roteiro comercial amplo com 1.0.6 extraída e testes dirigidos de venda com desconto na 1.0.11 e de teclado e foco na 1.0.13, ambas extraídas. | A verificação controlada do instalador NSIS e da atualização entre versões no Windows cliente permanece pendente. |
 | Windows 10 22H2 x64 com 4 GB | P1 | Pendente. Perfil de teste de memória limitada. | Repetir o ensaio do Windows 10 com memória e paginação medidas. |
-| Windows Server 2025 x64 | CI | Instalação e dois perfis fictícios aprovados na 1.0.11. O ensaio de atualização e recuperação 1.0.6 → 1.0.7 tem resultado próprio. | Consulte o resultado e os relatórios anexados à execução. |
+| Windows Server 2025 x64 | CI | Instalação e dois perfis fictícios aprovados na 1.0.13. O ensaio de atualização e recuperação 1.0.6 → 1.0.7 tem resultado próprio. | Consulte o resultado e os relatórios anexados à execução. |
 | Windows 7 | P3 | Fora do suporte. Análise técnica, sem execução. | Sem procedimento de instalação. |
 
 O suporte regular da Microsoft ao Windows 10 22H2 terminou em **14 de outubro de 2025**. Sem atualizações de segurança, aumenta a exposição a vulnerabilidades. O ESU oferece atualizações de segurança para dispositivos elegíveis conforme as condições da Microsoft. [Ciclo de suporte](https://learn.microsoft.com/windows/release-health/release-information) · [Programa ESU](https://www.microsoft.com/en-us/windows/extended-security-updates)
@@ -142,3 +142,7 @@ Os dois cancelamentos de estorno exibiram a mensagem correspondente, preservaram
 ### Teste dirigido da venda com desconto no pacote 1.0.11
 
 No Windows 11, a carga x64 extraída do instalador 1.0.11 conferido, build NEXO-B4FBEDEBFCC6D0E8, exibiu Aguardando autorização ao concluir a venda com desconto. Cancelar preservou o desconto de R$ 1,00, duas unidades no estoque, caixa de R$ 10,00 e zero vendas. A nova tentativa com PIN válido gravou uma venda de R$ 4,00, baixou uma unidade e deixou o caixa em R$ 14,00. O teste usou perfil fictício, sem executar o NSIS no Windows cliente.
+
+### Teste de acessibilidade da venda no pacote 1.0.13
+
+A carga x64 extraída do instalador conferido foi executada em Windows 11 build 26300.9974 com banco fictício. Enter abriu o Guard. A árvore de acessibilidade expôs a operação, os botões e a contagem de dígitos, sem revelar o PIN. Tab manteve o foco visível. Escape devolveu o foco a Concluir venda, preservou quantidade e desconto e manteve idênticos os históricos e o caixa. O teste foi automatizado e não executou o instalador NSIS.
