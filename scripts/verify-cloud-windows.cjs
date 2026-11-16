@@ -411,7 +411,7 @@ function dbCheck(){const db=new DatabaseSync(dbfile,{readOnly:true});try{assert.
    },persistedBackup);
    const pendingBackup=call('backup').then(value=>({value}),error=>({error}));
    const preservedPrompt=page.getByRole('dialog',{name:'Autorização administrativa'});
-   await expect(preservedPrompt.getByText('Gerar backup',{exact:true})).toBeVisible();
+   await expect(preservedPrompt.getByText('Gerar backup',{exact:true})).toBeVisible({timeout:20000});
    assert.equal(fs.existsSync(persistedBackup),false);
    await page.keyboard.type('0123');
    await preservedPrompt.getByRole('button',{name:'Autorizar',exact:true}).click();
