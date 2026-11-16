@@ -200,3 +200,7 @@ No Windows 11, o executável extraído da 1.0.11 foi aberto com banco fictício 
 ### Navegação e cabeçalho na candidata 1.0.11
 
 O executável extraído da 1.0.11, em Windows 11 e com perfil fictício, passou em 20 combinações de módulo e tamanho de conteúdo. Em 1000 × 650, 1280 × 720, 1366 × 768 e 1920 × 1080, Enter selecionou Início, Vender, Estoque, Caixa e Contas, e o módulo ativo expôs aria-current. Loja, nome do operador, Modo local e Ajuda e tutorial permaneceram visíveis. Os controles do cabeçalho ficaram dentro da área visível, sem rolagem horizontal no documento. As dimensões foram aplicadas ao Chromium pelo protocolo de automação. O ensaio não altera a resolução física nem o DPI do Windows.
+
+### Exportação Excel pareada no Windows 11
+
+Os executáveis extraídos 1.0.6 e 1.0.11 exportaram o mesmo banco fictício de 1.000 produtos, 11 vendas e 12 movimentos. Foram quatro pares alternados após aquecimento, com 24 exportações medidas por versão. O tempo inclui a chamada pelo aplicativo e a gravação XLSX, com destino indicado pela automação no diálogo de salvamento. A mediana foi de 60,91 ms na 1.0.6 e 61,08 ms na 1.0.11. Nos oito separadores, o conteúdo das células coincidiu em todas as planilhas após normalizar apenas os horários de emissão. A medição descreve a exportação dessa base e exclui o tempo de interação com o diálogo. [Amostras e resumo das planilhas](benchmarks/windows11-excel-1.0.6-1.0.11.json)

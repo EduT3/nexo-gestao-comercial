@@ -1,0 +1,347 @@
+{
+  "data": {
+    "local_products": 1000,
+    "local_sales": 11,
+    "local_stock_movements": 12
+  },
+  "sheets": [
+    {
+      "name": "Resumo",
+      "rows": 8
+    },
+    {
+      "name": "Produtos",
+      "rows": 1003
+    },
+    {
+      "name": "Estoque",
+      "rows": 15
+    },
+    {
+      "name": "Vendas",
+      "rows": 14
+    },
+    {
+      "name": "Itens de vendas",
+      "rows": 14
+    },
+    {
+      "name": "Contas a pagar",
+      "rows": 3
+    },
+    {
+      "name": "Contas a receber",
+      "rows": 3
+    },
+    {
+      "name": "Movimentos financeiros",
+      "rows": 3
+    }
+  ],
+  "cellsSha256": "f3809c0ca132cb0bcc0e288c46097402b99cb198f7a3020bd1dd6b9fe780c9d9",
+  "databaseSha256": "a0d159133c783e58b5c55935ed48da87a800e39050631489e71913b08da67df8",
+  "summary": [
+    {
+      "version": "1.0.6",
+      "id": "NEXO-D9777AA12793DE3B",
+      "operation": "excel-export",
+      "medianMs": 60.90975000000162
+    },
+    {
+      "version": "1.0.11",
+      "id": "NEXO-B4FBEDEBFCC6D0E8",
+      "operation": "excel-export",
+      "medianMs": 61.075049999999464
+    }
+  ],
+  "samples": [
+    {
+      "version": "1.0.11",
+      "round": 1,
+      "operation": "excel-export",
+      "ms": 82.25530000000072
+    },
+    {
+      "version": "1.0.11",
+      "round": 1,
+      "operation": "excel-export",
+      "ms": 54.69049999999879
+    },
+    {
+      "version": "1.0.11",
+      "round": 1,
+      "operation": "excel-export",
+      "ms": 63.22759999999835
+    },
+    {
+      "version": "1.0.11",
+      "round": 1,
+      "operation": "excel-export",
+      "ms": 66.15579999999864
+    },
+    {
+      "version": "1.0.11",
+      "round": 1,
+      "operation": "excel-export",
+      "ms": 55.45089999999982
+    },
+    {
+      "version": "1.0.11",
+      "round": 1,
+      "operation": "excel-export",
+      "ms": 61.64040000000023
+    },
+    {
+      "version": "1.0.6",
+      "round": 1,
+      "operation": "excel-export",
+      "ms": 66.36520000000019
+    },
+    {
+      "version": "1.0.6",
+      "round": 1,
+      "operation": "excel-export",
+      "ms": 61.66109999999935
+    },
+    {
+      "version": "1.0.6",
+      "round": 1,
+      "operation": "excel-export",
+      "ms": 61.009100000001126
+    },
+    {
+      "version": "1.0.6",
+      "round": 1,
+      "operation": "excel-export",
+      "ms": 62.15059999999903
+    },
+    {
+      "version": "1.0.6",
+      "round": 1,
+      "operation": "excel-export",
+      "ms": 47.707800000000134
+    },
+    {
+      "version": "1.0.6",
+      "round": 1,
+      "operation": "excel-export",
+      "ms": 44.54769999999917
+    },
+    {
+      "version": "1.0.6",
+      "round": 2,
+      "operation": "excel-export",
+      "ms": 70.33109999999942
+    },
+    {
+      "version": "1.0.6",
+      "round": 2,
+      "operation": "excel-export",
+      "ms": 61.07409999999982
+    },
+    {
+      "version": "1.0.6",
+      "round": 2,
+      "operation": "excel-export",
+      "ms": 59.51039999999921
+    },
+    {
+      "version": "1.0.6",
+      "round": 2,
+      "operation": "excel-export",
+      "ms": 62.76649999999972
+    },
+    {
+      "version": "1.0.6",
+      "round": 2,
+      "operation": "excel-export",
+      "ms": 48.70050000000083
+    },
+    {
+      "version": "1.0.6",
+      "round": 2,
+      "operation": "excel-export",
+      "ms": 58.29869999999937
+    },
+    {
+      "version": "1.0.11",
+      "round": 2,
+      "operation": "excel-export",
+      "ms": 54.9932000000008
+    },
+    {
+      "version": "1.0.11",
+      "round": 2,
+      "operation": "excel-export",
+      "ms": 61.73090000000229
+    },
+    {
+      "version": "1.0.11",
+      "round": 2,
+      "operation": "excel-export",
+      "ms": 61.55949999999939
+    },
+    {
+      "version": "1.0.11",
+      "round": 2,
+      "operation": "excel-export",
+      "ms": 62.347900000000664
+    },
+    {
+      "version": "1.0.11",
+      "round": 2,
+      "operation": "excel-export",
+      "ms": 49.696100000001024
+    },
+    {
+      "version": "1.0.11",
+      "round": 2,
+      "operation": "excel-export",
+      "ms": 57.012299999998504
+    },
+    {
+      "version": "1.0.11",
+      "round": 3,
+      "operation": "excel-export",
+      "ms": 58.09779999999955
+    },
+    {
+      "version": "1.0.11",
+      "round": 3,
+      "operation": "excel-export",
+      "ms": 61.203599999997095
+    },
+    {
+      "version": "1.0.11",
+      "round": 3,
+      "operation": "excel-export",
+      "ms": 61.3112000000001
+    },
+    {
+      "version": "1.0.11",
+      "round": 3,
+      "operation": "excel-export",
+      "ms": 46.483900000002905
+    },
+    {
+      "version": "1.0.11",
+      "round": 3,
+      "operation": "excel-export",
+      "ms": 46.59020000000237
+    },
+    {
+      "version": "1.0.11",
+      "round": 3,
+      "operation": "excel-export",
+      "ms": 45.48779999999897
+    },
+    {
+      "version": "1.0.6",
+      "round": 3,
+      "operation": "excel-export",
+      "ms": 69.178100000001
+    },
+    {
+      "version": "1.0.6",
+      "round": 3,
+      "operation": "excel-export",
+      "ms": 61.10319999999774
+    },
+    {
+      "version": "1.0.6",
+      "round": 3,
+      "operation": "excel-export",
+      "ms": 60.81040000000212
+    },
+    {
+      "version": "1.0.6",
+      "round": 3,
+      "operation": "excel-export",
+      "ms": 46.526599999997416
+    },
+    {
+      "version": "1.0.6",
+      "round": 3,
+      "operation": "excel-export",
+      "ms": 47.96309999999721
+    },
+    {
+      "version": "1.0.6",
+      "round": 3,
+      "operation": "excel-export",
+      "ms": 59.946100000001024
+    },
+    {
+      "version": "1.0.6",
+      "round": 4,
+      "operation": "excel-export",
+      "ms": 63.80919999999969
+    },
+    {
+      "version": "1.0.6",
+      "round": 4,
+      "operation": "excel-export",
+      "ms": 61.22780000000057
+    },
+    {
+      "version": "1.0.6",
+      "round": 4,
+      "operation": "excel-export",
+      "ms": 62.46480000000156
+    },
+    {
+      "version": "1.0.6",
+      "round": 4,
+      "operation": "excel-export",
+      "ms": 60.5154999999977
+    },
+    {
+      "version": "1.0.6",
+      "round": 4,
+      "operation": "excel-export",
+      "ms": 47.29230000000098
+    },
+    {
+      "version": "1.0.6",
+      "round": 4,
+      "operation": "excel-export",
+      "ms": 60.38000000000102
+    },
+    {
+      "version": "1.0.11",
+      "round": 4,
+      "operation": "excel-export",
+      "ms": 67.4326000000001
+    },
+    {
+      "version": "1.0.11",
+      "round": 4,
+      "operation": "excel-export",
+      "ms": 62.037899999999354
+    },
+    {
+      "version": "1.0.11",
+      "round": 4,
+      "operation": "excel-export",
+      "ms": 60.94650000000183
+    },
+    {
+      "version": "1.0.11",
+      "round": 4,
+      "operation": "excel-export",
+      "ms": 45.67209999999977
+    },
+    {
+      "version": "1.0.11",
+      "round": 4,
+      "operation": "excel-export",
+      "ms": 62.46129999999903
+    },
+    {
+      "version": "1.0.11",
+      "round": 4,
+      "operation": "excel-export",
+      "ms": 45.427099999997154
+    }
+  ]
+}
