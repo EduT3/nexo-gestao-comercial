@@ -184,3 +184,7 @@ Os executáveis extraídos 1.0.6 e 1.0.11 abriram cópias do mesmo banco fictíc
 | Histórico de vendas | 1,245 ms | 1,271 ms |
 
 As diferenças ficaram abaixo de 0,4 ms nesta base. Os históricos retornaram o mesmo conteúdo e a mesma ordem. O ensaio usou automação em janela oculta e não mede grandes históricos no Windows cliente. [Amostras de busca e históricos](benchmarks/windows11-queries-1.0.6-1.0.11.json)
+
+### Tratamento de falha de comunicação ao concluir venda
+
+No Windows 11, o executável extraído da 1.0.11 (NEXO-B4FBEDEBFCC6D0E8) foi aberto com uma cópia fictícia do banco. O teste retirou em memória apenas o handler IPC de conclusão de venda daquele processo. Ao tentar confirmar uma venda por PIX, a interface exibiu “Não foi possível enviar a solicitação ao NEXO. Tente novamente.” A quantidade e o pagamento permaneceram selecionados, e o botão voltou a ficar disponível. As respostas dos históricos e do caixa permaneceram idênticas antes e depois, com 11 vendas e 12 movimentos. A injeção cobre indisponibilidade antes da gravação. Os arquivos do aplicativo não foram modificados.
