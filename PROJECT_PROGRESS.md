@@ -370,3 +370,10 @@ A finalização indica espera pelo PIN ou registro da venda e anuncia o estado n
 ### M2 — prévia do Excel durante a autorização
 
 A importação distingue espera pelo PIN de processamento da planilha. Cancelar a autorização da confirmação mantém a prévia disponível. Erros de confirmação que podem ter invalidado a prévia continuam exigindo selecionar a planilha outra vez. No Electron com arquivo e perfil fictícios, o teste confirmou zero produtos após cancelar e uma importação após autorizar a nova tentativa com a mesma prévia. Compilação e tipagem passaram. O ajuste é posterior ao ZIP 1.0.10.
+
+
+### M2 — venda e prévia Excel na candidata Windows 1.0.11
+
+A [execução 43747340730](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43747340730) aprovou 246 testes e dois perfis no Windows Server 2025. Em ambos, cancelar a confirmação protegida do Excel manteve a prévia e o catálogo sem o produto fictício. Autorizar a nova tentativa importou um produto, preservado ao reabrir. A mensagem da venda com desconto foi verificada em perfil temporário na compilação local.
+
+O [ZIP 1.0.11](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43747340730/artifacts/14175212566) foi baixado. O build `NEXO-B4FBEDEBFCC6D0E8` inclui o instalador de 124.155.850 bytes, o blockmap e o manifesto com versão e SHA-512 correspondentes. SHA-256 do instalador: `8A4CC5AD3C8FDFBB7B8AB7048BC7E91C3779BB92DC68D8C59A119F1186EF6962`. Artefato disponível até 29/11/2026, 15h47 no horário de Brasília. A versão pública permanece 1.0.4.

@@ -1,6 +1,6 @@
 # NEXO Balcão — relatório de evolução M2
 
-O M2 reorganiza as rotinas de venda, estoque, caixa e contas e melhora a autorização de operações administrativas. A candidata Windows aprovada é a **1.0.10**, build **NEXO-576BB6253FF853C7**. [Execução Windows e 246 testes aprovados](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43745162436) · [ZIP conferido](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43745162436/artifacts/14174511359).
+O M2 reorganiza as rotinas de venda, estoque, caixa e contas e melhora a autorização de operações administrativas. A candidata Windows aprovada é a **1.0.11**, build **NEXO-B4FBEDEBFCC6D0E8**. [Execução Windows e 246 testes aprovados](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43747340730) · [ZIP conferido](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43747340730/artifacts/14175212566).
 
 | Marco | Alteração e evidência |
 |---|---|
@@ -121,3 +121,10 @@ Os dois cancelamentos de estorno exibiram a mensagem correspondente, preservaram
 ### Contraste dos controles da ajuda
 
 No Windows 11, o executável extraído da candidata 1.0.10 exibiu relações de contraste de 7,75:1 em Modo local, 5,23:1 em Caixa fechado, 12,73:1 em Ajuda e tutorial, 16,84:1 no título da ajuda e na abertura da prática, 6,64:1 na nota da ajuda e 4,92:1 nos botões principais de início e cadastro fictício. Os cálculos usaram cores efetivas da interface, fundos sólidos e luminância relativa. Os oito alvos medidos superaram 4,5:1 no estado normal. A medição não abrange todos os módulos, estados de interação ou tecnologia assistiva. [Critério de contraste WCAG 2.2](https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html)
+
+
+### M2 — venda e prévia Excel na candidata Windows 1.0.11
+
+A [execução 43747340730](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43747340730) aprovou 246 testes e dois perfis no Windows Server 2025. Em ambos, cancelar a confirmação protegida do Excel manteve a prévia e o catálogo sem o produto fictício. Autorizar a nova tentativa importou um produto, preservado ao reabrir. A mensagem da venda com desconto foi verificada em perfil temporário na compilação local.
+
+O [ZIP 1.0.11](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43747340730/artifacts/14175212566) foi baixado. O build `NEXO-B4FBEDEBFCC6D0E8` inclui o instalador de 124.155.850 bytes, o blockmap e o manifesto com versão e SHA-512 correspondentes. SHA-256 do instalador: `8A4CC5AD3C8FDFBB7B8AB7048BC7E91C3779BB92DC68D8C59A119F1186EF6962`. Artefato disponível até 29/11/2026, 15h47 no horário de Brasília. A versão pública permanece 1.0.4.

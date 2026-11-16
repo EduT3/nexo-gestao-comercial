@@ -54,7 +54,7 @@ Preserve `guard.json` ao migrar de computador e guarde a **chave de recuperaçã
 | Opção | Uso |
 | --- | --- |
 | **Instalador público 1.0.4** | Baixe `NEXO-Setup-1.0.4.exe` na [release pública](https://github.com/EduT3/nexo-gestao-comercial/releases/tag/v1.0.4). Abra o NEXO e cadastre o responsável no primeiro acesso. O instalador está sem assinatura digital. |
-| **Candidata M2 1.0.10** | [Artefato temporário do GitHub Actions](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43745162436/artifacts/14174511359), para perfil isolado e dados fictícios. O ZIP contém o instalador de teste em `installer/`, o manifesto e os relatórios. |
+| **Candidata M2 1.0.11** | [Artefato temporário do GitHub Actions](https://github.com/EduT3/nexo-gestao-comercial/actions/runs/43747340730/artifacts/14175212566), para perfil isolado e dados fictícios. O ZIP contém o instalador de teste em `installer/`, o manifesto e os relatórios. |
 | **ZIP portátil** | Extraia a pasta completa e execute `NEXO.exe` diretamente. A cópia portátil usa atualização manual. Para migrar de um perfil portátil separado, gere o backup nele e restaure pelo programa instalado. |
 
 O banco da instalação padrão fica em `%LOCALAPPDATA%\NEXO\nexo.sqlite`. Veja as evidências do ambiente e da versão antes de adotar o NEXO em uma estação comercial. [Compatibilidade e instalação por sistema](docs/WINDOWS-COMPATIBILITY.md)
